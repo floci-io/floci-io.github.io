@@ -120,6 +120,34 @@
   }
   .nav-cta:hover { opacity: 0.85 !important; color: #1a1d2e !important; }
 
+  /* Hamburger */
+  .nav-burger {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-burger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text-muted); border-radius: 2px;
+    transition: all 0.25s;
+  }
+
+  @media (max-width: 768px) {
+    .nav-burger { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; position: fixed; top: 60px; left: 0; right: 0;
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 16px 2rem; z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 10px 0; width: 100%; border-bottom: 1px solid var(--border); font-size: 15px; }
+    .nav-links a:last-of-type { border-bottom: none; }
+    .nav-cta { margin-top: 8px; text-align: center; width: 100%; }
+    .theme-toggle { margin-top: 8px; }
+    .dev-banner { font-size: 12px; padding: 8px 40px 8px 16px; text-align: left; }
+    .hero { padding: 130px 1.5rem 60px; }
+  }
+
   /* HERO */
   .hero {
     min-height: 100vh;
@@ -158,6 +186,9 @@
     width: 6px; height: 6px; border-radius: 50%;
     background: var(--accent-warm);
     animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
   }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
   @keyframes fadeSlideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
@@ -223,6 +254,12 @@
   }
   .stat-item:last-child { border-right: none; }
   .stat-item:hover { background: var(--bg3); }
+  @media (max-width: 640px) {
+    .hero-stats { flex-wrap: wrap; border-radius: 12px; }
+    .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); padding: 18px 20px; }
+    .stat-item:nth-child(odd) { border-right: 1px solid var(--border); }
+    .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  }
   .stat-number {
     font-family: var(--mono);
     font-size: 28px; font-weight: 700;
@@ -628,7 +665,10 @@
     </svg>
     floci
   </a>
-  <div class="nav-links">
+  <button class="nav-burger" id="navBurger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="#services">Services</a>
     <a href="#performance">Performance</a>
     <a href="#quickstart">Quick Start</a>
@@ -685,7 +725,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · 100% SDK Compatible</div>
+  <div class="badge">MIT Licensed · No Auth Token · ~20 AWS Services</div>
 
   <h1>
     Local AWS.<br>
@@ -1081,8 +1121,8 @@
       <p class="section-desc">LocalStack required an auth token starting March 2026 and locked down their community edition. Floci fills that gap completely.</p>
     </div>
 
-    <div class="compare-wrap reveal" style="margin-top:50px;transition-delay:0.1s">
-      <table class="compare-table">
+    <div class="compare-wrap reveal" style="margin-top:50px;transition-delay:0.1s;overflow-x:auto">
+      <table class="compare-table" style="min-width:540px">
         <thead>
           <tr>
             <th>Feature</th>
@@ -1208,6 +1248,12 @@
 </footer>
 
 <script>
+// Hamburger menu
+const burger = document.getElementById('navBurger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
 // Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
