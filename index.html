@@ -11,11 +11,15 @@
 <meta property="og:url" content="https://floci.io">
 <meta property="og:title" content="Floci — Fast, Free AWS Emulator">
 <meta property="og:description" content="Fast, free, open-source AWS emulator. No auth token. No restrictions. Drop-in replacement for LocalStack.">
-<meta property="og:image" content="https://floci.io/floci.svg">
+<meta property="og:image" content="https://floci.io/floci_github_banner.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:site_name" content="Floci">
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Floci — Fast, Free AWS Emulator">
 <meta name="twitter:description" content="Fast, free, open-source AWS emulator. No auth token. No restrictions. Drop-in replacement for LocalStack.">
+<meta name="twitter:image" content="https://floci.io/floci_banner.svg">
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/floci.svg">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -78,7 +82,7 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     font-family: var(--sans);
@@ -180,6 +184,7 @@
     font-size: 12px; color: var(--accent);
     font-family: var(--mono); margin-bottom: 28px;
     animation: fadeSlideUp 0.6s ease both;
+    max-width: 100%; text-align: center;
   }
   .badge::before {
     content: '';
@@ -485,8 +490,9 @@
   .cross { color: var(--red); }
   .warn { color: var(--accent-warm); }
   .compare-wrap {
-    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); border-radius: 12px; overflow-x: auto;
   }
+  .compare-table { min-width: 540px; }
 
   /* QUICKSTART */
   .quickstart-section { background: var(--bg); }
@@ -522,6 +528,34 @@
     gap: 40px; margin-top: 60px;
   }
   @media(max-width: 768px) { .quickstart-grid { grid-template-columns: 1fr; } }
+
+  /* DOCKER SECTION */
+  .docker-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px; margin-top: 60px;
+  }
+  .docker-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 32px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .docker-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .docker-card-title {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 20px; font-weight: 700; margin-bottom: 16px;
+  }
+  .docker-card-title .icon {
+    width: 32px; height: 32px; background: rgba(57,73,171,0.1);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 16px;
+  }
+  .docker-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+  .docker-benefit-tag {
+    display: inline-block; padding: 4px 10px; border-radius: 6px;
+    background: rgba(34,197,94,0.08); color: var(--green);
+    font-family: var(--mono); font-size: 11px; margin-top: 20px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
 
   /* MIT BANNER */
   .mit-banner {
@@ -670,9 +704,10 @@
   </button>
   <div class="nav-links" id="navLinks">
     <a href="#services">Services</a>
+    <a href="#docker-engines">Parity</a>
     <a href="#performance">Performance</a>
     <a href="#quickstart">Quick Start</a>
-    <a href="https://github.com/hectorvent/floci" target="_blank">GitHub</a>
+    <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
     <a href="https://hectorvent.dev/floci/" class="nav-cta" target="_blank">Docs →</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
       <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -689,7 +724,7 @@
   </div>
 </nav>
 <div class="dev-banner" id="devBanner">
-  <span>Active development &mdash; found a bug? <a href="https://github.com/hectorvent/floci/issues" target="_blank">Open an issue on GitHub</a></span>
+  <span>Active development &mdash; found a bug? <a href="https://github.com/floci-io/floci/issues" target="_blank">Open an issue on GitHub</a></span>
   <button class="dev-banner-close" onclick="document.getElementById('devBanner').style.display='none'" aria-label="Dismiss">&times;</button>
 </div>
 
@@ -725,7 +760,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · ~20 AWS Services</div>
+  <div class="badge">MIT Licensed · No Auth Token · 33+ AWS Services</div>
 
   <h1>
     Local AWS.<br>
@@ -737,7 +772,7 @@
   </p>
   <div class="hero-actions">
     <a href="#quickstart" class="btn-primary">Get Started →</a>
-    <a href="https://github.com/hectorvent/floci" class="btn-ghost" target="_blank">
+    <a href="https://github.com/floci-io/floci" class="btn-ghost" target="_blank">
       ★ Star on GitHub <span id="ghStarsBtn"></span>
     </a>
   </div>
@@ -759,14 +794,14 @@
       <div class="stat-sub">2.4× faster than LocalStack</div>
     </div>
     <div class="stat-item">
-      <span class="stat-number">408/408</span>
+      <span class="stat-number">1,873/1,873</span>
       <div class="stat-label">SDK compat tests</div>
       <div class="stat-sub">100% pass rate</div>
     </div>
     <div class="stat-item">
       <span class="stat-number" id="ghStarsStat">—</span>
       <div class="stat-label">GitHub stars</div>
-      <div class="stat-sub">github.com/hectorvent/floci</div>
+      <div class="stat-sub">github.com/floci-io/floci</div>
     </div>
   </div>
 </section>
@@ -834,7 +869,7 @@
       </div>
       <div class="card">
         <div class="card-icon teal">☁️</div>
-        <h3>22 AWS services</h3>
+        <h3>33 AWS services</h3>
         <p>From S3 to Step Functions to RDS to Cognito. Services that LocalStack Community Edition doesn't even offer — ElastiCache, RDS, API Gateway v2 — are all here, free.</p>
       </div>
       <div class="card">
@@ -852,7 +887,7 @@
     <div class="reveal">
       <div class="section-label">Benchmarks</div>
       <h2>Performance that actually matters.</h2>
-      <p class="section-desc">Real numbers from a 408-test AWS SDK compatibility suite. Floci Native vs LocalStack Community 4.14.0.</p>
+      <p class="section-desc">Real numbers from a 1,873-test AWS SDK compatibility suite. Floci Native vs LocalStack Community 4.14.0.</p>
     </div>
 
     <div class="perf-grid reveal" style="transition-delay:0.1s">
@@ -946,10 +981,10 @@
           </div>
           <div class="callout">
             <span class="callout-num">100%</span>
-            <div class="callout-label">SDK tests pass<br>408 of 408 checks</div>
+            <div class="callout-label">SDK tests pass<br>1,873 of 1,873 checks</div>
           </div>
           <div class="callout">
-            <span class="callout-num">22</span>
+            <span class="callout-num">33</span>
             <div class="callout-label">AWS services<br>all free, all unlocked</div>
           </div>
           <div class="callout">
@@ -1026,6 +1061,68 @@
   </div>
 </section>
 
+<!-- REAL ENGINES (DOCKER) -->
+<section id="docker-engines">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">True Parity</div>
+      <h2>Real engines. Real protocols.</h2>
+      <p class="section-desc">Floci doesn't just mock responses. For complex data services, it orchestrates real engines in Docker containers to guarantee 100% protocol fidelity.</p>
+    </div>
+
+    <div class="docker-grid reveal" style="transition-delay:0.1s">
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">λ</div>
+          Lambda Runtimes
+        </div>
+        <p>Execution happens in isolated Docker containers using real AWS runtimes. Supports Node.js, Python, Java, Go, and more with identical environment variables and filesystem layout.</p>
+        <div class="docker-benefit-tag">Isolated Execution</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">DB</div>
+          RDS Engines
+        </div>
+        <p>Spin up real PostgreSQL or MySQL instances. Floci manages the lifecycle, handles snapshot/restore, and proxies JDBC traffic with full IAM database authentication support.</p>
+        <div class="docker-benefit-tag">JDBC Wire Parity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">R</div>
+          ElastiCache (Redis)
+        </div>
+        <p>A real Redis container is used for the data plane. Floci acts as a SigV4 proxy, allowing you to use real IAM roles to authenticate against your local Redis cluster.</p>
+        <div class="docker-benefit-tag">RESP Protocol</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">E</div>
+          Amazon ECS
+        </div>
+        <p>Run containerized tasks locally. Floci orchestrates real Docker containers for your task definitions, providing a local control plane for task lifecycle management.</p>
+        <div class="docker-benefit-tag">Container Fidelity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">S</div>
+          OpenSearch
+        </div>
+        <p>Run real OpenSearch clusters. Floci manages the underlying engine nodes, providing a fully functional search backend that supports the complete OpenSearch API suite.</p>
+        <div class="docker-benefit-tag">Search Fidelity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">K</div>
+          MSK (Kafka)
+        </div>
+        <p>Orchestrate real Apache Kafka clusters. Perfect for testing event-driven architectures locally with the same streaming performance and semantics as Amazon MSK.</p>
+        <div class="docker-benefit-tag">Streaming Parity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- IAM INTEGRATION -->
 <section class="iam-section" id="iam">
   <div class="container">
@@ -1081,7 +1178,7 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Supported Services</div>
-      <h2>22 AWS services. All of them free.</h2>
+      <h2>33 AWS services. All of them free.</h2>
       <p class="section-desc">Every service is fully unlocked, no paid tier required. Services marked with ★ are exclusive to Floci — not available in LocalStack Community.</p>
     </div>
 
@@ -1104,9 +1201,17 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Step Functions</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ElastiCache ★</span><span class="service-proto">Redis + IAM</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">RDS ★</span><span class="service-proto">PG + MySQL + IAM</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">EventBridge</span><span class="service-proto">JSON 1.1</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">EventBridge + Scheduler</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Logs</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Metrics</span><span class="service-proto">Query</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">MSK (Kafka)</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">ECS</span><span class="service-proto">JSON 1.1</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">EC2</span><span class="service-proto">Query</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">ACM</span><span class="service-proto">JSON 1.1</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">ECR</span><span class="service-proto">JSON 1.1</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">SES + SES v2</span><span class="service-proto">Query / JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">OpenSearch</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig</span><span class="service-proto">REST JSON</span></div>
     </div>
     <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Services not available in LocalStack Community Edition</p>
   </div>
@@ -1145,7 +1250,7 @@
           <tr><td>IAM coverage</td><td class="check">✓ 65+ ops</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>DynamoDB Streams</td><td class="check">✓ Full</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>S3 Event Notifications</td><td class="check">✓ Full</td><td class="cross">✗ SNS subscription fails</td></tr>
-          <tr><td>SDK compatibility</td><td class="check">100% (408/408)</td><td class="warn">80% (305/383)</td></tr>
+          <tr><td>SDK compatibility</td><td class="check">100% (1,873/1,873)</td><td class="warn">Partial</td></tr>
         </tbody>
       </table>
     </div>
@@ -1158,7 +1263,7 @@
     <div class="reveal">
       <div class="section-label">Quick Start</div>
       <h2>Up and running in 30 seconds.</h2>
-      <p class="section-desc">One Docker command. All 22 services on port 4566. No configuration required.</p>
+      <p class="section-desc">One Docker command. All 33 services on port 4566. No configuration required.</p>
     </div>
 
     <div class="quickstart-grid reveal" style="transition-delay:0.1s">
@@ -1213,7 +1318,7 @@
       <p>Like <em>cirrocumulus floccus</em> — the cloud formation that gave Floci its name. Small, lightweight, and always there when you need it.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
         <a href="https://hectorvent.dev/floci/getting-started/quick-start/" class="btn-primary" target="_blank">Read the Docs →</a>
-        <a href="https://github.com/hectorvent/floci" class="btn-ghost" target="_blank">View on GitHub</a>
+        <a href="https://github.com/floci-io/floci" class="btn-ghost" target="_blank">View on GitHub</a>
       </div>
     </div>
   </div>
@@ -1241,7 +1346,7 @@
   <div class="footer-links">
     <a href="https://hectorvent.dev/floci/" target="_blank">Documentation</a>
     <a href="https://hectorvent.dev/floci/services/" target="_blank">Services</a>
-    <a href="https://github.com/hectorvent/floci" target="_blank">GitHub</a>
+    <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
     <a href="https://hectorvent.dev/posts/introducing-floci/" target="_blank">Blog Post</a>
   </div>
   <div class="footer-copy">MIT License · Built with Quarkus + GraalVM</div>
@@ -1281,7 +1386,7 @@ setTheme(saved ? saved === 'light' : prefersLight);
 toggle.addEventListener('click', () => setTheme(!html.classList.contains('light')));
 
 // GitHub stars
-fetch('https://api.github.com/repos/hectorvent/floci')
+fetch('https://api.github.com/repos/floci-io/floci')
   .then(r => r.json())
   .then(data => {
     const count = data.stargazers_count;
@@ -1296,3 +1401,4 @@ fetch('https://api.github.com/repos/hectorvent/floci')
 </script>
 </body>
 </html>
+ml>
