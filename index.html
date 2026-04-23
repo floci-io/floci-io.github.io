@@ -704,11 +704,12 @@
   </button>
   <div class="nav-links" id="navLinks">
     <a href="#services">Services</a>
+    <a href="#azure">Azure</a>
     <a href="#docker-engines">Parity</a>
     <a href="#performance">Performance</a>
     <a href="#quickstart">Quick Start</a>
     <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
-    <a href="https://hectorvent.dev/floci/" class="nav-cta" target="_blank">Docs →</a>
+    <a href="https://floci.io/floci/" class="nav-cta" target="_blank">Docs →</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
       <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -760,7 +761,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · 33+ AWS Services</div>
+  <div class="badge">MIT Licensed · No Auth Token · 35+ AWS Services</div>
 
   <h1>
     Local AWS.<br>
@@ -821,6 +822,11 @@
     <span class="marquee-item">CloudFormation · Stacks</span>
     <span class="marquee-item">EventBridge · Rules</span>
     <span class="marquee-item">KMS · Sign + Verify</span>
+    <span class="marquee-item">EKS · Kubernetes</span>
+    <span class="marquee-item">Bedrock Runtime · Stub</span>
+    <span class="marquee-item">Athena · Query</span>
+    <span class="marquee-item">Data Firehose · S3</span>
+    <span class="marquee-item">Glue · Data Catalog</span>
     <!-- duplicate for seamless loop -->
     <span class="marquee-item">S3 · REST XML</span>
     <span class="marquee-item">SQS · FIFO + Standard</span>
@@ -834,6 +840,11 @@
     <span class="marquee-item">CloudFormation · Stacks</span>
     <span class="marquee-item">EventBridge · Rules</span>
     <span class="marquee-item">KMS · Sign + Verify</span>
+    <span class="marquee-item">EKS · Kubernetes</span>
+    <span class="marquee-item">Bedrock Runtime · Stub</span>
+    <span class="marquee-item">Athena · Query</span>
+    <span class="marquee-item">Data Firehose · S3</span>
+    <span class="marquee-item">Glue · Data Catalog</span>
   </div>
 </div>
 
@@ -869,8 +880,8 @@
       </div>
       <div class="card">
         <div class="card-icon teal">☁️</div>
-        <h3>33 AWS services</h3>
-        <p>From S3 to Step Functions to RDS to Cognito. Services that LocalStack Community Edition doesn't even offer — ElastiCache, RDS, API Gateway v2 — are all here, free.</p>
+        <h3>35 AWS services</h3>
+        <p>From S3 to Step Functions to RDS to Cognito. Services that LocalStack Community Edition doesn't even offer — ElastiCache, RDS, API Gateway v2, EKS — are all here, free.</p>
       </div>
       <div class="card">
         <div class="card-icon green">🔁</div>
@@ -984,7 +995,7 @@
             <div class="callout-label">SDK tests pass<br>1,873 of 1,873 checks</div>
           </div>
           <div class="callout">
-            <span class="callout-num">33</span>
+            <span class="callout-num">35</span>
             <div class="callout-label">AWS services<br>all free, all unlocked</div>
           </div>
           <div class="callout">
@@ -1129,7 +1140,7 @@
     <div class="reveal">
       <div class="section-label">IAM Integration</div>
       <h2>Real IAM. Real security. Local.</h2>
-      <p class="section-desc">Lambda, ElastiCache, and RDS all support full IAM authentication and SigV4 validation — just like production AWS.</p>
+      <p class="section-desc">Lambda, ElastiCache, RDS, ECS, MSK, EKS, and OpenSearch all support full IAM authentication and SigV4 validation — just like production AWS.</p>
     </div>
 
     <div class="iam-cards reveal" style="transition-delay:0.1s">
@@ -1178,7 +1189,7 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Supported Services</div>
-      <h2>33 AWS services. All of them free.</h2>
+      <h2>35 AWS services. All of them free.</h2>
       <p class="section-desc">Every service is fully unlocked, no paid tier required. Services marked with ★ are exclusive to Floci — not available in LocalStack Community.</p>
     </div>
 
@@ -1190,7 +1201,7 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Lambda</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">API Gateway REST</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2); border-radius:0"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (65+ ops)</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (68+ ops)</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">STS</span><span class="service-proto">Query (7 ops)</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">KMS</span><span class="service-proto">JSON 1.1</span></div>
@@ -1211,9 +1222,91 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">ECR</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">SES + SES v2</span><span class="service-proto">Query / JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">OpenSearch</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig + AppConfigData</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Glue</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
     </div>
     <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Services not available in LocalStack Community Edition</p>
+  </div>
+</section>
+
+<!-- AZURE EMULATOR -->
+<section id="azure" style="background:var(--bg2)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Azure Emulator</div>
+      <h2>Also need local Azure? Meet <span style="color:var(--indigo-light)">floci-az</span>.</h2>
+      <p class="section-desc">The Azure companion to floci. Same native speed, same MIT license — Blob, Queue, Table, and Functions on a single port. No Azure account required.</p>
+    </div>
+
+    <div class="docker-grid reveal" style="transition-delay:0.1s">
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">B</div>
+          Blob Storage
+        </div>
+        <p>Create containers, upload and download blobs, list objects — fully path-style routed and compatible with the Azure Blob SDK and standard connection strings.</p>
+        <div class="docker-benefit-tag">Azure SDK Compatible</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">Q</div>
+          Queue Storage
+        </div>
+        <p>Send, receive, peek, and delete messages with visibility timeout support. Drop-in replacement for Azure Queue Storage SDK clients.</p>
+        <div class="docker-benefit-tag">Message Fidelity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">T</div>
+          Table Storage
+        </div>
+        <p>Insert, query, update, upsert, and delete entities. OData filtering, batch operations, and full compatibility with the Azure Tables SDK.</p>
+        <div class="docker-benefit-tag">OData Protocol</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">λ</div>
+          Azure Functions
+        </div>
+        <p>Deploy and invoke HTTP-triggered functions in isolated Docker containers. Node.js, Python, Java, and .NET — with a warm-container pool for fast invocation.</p>
+        <div class="docker-benefit-tag">Docker Native</div>
+      </div>
+    </div>
+
+    <div class="quickstart-grid reveal" style="transition-delay:0.2s;margin-top:40px">
+      <div>
+        <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
+        <div class="code-block">
+          <span class="comment"># All Azure services on :4577</span><br>
+          <span class="cmd">docker run --rm -p <span class="acc">4577:4577</span> \<br>&nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>&nbsp;&nbsp;floci/floci-az:<span class="acc">latest</span></span>
+        </div>
+
+        <h3 style="margin:24px 0 12px;font-size:16px;color:var(--text-muted);font-weight:500">Connection String</h3>
+        <div class="code-block" style="font-size:11px;line-height:1.8;word-break:break-all">
+          <span class="str">DefaultEndpointsProtocol=http;<br>AccountName=devstoreaccount1;<br>AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMh0==;<br>BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;<br>QueueEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1-queue;<br>TableEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1-table;</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="iam-card" style="height:100%;box-sizing:border-box">
+          <div class="iam-card-service">floci-az</div>
+          <h3>One port for all Azure services.</h3>
+          <p>Port 4577. Blob, Queue, Table, and Functions all in a single container. No Azure account setup — just <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker compose up</code>.</p>
+          <ul class="iam-features">
+            <li>Native binary — &lt;100ms startup</li>
+            <li>MIT licensed — no account or token required</li>
+            <li>Unified port 4577 for all services</li>
+            <li>WAL / Hybrid / Memory storage modes</li>
+            <li>Azure Functions with real Docker containers</li>
+          </ul>
+          <a href="https://github.com/floci-io/floci-az" class="btn-primary" target="_blank" style="display:inline-flex;margin-top:24px">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1247,7 +1340,7 @@
           <tr><td>ElastiCache</td><td class="check">✓ Docker + IAM</td><td class="cross">✗ Not available</td></tr>
           <tr><td>RDS</td><td class="check">✓ Docker + IAM</td><td class="cross">✗ Not available</td></tr>
           <tr><td>STS (full)</td><td class="check">✓ 7/7 ops</td><td class="warn">⚠ 3/7 ops missing</td></tr>
-          <tr><td>IAM coverage</td><td class="check">✓ 65+ ops</td><td class="warn">⚠ Partial</td></tr>
+          <tr><td>IAM coverage</td><td class="check">✓ 68+ ops</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>DynamoDB Streams</td><td class="check">✓ Full</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>S3 Event Notifications</td><td class="check">✓ Full</td><td class="cross">✗ SNS subscription fails</td></tr>
           <tr><td>SDK compatibility</td><td class="check">100% (1,873/1,873)</td><td class="warn">Partial</td></tr>
@@ -1263,7 +1356,7 @@
     <div class="reveal">
       <div class="section-label">Quick Start</div>
       <h2>Up and running in 30 seconds.</h2>
-      <p class="section-desc">One Docker command. All 33 services on port 4566. No configuration required.</p>
+      <p class="section-desc">One Docker command. All 35 services on port 4566. No configuration required.</p>
     </div>
 
     <div class="quickstart-grid reveal" style="transition-delay:0.1s">
@@ -1271,7 +1364,7 @@
         <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
         <div class="code-block">
           <span class="comment"># Pull and run — all services on :4566</span><br>
-          <span class="cmd">docker run --rm -p <span class="acc">4566:4566</span> \<br>&nbsp;&nbsp;hectorvent/floci:<span class="acc">latest</span></span>
+          <span class="cmd">docker run --rm -p <span class="acc">4566:4566</span> \<br>&nbsp;&nbsp;floci/floci:<span class="acc">latest</span></span>
         </div>
 
         <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">AWS CLI</h3>
@@ -1287,7 +1380,7 @@
         <div class="code-block" style="font-size:12px;line-height:1.8">
           <span class="cmd">services:</span><br>
           <span class="cmd">&nbsp;&nbsp;floci:</span><br>
-          <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp;image: hectorvent/floci:<span class="acc">latest</span></span><br>
+          <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp;image: floci/floci:<span class="acc">latest</span></span><br>
           <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp;ports:</span><br>
           <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="str">"4566:4566"</span></span><br>
           <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp;volumes:</span><br>
@@ -1317,7 +1410,7 @@
       <h3>Light, fluffy, and always free.</h3>
       <p>Like <em>cirrocumulus floccus</em> — the cloud formation that gave Floci its name. Small, lightweight, and always there when you need it.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <a href="https://hectorvent.dev/floci/getting-started/quick-start/" class="btn-primary" target="_blank">Read the Docs →</a>
+        <a href="https://floci.io/floci/getting-started/quick-start/" class="btn-primary" target="_blank">Read the Docs →</a>
         <a href="https://github.com/floci-io/floci" class="btn-ghost" target="_blank">View on GitHub</a>
       </div>
     </div>
@@ -1344,9 +1437,10 @@
     floci
   </div>
   <div class="footer-links">
-    <a href="https://hectorvent.dev/floci/" target="_blank">Documentation</a>
-    <a href="https://hectorvent.dev/floci/services/" target="_blank">Services</a>
-    <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
+    <a href="https://floci.io/floci/" target="_blank">Documentation</a>
+    <a href="https://floci.io/floci/services/" target="_blank">Services</a>
+    <a href="https://github.com/floci-io/floci" target="_blank">GitHub (AWS)</a>
+    <a href="https://github.com/floci-io/floci-az" target="_blank">GitHub (Azure)</a>
     <a href="https://hectorvent.dev/posts/introducing-floci/" target="_blank">Blog Post</a>
   </div>
   <div class="footer-copy">MIT License · Built with Quarkus + GraalVM</div>
