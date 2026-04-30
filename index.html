@@ -1152,6 +1152,22 @@
         <p>StartBuild launches real Docker containers using the configured build image. Build output streams live to CloudWatch Logs and artifacts are uploaded to S3 via <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker cp</code> — works in Docker-in-Docker CI pipelines.</p>
         <div class="docker-benefit-tag">Real Build Execution</div>
       </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">A</div>
+          Athena
+        </div>
+        <p>Query execution runs inside a container sidecar backed by DuckDB. SQL queries against S3 data run in an isolated Docker container — same execution model as AWS Athena, no mocking.</p>
+        <div class="docker-benefit-tag">Query Fidelity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">F</div>
+          Data Firehose
+        </div>
+        <p>Record transformation and delivery logic runs in a container sidecar. Buffer flushing, format conversion, and S3 delivery behave identically to the managed service — without mocking the pipeline.</p>
+        <div class="docker-benefit-tag">Delivery Fidelity</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1246,9 +1262,9 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">SES + SES v2</span><span class="service-proto">Query / JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">OpenSearch</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig + AppConfigData</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">Docker · REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Glue</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">Docker · REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
@@ -1260,76 +1276,27 @@
 </section>
 
 <!-- AZURE EMULATOR -->
-<section id="azure" style="background:var(--bg2)">
+<section id="azure" style="background:linear-gradient(135deg,#1e2856 0%,#12193f 100%);border-top:1px solid rgba(92,107,192,0.25);border-bottom:1px solid rgba(92,107,192,0.25);padding:40px 0">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">Azure Emulator</div>
-      <h2>Also need local Azure? Meet <span style="color:var(--indigo-light)">floci-az</span>.</h2>
-      <p class="section-desc">The Azure companion to floci. Same native speed, same MIT license — Blob, Queue, Table, and Functions on a single port. No Azure account required.</p>
-    </div>
-
-    <div class="docker-grid reveal" style="transition-delay:0.1s">
-      <div class="docker-card">
-        <div class="docker-card-title">
-          <div class="icon">B</div>
-          Blob Storage
+    <div style="display:flex;align-items:center;gap:40px;flex-wrap:wrap" class="reveal">
+      <div style="flex:0 0 auto;max-width:360px">
+        <span style="font-size:11px;font-weight:700;color:var(--indigo-light);text-transform:uppercase;letter-spacing:.1em">Azure Emulator</span>
+        <div style="font-size:22px;font-weight:800;color:#e8eaf6;margin:6px 0 8px">Also need local Azure? <span style="color:var(--indigo-light)">floci-az</span></div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 14px">Same native speed, same MIT license. Blob, Queue, Table, and Functions on a single port — no Azure account required.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+          <span class="docker-benefit-tag">Blob</span>
+          <span class="docker-benefit-tag">Queue</span>
+          <span class="docker-benefit-tag">Table</span>
+          <span class="docker-benefit-tag">Functions</span>
+          <span class="docker-benefit-tag">Port 4577</span>
+          <span class="docker-benefit-tag">MIT</span>
         </div>
-        <p>Create containers, upload and download blobs, list objects — fully path-style routed and compatible with the Azure Blob SDK and standard connection strings.</p>
-        <div class="docker-benefit-tag">Azure SDK Compatible</div>
+        <a href="https://github.com/floci-io/floci-az" class="btn-primary" target="_blank" style="display:inline-flex">View on GitHub →</a>
       </div>
-      <div class="docker-card">
-        <div class="docker-card-title">
-          <div class="icon">Q</div>
-          Queue Storage
-        </div>
-        <p>Send, receive, peek, and delete messages with visibility timeout support. Drop-in replacement for Azure Queue Storage SDK clients.</p>
-        <div class="docker-benefit-tag">Message Fidelity</div>
-      </div>
-      <div class="docker-card">
-        <div class="docker-card-title">
-          <div class="icon">T</div>
-          Table Storage
-        </div>
-        <p>Insert, query, update, upsert, and delete entities. OData filtering, batch operations, and full compatibility with the Azure Tables SDK.</p>
-        <div class="docker-benefit-tag">OData Protocol</div>
-      </div>
-      <div class="docker-card">
-        <div class="docker-card-title">
-          <div class="icon">λ</div>
-          Azure Functions
-        </div>
-        <p>Deploy and invoke HTTP-triggered functions in isolated Docker containers. Node.js, Python, Java, and .NET — with a warm-container pool for fast invocation.</p>
-        <div class="docker-benefit-tag">Docker Native</div>
-      </div>
-    </div>
-
-    <div class="quickstart-grid reveal" style="transition-delay:0.2s;margin-top:40px">
-      <div>
-        <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
-        <div class="code-block">
+      <div style="flex:1;min-width:260px">
+        <div class="code-block" style="margin:0">
           <span class="comment"># All Azure services on :4577</span><br>
           <span class="cmd">docker run --rm -p <span class="acc">4577:4577</span> \<br>&nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>&nbsp;&nbsp;floci/floci-az:<span class="acc">latest</span></span>
-        </div>
-
-        <h3 style="margin:24px 0 12px;font-size:16px;color:var(--text-muted);font-weight:500">Connection String</h3>
-        <div class="code-block" style="font-size:11px;line-height:1.8;word-break:break-all">
-          <span class="str">DefaultEndpointsProtocol=http;<br>AccountName=devstoreaccount1;<br>AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMh0==;<br>BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;<br>QueueEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1-queue;<br>TableEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1-table;</span>
-        </div>
-      </div>
-
-      <div>
-        <div class="iam-card" style="height:100%;box-sizing:border-box">
-          <div class="iam-card-service">floci-az</div>
-          <h3>One port for all Azure services.</h3>
-          <p>Port 4577. Blob, Queue, Table, and Functions all in a single container. No Azure account setup — just <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker compose up</code>.</p>
-          <ul class="iam-features">
-            <li>Native binary — &lt;100ms startup</li>
-            <li>MIT licensed — no account or token required</li>
-            <li>Unified port 4577 for all services</li>
-            <li>WAL / Hybrid / Memory storage modes</li>
-            <li>Azure Functions with real Docker containers</li>
-          </ul>
-          <a href="https://github.com/floci-io/floci-az" class="btn-primary" target="_blank" style="display:inline-flex;margin-top:24px">View on GitHub →</a>
         </div>
       </div>
     </div>
@@ -1471,6 +1438,17 @@
     <a href="https://github.com/floci-io/floci" target="_blank">GitHub (AWS)</a>
     <a href="https://github.com/floci-io/floci-az" target="_blank">GitHub (Azure)</a>
     <a href="https://hectorvent.dev/posts/introducing-floci/" target="_blank">Blog Post</a>
+  </div>
+  <div style="display:flex;gap:16px;align-items:center">
+    <a href="https://www.linkedin.com/company/floci/" target="_blank" title="LinkedIn" style="color:var(--text-dim);transition:color 0.2s" onmouseover="this.style.color='#e8eaf6'" onmouseout="this.style.color='var(--text-dim)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+    </a>
+    <a href="https://www.reddit.com/r/floci/" target="_blank" title="Reddit" style="color:var(--text-dim);transition:color 0.2s" onmouseover="this.style.color='#e8eaf6'" onmouseout="this.style.color='var(--text-dim)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </a>
+    <a href="https://x.com/floci_io" target="_blank" title="X" style="color:var(--text-dim);transition:color 0.2s" onmouseover="this.style.color='#e8eaf6'" onmouseout="this.style.color='var(--text-dim)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
   </div>
   <div class="footer-copy">MIT License · Built with Quarkus + GraalVM</div>
 </footer>
