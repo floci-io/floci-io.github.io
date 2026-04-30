@@ -761,7 +761,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · 35+ AWS Services</div>
+  <div class="badge">MIT Licensed · No Auth Token · 41 AWS Services</div>
 
   <h1>
     Local AWS.<br>
@@ -827,6 +827,9 @@
     <span class="marquee-item">Athena · Query</span>
     <span class="marquee-item">Data Firehose · S3</span>
     <span class="marquee-item">Glue · Data Catalog</span>
+    <span class="marquee-item">ELB v2 · ALB + NLB</span>
+    <span class="marquee-item">CodeBuild · Docker Native</span>
+    <span class="marquee-item">CodeDeploy · Lambda Shifting</span>
     <!-- duplicate for seamless loop -->
     <span class="marquee-item">S3 · REST XML</span>
     <span class="marquee-item">SQS · FIFO + Standard</span>
@@ -845,6 +848,9 @@
     <span class="marquee-item">Athena · Query</span>
     <span class="marquee-item">Data Firehose · S3</span>
     <span class="marquee-item">Glue · Data Catalog</span>
+    <span class="marquee-item">ELB v2 · ALB + NLB</span>
+    <span class="marquee-item">CodeBuild · Docker Native</span>
+    <span class="marquee-item">CodeDeploy · Lambda Shifting</span>
   </div>
 </div>
 
@@ -880,8 +886,8 @@
       </div>
       <div class="card">
         <div class="card-icon teal">☁️</div>
-        <h3>35 AWS services</h3>
-        <p>From S3 to Step Functions to RDS to Cognito. Services that LocalStack Community Edition doesn't even offer — ElastiCache, RDS, API Gateway v2, EKS — are all here, free.</p>
+        <h3>41 AWS services</h3>
+        <p>From S3 to Step Functions to RDS to CodeBuild. Services LocalStack Community doesn't offer — ElastiCache, RDS, API Gateway v2, EKS, ELB v2, CodeBuild, CodeDeploy — all here, free.</p>
       </div>
       <div class="card">
         <div class="card-icon green">🔁</div>
@@ -995,7 +1001,7 @@
             <div class="callout-label">SDK tests pass<br>1,873 of 1,873 checks</div>
           </div>
           <div class="callout">
-            <span class="callout-num">35</span>
+            <span class="callout-num">41</span>
             <div class="callout-label">AWS services<br>all free, all unlocked</div>
           </div>
           <div class="callout">
@@ -1095,7 +1101,7 @@
           <div class="icon">DB</div>
           RDS Engines
         </div>
-        <p>Spin up real PostgreSQL or MySQL instances. Floci manages the lifecycle, handles snapshot/restore, and proxies JDBC traffic with full IAM database authentication support.</p>
+        <p>Spin up real PostgreSQL, MySQL, or MariaDB instances. Floci manages the lifecycle, handles snapshot/restore, and proxies JDBC traffic with full IAM database authentication support.</p>
         <div class="docker-benefit-tag">JDBC Wire Parity</div>
       </div>
       <div class="docker-card">
@@ -1127,8 +1133,24 @@
           <div class="icon">K</div>
           MSK (Kafka)
         </div>
-        <p>Orchestrate real Apache Kafka clusters. Perfect for testing event-driven architectures locally with the same streaming performance and semantics as Amazon MSK.</p>
+        <p>Orchestrate real Apache Kafka clusters via Redpanda. Perfect for testing event-driven architectures locally with the same streaming performance and semantics as Amazon MSK.</p>
         <div class="docker-benefit-tag">Streaming Parity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">R</div>
+          ECR Registry
+        </div>
+        <p>A real OCI-compatible registry (<code style="font-family:var(--mono);font-size:12px;color:var(--accent)">registry:2</code>) backs every repository. Push and pull with the stock <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker</code> client — including image-backed Lambda functions resolved automatically.</p>
+        <div class="docker-benefit-tag">OCI Wire Parity</div>
+      </div>
+      <div class="docker-card">
+        <div class="docker-card-title">
+          <div class="icon">⚙</div>
+          CodeBuild
+        </div>
+        <p>StartBuild launches real Docker containers using the configured build image. Build output streams live to CloudWatch Logs and artifacts are uploaded to S3 via <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker cp</code> — works in Docker-in-Docker CI pipelines.</p>
+        <div class="docker-benefit-tag">Real Build Execution</div>
       </div>
     </div>
   </div>
@@ -1140,17 +1162,18 @@
     <div class="reveal">
       <div class="section-label">IAM Integration</div>
       <h2>Real IAM. Real security. Local.</h2>
-      <p class="section-desc">Lambda, ElastiCache, RDS, ECS, MSK, EKS, and OpenSearch all support full IAM authentication and SigV4 validation — just like production AWS.</p>
+      <p class="section-desc">Lambda, ElastiCache, RDS, ECS, MSK, EKS, OpenSearch, and ECR all support full IAM authentication and SigV4 validation — just like production AWS.</p>
     </div>
 
     <div class="iam-cards reveal" style="transition-delay:0.1s">
       <div class="iam-card">
         <div class="iam-card-service">Lambda</div>
         <h3>Function Execution with IAM</h3>
-        <p>Functions run in real Docker containers with IAM role assumption and execution context. Full warm pool management, aliases, and event source mappings.</p>
+        <p>Functions run in real Docker containers with IAM role assumption and execution context. Full warm pool management, aliases, event source mappings, and Cognito Lambda triggers.</p>
         <ul class="iam-features">
-          <li>Docker-native execution (Node, Python, Java, Go, Ruby)</li>
+          <li>Docker-native execution (Node, Python, Java, Go, Ruby, .NET)</li>
           <li>SQS, Kinesis, and DynamoDB Streams ESM triggers</li>
+          <li>EventSourceMapping provisioned via CloudFormation</li>
           <li>Function URLs with IAM or public access control</li>
           <li>Aliases, versions, concurrency controls</li>
           <li>25 Lambda operations supported</li>
@@ -1158,7 +1181,7 @@
       </div>
       <div class="iam-card">
         <div class="iam-card-service">ElastiCache</div>
-        <h3>Redis with IAM Auth</h3>
+        <h3>Redis / Valkey with IAM Auth</h3>
         <p>Real Redis instance running in Docker, proxied through Floci with full IAM authentication via SigV4 token validation — identical to production.</p>
         <ul class="iam-features">
           <li>Redis via Docker — real RESP protocol</li>
@@ -1170,10 +1193,10 @@
       </div>
       <div class="iam-card">
         <div class="iam-card-service">RDS</div>
-        <h3>Postgres & MySQL with IAM</h3>
-        <p>PostgreSQL and MySQL databases running in Docker, with full IAM database authentication and JDBC wire protocol proxying. 50/50 SDK tests pass.</p>
+        <h3>Postgres, MySQL & MariaDB with IAM</h3>
+        <p>PostgreSQL, MySQL, and MariaDB databases running in Docker, with full IAM database authentication and JDBC wire protocol proxying. 50/50 SDK tests pass.</p>
         <ul class="iam-features">
-          <li>PostgreSQL and MySQL via Docker</li>
+          <li>PostgreSQL, MySQL, and MariaDB via Docker</li>
           <li>IAM database authentication over JDBC</li>
           <li>Snapshot, restore, parameter groups</li>
           <li>Multi-AZ configuration support</li>
@@ -1189,7 +1212,7 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Supported Services</div>
-      <h2>35 AWS services. All of them free.</h2>
+      <h2>41 AWS services. All of them free.</h2>
       <p class="section-desc">Every service is fully unlocked, no paid tier required. Services marked with ★ are exclusive to Floci — not available in LocalStack Community.</p>
     </div>
 
@@ -1228,6 +1251,9 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
     </div>
     <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Services not available in LocalStack Community Edition</p>
   </div>
@@ -1343,6 +1369,9 @@
           <tr><td>IAM coverage</td><td class="check">✓ 68+ ops</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>DynamoDB Streams</td><td class="check">✓ Full</td><td class="warn">⚠ Partial</td></tr>
           <tr><td>S3 Event Notifications</td><td class="check">✓ Full</td><td class="cross">✗ SNS subscription fails</td></tr>
+          <tr><td>ELB v2 (ALB / NLB)</td><td class="check">✓ Full</td><td class="cross">✗ Not available</td></tr>
+          <tr><td>CodeBuild</td><td class="check">✓ Real Docker builds</td><td class="cross">✗ Not available</td></tr>
+          <tr><td>CodeDeploy</td><td class="check">✓ Lambda traffic shifting</td><td class="cross">✗ Not available</td></tr>
           <tr><td>SDK compatibility</td><td class="check">100% (1,873/1,873)</td><td class="warn">Partial</td></tr>
         </tbody>
       </table>
@@ -1356,7 +1385,7 @@
     <div class="reveal">
       <div class="section-label">Quick Start</div>
       <h2>Up and running in 30 seconds.</h2>
-      <p class="section-desc">One Docker command. All 35 services on port 4566. No configuration required.</p>
+      <p class="section-desc">One Docker command. All 41 services on port 4566. No configuration required.</p>
     </div>
 
     <div class="quickstart-grid reveal" style="transition-delay:0.1s">
