@@ -708,6 +708,7 @@
     <a href="#docker-engines">Parity</a>
     <a href="#performance">Performance</a>
     <a href="#quickstart">Quick Start</a>
+    <a href="#examples">Examples</a>
     <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
     <a href="https://floci.io/floci/" class="nav-cta" target="_blank">Docs →</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
@@ -761,7 +762,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · 41 AWS Services</div>
+  <div class="badge">MIT Licensed · No Auth Token · 41 AWS Services · 1,925 SDK Tests</div>
 
   <h1>
     Local AWS.<br>
@@ -795,7 +796,7 @@
       <div class="stat-sub">2.4× faster than LocalStack</div>
     </div>
     <div class="stat-item">
-      <span class="stat-number">1,873/1,873</span>
+      <span class="stat-number">1,925/1,925</span>
       <div class="stat-label">SDK compat tests</div>
       <div class="stat-sub">100% pass rate</div>
     </div>
@@ -904,7 +905,7 @@
     <div class="reveal">
       <div class="section-label">Benchmarks</div>
       <h2>Performance that actually matters.</h2>
-      <p class="section-desc">Real numbers from a 1,873-test AWS SDK compatibility suite. Floci Native vs LocalStack Community 4.14.0.</p>
+      <p class="section-desc">Real numbers from a 1,925-test AWS SDK compatibility suite (6 SDKs + 3 IaC tools). Floci Native vs LocalStack Community 4.14.0.</p>
     </div>
 
     <div class="perf-grid reveal" style="transition-delay:0.1s">
@@ -998,7 +999,7 @@
           </div>
           <div class="callout">
             <span class="callout-num">100%</span>
-            <div class="callout-label">SDK tests pass<br>1,873 of 1,873 checks</div>
+            <div class="callout-label">SDK tests pass<br>1,925 of 1,925 checks</div>
           </div>
           <div class="callout">
             <span class="callout-num">41</span>
@@ -1162,11 +1163,11 @@
       </div>
       <div class="docker-card">
         <div class="docker-card-title">
-          <div class="icon">F</div>
-          Data Firehose
+          <div class="icon">⊞</div>
+          EC2 Instances
         </div>
-        <p>Record transformation and delivery logic runs in a container sidecar. Buffer flushing, format conversion, and S3 delivery behave identically to the managed service — without mocking the pipeline.</p>
-        <div class="docker-benefit-tag">Delivery Fidelity</div>
+        <p>RunInstances launches real Docker containers mapped to AMIs. SSH key injection, UserData execution, and IMDS (IMDSv1 + IMDSv2, port 9169) with IAM credential serving — identical environment to production EC2.</p>
+        <div class="docker-benefit-tag">IMDS + SSH Fidelity</div>
       </div>
     </div>
   </div>
@@ -1178,7 +1179,7 @@
     <div class="reveal">
       <div class="section-label">IAM Integration</div>
       <h2>Real IAM. Real security. Local.</h2>
-      <p class="section-desc">Lambda, ElastiCache, RDS, ECS, MSK, EKS, OpenSearch, and ECR all support full IAM authentication and SigV4 validation — just like production AWS.</p>
+      <p class="section-desc">Lambda, ElastiCache, RDS, ECS, EC2, MSK, EKS, OpenSearch, ECR, and CodeBuild all support full IAM authentication and SigV4 validation — just like production AWS.</p>
     </div>
 
     <div class="iam-cards reveal" style="transition-delay:0.1s">
@@ -1264,7 +1265,7 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig + AppConfigData</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">Docker · REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Glue</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">Docker · REST JSON</span></div>
+      <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
@@ -1323,25 +1324,20 @@
         </thead>
         <tbody>
           <tr><td>Price</td><td class="check">Free forever</td><td class="cross">Auth token required</td></tr>
-          <tr><td>CI/CD usage</td><td class="check">Unlimited</td><td class="cross">Auth token required / Limits</td></tr>
-          <tr><td>License</td><td class="check">MIT</td><td class="cross">Restricted / proprietary</td></tr>
-          <tr><td>Startup time</td><td class="check">~24 ms</td><td>~3,300 ms</td></tr>
+          <tr><td>License</td><td class="check">MIT</td><td class="cross">Restricted / BSL</td></tr>
+          <tr><td>Security updates</td><td class="check">✓ Active</td><td class="cross">✗ Frozen (March 2026)</td></tr>
+          <tr><td>Startup time</td><td class="check">~24 ms</td><td>~3.3 s</td></tr>
           <tr><td>Idle memory</td><td class="check">~13 MiB</td><td>~143 MiB</td></tr>
           <tr><td>Docker image size</td><td class="check">~90 MB</td><td>~1.0 GB</td></tr>
-          <tr><td>API Gateway v2 / HTTP</td><td class="check">✓ Full</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>Cognito</td><td class="check">✓ Full</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>ElastiCache</td><td class="check">✓ Docker + IAM</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>RDS</td><td class="check">✓ Docker + IAM</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>STS (full)</td><td class="check">✓ 7/7 ops</td><td class="warn">⚠ 3/7 ops missing</td></tr>
-          <tr><td>IAM coverage</td><td class="check">✓ 68+ ops</td><td class="warn">⚠ Partial</td></tr>
-          <tr><td>DynamoDB Streams</td><td class="check">✓ Full</td><td class="warn">⚠ Partial</td></tr>
-          <tr><td>S3 Event Notifications</td><td class="check">✓ Full</td><td class="cross">✗ SNS subscription fails</td></tr>
-          <tr><td>ELB v2 (ALB / NLB)</td><td class="check">✓ Full</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>CodeBuild</td><td class="check">✓ Real Docker builds</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>CodeDeploy</td><td class="check">✓ Lambda traffic shifting</td><td class="cross">✗ Not available</td></tr>
-          <tr><td>SDK compatibility</td><td class="check">100% (1,873/1,873)</td><td class="warn">Partial</td></tr>
+          <tr><td>ECS / EKS / EC2 / RDS / ElastiCache</td><td class="check">✓ Real Docker engines</td><td class="cross">✗ Not available</td></tr>
+          <tr><td>SDK compatibility</td><td class="check">100% (1,925/1,925)</td><td class="warn">Partial</td></tr>
         </tbody>
       </table>
+    </div>
+    <div class="reveal" style="margin-top:24px;text-align:right;transition-delay:0.15s">
+      <a href="/compare.html" style="font-family:var(--mono);font-size:13px;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:opacity 0.2s" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+        Compare more — full service &amp; SDK breakdown →
+      </a>
     </div>
   </div>
 </section>
@@ -1400,8 +1396,194 @@
       </div>
     </div>
 
+    <div id="examples" class="reveal" style="transition-delay:0.15s;margin-top:60px">
+      <div class="section-label">Examples</div>
+      <h2>Real workflows. Local environment.</h2>
+      <p class="section-desc">End-to-end recipes for services that go beyond a simple API call — no cloud account needed.</p>
+    </div>
+
+    <!-- Example tabs -->
+    <div class="reveal" style="transition-delay:0.1s;margin-top:60px">
+      <div class="code-tabs" id="exampleTabs">
+        <button class="code-tab active" data-tab="eks">EKS + kubectl</button>
+        <button class="code-tab" data-tab="ansible">Ansible → EC2</button>
+        <button class="code-tab" data-tab="ecs">ECS Tasks</button>
+        <button class="code-tab" data-tab="athena">Athena + S3</button>
+      </div>
+
+      <!-- EKS tab -->
+      <div id="tab-eks" class="code-block tabbed" style="font-size:13px;line-height:1.8">
+        <span class="comment"># Set up environment — no --endpoint-url needed after this</span><br>
+        <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span><br>
+export <span class="acc">AWS_DEFAULT_REGION</span>=<span class="str">us-east-1</span><br>
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=<span class="str">test</span><br>
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=<span class="str">test</span></span><br><br>
+        <span class="comment"># 1 — Start Floci (Docker socket required for real k3s clusters)</span><br>
+        <span class="cmd">docker run -d --name floci -p <span class="acc">4566:4566</span> \<br>
+&nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>
+&nbsp;&nbsp;-u root floci/floci:<span class="acc">latest</span></span><br><br>
+        <span class="comment"># 2 — Create an EKS cluster (Floci spins up a real k3s node)</span><br>
+        <span class="cmd">aws eks create-cluster \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--name <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--role-arn arn:aws:iam::<span class="acc">000000000000</span>:role/eks-role \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--resources-vpc-config subnetIds=<span class="str">subnet-00000001</span></span><br><br>
+        <span class="comment"># 3 — Pull kubeconfig (Floci returns a live kubeconfig for the k3s API)</span><br>
+        <span class="cmd">aws eks update-kubeconfig --name <span class="str">dev-cluster</span></span><br><br>
+        <span class="comment"># 4 — Deploy a workload — same kubectl commands as prod</span><br>
+        <span class="cmd">kubectl run nginx --image=<span class="str">nginx:alpine</span> --port=<span class="acc">80</span><br>
+kubectl expose pod nginx --type=NodePort --port=<span class="acc">80</span><br>
+kubectl get pods,svc</span><br><br>
+        <span class="comment"># 5 — Clean up</span><br>
+        <span class="cmd">aws eks delete-cluster --name <span class="str">dev-cluster</span></span>
+      </div>
+
+      <!-- Ansible tab -->
+      <div id="tab-ansible" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <span class="comment"># Set up environment — no --endpoint-url needed after this</span><br>
+        <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span><br>
+export <span class="acc">AWS_DEFAULT_REGION</span>=<span class="str">us-east-1</span><br>
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=<span class="str">test</span><br>
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=<span class="str">test</span></span><br><br>
+        <span class="comment"># 1 — Create a key pair and save it</span><br>
+        <span class="cmd">aws ec2 create-key-pair --key-name <span class="str">floci-key</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'KeyMaterial'</span> --output text > floci-key.pem<br>
+chmod 600 floci-key.pem</span><br><br>
+        <span class="comment"># 2 — Launch an EC2 instance (Floci starts a real Docker container)</span><br>
+        <span class="cmd">INSTANCE_ID=$(aws ec2 run-instances \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--image-id <span class="str">ami-000000000001</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--instance-type <span class="str">t3.micro</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--key-name <span class="str">floci-key</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--user-data <span class="str">'#!/bin/sh\nyum install -y python3'</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'Instances[0].InstanceId'</span> --output text)</span><br><br>
+        <span class="comment"># 3 — Get the container's IP address</span><br>
+        <span class="cmd">IP=$(aws ec2 describe-instances --instance-ids <span class="acc">$INSTANCE_ID</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'Reservations[0].Instances[0].PublicIpAddress'</span> --output text)</span><br><br>
+        <span class="comment"># 4 — Write the Ansible inventory</span><br>
+        <span class="cmd">cat > inventory.yml &lt;&lt;EOF<br>
+all:<br>
+&nbsp;&nbsp;hosts:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;floci-ec2:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ansible_host: <span class="acc">$IP</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ansible_user: <span class="str">ec2-user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ansible_ssh_private_key_file: <span class="str">./floci-key.pem</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ansible_ssh_extra_args: <span class="str">'-o StrictHostKeyChecking=no'</span><br>
+EOF</span><br><br>
+        <span class="comment"># 5 — Run the playbook</span><br>
+        <span class="cmd">ansible-playbook -i inventory.yml playbook.yml</span><br><br>
+        <span class="comment"># playbook.yml</span><br>
+        <span class="cmd">- name: <span class="str">Configure Floci EC2</span><br>
+&nbsp;&nbsp;hosts: all<br>
+&nbsp;&nbsp;become: true<br>
+&nbsp;&nbsp;tasks:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: <span class="str">Install nginx</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;package: { name: <span class="acc">nginx</span>, state: present }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: <span class="str">Start nginx</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;service: { name: <span class="acc">nginx</span>, state: started, enabled: true }</span>
+      </div>
+
+      <!-- ECS tab -->
+      <div id="tab-ecs" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <span class="comment"># Set up environment — no --endpoint-url needed after this</span><br>
+        <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span><br>
+export <span class="acc">AWS_DEFAULT_REGION</span>=<span class="str">us-east-1</span><br>
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=<span class="str">test</span><br>
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=<span class="str">test</span></span><br><br>
+        <span class="comment"># 1 — Register a task definition</span><br>
+        <span class="cmd">aws ecs register-task-definition \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--family <span class="str">web-task</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--network-mode <span class="str">bridge</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--container-definitions <span class="str">'[{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name":"web",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"image":"nginx:alpine",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"portMappings":[{"containerPort":80,"hostPort":8081}],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"memory":128,"cpu":64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}]'</span><br><br>
+        <span class="comment"># 2 — Create a cluster</span><br>
+        <span class="cmd">aws ecs create-cluster --cluster-name <span class="str">dev-cluster</span></span><br><br>
+        <span class="comment"># 3 — Run a standalone task (Floci launches a real Docker container)</span><br>
+        <span class="cmd">TASK_ARN=$(aws ecs run-task \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--cluster <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--task-definition <span class="str">web-task</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--count 1 \<br>
+&nbsp;&nbsp;--query <span class="str">'tasks[0].taskArn'</span> --output text)</span><br><br>
+        <span class="comment"># 4 — Check task status</span><br>
+        <span class="cmd">aws ecs describe-tasks \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--cluster <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--tasks <span class="acc">$TASK_ARN</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'tasks[0].{status:lastStatus,ip:containers[0].networkInterfaces[0].privateIpv4Address}'</span></span><br><br>
+        <span class="comment"># 5 — Create a long-running service (Floci keeps the container running)</span><br>
+        <span class="cmd">aws ecs create-service \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--cluster <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--service-name <span class="str">web-service</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--task-definition <span class="str">web-task</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--desired-count <span class="acc">2</span></span><br><br>
+        <span class="comment"># 6 — List running tasks in the service</span><br>
+        <span class="cmd">aws ecs list-tasks \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--cluster <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--service-name <span class="str">web-service</span></span>
+      </div>
+
+      <!-- Athena tab -->
+      <div id="tab-athena" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <span class="comment"># Set up environment — no --endpoint-url needed after this</span><br>
+        <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span><br>
+export <span class="acc">AWS_DEFAULT_REGION</span>=<span class="str">us-east-1</span><br>
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=<span class="str">test</span><br>
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=<span class="str">test</span></span><br><br>
+        <span class="comment"># 1 — Upload real data to S3</span><br>
+        <span class="cmd">aws s3 mb s3://<span class="str">analytics-bucket</span><br><br>
+<span class="comment"># Write sample NDJSON — one order per line</span><br>
+cat &gt; orders.json &lt;&lt;EOF<br>
+{"order_id":"1001","customer":"alice","amount":42.50,"status":"shipped"}<br>
+{"order_id":"1002","customer":"bob","amount":18.00,"status":"pending"}<br>
+{"order_id":"1003","customer":"alice","amount":95.00,"status":"shipped"}<br>
+{"order_id":"1004","customer":"carol","amount":7.25,"status":"cancelled"}<br>
+EOF<br><br>
+aws s3 cp orders.json s3://<span class="str">analytics-bucket</span>/orders/orders.json</span><br><br>
+        <span class="comment"># 2 — Register a Glue table pointing at the S3 prefix</span><br>
+        <span class="cmd">aws glue create-database --database-input <span class="str">'{"Name":"shop"}'</span><br><br>
+aws glue create-table \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--database-name <span class="str">shop</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--table-input <span class="str">'{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Name":"orders",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"StorageDescriptor":{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Location":"s3://analytics-bucket/orders/",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"InputFormat":"org.apache.hadoop.mapred.TextInputFormat",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SerdeInfo":{"SerializationLibrary":"org.openx.data.jsonserde.JsonSerDe"},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Columns":[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"Name":"order_id","Type":"string"},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"Name":"customer","Type":"string"},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"Name":"amount","Type":"double"},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"Name":"status","Type":"string"}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}'</span><br><br>
+        <span class="comment"># 3 — Start a real SQL query (runs in the floci-duck DuckDB sidecar)</span><br>
+        <span class="cmd">QUERY_ID=$(aws athena start-query-execution \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--query-string <span class="str">"SELECT customer, SUM(amount) AS total<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM shop.orders<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE status = 'shipped'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY customer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORDER BY total DESC"</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--result-configuration <span class="str">'{"OutputLocation":"s3://analytics-bucket/results/"}'</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'QueryExecutionId'</span> --output text)</span><br><br>
+        <span class="comment"># 4 — Wait for completion and fetch results</span><br>
+        <span class="cmd">aws athena get-query-execution \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--query-execution-id <span class="acc">$QUERY_ID</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'QueryExecution.Status.State'</span><br><br>
+<span class="comment"># Once SUCCEEDED:</span><br>
+aws athena get-query-results \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--query-execution-id <span class="acc">$QUERY_ID</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'ResultSet.Rows[*].Data[*].VarCharValue'</span></span><br><br>
+        <span class="comment"># Expected output — real SQL executed by DuckDB against your S3 file:</span><br>
+        <span class="cmd"><span class="acc">alice  137.50</span><br>
+<span class="acc">bob    18.00</span></span>
+      </div>
+
+    </div>
+
     <!-- CTA Banner -->
-    <div class="mit-banner reveal" style="transition-delay:0.2s">
+    <div class="mit-banner reveal" style="transition-delay:0.3s">
       <div class="mit-badge">MIT License · No Auth Token · Open Source Forever</div>
       <h3>Light, fluffy, and always free.</h3>
       <p>Like <em>cirrocumulus floccus</em> — the cloud formation that gave Floci its name. Small, lightweight, and always there when you need it.</p>
@@ -1485,6 +1667,17 @@ const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 setTheme(saved ? saved === 'light' : prefersLight);
 
 toggle.addEventListener('click', () => setTheme(!html.classList.contains('light')));
+
+// Example tabs
+document.querySelectorAll('#exampleTabs .code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('#exampleTabs .code-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const id = tab.dataset.tab;
+    document.querySelectorAll('[id^="tab-"]').forEach(p => p.style.display = 'none');
+    document.getElementById('tab-' + id).style.display = 'block';
+  });
+});
 
 // GitHub stars
 fetch('https://api.github.com/repos/floci-io/floci')
