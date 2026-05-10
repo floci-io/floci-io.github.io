@@ -528,6 +528,7 @@
     gap: 40px; margin-top: 60px;
   }
   @media(max-width: 768px) { .quickstart-grid { grid-template-columns: 1fr; } }
+  @media(max-width: 768px) { .migration-grid { grid-template-columns: 1fr !important; } }
 
   /* DOCKER SECTION */
   .docker-grid {
@@ -705,6 +706,7 @@
   <div class="nav-links" id="navLinks">
     <a href="#services">Services</a>
     <a href="#azure">Azure</a>
+    <a href="#migrate">Migrate</a>
     <a href="#docker-engines">Parity</a>
     <a href="#performance">Performance</a>
     <a href="#quickstart">Quick Start</a>
@@ -762,7 +764,7 @@
     </g>
   </svg>
 
-  <div class="badge">MIT Licensed · No Auth Token · 41 AWS Services · 1,925 SDK Tests</div>
+  <div class="badge">MIT Licensed · No Auth Token · 45 AWS Services · 1,925 SDK Tests</div>
 
   <h1>
     Local AWS.<br>
@@ -818,7 +820,7 @@
     <span class="marquee-item">Cognito · JWKS</span>
     <span class="marquee-item">ElastiCache · IAM Auth</span>
     <span class="marquee-item">RDS · PostgreSQL + MySQL</span>
-    <span class="marquee-item">API Gateway v1 + v2</span>
+    <span class="marquee-item">API Gateway v1 + v2 · WebSocket</span>
     <span class="marquee-item">Step Functions · ASL</span>
     <span class="marquee-item">CloudFormation · Stacks</span>
     <span class="marquee-item">EventBridge · Rules</span>
@@ -831,6 +833,9 @@
     <span class="marquee-item">ELB v2 · ALB + NLB</span>
     <span class="marquee-item">CodeBuild · Docker Native</span>
     <span class="marquee-item">CodeDeploy · Lambda Shifting</span>
+    <span class="marquee-item">Textract · Document Analysis</span>
+    <span class="marquee-item">Route 53 · DNS</span>
+    <span class="marquee-item">Auto Scaling · Groups</span>
     <!-- duplicate for seamless loop -->
     <span class="marquee-item">S3 · REST XML</span>
     <span class="marquee-item">SQS · FIFO + Standard</span>
@@ -839,7 +844,7 @@
     <span class="marquee-item">Cognito · JWKS</span>
     <span class="marquee-item">ElastiCache · IAM Auth</span>
     <span class="marquee-item">RDS · PostgreSQL + MySQL</span>
-    <span class="marquee-item">API Gateway v1 + v2</span>
+    <span class="marquee-item">API Gateway v1 + v2 · WebSocket</span>
     <span class="marquee-item">Step Functions · ASL</span>
     <span class="marquee-item">CloudFormation · Stacks</span>
     <span class="marquee-item">EventBridge · Rules</span>
@@ -852,6 +857,9 @@
     <span class="marquee-item">ELB v2 · ALB + NLB</span>
     <span class="marquee-item">CodeBuild · Docker Native</span>
     <span class="marquee-item">CodeDeploy · Lambda Shifting</span>
+    <span class="marquee-item">Textract · Document Analysis</span>
+    <span class="marquee-item">Route 53 · DNS</span>
+    <span class="marquee-item">Auto Scaling · Groups</span>
   </div>
 </div>
 
@@ -887,14 +895,84 @@
       </div>
       <div class="card">
         <div class="card-icon teal">☁️</div>
-        <h3>41 AWS services</h3>
-        <p>From S3 to Step Functions to RDS to CodeBuild. Services LocalStack Community doesn't offer — ElastiCache, RDS, API Gateway v2, EKS, ELB v2, CodeBuild, CodeDeploy — all here, free.</p>
+        <h3>45 AWS services</h3>
+        <p>From S3 to Step Functions to RDS to Textract. Services LocalStack Community doesn't offer — ElastiCache, RDS, API Gateway v2 + WebSocket, Route53, Auto Scaling, Textract — all here, free.</p>
       </div>
       <div class="card">
         <div class="card-icon green">🔁</div>
         <h3>Drop-in replacement</h3>
         <p>Same port 4566. Same wire protocols. Same AWS SDK calls. Switch from LocalStack by changing zero lines of application code — just update your endpoint URL.</p>
       </div>
+      <div class="card">
+        <div class="card-icon blue">🔒</div>
+        <h3>Optional TLS / HTTPS</h3>
+        <p>Enable HTTPS with one env var — Floci auto-generates a self-signed certificate at startup. Test TLS-sensitive code paths locally without managing certificates manually.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">🏢</div>
+        <h3>Per-account isolation</h3>
+        <p>Full multi-tenancy support: each AWS account ID gets its own isolated storage. Run multiple environments — dev, staging, test — on a single Floci instance without interference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIGRATE FROM LOCALSTACK -->
+<section id="migrate" style="background:var(--bg2);padding:80px 0">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Migration</div>
+      <h2>Switching from LocalStack? Two-minute migration.</h2>
+      <p class="section-desc">Floci is wire-compatible with LocalStack Community. Change one line in your Docker config — no application code changes required.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;transition-delay:0.1s" class="reveal migration-grid">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Before — LocalStack</div>
+        <div class="code-block" style="margin:0;border-color:rgba(239,68,68,0.2)">
+          <span style="color:var(--text-muted)">image: </span><span style="color:#ef4444;text-decoration:line-through">localstack/localstack</span><br>
+          <span style="color:var(--text-muted)">ports:<br>&nbsp;&nbsp;- "4566:4566"<br>environment:<br>&nbsp;&nbsp;LOCALSTACK_HOST: localstack<br>&nbsp;&nbsp;PERSISTENCE: "1"</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">After — Floci</div>
+        <div class="code-block" style="margin:0;border-color:rgba(255,224,130,0.25)">
+          <span style="color:var(--text-muted)">image: </span><span class="acc">floci/floci:latest</span><br>
+          <span style="color:var(--text-muted)">ports:<br>&nbsp;&nbsp;- "4566:4566"<br>environment:<br>&nbsp;&nbsp;</span><span class="comment"># LocalStack vars auto-translated ✓</span><br>
+          <span style="color:var(--text-muted)">&nbsp;&nbsp;LOCALSTACK_HOST: floci<br>&nbsp;&nbsp;PERSISTENCE: "1"</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:40px;transition-delay:0.2s" class="reveal">
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)">Port <strong style="color:var(--text)">4566</strong> — unchanged</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)">Credentials <strong style="color:var(--text)">test/test</strong> — unchanged</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)">All <strong style="color:var(--text)">AWS SDK calls</strong> — no code changes</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)"><strong style="color:var(--text)">Init scripts</strong> in <code style="font-size:12px">/etc/localstack/init/</code> — unchanged</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)"><strong style="color:var(--text)">LocalStack env vars</strong> auto-translated</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--green);font-size:16px;flex-shrink:0">✓</span>
+        <span style="font-size:14px;color:var(--text-muted)"><strong style="color:var(--text)">/_localstack/health</strong> endpoint — unchanged</span>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;text-align:center;transition-delay:0.3s" class="reveal">
+      <a href="https://floci.io/floci/getting-started/migrate-from-localstack/" class="btn-primary" target="_blank">Read the Migration Guide →</a>
     </div>
   </div>
 </section>
@@ -1229,7 +1307,7 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Supported Services</div>
-      <h2>41 AWS services. All of them free.</h2>
+      <h2>45 AWS services. All of them free.</h2>
       <p class="section-desc">Every service is fully unlocked, no paid tier required. Services marked with ★ are exclusive to Floci — not available in LocalStack Community.</p>
     </div>
 
@@ -1240,7 +1318,7 @@
       <div class="service-item"><div class="service-dot"></div><span class="service-name">DynamoDB + Streams</span><span class="service-proto">JSON 1.1</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">Lambda</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">API Gateway REST</span><span class="service-proto">REST JSON</span></div>
-      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2); border-radius:0"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2); border-radius:0"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">HTTP + WebSocket</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (68+ ops)</span></div>
       <div class="service-item"><div class="service-dot"></div><span class="service-name">STS</span><span class="service-proto">Query (7 ops)</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
@@ -1271,6 +1349,10 @@
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
       <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Auto Scaling ★</span><span class="service-proto">Query</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">AWS Backup ★</span><span class="service-proto">REST JSON</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Route 53 ★</span><span class="service-proto">REST XML</span></div>
+      <div class="service-item" style="border: 1px solid rgba(255,224,130,0.2)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Textract ★</span><span class="service-proto">REST JSON</span></div>
     </div>
     <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Services not available in LocalStack Community Edition</p>
   </div>
@@ -1348,7 +1430,7 @@
     <div class="reveal">
       <div class="section-label">Quick Start</div>
       <h2>Up and running in 30 seconds.</h2>
-      <p class="section-desc">One Docker command. All 41 services on port 4566. No configuration required.</p>
+      <p class="section-desc">One Docker command. All 45 services on port 4566. No configuration required.</p>
     </div>
 
     <div class="quickstart-grid reveal" style="transition-delay:0.1s">
