@@ -1,0 +1,717 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const sectionLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#performance', label: 'Performance' },
+  { href: '#quickstart', label: 'Quick Start' },
+  { href: '#examples', label: 'Examples' },
+];
+---
+
+<Layout
+  title="floci-gcp — Local GCP Emulator"
+  description="floci-gcp is a fast, free, open-source GCP emulator. Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, and Managed Kafka. No GCP account, no auth token, MIT licensed."
+  canonical="https://floci.io/gcp/"
+  ogImage="https://floci.io/og/gcp.png"
+>
+  <Nav active="gcp" githubUrl="https://github.com/floci-io/floci-gcp" docsUrl="https://github.com/floci-io/floci-gcp" sectionLinks={sectionLinks} />
+
+
+  <!-- HERO -->
+  <section class="hero" id="main-content">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+
+    <div class="gcp-icon-wrap">
+      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci-gcp GCP" role="img">
+        <g style="isolation:isolate"><g style="isolation:isolate">
+          <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+          <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+          <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+          <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+        </g></g>
+        <g>
+          <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+          <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+          <ellipse class="floci-dot gcp" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+          <ellipse class="floci-dot gcp" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+        </g>
+      </svg>
+    </div>
+
+    <h1>Local GCP.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
+    <p class="hero-sub">Fast, free, open-source GCP emulator built with Quarkus Native. No GCP project, no billing account, no auth token.</p>
+
+    <div class="hero-actions">
+      <a href="#quickstart" class="btn-primary">Get Started →</a>
+      <a href="https://github.com/floci-io/floci-gcp" class="btn-ghost" target="_blank">★ View on GitHub</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number">4588</span><div class="stat-label">Default port</div><div class="stat-sub">all services, one port</div></div>
+      <div class="stat-item"><span class="stat-number">7</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
+      <div class="stat-item"><span class="stat-number">186</span><div class="stat-label">SDK compat tests</div><div class="stat-sub">Java · Python · Node.js · Go</div></div>
+      <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
+    </div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">floci-gcp — GCP Services</div>
+        <h2>7 GCP services. All of them free.</h2>
+        <p class="section-desc">No project ID, no service account, no billing account. Every service fully unlocked.</p>
+      </div>
+      <div class="services-grid reveal" style="transition-delay:0.1s">
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Storage</span><span class="service-proto">REST JSON / XML</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Pub/Sub</span><span class="service-proto">gRPC</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Firestore</span><span class="service-proto">gRPC</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Datastore</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Secret Manager</span><span class="service-proto">gRPC</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Managed Kafka</span><span class="service-proto">REST JSON · Redpanda</span></div>
+        <div class="service-item" style="opacity:0.6"><div class="service-dot wip"></div><span class="service-name">Cloud Tasks ⏳</span><span class="service-proto">REST JSON</span></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:14px">⏳ In progress — available in an upcoming release</p>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section id="performance" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Performance</div>
+        <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
+        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 7 services on one port.</p>
+      </div>
+      <div class="perf-stats reveal" style="transition-delay:0.1s">
+        <div class="perf-stat">
+          <div class="perf-num">24ms</div>
+          <div class="perf-label">Startup time</div>
+          <div class="perf-sub">Quarkus Native binary</div>
+        </div>
+        <div class="perf-stat">
+          <div class="perf-num">1</div>
+          <div class="perf-label">Docker image</div>
+          <div class="perf-sub">All services in a single container</div>
+        </div>
+        <div class="perf-stat">
+          <div class="perf-num">4588</div>
+          <div class="perf-label">Primary port</div>
+          <div class="perf-sub">All REST and gRPC services</div>
+        </div>
+        <div class="perf-stat">
+          <div class="perf-num">~13 MiB</div>
+          <div class="perf-label">Idle memory</div>
+          <div class="perf-sub">Quarkus Native, minimal footprint</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK START -->
+  <section id="quickstart">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Quick Start</div>
+        <h2>Cloud Storage in seconds.</h2>
+        <p class="section-desc">No GCP account, no service account JSON. Just Docker and <code style="font-size:14px;color:var(--accent)">gcloud</code>.</p>
+      </div>
+
+      <!-- method tabs -->
+      <div class="qs-method-tabs reveal" id="qsMethodTabs" style="transition-delay:0.05s">
+        <button class="qs-method-tab" data-qs="cli">floci CLI <span class="qs-soon-badge">SOON</span></button>
+        <button class="qs-method-tab active" data-qs="docker">Docker</button>
+      </div>
+
+      <!-- floci CLI panel -->
+      <div id="qspanel-cli" class="qs-panel reveal" style="transition-delay:0.1s;display:none">
+        <div class="cli-coming-soon">
+          <div class="cli-coming-icon">🚧</div>
+          <div class="cli-coming-title">floci CLI support for GCP — coming soon</div>
+          <p class="cli-coming-desc">The <code>floci gcp</code> command is in progress. Once released, you'll be able to start, stop, and manage floci-gcp the same way as <code>floci start</code> and <code>floci az start</code>.</p>
+          <div class="code-block" style="max-width:480px;font-size:13px;text-align:left;margin-top:20px"><pre
+><span class="comment"># Coming soon</span>
+<span class="cmd">floci gcp start
+eval $(floci gcp env)
+gcloud storage buckets create gs://<span class="str">my-bucket</span></span></pre></div>
+          <a href="https://github.com/floci-io/floci-cli" target="_blank" style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);text-decoration:none;font-family:var(--mono)">★ Follow progress on GitHub ↗</a>
+        </div>
+      </div>
+
+      <!-- Docker panel -->
+      <div id="qspanel-docker" class="qs-panel reveal" style="transition-delay:0.1s">
+        <div class="qs-grid">
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker run</h3>
+            <div class="code-block"><pre
+><span class="cmd">docker run --rm -p <span class="acc">4588:4588</span> \
+  floci/floci-gcp:<span class="acc">latest</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Set env vars</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=\
+  http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Create a bucket</span>
+<span class="cmd">gcloud storage buckets create gs://<span class="str">my-bucket</span></span>
+
+<span class="comment"># Write a file and upload it</span>
+<span class="cmd">echo <span class="str">"No billing alert? Must be floci. ☁️"</span> \
+  &gt; hello-floci.txt
+gcloud storage cp hello-floci.txt \
+  gs://<span class="str">my-bucket</span>/hello-floci.txt</span>
+
+<span class="comment"># Download it back and read it</span>
+<span class="cmd">gcloud storage cp \
+  gs://<span class="str">my-bucket</span>/hello-floci.txt \
+  hello-back.txt
+cat hello-back.txt</span></pre></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">services:
+  floci-gcp:
+    image: floci/floci-gcp:<span class="acc">latest</span>
+    ports:
+      - <span class="str">"4588:4588"</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Python SDK</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># pip install google-cloud-storage</span>
+<span class="cmd">import os
+from google.cloud import storage
+
+os.environ[<span class="str">"STORAGE_EMULATOR_HOST"</span>] = \
+  <span class="str">"http://localhost:4588"</span>
+
+client = storage.Client(project=<span class="str">"floci-local"</span>)
+bucket = client.create_bucket(<span class="str">"my-bucket"</span>)
+blob = bucket.blob(<span class="str">"hello-floci.txt"</span>)
+blob.upload_from_string(
+  <span class="str">"No billing alert? Must be floci. ☁️"</span>
+)</span></pre></div>
+
+            <div class="qs-outcome" style="margin-top:28px">
+              <span class="outcome-dot"></span>
+              <span>Cloud Storage on <span style="color:var(--accent)">:4588</span>. Buckets · Objects · Multipart · Resumable · Copy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section id="examples" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Examples</div>
+        <h2>Real code. Local environment.</h2>
+        <p class="section-desc">Point your existing GCP client libraries at localhost:4588. No code changes beyond the endpoint.</p>
+      </div>
+
+      <div class="ex-tabs reveal" id="exTabs" style="transition-delay:0.05s">
+        <button class="ex-tab active" data-ex="storage">Cloud Storage</button>
+        <button class="ex-tab" data-ex="pubsub">Pub/Sub</button>
+        <button class="ex-tab" data-ex="firestore">Firestore</button>
+        <button class="ex-tab" data-ex="secrets">Secret Manager</button>
+      </div>
+
+      <!-- Cloud Storage -->
+      <div id="expanel-storage" class="ex-panel active reveal" style="transition-delay:0.1s">
+        <div>
+          <div class="ex-label">Python — google-cloud-storage</div>
+          <div class="code-block"><pre
+><span class="comment"># pip install google-cloud-storage</span>
+<span class="cmd">import os
+from google.cloud import storage
+
+os.environ[<span class="str">"STORAGE_EMULATOR_HOST"</span>] = <span class="str">"http://localhost:4588"</span>
+client = storage.Client(project=<span class="str">"floci-local"</span>)
+
+<span class="comment"># create a bucket and upload a file</span>
+bucket = client.create_bucket(<span class="str">"my-bucket"</span>)
+blob = bucket.blob(<span class="str">"data/hello.txt"</span>)
+blob.upload_from_string(<span class="str">"hello from floci-gcp!"</span>)
+
+<span class="comment"># list objects in the bucket</span>
+for b in client.list_blobs(<span class="str">"my-bucket"</span>):
+    print(b.name, b.size)
+
+<span class="comment"># download and read back</span>
+print(blob.download_as_text())</span></pre></div>
+        </div>
+        <div>
+          <div class="ex-label">gcloud CLI</div>
+          <div class="code-block"><pre
+><span class="comment"># set endpoint override</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=\
+  http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+
+<span class="comment"># create a bucket</span>
+gcloud storage buckets create gs://<span class="str">my-bucket</span>
+
+<span class="comment"># upload a file</span>
+echo <span class="str">"hello from floci-gcp!"</span> &gt; hello.txt
+gcloud storage cp hello.txt gs://<span class="str">my-bucket</span>/hello.txt
+
+<span class="comment"># list objects</span>
+gcloud storage ls gs://<span class="str">my-bucket</span>
+
+<span class="comment"># download it back</span>
+gcloud storage cp gs://<span class="str">my-bucket</span>/hello.txt -</span></pre></div>
+        </div>
+      </div>
+
+      <!-- Pub/Sub -->
+      <div id="expanel-pubsub" class="ex-panel reveal" style="transition-delay:0.1s">
+        <div>
+          <div class="ex-label">Python — google-cloud-pubsub</div>
+          <div class="code-block"><pre
+><span class="comment"># pip install google-cloud-pubsub</span>
+<span class="cmd">import os
+from google.cloud import pubsub_v1
+
+os.environ[<span class="str">"PUBSUB_EMULATOR_HOST"</span>] = <span class="str">"localhost:4588"</span>
+project = <span class="str">"floci-local"</span>
+
+publisher = pubsub_v1.PublisherClient()
+subscriber = pubsub_v1.SubscriberClient()
+
+<span class="comment"># create topic and subscription</span>
+topic = publisher.topic_path(project, <span class="str">"my-topic"</span>)
+publisher.create_topic(request=&#123;<span class="str">"name"</span>: topic&#125;)
+
+sub = subscriber.subscription_path(project, <span class="str">"my-sub"</span>)
+subscriber.create_subscription(
+    request=&#123;<span class="str">"name"</span>: sub, <span class="str">"topic"</span>: topic&#125;
+)
+
+<span class="comment"># publish a message</span>
+future = publisher.publish(topic, b<span class="str">"hello from floci-gcp!"</span>)
+print(<span class="str">"Published: "</span> + str(future.result()))
+
+<span class="comment"># pull and acknowledge</span>
+resp = subscriber.pull(
+    request=&#123;<span class="str">"subscription"</span>: sub, <span class="str">"max_messages"</span>: 1&#125;
+)
+for msg in resp.received_messages:
+    print(msg.message.data.decode())
+    subscriber.acknowledge(
+        request=&#123;<span class="str">"subscription"</span>: sub,
+                 <span class="str">"ack_ids"</span>: [msg.ack_id]&#125;
+    )</span></pre></div>
+        </div>
+        <div>
+          <div class="ex-label">Node.js — @google-cloud/pubsub</div>
+          <div class="code-block"><pre
+><span class="comment">// npm install @google-cloud/pubsub</span>
+<span class="cmd">process.env.PUBSUB_EMULATOR_HOST = <span class="str">'localhost:4588'</span>;
+const &#123; PubSub &#125; = require(<span class="str">'@google-cloud/pubsub'</span>);
+const pubsub = new PubSub(&#123; projectId: <span class="str">'floci-local'</span> &#125;);
+
+async function run() &#123;
+  const [topic] = await pubsub
+    .createTopic(<span class="str">'my-topic'</span>);
+  const [sub] = await topic
+    .createSubscription(<span class="str">'my-sub'</span>);
+
+  <span class="comment">// publish a message</span>
+  const msgId = await topic.publishMessage(&#123;
+    data: Buffer.from(<span class="str">'hello from floci-gcp!'</span>),
+  &#125;);
+  console.log(<span class="str">'Published: '</span> + msgId);
+
+  <span class="comment">// receive one message</span>
+  sub.on(<span class="str">'message'</span>, msg =&gt; &#123;
+    console.log(msg.data.toString());
+    msg.ack();
+    sub.removeAllListeners();
+  &#125;);
+&#125;
+run();</span></pre></div>
+        </div>
+      </div>
+
+      <!-- Firestore -->
+      <div id="expanel-firestore" class="ex-panel reveal" style="transition-delay:0.1s">
+        <div>
+          <div class="ex-label">Python — google-cloud-firestore</div>
+          <div class="code-block"><pre
+><span class="comment"># pip install google-cloud-firestore</span>
+<span class="cmd">import os
+from google.cloud import firestore
+
+os.environ[<span class="str">"FIRESTORE_EMULATOR_HOST"</span>] = <span class="str">"localhost:4588"</span>
+db = firestore.Client(project=<span class="str">"floci-local"</span>)
+
+<span class="comment"># write a document</span>
+ref = db.collection(<span class="str">"users"</span>).document(<span class="str">"alice"</span>)
+ref.set(&#123;<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"score"</span>: 42&#125;)
+
+<span class="comment"># read it back</span>
+doc = ref.get()
+print(doc.to_dict())
+
+<span class="comment"># query with a filter</span>
+for doc in (
+    db.collection(<span class="str">"users"</span>)
+      .where(<span class="str">"score"</span>, <span class="str">"&gt;="</span>, 40)
+      .stream()
+):
+    print(doc.id, doc.to_dict())</span></pre></div>
+        </div>
+        <div>
+          <div class="ex-label">Node.js — @google-cloud/firestore</div>
+          <div class="code-block"><pre
+><span class="comment">// npm install @google-cloud/firestore</span>
+<span class="cmd">process.env.FIRESTORE_EMULATOR_HOST = <span class="str">'localhost:4588'</span>;
+const &#123; Firestore &#125; = require(<span class="str">'@google-cloud/firestore'</span>);
+const db = new Firestore(&#123; projectId: <span class="str">'floci-local'</span> &#125;);
+
+async function run() &#123;
+  <span class="comment">// write a document</span>
+  const ref = db.collection(<span class="str">'users'</span>).doc(<span class="str">'alice'</span>);
+  await ref.set(&#123;
+    name: <span class="str">'Alice'</span>, score: 42, active: true
+  &#125;);
+
+  <span class="comment">// read it back</span>
+  const doc = await ref.get();
+  console.log(doc.data());
+
+  <span class="comment">// query with a filter</span>
+  const snap = await db.collection(<span class="str">'users'</span>)
+    .where(<span class="str">'score'</span>, <span class="str">'&gt;='</span>, 40).get();
+  snap.forEach(d =&gt; console.log(d.id, d.data()));
+&#125;
+run();</span></pre></div>
+        </div>
+      </div>
+
+      <!-- Secret Manager -->
+      <div id="expanel-secrets" class="ex-panel reveal" style="transition-delay:0.1s">
+        <div>
+          <div class="ex-label">Python — google-cloud-secret-manager</div>
+          <div class="code-block"><pre
+><span class="comment"># pip install google-cloud-secret-manager</span>
+<span class="cmd">import os
+from google.cloud import secretmanager
+
+os.environ[<span class="str">"SECRETMANAGER_EMULATOR_HOST"</span>] = \
+    <span class="str">"localhost:4588"</span>
+client = secretmanager.SecretManagerServiceClient()
+parent = <span class="str">"projects/floci-local"</span>
+
+<span class="comment"># create a secret</span>
+secret = client.create_secret(request=&#123;
+    <span class="str">"parent"</span>: parent,
+    <span class="str">"secret_id"</span>: <span class="str">"db-password"</span>,
+    <span class="str">"secret"</span>: &#123;<span class="str">"replication"</span>: &#123;<span class="str">"automatic"</span>: &#123;&#125;&#125;&#125;,
+&#125;)
+
+<span class="comment"># store the value</span>
+client.add_secret_version(request=&#123;
+    <span class="str">"parent"</span>: secret.name,
+    <span class="str">"payload"</span>: &#123;<span class="str">"data"</span>: b<span class="str">"super-secret-value"</span>&#125;,
+&#125;)
+
+<span class="comment"># read the latest version</span>
+version = secret.name + <span class="str">"/versions/latest"</span>
+resp = client.access_secret_version(request=&#123;<span class="str">"name"</span>: version&#125;)
+print(resp.payload.data.decode())</span></pre></div>
+        </div>
+        <div>
+          <div class="ex-label">gcloud CLI</div>
+          <div class="code-block"><pre
+><span class="comment"># set project</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+
+<span class="comment"># create a secret</span>
+gcloud secrets create db-password \
+  --replication-policy automatic
+
+<span class="comment"># store the value</span>
+echo -n <span class="str">"super-secret-value"</span> | \
+  gcloud secrets versions add db-password \
+  --data-file=-
+
+<span class="comment"># read the latest version</span>
+gcloud secrets versions access latest \
+  --secret db-password</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY floci-gcp -->
+  <section style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label">Why floci-gcp</div>
+      <h2>GCP emulation, done <span style="color:var(--accent)">right</span></h2>
+      <p class="section-desc">The same design philosophy as floci and floci-az: native speed, zero friction, real compatibility.</p>
+
+      <div class="compare-grid" style="margin-top:48px">
+        <div class="compare-card highlight reveal">
+          <div class="compare-title gcp">floci-gcp</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Free, MIT licensed, always</div>
+          <div class="compare-row"><span class="dot dot-green"></span>No GCP project or service account</div>
+          <div class="compare-row"><span class="dot dot-green"></span>No auth token or API key</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Native binary, fast cold start</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Single Docker image, single port</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Real Cloud Function runtimes</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Works offline, CI-friendly</div>
+        </div>
+        <div class="compare-card reveal" style="transition-delay:0.1s">
+          <div class="compare-title other">Typical GCP emulator</div>
+          <div class="compare-row"><span class="dot dot-yellow"></span>Mixed licenses, free tier has limits</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Often requires a GCP project ID</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Service account JSON required</div>
+          <div class="compare-row"><span class="dot dot-red"></span>JVM startup, slow in CI</div>
+          <div class="compare-row"><span class="dot dot-yellow"></span>Multiple processes, ports, config</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Simulated functions, not real</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Internet access required for some ops</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTIFY CTA -->
+  <section style="background:var(--bg2)">
+    <div class="container">
+      <div class="notify-box reveal">
+        <div style="font-size:40px;margin-bottom:16px">🚀</div>
+        <h3>Cloud Tasks is coming next</h3>
+        <p>Seven services are live today. Cloud Tasks is in progress. Star the repo to follow along and open an issue if there's a service your team needs.</p>
+        <div class="notify-actions">
+          <a href="https://github.com/floci-io/floci-gcp" target="_blank" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Star on GitHub
+          </a>
+          <a href="/" class="btn-ghost">See other emulators →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUITE CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h3>Already need a cloud emulator?</h3>
+        <p>floci (AWS) and floci-az (Azure) are stable and production-ready for local development today.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="/aws/" class="btn-primary" style="background:#cc7a00">Try floci for AWS →</a>
+          <a href="/az/" class="btn-ghost">Try floci-az for Azure →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="/">← All Products</a>
+      <a href="https://github.com/floci-io" target="_blank">GitHub</a>
+      <a href="/aws/">floci (AWS)</a>
+      <a href="/az/">floci-az (Azure)</a>
+      <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
+      <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
+    </div>
+  </Footer>
+
+</Layout>
+
+<style>
+  /* GCP-specific CSS vars */
+  :root {
+    --bar-track: rgba(255,255,255,0.05); --row-hover: rgba(255,255,255,0.02);
+    --accent-glow: rgba(85,89,167,0.25);
+  }
+  html.light {
+    --row-hover: rgba(0,0,0,0.02);
+    --accent-glow: rgba(85,89,167,0.15);
+  }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 100px; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(57,73,171,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(57,73,171,0.08) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+  .hero-glow { position: absolute; width: 800px; height: 400px; background: radial-gradient(ellipse at center, rgba(85,89,167,0.14), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(122,127,214,0.1); border: 1px solid rgba(122,127,214,0.28); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero h1 .accent { color: #34A853; }
+  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* HERO STATS */
+  .hero-stats { display: flex; gap: 0; margin-top: 56px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeUp 0.6s 0.4s ease both; max-width: 680px; width: 100%; }
+  .stat-item { flex: 1; padding: 22px 24px; border-right: 1px solid var(--border); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  @media (max-width: 580px) { .hero-stats { flex-wrap: wrap; } .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); } .stat-item:nth-child(odd) { border-right: 1px solid var(--border); } .stat-item:last-child { border-bottom: none; } }
+
+  /* GCP ICON */
+  .gcp-icon-wrap { animation: fadeUp 0.6s 0.05s ease both; margin-bottom: 28px; }
+  .hero-logo-svg { height: 72px; width: auto; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 32px rgba(52,168,83,0.35)); }
+  .hero-logo-svg .floci-text, .hero-logo-svg .floci-cloud { fill: #F8FAFC; }
+  html.light .hero-logo-svg .floci-text { fill: #262425; }
+  html.light .hero-logo-svg .floci-cloud { fill: #151515; }
+  .hero-logo-svg .floci-dot.gcp { fill: #34A853; }
+
+  /* COMING SOON BADGE */
+  .cs-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(251,188,4,0.1); border: 1px solid rgba(251,188,4,0.3); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-family: var(--mono); color: #fbbc04; font-weight: 700; letter-spacing: 1px; }
+
+  /* TIMELINE */
+
+  /* QUICK START */
+  .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
+  .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; display: inline-flex; align-items: center; gap: 7px; }
+  .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .qs-method-tab:hover:not(.active) { color: var(--text); }
+  .qs-soon-badge { font-size: 9px; background: var(--indigo); color: #c5cae9; padding: 1px 5px; border-radius: 3px; font-weight: 700; letter-spacing: .06em; vertical-align: middle; }
+  .qs-panel { margin-top: 36px; }
+  .qs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 768px) { .qs-grid { grid-template-columns: 1fr; } }
+  .cli-coming-soon { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 48px 24px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); max-width: 560px; }
+  .cli-coming-icon { font-size: 36px; margin-bottom: 16px; }
+  .cli-coming-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .cli-coming-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; max-width: 420px; }
+  .cli-coming-desc code { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+  .qs-wrap { max-width: 680px; margin-top: 0; }
+  .qs-wrap .code-block { border-radius: 10px 10px 0 0; border-bottom: none; margin: 0; }
+  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-wrap: break-word; word-break: break-all; }
+  .code-block pre { margin: 0; font: inherit; color: inherit; white-space: pre-wrap; background: none; border: none; }
+  .code-block .cmd { color: var(--text); }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .acc { color: var(--accent); }
+  .code-block .str { color: #a5d6a7; }
+  .qs-outcome {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: rgba(52,168,83,0.06); border: 1px solid rgba(52,168,83,0.2);
+    border-top: none; border-radius: 0 0 10px 10px;
+    font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+  }
+  .outcome-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--green); box-shadow: 0 0 6px rgba(52,168,83,0.5); animation: pulse 2s ease-in-out infinite; }
+
+  /* SERVICE CARDS */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
+  .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
+  .service-item:hover { background: var(--bg3); }
+  .service-dot { width: 7px; height: 7px; border-radius: 50%; background: #34A853; flex-shrink: 0; }
+  .service-dot.wip { background: #fbbc04; }
+  .service-dot.planned { background: var(--text-dim); }
+  .service-name { font-size: 13px; font-weight: 500; }
+  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+  .svc-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+  .svc-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .svc-features { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .svc-tag { font-size: 11px; font-family: var(--mono); color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; }
+  .svc-soon { font-size: 11px; font-family: var(--mono); color: #fbbc04; background: rgba(251,188,4,0.08); border: 1px solid rgba(251,188,4,0.2); border-radius: 4px; padding: 2px 7px; }
+
+  /* NOTIFY / CTA */
+  .notify-box { background: var(--bg2); border: 1px solid var(--border-bright); border-radius: 16px; padding: 48px; text-align: center; max-width: 600px; margin: 0 auto; }
+  .notify-box h3 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .notify-box p { color: var(--text-muted); font-size: 16px; margin-bottom: 28px; }
+  .notify-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* COMPARISON */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  @media (max-width: 680px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; }
+  .compare-card.highlight { border-color: rgba(52,168,83,0.4); }
+  .compare-title { font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+  .compare-title.gcp { color: var(--accent); }
+  .compare-title.other { color: var(--text-dim); }
+  .compare-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-yellow { background: #fbbc04; }
+
+  /* PERFORMANCE */
+  .perf-stats { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:40px; }
+  .perf-stat { background:var(--bg2); padding:28px 24px; }
+  .perf-num { font-family:var(--mono); font-size:32px; font-weight:700; color:var(--accent); margin-bottom:8px; }
+  .perf-label { font-size:14px; font-weight:600; margin-bottom:4px; }
+  .perf-sub { font-size:13px; color:var(--text-muted); }
+
+  /* EXAMPLES */
+  .ex-tabs { display:flex; gap:4px; margin-top:40px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .ex-tab { padding:10px 22px; font-size:13px; font-family:var(--mono); color:var(--text-muted); background:transparent; border:none; border-bottom:2px solid transparent; cursor:pointer; transition:color 0.15s, border-color 0.15s; margin-bottom:-1px; }
+  .ex-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .ex-tab:hover:not(.active) { color:var(--text); }
+  .ex-panel { display:none; margin-top:32px; }
+  .ex-panel.active { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  @media (max-width:768px) { .ex-panel.active { grid-template-columns:1fr; } }
+  .ex-label { font-size:12px; color:var(--text-muted); font-weight:500; margin-bottom:10px; font-family:var(--mono); letter-spacing:.04em; }
+
+  /* CTA BANNER */
+  .cta-banner { background: linear-gradient(135deg, rgba(52,168,83,0.12), rgba(30,126,52,0.08)); border: 1px solid rgba(52,168,83,0.25); border-radius: 16px; padding: 56px 48px; text-align: center; }
+  .cta-banner h3 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+  .cta-banner p { font-size: 18px; color: var(--text-muted); max-width: 520px; margin: 0 auto 32px; }
+
+  /* FOOTER */
+  footer { padding: 40px 2rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .footer-links a { color: var(--text-muted); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+
+</style>
+
+
+<script>
+const burger = document.getElementById('navBurger');
+const navLinks = document.getElementById('navLinks');
+if (burger && navLinks) {
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+}
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('.qs-panel').forEach(function(p) { p.style.display = 'none'; });
+    const panel = document.getElementById('qspanel-' + tab.dataset.qs);
+    if (panel) panel.style.display = 'block';
+  });
+});
+
+
+document.querySelectorAll('#exTabs .ex-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#exTabs .ex-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('.ex-panel').forEach(function(p) { p.classList.remove('active'); });
+    const panel = document.getElementById('expanel-' + tab.dataset.ex);
+    if (panel) panel.classList.add('active');
+  });
+});
+
+fetch('https://api.github.com/repos/floci-io/floci-gcp').then(r => r.json()).then(data => {
+  const count = data.stargazers_count;
+  if (!count) return;
+  const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
+  const nav = document.getElementById('ghNavStars');
+  if (nav) nav.textContent = ' · ' + fmt;
+}).catch(() => {});
+</script>

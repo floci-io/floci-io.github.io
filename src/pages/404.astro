@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="404 — Page Not Found · floci"
+  description="The page you're looking for doesn't exist. Head back to floci and pick your cloud."
+  canonical="https://floci.io/404/"
+>
+  <Nav active="home" githubUrl="https://github.com/floci-io" docsUrl="https://github.com/floci-io" />
+
+  <section class="not-found">
+    <div class="container">
+      <div class="nf-glyph">404</div>
+      <div class="section-label">Nothing here</div>
+      <h1>Page not found.</h1>
+      <p class="nf-sub">The URL you followed doesn't exist — it may have moved or never existed. Pick a cloud and carry on.</p>
+
+      <div class="nf-cards">
+        <a href="/aws/" class="nf-card aws">
+          <img src="/floci_aws.svg" width="64" height="45" alt="floci AWS" />
+          <div class="nf-card-name">floci</div>
+          <div class="nf-card-desc">47 AWS services</div>
+        </a>
+        <a href="/az/" class="nf-card az">
+          <img src="/floci_az.svg" width="64" height="45" alt="floci Azure" />
+          <div class="nf-card-name">floci-az</div>
+          <div class="nf-card-desc">8 Azure services</div>
+        </a>
+        <a href="/gcp/" class="nf-card gcp">
+          <img src="/floci_gcp.svg" width="64" height="45" alt="floci GCP" />
+          <div class="nf-card-name">floci-gcp</div>
+          <div class="nf-card-desc">Cloud Storage + more</div>
+        </a>
+      </div>
+
+      <a href="/" class="btn-ghost" style="margin-top:40px">← Back to home</a>
+    </div>
+  </section>
+
+  <Footer variant="main" />
+</Layout>
+
+<style>
+  .not-found {
+    min-height: calc(100vh - 60px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 2rem;
+    text-align: center;
+  }
+  .container { display: flex; flex-direction: column; align-items: center; }
+  .nf-glyph {
+    font-family: var(--mono); font-size: clamp(80px, 16vw, 140px); font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--border-bright);
+    letter-spacing: -4px; line-height: 1; margin-bottom: 24px;
+    user-select: none;
+  }
+  h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+  .nf-sub { color: var(--text-muted); font-size: 17px; max-width: 480px; line-height: 1.65; margin-bottom: 48px; }
+
+  .nf-cards { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .nf-card {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    padding: 28px 32px; border-radius: 14px; border: 1px solid var(--border);
+    background: var(--bg2); text-decoration: none; color: var(--text);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    min-width: 140px;
+  }
+  .nf-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+  .nf-card.aws:hover { border-color: rgba(255,153,0,0.4); }
+  .nf-card.az:hover  { border-color: rgba(0,120,212,0.4); }
+  .nf-card.gcp:hover { border-color: rgba(52,168,83,0.4); }
+  .nf-card-name { font-family: var(--mono); font-size: 16px; font-weight: 700; }
+  .nf-card-desc { font-size: 12px; color: var(--text-muted); font-family: var(--mono); }
+</style>

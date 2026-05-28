@@ -1,0 +1,7 @@
+---
+export const prerender = true;
+const dest = 'https://github.com/floci-io/floci-gcp#readme';
+---
+<meta http-equiv="refresh" content={`0;url=${dest}`}>
+<link rel="canonical" href={dest}>
+<script define:vars={{ dest }}>window.location.replace(dest)</script>

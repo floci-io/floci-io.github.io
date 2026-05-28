@@ -1,0 +1,168 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const labs = (await getCollection('labs', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const cloudColor: Record<string, string> = {
+  aws:   '#FF9900',
+  azure: '#0078D4',
+  gcp:   '#34A853',
+  all:   '#7A7FD6',
+};
+const cloudLabel: Record<string, string> = {
+  aws:   'AWS',
+  azure: 'Azure',
+  gcp:   'GCP',
+  all:   'Multi-cloud',
+};
+const difficultyColor: Record<string, string> = {
+  beginner:     'rgba(52,168,83,0.85)',
+  intermediate: '#7A7FD6',
+  advanced:     '#ef4444',
+};
+---
+
+<Layout
+  title="101 Labs — floci"
+  description="Hands-on labs for learning AWS, Azure, and GCP emulation with floci. No cloud account needed."
+  canonical="https://floci.io/labs/"
+>
+  <Nav active="labs" />
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">Hands-on</div>
+      <h1>101 Labs</h1>
+      <p class="hero-sub">Step-by-step guides for AWS, Azure, and GCP that run entirely on your laptop. No account needed.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      {labs.length === 0 ? (
+        <p class="empty">No labs yet. Check back soon.</p>
+      ) : (
+        <div class="card-grid">
+          {labs.map(lab => (
+            <a href={`/labs/${lab.slug}/`} class="lab-card" style={`--cloud-color: ${cloudColor[lab.data.cloud]}`}>
+              <div class="lab-badges">
+                <span class="cloud-badge" style={`background: ${cloudColor[lab.data.cloud]}22; color: ${cloudColor[lab.data.cloud]}`}>
+                  {cloudLabel[lab.data.cloud]}
+                </span>
+                <span class="diff-badge" style={`color: ${difficultyColor[lab.data.difficulty]}`}>
+                  {lab.data.difficulty}
+                </span>
+                <span class="dur-badge">⏱ {lab.data.duration}</span>
+              </div>
+              <h2>{lab.data.title}</h2>
+              <p>{lab.data.description}</p>
+              {lab.data.tags.length > 0 && (
+                <div class="tag-row">
+                  {lab.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+              <span class="card-cta">Start lab →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer variant="sub" />
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 140px 2rem 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-hero h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 520px;
+  }
+  .content-section { padding: 80px 2rem 120px; }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .lab-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 32px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .lab-card:hover {
+    border-color: var(--cloud-color);
+    transform: translateY(-2px);
+  }
+  .lab-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cloud-badge, .diff-badge, .dur-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .diff-badge {
+    background: transparent;
+    text-transform: capitalize;
+  }
+  .dur-badge {
+    color: var(--text-dim);
+  }
+  .lab-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+  }
+  .lab-card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 4px;
+  }
+  .card-cta {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cloud-color);
+    margin-top: 4px;
+  }
+  .empty {
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+</style>

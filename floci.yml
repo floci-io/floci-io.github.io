@@ -1,0 +1,37 @@
+floci:
+  provider: azure
+
+  # dashboard: not yet available — coming in a future Floci release
+
+  endpoint:
+    url: http://localhost:4566
+
+  services:
+    s3:
+      enabled: true
+    sqs:
+      enabled: true
+    lambda:
+      enabled: false
+    dynamodb:
+      enabled: true
+    ecs:
+      enabled: false
+    rds:
+      enabled: false
+    elasticache:
+      enabled: false
+
+  azure:
+    blobStorage:
+      enabled: true
+    serviceBus:
+      enabled: false
+    cosmosDb:
+      enabled: false
+    functions:
+      enabled: false
+
+  gcp:
+    enabled: false
+    status: coming-soon
