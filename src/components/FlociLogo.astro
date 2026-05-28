@@ -1,0 +1,26 @@
+---
+export interface Props {
+  width?: number;
+  height?: number;
+  suffix?: string;
+}
+
+const { width = 26, height = 19, suffix = '' } = Astro.props;
+const mid = `npm${suffix}`;
+const side = `nps${suffix}`;
+---
+
+<svg width={width} height={height} viewBox="-10 -55 240 170" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id={mid} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#ffe082"/></linearGradient>
+    <linearGradient id={side} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe082"/><stop offset="100%" stop-color="#e6ac00"/></linearGradient>
+  </defs>
+  <g transform="translate(108,54)">
+    <rect x="-108" y="-20" width="216" height="60" rx="30" fill={`url(#${side})`}/>
+    <circle cx="-74" cy="-20" r="40" fill={`url(#${side})`}/>
+    <circle cx="-22" cy="-44" r="52" fill={`url(#${mid})`}/>
+    <circle cx="36" cy="-36" r="46" fill={`url(#${mid})`}/>
+    <circle cx="86" cy="-18" r="34" fill={`url(#${side})`}/>
+    <ellipse cx="8" cy="-30" rx="72" ry="28" fill="#fff8e1" opacity="0.45"/>
+  </g>
+</svg>

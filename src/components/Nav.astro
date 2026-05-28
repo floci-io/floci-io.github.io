@@ -1,0 +1,171 @@
+---
+export interface SectionLink {
+  href: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface Props {
+  active: 'home' | 'aws' | 'az' | 'gcp' | 'blog' | 'labs';
+  githubUrl?: string;
+  docsUrl?: string;
+  sectionLinks?: SectionLink[];
+}
+
+const {
+  active,
+  githubUrl = 'https://github.com/floci-io',
+  docsUrl = 'https://github.com/floci-io/floci#readme',
+  sectionLinks,
+} = Astro.props;
+---
+
+<nav>
+  <a class="nav-logo" href="/">
+    <svg width="26" height="19" viewBox="-10 -55 240 170" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="navpm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#ffe082"/></linearGradient>
+        <linearGradient id="navps" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe082"/><stop offset="100%" stop-color="#e6ac00"/></linearGradient>
+      </defs>
+      <g transform="translate(108,54)">
+        <rect x="-108" y="-20" width="216" height="60" rx="30" fill="url(#navps)"/>
+        <circle cx="-74" cy="-20" r="40" fill="url(#navps)"/>
+        <circle cx="-22" cy="-44" r="52" fill="url(#navpm)"/>
+        <circle cx="36" cy="-36" r="46" fill="url(#navpm)"/>
+        <circle cx="86" cy="-18" r="34" fill="url(#navps)"/>
+        <ellipse cx="8" cy="-30" rx="72" ry="28" fill="#fff8e1" opacity="0.45"/>
+      </g>
+    </svg>
+    floci
+  </a>
+  <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="/" class={active === 'home' ? 'nav-active' : ''} aria-current={active === 'home' ? 'page' : undefined}>Home</a>
+    <div class="nav-sep"></div>
+    <a href="/floci/" class={`aws-link${active === 'aws' ? ' nav-active' : ''}`} aria-current={active === 'aws' ? 'page' : undefined}>AWS</a>
+    <a href="/floci-az/" class={`az-link${active === 'az' ? ' nav-active' : ''}`} aria-current={active === 'az' ? 'page' : undefined}>Azure</a>
+    <a href="/floci-gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
+    <div class="nav-sep"></div>
+    <a href="/blog/" class={active === 'blog' ? 'nav-active' : ''} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a>
+    <a href="/labs/" class={active === 'labs' ? 'nav-active' : ''} aria-current={active === 'labs' ? 'page' : undefined}>Labs</a>
+    {sectionLinks && sectionLinks.length > 0 && (
+      <>
+        <div class="nav-sep"></div>
+        {sectionLinks.map(link => (
+          link.disabled
+            ? <span class="nav-link-disabled">{link.label}</span>
+            : <a href={link.href}>{link.label}</a>
+        ))}
+      </>
+    )}
+    <div class="nav-sep"></div>
+    <a href={githubUrl} target="_blank" rel="noopener noreferrer">★ GitHub<span class="nav-stars" id="ghNavStars"></span></a>
+    <a href={docsUrl} class="nav-cta" target={docsUrl.startsWith('http') ? '_blank' : undefined} rel={docsUrl.startsWith('http') ? 'noopener noreferrer' : undefined}>Docs →</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<style is:global>
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 2rem; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); transition: background 0.25s;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 18px; font-weight: 700;
+    color: var(--accent); text-decoration: none;
+  }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links a { color: var(--text-muted); font-size: 15px; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.aws-link { color: rgba(255,153,0,0.85); }
+  .nav-links a.az-link  { color: rgba(0,120,212,0.85); }
+  .nav-links a.gcp-link { color: rgba(52,168,83,0.85); }
+  html.light .nav-links a.aws-link { color: #cc6600; }
+  html.light .nav-links a.az-link  { color: #0078D4; }
+  html.light .nav-links a.gcp-link { color: #1e7e34; }
+  .nav-links a.aws-link.nav-active { color: #FF9900; font-weight: 600; }
+  .nav-links a.az-link.nav-active  { color: #0078D4; font-weight: 600; }
+  .nav-links a.gcp-link.nav-active { color: #34A853; font-weight: 600; }
+  .nav-sep { width: 1px; height: 18px; background: var(--border-bright); }
+  .nav-link-disabled { color: var(--text-dim); font-size: 15px; cursor: not-allowed; opacity: 0.45; user-select: none; }
+  .nav-stars { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-left: 4px; display: inline-block; min-width: 4.5ch; }
+  .nav-cta {
+    background: var(--accent); color: #1a1d2e !important;
+    padding: 7px 18px; border-radius: 6px; font-size: 13px;
+    font-weight: 700; transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85 !important; }
+  .nav-burger {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: var(--text-muted); border-radius: 2px; transition: all 0.25s; }
+  .theme-toggle {
+    background: none; border: 1px solid var(--border-bright);
+    color: var(--text-muted); cursor: pointer; border-radius: 8px; padding: 6px 10px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle svg { display: block; }
+  @media (max-width: 860px) {
+    .nav-burger { display: flex; }
+    .nav-links {
+      display: none; flex-direction: column; align-items: flex-start;
+      gap: 0; position: fixed; top: 60px; left: 0; right: 0;
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 16px 2rem; z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a, .nav-link-disabled { padding: 10px 0; width: 100%; border-bottom: 1px solid var(--border); font-size: 15px; display: block; }
+    .nav-links a:last-of-type { border-bottom: none; }
+    .nav-sep { display: none; }
+    .nav-cta { margin-top: 8px; text-align: center; width: 100%; }
+    .theme-toggle { margin-top: 8px; }
+  }
+</style>
+
+<script>
+const burger = document.getElementById('navBurger');
+const navLinks = document.getElementById('navLinks');
+if (burger && navLinks) {
+  burger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      navLinks.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.focus();
+    }
+  });
+}
+
+const html = document.documentElement;
+const toggle = document.getElementById('themeToggle');
+const moon = document.getElementById('iconMoon');
+const sun = document.getElementById('iconSun');
+function setTheme(light) {
+  html.classList.toggle('light', light);
+  if (moon) moon.style.display = light ? 'none' : 'block';
+  if (sun) sun.style.display = light ? 'block' : 'none';
+  localStorage.setItem('theme', light ? 'light' : 'dark');
+}
+const saved = localStorage.getItem('theme');
+setTheme(saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches);
+if (toggle) toggle.addEventListener('click', () => setTheme(!html.classList.contains('light')));
+</script>

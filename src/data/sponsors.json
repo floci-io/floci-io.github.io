@@ -1,0 +1,38 @@
+{
+  "tiers": [
+    {
+      "id": "gold",
+      "label": "🥇 Gold",
+      "price": "$500 / mo",
+      "perks": [
+        "Large logo, top placement",
+        "Dedicated support channel",
+        "Input on roadmap priorities",
+        "Custom integration help"
+      ],
+      "sponsors": []
+    },
+    {
+      "id": "silver",
+      "label": "🥈 Silver",
+      "price": "$150 / mo",
+      "perks": [
+        "Logo in README + website",
+        "Priority issue support",
+        "Mention in release notes"
+      ],
+      "sponsors": []
+    },
+    {
+      "id": "community",
+      "label": "🥉 Community",
+      "price": "$25 / mo",
+      "perks": [
+        "Name in README",
+        "Sponsor badge on GitHub",
+        "Our sincere thanks"
+      ],
+      "sponsors": []
+    }
+  ]
+}

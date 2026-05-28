@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://floci.io/sitemap-index.xml

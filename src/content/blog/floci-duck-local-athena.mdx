@@ -1,0 +1,172 @@
+---
+title: Real AWS Athena Queries, Locally — floci + floci-duck
+description: floci emulates AWS Athena with real DuckDB-powered SQL execution. Use boto3 or the AWS CLI against localhost:4566 — no AWS account, no per-query charges.
+pubDate: 2026-05-20
+tags: [floci-duck, athena, duckdb, s3, glue]
+---
+
+AWS Athena is one of the most useful services in the analytics stack: point it at an S3 bucket, register a schema in Glue, write a SQL query — and get results back without provisioning a single server. The catch is it costs $5 per TB scanned, and every iteration of your ETL or pipeline logic burns real money.
+
+**floci** eliminates that cost entirely. It emulates the full Athena + Glue + S3 stack locally, and the SQL is executed for real — by DuckDB, via [floci-duck](https://github.com/floci-io/floci-duck), a lightweight Rust sidecar that floci manages automatically.
+
+## The Architecture
+
+You don't call floci-duck directly. The sidecar is an internal implementation detail:
+
+```
+Your code (boto3 / AWS CLI / @aws-sdk/client-athena)
+    │
+    ▼
+floci  :4566   ← standard AWS API surface
+    │   StartQueryExecution / GetQueryResults / Glue DDL
+    ▼
+floci-duck     ← DuckDB executor, started automatically on first query
+    │
+    ▼
+S3 (also on :4566)   ← data in, results out
+```
+
+On the first `StartQueryExecution` call, floci pulls `floci/floci-duck:latest` and starts the container. Subsequent queries reuse it. From your code's perspective, you're just talking to Athena.
+
+## Setup
+
+All you need is floci running with access to the Docker socket:
+
+```yaml
+# docker-compose.yml
+services:
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+
+```bash
+docker-compose up -d
+export AWS_ENDPOINT_URL=http://localhost:4566
+export AWS_ACCESS_KEY_ID=flociadmin
+export AWS_SECRET_ACCESS_KEY=flociadmin
+export AWS_DEFAULT_REGION=us-east-1
+```
+
+## Uploading Data and Registering the Schema
+
+Create a bucket, upload your data, then register the table in Glue — exactly as you would against real AWS:
+
+```bash
+# S3
+aws s3 mb s3://my-data-lake
+echo 'id,region,amount
+1,us-east,99.50
+2,eu-west,87.00
+3,us-east,210.00' | aws s3 cp - s3://my-data-lake/sales/data.csv
+
+# Glue database
+aws glue create-database --database-input '{"Name":"analytics"}'
+
+# Glue table — points to the S3 prefix, CSV format
+aws glue create-table \
+  --database-name analytics \
+  --table-input '{
+    "Name": "sales",
+    "StorageDescriptor": {
+      "Location": "s3://my-data-lake/sales/",
+      "InputFormat": "org.apache.hadoop.mapred.TextInputFormat",
+      "SerdeInfo": { "SerializationLibrary": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe" },
+      "Columns": [
+        {"Name":"id",     "Type":"int"},
+        {"Name":"region", "Type":"string"},
+        {"Name":"amount", "Type":"double"}
+      ]
+    }
+  }'
+```
+
+## Running a Query with boto3
+
+With the schema registered, use the Athena client exactly as you would against real AWS — only the endpoint URL changes:
+
+```python
+import boto3, time
+
+session = boto3.Session(
+    aws_access_key_id='flociadmin',
+    aws_secret_access_key='flociadmin',
+    region_name='us-east-1',
+)
+athena = session.client('athena', endpoint_url='http://localhost:4566')
+
+# 1 — start query
+resp = athena.start_query_execution(
+    QueryString='SELECT region, SUM(amount) AS total FROM sales GROUP BY region ORDER BY total DESC',
+    QueryExecutionContext={'Database': 'analytics'},
+    ResultConfiguration={'OutputLocation': 's3://my-data-lake/results/'},
+)
+qid = resp['QueryExecutionId']
+
+# 2 — poll until done
+while True:
+    status = athena.get_query_execution(QueryExecutionId=qid)
+    state = status['QueryExecution']['Status']['State']
+    if state == 'SUCCEEDED':
+        break
+    if state in ('FAILED', 'CANCELLED'):
+        raise RuntimeError(f"Query {state}")
+    time.sleep(0.5)
+
+# 3 — fetch results
+results = athena.get_query_results(QueryExecutionId=qid)
+for row in results['ResultSet']['Rows']:
+    print([col.get('VarCharValue', '') for col in row['Data']])
+```
+
+Output:
+
+```
+['region', 'total']
+['us-east', '309.5']
+['eu-west', '87.0']
+```
+
+## The Same Query via AWS CLI
+
+```bash
+aws s3 mb s3://my-results
+
+QUERY_ID=$(aws athena start-query-execution \
+  --query-string "SELECT region, SUM(amount) AS total FROM sales GROUP BY region" \
+  --query-execution-context Database=analytics \
+  --result-configuration OutputLocation=s3://my-results/output/ \
+  --query 'QueryExecutionId' --output text)
+
+# Poll
+while true; do
+  STATE=$(aws athena get-query-execution \
+    --query-execution-id "$QUERY_ID" \
+    --query 'QueryExecution.Status.State' --output text)
+  [ "$STATE" = "SUCCEEDED" ] && break
+  [ "$STATE" = "FAILED"    ] && echo "Query failed" && exit 1
+  sleep 1
+done
+
+aws athena get-query-results --query-execution-id "$QUERY_ID"
+```
+
+## What floci-duck Actually Does
+
+When `StartQueryExecution` arrives, floci:
+
+1. Reads every Glue table in the target database
+2. Generates `CREATE OR REPLACE VIEW` statements that map each table to its S3 location via DuckDB's `read_csv_auto`, `read_parquet`, or `read_json_auto` — chosen based on the Glue `InputFormat` / SerDe
+3. Sends the wrapped SQL to floci-duck as a `COPY (…) TO 's3://…' FORMAT CSV` statement
+4. Writes results to the output S3 path
+
+`GetQueryResults` reads that CSV back and returns it in the standard Athena `ResultSet` shape. The whole round-trip is transparent — your SDK code never knows DuckDB is involved.
+
+## Parquet Works Too
+
+Register the table with a Parquet SerDe and floci-duck switches to `read_parquet` automatically. Column projection and predicate pushdown apply — only the columns your query touches are read from S3.
+
+For a complete step-by-step walkthrough including Parquet, see the [Athena + S3 — 101 lab](/labs/athena-s3-101/).

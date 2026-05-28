@@ -1,0 +1,686 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const sectionLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#performance', label: 'Performance' },
+  { href: '#quickstart', label: 'Quick Start' },
+  { href: '#sdks', label: 'Examples' },
+];
+---
+
+<Layout
+  title="floci-az — Free Azure Emulator"
+  description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Configuration, Key Vault, Event Hubs, and Service Bus on a single port — no Azure account, MIT licensed."
+  canonical="https://floci.io/floci-az/"
+  ogImage="https://floci.io/og/az.png"
+>
+  <Nav active="az" githubUrl="https://github.com/floci-io/floci-az" docsUrl="https://github.com/floci-io/floci-az#readme" sectionLinks={sectionLinks} />
+
+
+  <!-- HERO -->
+  <section class="hero" id="main-content">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-logo-wrap">
+      <img src="/floci_az.svg" width="120" height="85" alt="floci Azure" />
+    </div>
+
+    <h1>Local Azure.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
+    <p class="hero-sub">
+      floci-az is a fast, free, open-source Azure emulator built with Quarkus Native — no Azure account required.
+    </p>
+    <div class="hero-actions">
+      <a href="#quickstart" class="btn-primary">Get Started →</a>
+      <a href="https://github.com/floci-io/floci-az" class="btn-ghost" target="_blank">★ View on GitHub <span id="ghStarsBtn"></span></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number">4577</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
+      <div class="stat-item"><span class="stat-number">8</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage, Functions, App Config, Key Vault, Messaging</div></div>
+      <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
+      <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Azure account needed</div></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Supported Services</div>
+        <h2>Azure services. All of them free.</h2>
+        <p class="section-desc">Wire-compatible with the official Azure SDKs and Azurite emulator — switch from real Azure with zero application code changes.</p>
+      </div>
+      <div class="services-grid reveal" style="transition-delay:0.1s">
+        <!-- Blob Storage -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">🗄</div>
+            <div><div class="service-card-name">Blob Storage</div><div class="service-card-proto">REST · XML · JSON</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Store and retrieve unstructured binary data — files, images, backups, logs. Full container and blob management via the standard Azure Storage REST API.</p>
+            <ul class="feature-list">
+              <li>Create, list, and delete containers</li>
+              <li>Upload and download block blobs, append blobs</li>
+              <li>Blob metadata and content type management</li>
+              <li>Shared Access Signature (SAS) token support</li>
+              <li>Batch operations and blob copying</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Queue Storage -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">📨</div>
+            <div><div class="service-card-name">Queue Storage</div><div class="service-card-proto">REST · JSON</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Reliable message queuing with FIFO semantics and visibility timeout. Perfect for decoupling components, scheduling background work, and buffering requests.</p>
+            <ul class="feature-list">
+              <li>Create and delete queues</li>
+              <li>Enqueue, dequeue, and peek messages</li>
+              <li>Visibility timeout control</li>
+              <li>Message TTL and dequeue count</li>
+              <li>Batch send and receive</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Table Storage -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">📋</div>
+            <div><div class="service-card-name">Table Storage</div><div class="service-card-proto">OData · REST · JSON</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Schemaless NoSQL key-value store accessed via OData. Store structured data with partition key + row key indexing, supporting rich query filtering.</p>
+            <ul class="feature-list">
+              <li>Create, list, and delete tables</li>
+              <li>Insert, merge, replace, and delete entities</li>
+              <li>OData filter expressions</li>
+              <li>Batch transactions (entity group transactions)</li>
+              <li>Continuation tokens for paging</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Azure Functions -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">⚡</div>
+            <div><div class="service-card-name">Azure Functions</div><div class="service-card-proto">HTTP · Timer · Storage Triggers</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Execute serverless functions locally with the same triggers and bindings as production Azure Functions. HTTP, Timer, Blob Storage, and Queue trigger support.</p>
+            <ul class="feature-list">
+              <li>HTTP trigger with all methods</li>
+              <li>Timer trigger with cron expressions</li>
+              <li>Node.js, Python, Java, and .NET runtimes</li>
+              <li>Blob Storage input and output bindings</li>
+              <li>Queue trigger and output bindings</li>
+            </ul>
+          </div>
+        </div>
+        <!-- App Configuration -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">⚙️</div>
+            <div><div class="service-card-name">App Configuration</div><div class="service-card-proto">REST · Labels · Snapshots</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Centralized key-value store for app settings and feature flags with full label, revision history, snapshot, and lock support.</p>
+            <ul class="feature-list">
+              <li>Key-value CRUD with label filtering</li>
+              <li>Immutable configuration snapshots</li>
+              <li>Revision history and audit trail</li>
+              <li>Read-only locks per key-value</li>
+              <li>Full OData filter on list operations</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Key Vault -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">🔐</div>
+            <div><div class="service-card-name">Key Vault</div><div class="service-card-proto">REST · Secrets · Certificates · Keys</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Secrets, certificates, and cryptographic keys management with versioning, soft-delete recovery, and purge-protection semantics.</p>
+            <ul class="feature-list">
+              <li>Secrets with full version history</li>
+              <li>Certificates and RSA/EC keys management</li>
+              <li>Soft-delete and recovery operations</li>
+              <li>Purge protection support</li>
+              <li>32+ operations matching the Azure SDK</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Event Hubs -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">📡</div>
+            <div><div class="service-card-name">Event Hubs</div><div class="service-card-proto">AMQP · Kafka · REST</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">High-throughput event streaming with AMQP and Kafka protocol support. Consumer groups, partition management, and SAS token authentication.</p>
+            <ul class="feature-list">
+              <li>AMQP on ports 5672 (plain) / 5671 (TLS)</li>
+              <li>Kafka protocol on port 9093</li>
+              <li>Consumer group management</li>
+              <li>Partition-level event routing</li>
+              <li>SAS token and connection string auth</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Service Bus -->
+        <div class="service-card">
+          <div class="service-card-head">
+            <div class="service-card-icon">🚌</div>
+            <div><div class="service-card-name">Service Bus</div><div class="service-card-proto">AMQP · Topics · Queues</div></div>
+          </div>
+          <div class="service-card-body">
+            <p class="service-card-desc">Enterprise messaging with queues, topics, subscriptions, sessions, scheduled delivery, and dead-letter queue support over AMQP.</p>
+            <ul class="feature-list">
+              <li>AMQP on ports 5673 (plain) / 5674 (TLS)</li>
+              <li>Topics with multiple subscriptions</li>
+              <li>Session-based ordered delivery</li>
+              <li>Scheduled message delivery</li>
+              <li>Dead-letter queue and message deferral</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELLING POINTS -->
+  <section>
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Why floci-az</div>
+        <h2>Drop-in. Native speed. No account.</h2>
+        <p class="section-desc">The same native binary approach as floci (AWS) — applied to Azure. MIT licensed, no restrictions.</p>
+      </div>
+      <div class="cards-grid reveal" style="transition-delay:0.1s">
+        <div class="card"><span class="card-num">MIT</span><h3>Free forever, no account</h3><p>MIT licensed. No subscription, no API key, no billing. Pull the Docker image and start using Azure SDKs against localhost immediately.</p></div>
+        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Uses the same Azurite-compatible connection string format. Switch from the real Azure or from Azurite by changing one endpoint URL.</p></div>
+        <div class="card"><span class="card-num">⚡</span><h3>Native binary speed</h3><p>Compiled with GraalVM Mandrel — starts in 24ms, idles at ~13 MiB. Instant startup, minimal memory footprint.</p></div>
+        <div class="card"><span class="card-num">1</span><h3>Single port (mostly)</h3><p>All REST services on port 4577. Event Hubs and Service Bus also expose AMQP ports so native SDK clients connect without any proxy layer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section id="performance">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Performance</div>
+        <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
+        <p class="section-desc">floci-az is built with Quarkus Native — the same stack as floci (AWS). Starts in 24ms, single Docker image, 8 services.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px" class="reveal" style="transition-delay:0.1s">
+        <div style="background:var(--bg2);padding:28px 24px">
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">24ms</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Startup time</div>
+          <div style="font-size:13px;color:var(--text-muted)">Quarkus Native binary</div>
+        </div>
+        <div style="background:var(--bg2);padding:28px 24px">
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">1</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Docker image</div>
+          <div style="font-size:13px;color:var(--text-muted)">All services in a single container</div>
+        </div>
+        <div style="background:var(--bg2);padding:28px 24px">
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4577</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Primary port</div>
+          <div style="font-size:13px;color:var(--text-muted)">All 8 REST services — AMQP ports for Event Hubs &amp; Service Bus</div>
+        </div>
+        <div style="background:var(--bg2);padding:28px 24px">
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">~13 MiB</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Idle memory</div>
+          <div style="font-size:13px;color:var(--text-muted)">Quarkus Native — minimal memory footprint</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICKSTART -->
+  <section id="quickstart" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Quick Start</div>
+        <h2>Up in seconds.</h2>
+        <p class="section-desc">Use the floci CLI for the smoothest experience, or run Docker directly if you prefer bare metal.</p>
+      </div>
+
+      <!-- method tabs -->
+      <div class="qs-method-tabs reveal" id="qsMethodTabs" style="transition-delay:0.05s">
+        <button class="qs-method-tab active" data-qs="cli">floci CLI</button>
+        <button class="qs-method-tab" data-qs="docker">Docker</button>
+      </div>
+
+      <!-- floci CLI panel -->
+      <div id="qspanel-cli" class="qs-panel reveal" style="transition-delay:0.1s">
+        <div class="qs-grid">
+          <div>
+            <h3 style="margin-bottom:10px;font-size:16px;color:var(--text-muted);font-weight:500">1 · Install floci CLI</h3>
+            <div class="code-tabs" id="installTabs">
+              <button class="code-tab active" data-tab="brew">Homebrew</button>
+              <button class="code-tab" data-tab="curl">curl</button>
+              <button class="code-tab" data-tab="ps">PowerShell</button>
+              <button class="code-tab" data-tab="scoop">Scoop</button>
+            </div>
+            <div id="itab-brew" class="code-block tabbed"><pre
+><span class="cmd">brew install <span class="acc">floci-io/floci/floci</span></span></pre></div>
+            <div id="itab-curl" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span></pre></div>
+            <div id="itab-ps" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">iwr <span class="acc">https://floci.io/install.ps1</span> | iex</span></pre></div>
+            <div id="itab-scoop" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">scoop bucket add floci <span class="acc">https://github.com/floci-io/scoop-floci</span>
+scoop install floci</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">2 · Start the emulator</h3>
+            <div class="code-block"><pre
+><span class="cmd">floci az start</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">3 · Export env vars</h3>
+            <div class="code-block"><pre
+><span class="cmd">eval $(floci az env)</span>
+<span class="comment"># exports AZURE_STORAGE_CONNECTION_STRING</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Create a container</span>
+<span class="cmd">az storage container create \
+  --name <span class="str">my-container</span> \
+  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span></span>
+
+<span class="comment"># Write a file and upload it</span>
+<span class="cmd">echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+  &gt; hello-floci.txt
+az storage blob upload \
+  --container-name <span class="str">my-container</span> \
+  --name <span class="str">hello-floci.txt</span> \
+  --file hello-floci.txt \
+  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span></span>
+
+<span class="comment"># Download it back and read it</span>
+<span class="cmd">az storage blob download \
+  --container-name <span class="str">my-container</span> \
+  --name <span class="str">hello-floci.txt</span> \
+  --file hello-back.txt \
+  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span>
+cat hello-back.txt</span></pre></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Check status</span>
+<span class="cmd">floci az status</span>
+
+<span class="comment"># View logs</span>
+<span class="cmd">floci az logs</span>
+
+<span class="comment"># Stop the emulator</span>
+<span class="cmd">floci az stop</span>
+
+<span class="comment"># Print individual SDK endpoint vars</span>
+<span class="cmd">eval $(floci az env --format sdk-vars)</span>
+<span class="comment"># exports AZURE_STORAGE_BLOB_ENDPOINT,</span>
+<span class="comment"># AZURE_APP_CONFIGURATION_ENDPOINT,</span>
+<span class="comment"># AZURE_KEY_VAULT_ENDPOINT, ...</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Start with persistence</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">floci az start --persist <span class="acc">./data</span></span>
+<span class="comment"># state survives container restarts</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Diagnose issues</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">floci az doctor</span>
+<span class="comment"># checks Docker, Azure CLI, connectivity</span></pre></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docker panel -->
+      <div id="qspanel-docker" class="qs-panel reveal" style="transition-delay:0.1s;display:none">
+        <div class="qs-grid">
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
+            <div class="code-block"><pre
+><span class="comment"># REST :4577 · Event Hubs AMQP :5672 · Service Bus AMQP :5673</span>
+<span class="cmd">docker run --rm \
+  -p <span class="acc">4577:4577</span> \
+  -p <span class="acc">5672:5672</span> \
+  -p <span class="acc">5673:5673</span> \
+  floci/floci-az:<span class="acc">latest</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">services:
+  floci-az:
+    image: floci/floci-az:<span class="acc">latest</span>
+    ports:
+      - <span class="str">"4577:4577"</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">az storage container create \
+  --name <span class="str">my-container</span> \
+  --connection-string <span class="acc">$CONN_STR</span>
+echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+  &gt; hello-floci.txt
+az storage blob upload \
+  --container-name <span class="str">my-container</span> \
+  --name <span class="str">hello-floci.txt</span> \
+  --file hello-floci.txt \
+  --connection-string <span class="acc">$CONN_STR</span>
+az storage blob download \
+  --container-name <span class="str">my-container</span> \
+  --name <span class="str">hello-floci.txt</span> \
+  --file hello-back.txt \
+  --connection-string <span class="acc">$CONN_STR</span>
+cat hello-back.txt</span></pre></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Connection string</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Standard Azurite-compatible connection string</span>
+<span class="cmd">DefaultEndpointsProtocol=http;
+AccountName=<span class="acc">devstoreaccount1</span>;
+AccountKey=<span class="acc">Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6I
+  FsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</span>;
+BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;
+QueueEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;
+TableEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Environment variable</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">export <span class="acc">CONN_STR</span>="DefaultEndpointsProtocol=http;\
+AccountName=devstoreaccount1;\
+AccountKey=Eby8vdM02xNOcq...;\
+BlobEndpoint=http://localhost:4577/devstoreaccount1;"</span></pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDK EXAMPLES -->
+  <section id="sdks">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">SDK Examples</div>
+        <h2>Works with every Azure SDK.</h2>
+        <p class="section-desc">Use the standard Azure Storage SDK in any language — just point it at localhost:4577.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s;margin-top:48px">
+        <div class="code-tabs" id="sdkTabs">
+          <button class="code-tab active" data-tab="python">Python</button>
+          <button class="code-tab" data-tab="java">Java</button>
+          <button class="code-tab" data-tab="dotnet">.NET</button>
+          <button class="code-tab" data-tab="js">JavaScript</button>
+        </div>
+
+        <div id="stab-python" class="code-block tabbed" style="font-size:13px;line-height:1.8">
+          <span class="comment"># pip install azure-storage-blob</span><br>
+          <span class="cmd">from azure.storage.blob import BlobServiceClient<br><br>
+conn = (<br>
+&nbsp;&nbsp;"DefaultEndpointsProtocol=http;"<br>
+&nbsp;&nbsp;"AccountName=devstoreaccount1;"<br>
+&nbsp;&nbsp;"AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
+&nbsp;&nbsp;"BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;"<br>
+)<br><br>
+client = BlobServiceClient.from_connection_string(conn)<br>
+container = client.create_container(<span class="str">"my-container"</span>)<br><br>
+blob = client.get_blob_client(<span class="str">"my-container"</span>, <span class="str">"hello.txt"</span>)<br>
+blob.upload_blob(<span class="str">b"Hello from floci-az!"</span>)</span>
+        </div>
+
+        <div id="stab-java" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment">// azure-storage-blob:12.x</span><br>
+          <span class="cmd">String conn = "DefaultEndpointsProtocol=http;"<br>
+&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
+&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
+&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
+BlobServiceClient client = new BlobServiceClientBuilder()<br>
+&nbsp;&nbsp;.connectionString(conn)<br>
+&nbsp;&nbsp;.buildClient();<br><br>
+BlobContainerClient container = client.createBlobContainer(<span class="str">"my-container"</span>);<br>
+BlobClient blob = container.getBlobClient(<span class="str">"hello.txt"</span>);<br>
+blob.upload(BinaryData.fromString(<span class="str">"Hello from floci-az!"</span>));</span>
+        </div>
+
+        <div id="stab-dotnet" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment">// Azure.Storage.Blobs NuGet package</span><br>
+          <span class="cmd">string conn = "DefaultEndpointsProtocol=http;"<br>
+&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
+&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
+&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
+var client = new BlobServiceClient(conn);<br>
+var container = client.GetBlobContainerClient(<span class="str">"my-container"</span>);<br>
+await container.CreateIfNotExistsAsync();<br><br>
+var blob = container.GetBlobClient(<span class="str">"hello.txt"</span>);<br>
+await blob.UploadAsync(<span class="str">"Hello from floci-az!"</span>);</span>
+        </div>
+
+        <div id="stab-js" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment">// npm install @azure/storage-blob</span><br>
+          <span class="cmd">import { "{"} BlobServiceClient {"}"} from <span class="str">"@azure/storage-blob"</span>;<br><br>
+const conn = "DefaultEndpointsProtocol=http;"<br>
+&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
+&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
+&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
+const client = BlobServiceClient.fromConnectionString(conn);<br>
+const container = client.getContainerClient(<span class="str">"my-container"</span>);<br>
+await container.createIfNotExists();<br><br>
+const blob = container.getBlockBlobClient(<span class="str">"hello.txt"</span>);<br>
+await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
+        </div>
+      </div>
+
+      <!-- Connection reference table -->
+      <div class="reveal" style="margin-top:48px;transition-delay:0.15s">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Default credentials</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:0">The following fixed credentials match Azurite's defaults — all Azure SDK tooling expects these values for local development.</p>
+        <div class="conn-wrap" style="margin-top:20px">
+          <table class="conn-table">
+            <thead><tr><th>Property</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Account Name</td><td><code>devstoreaccount1</code></td></tr>
+              <tr><td>Account Key</td><td><code>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6I...</code></td></tr>
+              <tr><td>Blob endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
+              <tr><td>Queue endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
+              <tr><td>Table endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
+              <tr><td>Event Hubs AMQP</td><td><code>amqp://localhost:5672</code></td></tr>
+              <tr><td>Service Bus AMQP</td><td><code>amqp://localhost:5673</code></td></tr>
+              <tr><td>Event Hubs Kafka</td><td><code>localhost:9093</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background:var(--bg2)">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h3>Free. Fast. Always available.</h3>
+        <p>MIT licensed and built for developer workflows. No Azure account, no subscription, no credit card. Just a Docker image and localhost.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="https://github.com/floci-io/floci-az" class="btn-primary" target="_blank">View on GitHub →</a>
+          <a href="/floci/" class="btn-ghost">Also need AWS? Try floci →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="/">← All Products</a>
+      <a href="https://github.com/floci-io/floci-az" target="_blank">GitHub</a>
+      <a href="/floci/">floci (AWS)</a>
+      <a href="/floci-gcp/">floci-gcp (GCP)</a>
+      <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
+      <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
+    </div>
+  </Footer>
+
+</Layout>
+
+<style>
+  /* Azure-specific CSS vars */
+  :root {
+    --accent: #0078D4; --accent-bright: #40b4e0; --accent-dim: rgba(0,120,212,0.1);
+    --accent-glow: rgba(0,120,212,0.2);
+    --bar-track: rgba(255,255,255,0.05); --row-hover: rgba(255,255,255,0.02);
+  }
+  html.light {
+    --accent: #0078D4; --accent-bright: #106EBE; --accent-dim: rgba(0,120,212,0.08);
+    --accent-glow: rgba(0,120,212,0.12);
+    --row-hover: rgba(0,0,0,0.02);
+  }
+  /* Override nav-logo color to always gold */
+  .nav-logo { color: #ffe082 !important; }
+  .footer-logo { color: #ffe082 !important; }
+  /* Override nav-cta for azure accent */
+  .nav-cta { background: var(--accent) !important; color: #fff !important; }
+  /* Override btn-primary for azure */
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-bright); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,120,215,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,120,215,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+  .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(0,120,215,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,120,212,0.08); border: 1px solid rgba(0,120,212,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero h1 .accent { color: var(--accent); }
+  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* HERO STATS */
+  .hero-stats { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeUp 0.6s 0.4s ease both; max-width: 720px; width: 100%; }
+  .stat-item { flex: 1; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--bg2); transition: background 0.2s; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--bg3); }
+  @media (max-width: 580px) { .hero-stats { flex-wrap: wrap; } .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); padding: 18px 20px; } .stat-item:nth-child(odd) { border-right: 1px solid var(--border); } .stat-item:last-child { border-bottom: none; } }
+  .stat-number { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+  /* MARQUEE */
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 20px; }
+  .hero-logo-wrap img { animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(0,120,215,0.35)); }
+
+  /* SERVICE CARDS */
+  .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
+  @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+  .service-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .service-card:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+  .service-card-head { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; background: rgba(0,120,215,0.05); }
+  .service-card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,120,212,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .service-card-name { font-size: 18px; font-weight: 700; }
+  .service-card-proto { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .service-card-body { padding: 20px 24px 24px; }
+  .service-card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 16px; }
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .feature-list li { font-size: 13px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 10px; }
+  .feature-list li::before { content: '✓'; color: var(--accent); font-family: var(--mono); font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+
+  /* CODE */
+  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-x: auto; }
+  .code-block pre { margin: 0; padding: 0; font: inherit; color: inherit; white-space: pre; background: none; border: none; overflow: visible; line-height: inherit; }
+  .code-block .cmd { color: var(--text); }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .acc { color: var(--accent); }
+  .code-block .str { color: #a5d6a7; }
+  .code-tabs { display: flex; gap: 2px; border: 1px solid var(--border); border-bottom: none; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--bg3); }
+  .code-tab { padding: 10px 18px; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: var(--mono); border: none; background: transparent; transition: all 0.15s; }
+  .code-tab.active { background: var(--bg2); color: var(--text); }
+  .code-block.tabbed { border-radius: 0 0 10px 10px; }
+  .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
+  .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
+  .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .qs-method-tab:hover:not(.active) { color: var(--text); }
+  .qs-panel { margin-top: 36px; }
+  .qs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 768px) { .qs-grid { grid-template-columns: 1fr; } }
+
+  /* SELLING POINTS */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 56px; }
+  .card { background: var(--bg2); padding: 32px 28px; transition: background 0.2s; }
+  .card:hover { background: var(--bg3); }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+  .card-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 12px; }
+
+  /* CONNECTION TABLE */
+  .conn-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 36px; }
+  .conn-table th { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; background: var(--bg2); }
+  .conn-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 13px; }
+  .conn-table td:first-child { color: var(--text); font-weight: 500; }
+  .conn-table td code { font-family: var(--mono); font-size: 12px; background: var(--bg3); padding: 2px 6px; border-radius: 3px; color: var(--accent); }
+  .conn-table tr:last-child td { border-bottom: none; }
+  .conn-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
+  /* CTA BANNER */
+  .cta-banner { background: rgba(0,120,212,0.05); border: 1px solid rgba(0,120,212,0.18); border-radius: 12px; padding: 40px; text-align: center; margin-top: 60px; }
+  .cta-banner h3 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+  .cta-banner p { color: var(--text-muted); font-size: 16px; max-width: 480px; margin: 0 auto 24px; }
+
+  @media (max-width: 480px) { .hero { padding: 120px 1.5rem 60px; } section { padding: 80px 1.5rem; } }
+
+</style>
+
+<script>
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+
+document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('.qs-panel').forEach(function(p) { p.style.display = 'none'; });
+    const panel = document.getElementById('qspanel-' + tab.dataset.qs);
+    if (panel) panel.style.display = 'block';
+  });
+});
+
+document.querySelectorAll('#installTabs .code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#installTabs .code-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('[id^="itab-"]').forEach(function(p) { p.style.display = 'none'; });
+    const target = document.getElementById('itab-' + tab.getAttribute('data-tab'));
+    if (target) target.style.display = 'block';
+  });
+});
+
+document.querySelectorAll('#sdkTabs .code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#sdkTabs .code-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('[id^="stab-"]').forEach(function(p) { p.style.display = 'none'; });
+    const target = document.getElementById('stab-' + tab.dataset.tab);
+    if (target) target.style.display = 'block';
+  });
+});
+
+fetch('https://api.github.com/repos/floci-io/floci-az').then(r => r.json()).then(data => {
+  const count = data.stargazers_count;
+  if (!count) return;
+  const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
+  const nav = document.getElementById('ghNavStars');
+  if (nav) nav.textContent = ' · ' + fmt;
+  const btn = document.getElementById('ghStarsBtn');
+  if (btn) btn.textContent = ' · ' + fmt;
+}).catch(() => {});
+</script>

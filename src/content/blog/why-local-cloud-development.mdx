@@ -1,0 +1,105 @@
+---
+title: Why Local Cloud Development Matters
+description: Cloud bills, flaky staging environments, and slow CI pipelines are killing developer productivity. Here's the case for running your cloud stack locally.
+pubDate: 2026-05-19
+tags: [devex, cloud, productivity]
+---
+
+Picture this: you change three lines in a Lambda handler, push to your branch, and wait. CI provisions an S3 bucket, deploys the function, runs the test suite, tears it down. Four minutes later you find out you forgot a return statement.
+
+You fix it, push again. Four more minutes.
+
+This is the development loop most cloud engineers accept as normal. It isn't.
+
+## The Hidden Cost of Cloud-First Development
+
+Cloud services are priced for production workloads — not for the hundreds of throwaway API calls you make during a single afternoon of development.
+
+Consider a typical day for a developer building a data pipeline:
+
+- **S3**: hundreds of PutObject / GetObject calls during local testing
+- **Athena**: 20–30 queries while iterating on SQL — at $5 per TB scanned, even small files add up across a team
+- **Lambda**: dozens of invocations per test run, each with a cold start penalty
+- **SQS / SNS**: event fan-out tests that trigger cascading invocations
+
+Multiply that by five developers, times 250 working days. The bill is real, but the bigger cost is invisible: **the feedback loop**.
+
+Every round-trip through real infrastructure adds latency to the developer loop. Latency means less iteration. Less iteration means slower debugging, shallower testing, and more bugs that only surface in production.
+
+## Staging Environments Don't Solve This
+
+The classic answer is a shared staging environment. It helps — until it doesn't.
+
+**Shared state breaks isolation.** One developer's test run leaves orphaned S3 objects or DynamoDB records that corrupt the next developer's test. Debugging becomes archaeology: whose change caused this?
+
+**Shared environments serialize work.** Two engineers can't safely run destructive tests at the same time. "I'm using staging right now" is a thing people actually say.
+
+**Staging drifts from production.** Environment-specific configuration, stale IAM policies, and manually-applied hotfixes accumulate over time. Tests pass on staging and fail on prod for reasons that take hours to trace.
+
+**Staging still costs money.** A shared environment running 24/7 burns budget whether anyone is using it or not.
+
+## Mocking Is Lying to Yourself
+
+The other common answer is to mock AWS SDK calls in your tests. Mock S3, mock SQS, mock DynamoDB.
+
+This works for unit tests that are isolated by design. It fails everywhere else.
+
+Mocks don't catch encoding bugs in your S3 key names. They don't catch the SQS message visibility timeout you set wrong. They don't catch the Athena query that's syntactically valid but semantically wrong because you're referencing a column that doesn't exist in your Glue schema. They validate the shape of your code, not its behavior.
+
+The worst part: mocks give you confidence. Green tests make you feel like the code works. Then you deploy and find out the mock was lying.
+
+## The Local Cloud Alternative
+
+Running your cloud stack locally changes the feedback loop entirely.
+
+With floci, `docker-compose up` gives you S3, Lambda, SQS, DynamoDB, Athena, and 40+ other AWS services on your laptop in under a second. Your existing SDK code — boto3, the AWS CLI, `@aws-sdk/client-s3`, Terraform — works without modification. Change the endpoint from `https://s3.amazonaws.com` to `http://localhost:4566` and you're done.
+
+The gains compound across every part of the workflow:
+
+### Speed
+
+floci starts in **24 milliseconds**. A cold Lambda invocation that takes 800ms on real AWS completes in the same 800ms locally — but you don't wait 3 minutes for CI to provision the infrastructure before it runs.
+
+For Athena specifically, there's no queue. `StartQueryExecution` goes straight to DuckDB. A query that takes 8 seconds on real Athena (because it's waiting in a fleet) takes 80ms locally.
+
+### Cost
+
+Your local environment costs nothing per API call. Run 10,000 S3 PUT requests during a test suite. Query the same Athena table 50 times while you tune a SQL aggregation. None of it shows up on a bill.
+
+### Isolation
+
+Every developer gets their own cloud. No shared buckets, no shared queues, no "did someone leave data in that table?" Each `docker-compose up` is a clean slate. Each PR in CI gets a completely isolated environment that's destroyed when the run finishes.
+
+### Onboarding
+
+A new engineer should be able to clone the repo and run the test suite without an AWS account, an IAM role, or a Slack message asking someone to grant access. With local cloud tooling, they can. `docker-compose up`, `pytest`, done.
+
+### Offline Work
+
+Planes. Conferences. Hotel Wi-Fi that can't reach AWS. None of it matters. Your entire cloud stack is on your laptop.
+
+## What Changes in Practice
+
+The shift isn't just faster tests. It changes how you write code.
+
+When the feedback loop is 4 minutes, you batch your changes. You think carefully before pushing because you can't afford to waste another cycle. You skip edge cases because testing them is expensive.
+
+When the feedback loop is 4 seconds, you explore. You test the weird input. You add one more assertion. You refactor the thing that was bothering you because the cost of being wrong just dropped to nothing.
+
+This is the difference between a team that ships confidently and a team that ships carefully — and confidently is faster.
+
+## The Objection
+
+> "We use Terraform and our staging environment is fairly reliable. Why change?"
+
+Because reliable is not the same as fast, isolated, or free. A reliable staging environment is better than an unreliable one, but it still serializes work, still accumulates drift, and still costs money.
+
+Local cloud doesn't replace staging. It shifts what staging is for: staging becomes the last check before production, not the place where you do development. That's the right boundary.
+
+## Where to Start
+
+If your stack is AWS-heavy, drop `floci/floci:latest` into your `docker-compose.yml` and point your SDK at `localhost:4566`. For Azure, `floci/floci-az:latest` covers Blob, Queue, Functions, Key Vault, and more. For GCP, `floci/floci-gcp:latest` covers Cloud Storage, Pub/Sub, and Firestore.
+
+All three are MIT licensed. No auth token. No usage limits. No account.
+
+The fastest feedback loop is the one on your own machine.

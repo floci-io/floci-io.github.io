@@ -1,0 +1,538 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const sectionLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#quickstart', label: 'Quick Start' },
+  { href: '#performance', label: 'Performance', disabled: true },
+  { href: '#examples', label: 'Examples', disabled: true },
+];
+---
+
+<Layout
+  title="floci-gcp — Local GCP Emulator"
+  description="floci-gcp is a fast, free, open-source GCP emulator. Cloud Storage available now. Pub/Sub, Firestore, Datastore coming next — no GCP account, no auth token, MIT licensed."
+  canonical="https://floci.io/floci-gcp/"
+  ogImage="https://floci.io/og/gcp.png"
+>
+  <Nav active="gcp" githubUrl="https://github.com/floci-io/floci-gcp" docsUrl="https://github.com/floci-io/floci-gcp" sectionLinks={sectionLinks} />
+
+
+  <!-- HERO -->
+  <section class="hero" id="main-content">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+
+    <div class="gcp-icon-wrap">
+      <img src="/floci_gcp.svg" width="120" height="85" alt="floci GCP" />
+    </div>
+
+    <h1>Local GCP.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
+    <p class="hero-sub">Fast, free, open-source GCP emulator built with Quarkus Native — no GCP project, no billing account, no auth token.</p>
+
+    <div class="hero-actions">
+      <a href="#quickstart" class="btn-primary">Get Started →</a>
+      <a href="https://github.com/floci-io/floci-gcp" class="btn-ghost" target="_blank">★ View on GitHub</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number">4588</span><div class="stat-label">Default port</div><div class="stat-sub">all services, one port</div></div>
+      <div class="stat-item"><span class="stat-number">1</span><div class="stat-label">Service live</div><div class="stat-sub">Cloud Storage (GCS)</div></div>
+      <div class="stat-item"><span class="stat-number">5+</span><div class="stat-label">Services coming</div><div class="stat-sub">Pub/Sub · Firestore · more</div></div>
+      <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
+    </div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="section-label">Services</div>
+      <h2>What's in <span style="color:var(--accent)">floci-gcp</span></h2>
+      <p class="section-desc">All the GCP services you need for local development — no project ID, no service account, no billing account.</p>
+
+      <div class="svc-grid reveal" style="margin-top:48px">
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon storage">☁️</div>
+            <span class="svc-status live">LIVE</span>
+          </div>
+          <div class="svc-name">Cloud Storage</div>
+          <div class="svc-desc">GCS-compatible bucket and object storage. Full REST JSON + XML APIs, drop-in replacement for GCS client libraries.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Buckets</span>
+            <span class="svc-tag">Objects</span>
+            <span class="svc-tag">Multipart</span>
+            <span class="svc-tag">Resumable upload</span>
+            <span class="svc-tag">Copy</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon pubsub">📨</div>
+            <span class="svc-status wip">IN PROGRESS</span>
+          </div>
+          <div class="svc-name">Pub/Sub</div>
+          <div class="svc-desc">gRPC-based topics and subscriptions with push/pull delivery. Full message ordering and acknowledgement.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Topics</span>
+            <span class="svc-tag">Subscriptions</span>
+            <span class="svc-tag">Push</span>
+            <span class="svc-tag">Pull</span>
+            <span class="svc-tag">Acknowledge</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon fire">🔥</div>
+            <span class="svc-status wip">IN PROGRESS</span>
+          </div>
+          <div class="svc-name">Firestore</div>
+          <div class="svc-desc">gRPC document database with queries, transactions, and sub-collections via the standard Firestore SDK.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Documents</span>
+            <span class="svc-tag">Collections</span>
+            <span class="svc-tag">Queries</span>
+            <span class="svc-tag">Transactions</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon ds">🗃️</div>
+            <span class="svc-status planned">PLANNED</span>
+          </div>
+          <div class="svc-name">Datastore</div>
+          <div class="svc-desc">REST JSON entity storage with filters and queries — compatible with the Datastore-mode Firestore client.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Entities</span>
+            <span class="svc-tag">Queries</span>
+            <span class="svc-tag">Filters</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon sm">🔐</div>
+            <span class="svc-status planned">PLANNED</span>
+          </div>
+          <div class="svc-name">Secret Manager</div>
+          <div class="svc-desc">gRPC secret storage with versioning — create, access, and delete secrets just like production.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Secrets</span>
+            <span class="svc-tag">Versions</span>
+            <span class="svc-tag">Access</span>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-card-head">
+            <div class="svc-icon bq">📊</div>
+            <span class="svc-status soon">COMING SOON</span>
+          </div>
+          <div class="svc-name">BigQuery + Spanner</div>
+          <div class="svc-desc">Serverless analytics and distributed SQL — Phase 2 services after the core suite is complete.</div>
+          <div class="svc-features">
+            <span class="svc-tag">Datasets</span>
+            <span class="svc-tag">SQL queries</span>
+            <span class="svc-tag">Instances</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK START -->
+  <section id="quickstart" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Quick Start</div>
+        <h2>Cloud Storage in seconds.</h2>
+        <p class="section-desc">No GCP account, no service account JSON — just Docker and <code style="font-size:14px;color:var(--accent)">gcloud</code>.</p>
+      </div>
+
+      <!-- method tabs -->
+      <div class="qs-method-tabs reveal" id="qsMethodTabs" style="transition-delay:0.05s">
+        <button class="qs-method-tab" data-qs="cli">floci CLI <span class="qs-soon-badge">SOON</span></button>
+        <button class="qs-method-tab active" data-qs="docker">Docker</button>
+      </div>
+
+      <!-- floci CLI panel -->
+      <div id="qspanel-cli" class="qs-panel reveal" style="transition-delay:0.1s;display:none">
+        <div class="cli-coming-soon">
+          <div class="cli-coming-icon">🚧</div>
+          <div class="cli-coming-title">floci CLI support for GCP — coming soon</div>
+          <p class="cli-coming-desc">The <code>floci gcp</code> command is in progress. Once released, you'll be able to start, stop, and manage floci-gcp the same way as <code>floci start</code> and <code>floci az start</code>.</p>
+          <div class="code-block" style="max-width:480px;font-size:13px;text-align:left;margin-top:20px"><pre
+><span class="comment"># Coming soon</span>
+<span class="cmd">floci gcp start
+eval $(floci gcp env)
+gcloud storage buckets create gs://<span class="str">my-bucket</span></span></pre></div>
+          <a href="https://github.com/floci-io/floci-cli" target="_blank" style="margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);text-decoration:none;font-family:var(--mono)">★ Follow progress on GitHub ↗</a>
+        </div>
+      </div>
+
+      <!-- Docker panel -->
+      <div id="qspanel-docker" class="qs-panel reveal" style="transition-delay:0.1s">
+        <div class="qs-grid">
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker run</h3>
+            <div class="code-block"><pre
+><span class="cmd">docker run --rm -p <span class="acc">4588:4588</span> \
+  floci/floci-gcp:<span class="acc">latest</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Set env vars</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=\
+  http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Create a bucket</span>
+<span class="cmd">gcloud storage buckets create gs://<span class="str">my-bucket</span></span>
+
+<span class="comment"># Write a file and upload it</span>
+<span class="cmd">echo <span class="str">"No billing alert? Must be floci. ☁️"</span> \
+  &gt; hello-floci.txt
+gcloud storage cp hello-floci.txt \
+  gs://<span class="str">my-bucket</span>/hello-floci.txt</span>
+
+<span class="comment"># Download it back and read it</span>
+<span class="cmd">gcloud storage cp \
+  gs://<span class="str">my-bucket</span>/hello-floci.txt \
+  hello-back.txt
+cat hello-back.txt</span></pre></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">services:
+  floci-gcp:
+    image: floci/floci-gcp:<span class="acc">latest</span>
+    ports:
+      - <span class="str">"4588:4588"</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Python SDK</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># pip install google-cloud-storage</span>
+<span class="cmd">import os
+from google.cloud import storage
+
+os.environ[<span class="str">"STORAGE_EMULATOR_HOST"</span>] = \
+  <span class="str">"http://localhost:4588"</span>
+
+client = storage.Client(project=<span class="str">"floci-local"</span>)
+bucket = client.create_bucket(<span class="str">"my-bucket"</span>)
+blob = bucket.blob(<span class="str">"hello-floci.txt"</span>)
+blob.upload_from_string(
+  <span class="str">"No billing alert? Must be floci. ☁️"</span>
+)</span></pre></div>
+
+            <div class="qs-outcome" style="margin-top:28px">
+              <span class="outcome-dot"></span>
+              <span>Cloud Storage on <span style="color:var(--accent)">:4588</span> — Buckets · Objects · Multipart · Resumable · Copy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY floci-gcp -->
+  <section style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label">Why floci-gcp</div>
+      <h2>GCP emulation, done <span style="color:var(--accent)">right</span></h2>
+      <p class="section-desc">The same design philosophy as floci and floci-az — native speed, zero friction, real compatibility.</p>
+
+      <div class="compare-grid" style="margin-top:48px">
+        <div class="compare-card highlight reveal">
+          <div class="compare-title gcp">floci-gcp</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Free — MIT licensed, always</div>
+          <div class="compare-row"><span class="dot dot-green"></span>No GCP project or service account</div>
+          <div class="compare-row"><span class="dot dot-green"></span>No auth token or API key</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Native binary — fast cold start</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Single Docker image, single port</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Real Cloud Function runtimes</div>
+          <div class="compare-row"><span class="dot dot-green"></span>Works offline, CI-friendly</div>
+        </div>
+        <div class="compare-card reveal" style="transition-delay:0.1s">
+          <div class="compare-title other">Typical GCP emulator</div>
+          <div class="compare-row"><span class="dot dot-yellow"></span>Mixed licenses — free tier has limits</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Often requires a GCP project ID</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Service account JSON required</div>
+          <div class="compare-row"><span class="dot dot-red"></span>JVM startup — slow in CI</div>
+          <div class="compare-row"><span class="dot dot-yellow"></span>Multiple processes, ports, config</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Simulated functions, not real</div>
+          <div class="compare-row"><span class="dot dot-red"></span>Internet access required for some ops</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT TO EXPECT -->
+  <section>
+    <div class="container">
+      <div class="section-label">Preview</div>
+      <h2>What to expect</h2>
+      <p class="section-desc">floci-gcp will follow the same patterns as the rest of the suite.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:48px">
+        <div class="compare-card reveal" style="border-color:rgba(52,168,83,0.2)">
+          <div style="font-size:28px;margin-bottom:12px">🚀</div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px">Quarkus Native speed</div>
+          <div style="font-size:14px;color:var(--text-muted)">Sub-100ms cold start. Same Quarkus + GraalVM stack as floci (AWS), with a tiny memory footprint suitable for CI and laptop dev.</div>
+        </div>
+        <div class="compare-card reveal" style="border-color:rgba(52,168,83,0.2);transition-delay:0.08s">
+          <div style="font-size:28px;margin-bottom:12px">🔌</div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px">Drop-in SDK compatibility</div>
+          <div style="font-size:14px;color:var(--text-muted)">Point your existing Python, Java, Go, or Node GCP client libraries at <code style="font-size:12px;color:var(--accent)">localhost:4588</code> — no code changes needed.</div>
+        </div>
+        <div class="compare-card reveal" style="border-color:rgba(52,168,83,0.2);transition-delay:0.16s">
+          <div style="font-size:28px;margin-bottom:12px">🐳</div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px">One image, one port</div>
+          <div style="font-size:14px;color:var(--text-muted)">All GCP services on a single Docker image. Add one line to your docker-compose and you're done — no separate containers per service.</div>
+        </div>
+        <div class="compare-card reveal" style="border-color:rgba(52,168,83,0.2);transition-delay:0.24s">
+          <div style="font-size:28px;margin-bottom:12px">🔒</div>
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px">Zero credentials needed</div>
+          <div style="font-size:14px;color:var(--text-muted)">No service account JSON, no <code style="font-size:12px;color:var(--accent)">GOOGLE_APPLICATION_CREDENTIALS</code>. Fixed local credentials just like Azurite — works everywhere out of the box.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTIFY CTA -->
+  <section style="background:var(--bg2)">
+    <div class="container">
+      <div class="notify-box reveal">
+        <div style="font-size:40px;margin-bottom:16px">🚧</div>
+        <h3>More services coming fast</h3>
+        <p>Pub/Sub and Firestore are next. Star the repo to follow progress — floci-gcp follows the same MIT license and zero-auth philosophy as the rest of the suite.</p>
+        <div class="notify-actions">
+          <a href="https://github.com/floci-io/floci-gcp" target="_blank" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Star on GitHub
+          </a>
+          <a href="/" class="btn-ghost">See other emulators →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUITE CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-banner reveal">
+        <h3>Already need a cloud emulator?</h3>
+        <p>floci (AWS) and floci-az (Azure) are stable and production-ready for local development today.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="/floci/" class="btn-primary" style="background:#cc7a00">Try floci for AWS →</a>
+          <a href="/floci-az/" class="btn-ghost">Try floci-az for Azure →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="/">← All Products</a>
+      <a href="https://github.com/floci-io" target="_blank">GitHub</a>
+      <a href="/floci/">floci (AWS)</a>
+      <a href="/floci-az/">floci-az (Azure)</a>
+      <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
+      <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
+    </div>
+  </Footer>
+
+</Layout>
+
+<style>
+  /* GCP-specific CSS vars */
+  :root {
+    --bg: #0f1117; --bg2: #121620; --bg3: #141820;
+    --border: rgba(52,168,83,0.15); --border-bright: rgba(52,168,83,0.3);
+    --text: #e8edf6; --text-muted: #5a9e6e; --text-dim: #2a4d35;
+    --accent: #34a853; --accent-bright: #6dbb85; --accent-dim: rgba(52,168,83,0.1);
+    --accent-glow: rgba(52,168,83,0.2);
+    --indigo: #1e7e34; --indigo-mid: #2e9e4e; --indigo-light: #5abf72;
+    --green: #34a853; --red: #ea4335; --yellow: #fbbc04;
+    --nav-bg: rgba(15,17,23,0.88);
+    --bar-track: rgba(255,255,255,0.05); --row-hover: rgba(255,255,255,0.02);
+  }
+  html.light {
+    --bg: #f4fbf7; --bg2: #e6f4ea; --bg3: #d6edde;
+    --border: rgba(30,126,52,0.12); --border-bright: rgba(30,126,52,0.25);
+    --text: #121620; --text-muted: #1e7e34; --text-dim: #5abf72;
+    --accent: #1e7e34; --accent-bright: #2e9e4e; --accent-dim: rgba(30,126,52,0.08);
+    --accent-glow: rgba(30,126,52,0.12);
+    --nav-bg: rgba(244,251,247,0.92); --row-hover: rgba(0,0,0,0.02);
+  }
+  /* Override btn-primary for GCP */
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-bright); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 100px; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(52,168,83,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(52,168,83,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+  .hero-glow { position: absolute; width: 800px; height: 400px; background: radial-gradient(ellipse at center, rgba(52,168,83,0.09), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(52,168,83,0.08); border: 1px solid rgba(52,168,83,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero h1 .accent { color: var(--accent); }
+  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* HERO STATS */
+  .hero-stats { display: flex; gap: 0; margin-top: 56px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeUp 0.6s 0.4s ease both; max-width: 680px; width: 100%; }
+  .stat-item { flex: 1; padding: 22px 24px; border-right: 1px solid var(--border); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-number { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  @media (max-width: 580px) { .hero-stats { flex-wrap: wrap; } .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); } .stat-item:nth-child(odd) { border-right: 1px solid var(--border); } .stat-item:last-child { border-bottom: none; } }
+
+  /* GCP ICON */
+  .gcp-icon-wrap { animation: fadeUp 0.6s 0.05s ease both; margin-bottom: 28px; }
+  .gcp-icon-wrap img { animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 32px rgba(52,168,83,0.35)); }
+
+  /* COMING SOON BADGE */
+  .cs-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(251,188,4,0.1); border: 1px solid rgba(251,188,4,0.3); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-family: var(--mono); color: #fbbc04; font-weight: 700; letter-spacing: 1px; }
+
+  /* TIMELINE */
+
+  /* QUICK START */
+  .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
+  .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; display: inline-flex; align-items: center; gap: 7px; }
+  .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .qs-method-tab:hover:not(.active) { color: var(--text); }
+  .qs-soon-badge { font-size: 9px; background: var(--indigo); color: #c5cae9; padding: 1px 5px; border-radius: 3px; font-weight: 700; letter-spacing: .06em; vertical-align: middle; }
+  .qs-panel { margin-top: 36px; }
+  .qs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 768px) { .qs-grid { grid-template-columns: 1fr; } }
+  .cli-coming-soon { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 48px 24px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg3); max-width: 560px; }
+  .cli-coming-icon { font-size: 36px; margin-bottom: 16px; }
+  .cli-coming-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .cli-coming-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; max-width: 420px; }
+  .cli-coming-desc code { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+  .qs-wrap { max-width: 680px; margin-top: 0; }
+  .qs-wrap .code-block { border-radius: 10px 10px 0 0; border-bottom: none; margin: 0; }
+  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-wrap: break-word; word-break: break-all; }
+  .code-block pre { margin: 0; font: inherit; color: inherit; white-space: pre-wrap; background: none; border: none; }
+  .code-block .cmd { color: var(--text); }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .acc { color: var(--accent); }
+  .code-block .str { color: #a5d6a7; }
+  .qs-outcome {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: rgba(52,168,83,0.06); border: 1px solid rgba(52,168,83,0.2);
+    border-top: none; border-radius: 0 0 10px 10px;
+    font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+  }
+  .outcome-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--green); box-shadow: 0 0 6px rgba(52,168,83,0.5); animation: pulse 2s ease-in-out infinite; }
+
+  /* SERVICE CARDS */
+  .svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; margin-top: 40px; }
+  .svc-card { background: var(--bg2); padding: 28px 24px; transition: background 0.2s; }
+  .svc-card:hover { background: var(--bg3); }
+  .svc-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 20px; }
+  .svc-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .svc-card-head .svc-icon { margin-bottom: 0; }
+  .svc-status { font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: .04em; }
+  .svc-status.live    { background: rgba(52,168,83,0.15); color: var(--green); border: 1px solid rgba(52,168,83,0.3); }
+  .svc-status.wip     { background: rgba(251,188,4,0.10); color: #fbbc04; border: 1px solid rgba(251,188,4,0.25); }
+  .svc-status.planned { background: rgba(255,255,255,0.05); color: var(--text-dim); border: 1px solid var(--border); }
+  .svc-status.soon    { background: rgba(255,255,255,0.03); color: var(--text-dim); border: 1px solid var(--border); }
+  .svc-icon.storage { background: rgba(52,168,83,0.12); }
+  .svc-icon.pubsub  { background: rgba(52,168,83,0.12); }
+  .svc-icon.fire    { background: rgba(251,188,4,0.10); }
+  .svc-icon.ds      { background: rgba(52,168,83,0.08); }
+  .svc-icon.sm      { background: rgba(234,67,53,0.10); }
+  .svc-icon.bq      { background: rgba(52,168,83,0.08); }
+  .svc-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+  .svc-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .svc-features { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .svc-tag { font-size: 11px; font-family: var(--mono); color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; }
+  .svc-soon { font-size: 11px; font-family: var(--mono); color: #fbbc04; background: rgba(251,188,4,0.08); border: 1px solid rgba(251,188,4,0.2); border-radius: 4px; padding: 2px 7px; }
+
+  /* NOTIFY / CTA */
+  .notify-box { background: var(--bg2); border: 1px solid var(--border-bright); border-radius: 16px; padding: 48px; text-align: center; max-width: 600px; margin: 0 auto; }
+  .notify-box h3 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+  .notify-box p { color: var(--text-muted); font-size: 16px; margin-bottom: 28px; }
+  .notify-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* COMPARISON */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  @media (max-width: 680px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; }
+  .compare-card.highlight { border-color: rgba(52,168,83,0.4); }
+  .compare-title { font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+  .compare-title.gcp { color: var(--accent); }
+  .compare-title.other { color: var(--text-dim); }
+  .compare-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-yellow { background: #fbbc04; }
+
+  /* CTA BANNER */
+  .cta-banner { background: linear-gradient(135deg, rgba(52,168,83,0.12), rgba(30,126,52,0.08)); border: 1px solid rgba(52,168,83,0.25); border-radius: 16px; padding: 56px 48px; text-align: center; }
+  .cta-banner h3 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+  .cta-banner p { font-size: 18px; color: var(--text-muted); max-width: 520px; margin: 0 auto 32px; }
+
+  /* FOOTER */
+  footer { padding: 40px 2rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .footer-links a { color: var(--text-muted); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+
+</style>
+
+<style is:global>
+  /* Restore nav to Floci brand colors — page :root overrides bleed in otherwise */
+  .nav-logo { color: #ffe082 !important; }
+  .nav-links a.nav-cta { background: #34A853 !important; color: #000 !important; }
+  nav { border-bottom-color: rgba(255,255,255,0.06) !important; }
+  .nav-links a { color: rgba(121,134,203,0.85) !important; }
+  .nav-links a:hover { color: #e8eaf6 !important; }
+  .nav-links a.aws-link { color: rgba(255,153,0,0.85) !important; }
+  .nav-links a.az-link  { color: rgba(0,120,212,0.85) !important; }
+  .nav-links a.gcp-link { color: rgba(52,168,83,0.85) !important; }
+  .nav-links a.aws-link.nav-active { color: #FF9900 !important; }
+  .nav-links a.az-link.nav-active  { color: #0078D4 !important; }
+  .nav-links a.gcp-link.nav-active { color: #34A853 !important; }
+</style>
+
+<script>
+const burger = document.getElementById('navBurger');
+const navLinks = document.getElementById('navLinks');
+if (burger && navLinks) {
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+}
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('.qs-panel').forEach(function(p) { p.style.display = 'none'; });
+    const panel = document.getElementById('qspanel-' + tab.dataset.qs);
+    if (panel) panel.style.display = 'block';
+  });
+});
+
+
+fetch('https://api.github.com/repos/floci-io/floci-gcp').then(r => r.json()).then(data => {
+  const count = data.stargazers_count;
+  if (!count) return;
+  const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
+  const nav = document.getElementById('ghNavStars');
+  if (nav) nav.textContent = ' · ' + fmt;
+}).catch(() => {});
+</script>

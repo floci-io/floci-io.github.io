@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const labs = await getCollection('labs', ({ data }) => !data.draft);
+  return labs.map(lab => ({ params: { slug: lab.slug }, props: { lab } }));
+}
+
+const { lab } = Astro.props;
+const { Content } = await lab.render();
+
+const cloudColor: Record<string, string> = {
+  aws:   '#FF9900',
+  azure: '#0078D4',
+  gcp:   '#34A853',
+  all:   '#ffe082',
+};
+const cloudLabel: Record<string, string> = {
+  aws:   'AWS',
+  azure: 'Azure',
+  gcp:   'GCP',
+  all:   'Multi-cloud',
+};
+const difficultyColor: Record<string, string> = {
+  beginner:     'rgba(52,168,83,0.85)',
+  intermediate: '#ffe082',
+  advanced:     '#ef4444',
+};
+const color = cloudColor[lab.data.cloud];
+---
+
+<Layout
+  title={`${lab.data.title} — floci 101 Labs`}
+  description={lab.data.description}
+  canonical={`https://floci.io/labs/${lab.slug}/`}
+>
+  <Nav active="labs" />
+
+  <article class="article" style={`--cloud-color: ${color}`}>
+    <div class="container">
+      <a href="/labs/" class="back-link">← 101 Labs</a>
+
+      <header class="article-header">
+        <div class="lab-badges">
+          <span class="cloud-badge" style={`background: ${color}22; color: ${color}`}>
+            {cloudLabel[lab.data.cloud]}
+          </span>
+          <span class="diff-badge" style={`color: ${difficultyColor[lab.data.difficulty]}`}>
+            {lab.data.difficulty}
+          </span>
+          <span class="dur-badge">⏱ {lab.data.duration}</span>
+        </div>
+        <h1>{lab.data.title}</h1>
+        <p class="description">{lab.data.description}</p>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <Footer variant="sub" />
+</Layout>
+
+<style>
+  .article {
+    padding: 120px 2rem 100px;
+    min-height: calc(100vh - 60px);
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  .back-link {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 48px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--cloud-color); }
+  .article-header { margin-bottom: 56px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
+  .lab-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .cloud-badge, .diff-badge, .dur-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .diff-badge { text-transform: capitalize; }
+  .dur-badge { color: var(--text-dim); }
+  .article-header h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--cloud-color);
+  }
+  .description {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .prose {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .prose :global(h2) { font-size: 24px; font-weight: 700; color: var(--text); margin: 48px 0 16px; letter-spacing: -0.5px; }
+  .prose :global(h3) { font-size: 18px; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
+  .prose :global(p) { margin-bottom: 20px; }
+  .prose :global(a) { color: var(--cloud-color); text-underline-offset: 3px; }
+  .prose :global(code) { font-family: var(--mono); font-size: 14px; background: var(--bg2); padding: 2px 6px; border-radius: 4px; }
+  .prose :global(pre) { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 24px; overflow-x: auto; margin: 24px 0; }
+  .prose :global(pre code) { background: none; padding: 0; font-size: 14px; }
+  .prose :global(ul), .prose :global(ol) { padding-left: 24px; margin-bottom: 20px; }
+  .prose :global(li) { margin-bottom: 8px; }
+  .prose :global(blockquote) { border-left: 3px solid var(--cloud-color); padding-left: 20px; color: var(--text-dim); margin: 24px 0; }
+  .prose :global(strong) { color: var(--text); font-weight: 600; }
+</style>
