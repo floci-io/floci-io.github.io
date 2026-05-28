@@ -1,13 +1,13 @@
 ---
-title: Real AWS Athena Queries, Locally — floci + floci-duck
-description: floci emulates AWS Athena with real DuckDB-powered SQL execution. Use boto3 or the AWS CLI against localhost:4566 — no AWS account, no per-query charges.
+title: Real AWS Athena Queries, Locally with floci + floci-duck
+description: floci emulates AWS Athena with real DuckDB-powered SQL execution. Use boto3 or the AWS CLI against localhost:4566. No AWS account, no per-query charges.
 pubDate: 2026-05-20
 tags: [floci-duck, athena, duckdb, s3, glue]
 ---
 
-AWS Athena is one of the most useful services in the analytics stack: point it at an S3 bucket, register a schema in Glue, write a SQL query — and get results back without provisioning a single server. The catch is it costs $5 per TB scanned, and every iteration of your ETL or pipeline logic burns real money.
+AWS Athena is one of the most useful services in the analytics stack: point it at an S3 bucket, register a schema in Glue, write a SQL query and get results back without provisioning a single server. The catch is it costs $5 per TB scanned, and every iteration of your ETL or pipeline logic burns real money.
 
-**floci** eliminates that cost entirely. It emulates the full Athena + Glue + S3 stack locally, and the SQL is executed for real — by DuckDB, via [floci-duck](https://github.com/floci-io/floci-duck), a lightweight Rust sidecar that floci manages automatically.
+**floci** eliminates that cost entirely. It emulates the full Athena + Glue + S3 stack locally, and the SQL is executed for real by DuckDB, via [floci-duck](https://github.com/floci-io/floci-duck), a lightweight Rust sidecar that floci manages automatically.
 
 ## The Architecture
 
@@ -53,7 +53,7 @@ export AWS_DEFAULT_REGION=us-east-1
 
 ## Uploading Data and Registering the Schema
 
-Create a bucket, upload your data, then register the table in Glue — exactly as you would against real AWS:
+Create a bucket, upload your data, then register the table in Glue, exactly as you would against real AWS:
 
 ```bash
 # S3
@@ -86,7 +86,7 @@ aws glue create-table \
 
 ## Running a Query with boto3
 
-With the schema registered, use the Athena client exactly as you would against real AWS — only the endpoint URL changes:
+With the schema registered, use the Athena client exactly as you would against real AWS. Only the endpoint URL changes:
 
 ```python
 import boto3, time
@@ -159,14 +159,14 @@ aws athena get-query-results --query-execution-id "$QUERY_ID"
 When `StartQueryExecution` arrives, floci:
 
 1. Reads every Glue table in the target database
-2. Generates `CREATE OR REPLACE VIEW` statements that map each table to its S3 location via DuckDB's `read_csv_auto`, `read_parquet`, or `read_json_auto` — chosen based on the Glue `InputFormat` / SerDe
+2. Generates `CREATE OR REPLACE VIEW` statements that map each table to its S3 location via DuckDB's `read_csv_auto`, `read_parquet`, or `read_json_auto`, chosen based on the Glue `InputFormat` / SerDe
 3. Sends the wrapped SQL to floci-duck as a `COPY (…) TO 's3://…' FORMAT CSV` statement
 4. Writes results to the output S3 path
 
-`GetQueryResults` reads that CSV back and returns it in the standard Athena `ResultSet` shape. The whole round-trip is transparent — your SDK code never knows DuckDB is involved.
+`GetQueryResults` reads that CSV back and returns it in the standard Athena `ResultSet` shape. The whole round-trip is transparent. Your SDK code never knows DuckDB is involved.
 
 ## Parquet Works Too
 
-Register the table with a Parquet SerDe and floci-duck switches to `read_parquet` automatically. Column projection and predicate pushdown apply — only the columns your query touches are read from S3.
+Register the table with a Parquet SerDe and floci-duck switches to `read_parquet` automatically. Column projection and predicate pushdown apply, so only the columns your query touches are read from S3.
 
-For a complete step-by-step walkthrough including Parquet, see the [Athena + S3 — 101 lab](/labs/athena-s3-101/).
+For a complete step-by-step walkthrough including Parquet, see the [Athena + S3: 101 lab](/labs/athena-s3-101/).

@@ -18,25 +18,25 @@ const {
   docsUrl = 'https://github.com/floci-io/floci#readme',
   sectionLinks,
 } = Astro.props;
+
 ---
 
 <nav>
-  <a class="nav-logo" href="/">
-    <svg width="26" height="19" viewBox="-10 -55 240 170" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="navpm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#ffe082"/></linearGradient>
-        <linearGradient id="navps" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe082"/><stop offset="100%" stop-color="#e6ac00"/></linearGradient>
-      </defs>
-      <g transform="translate(108,54)">
-        <rect x="-108" y="-20" width="216" height="60" rx="30" fill="url(#navps)"/>
-        <circle cx="-74" cy="-20" r="40" fill="url(#navps)"/>
-        <circle cx="-22" cy="-44" r="52" fill="url(#navpm)"/>
-        <circle cx="36" cy="-36" r="46" fill="url(#navpm)"/>
-        <circle cx="86" cy="-18" r="34" fill="url(#navps)"/>
-        <ellipse cx="8" cy="-30" rx="72" ry="28" fill="#fff8e1" opacity="0.45"/>
+  <a class="nav-logo" href="/" aria-label="floci home">
+    <svg class="floci-logo" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g style="isolation:isolate"><g style="isolation:isolate">
+        <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+        <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+        <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+        <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+      </g></g>
+      <g>
+        <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+        <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+        <ellipse class="floci-dot" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+        <ellipse class="floci-dot" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
       </g>
     </svg>
-    floci
   </a>
   <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
@@ -44,9 +44,9 @@ const {
   <div class="nav-links" id="navLinks">
     <a href="/" class={active === 'home' ? 'nav-active' : ''} aria-current={active === 'home' ? 'page' : undefined}>Home</a>
     <div class="nav-sep"></div>
-    <a href="/floci/" class={`aws-link${active === 'aws' ? ' nav-active' : ''}`} aria-current={active === 'aws' ? 'page' : undefined}>AWS</a>
-    <a href="/floci-az/" class={`az-link${active === 'az' ? ' nav-active' : ''}`} aria-current={active === 'az' ? 'page' : undefined}>Azure</a>
-    <a href="/floci-gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
+    <a href="/aws/" class={`aws-link${active === 'aws' ? ' nav-active' : ''}`} aria-current={active === 'aws' ? 'page' : undefined}>AWS</a>
+    <a href="/az/" class={`az-link${active === 'az' ? ' nav-active' : ''}`} aria-current={active === 'az' ? 'page' : undefined}>Azure</a>
+    <a href="/gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
     <div class="nav-sep"></div>
     <a href="/blog/" class={active === 'blog' ? 'nav-active' : ''} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a>
     <a href="/labs/" class={active === 'labs' ? 'nav-active' : ''} aria-current={active === 'labs' ? 'page' : undefined}>Labs</a>
@@ -62,7 +62,14 @@ const {
     )}
     <div class="nav-sep"></div>
     <a href={githubUrl} target="_blank" rel="noopener noreferrer">★ GitHub<span class="nav-stars" id="ghNavStars"></span></a>
-    <a href={docsUrl} class="nav-cta" target={docsUrl.startsWith('http') ? '_blank' : undefined} rel={docsUrl.startsWith('http') ? 'noopener noreferrer' : undefined}>Docs →</a>
+    <div class="nav-docs-wrap" id="navDocsWrap">
+      <button class="nav-cta nav-docs-btn" id="navDocsBtn" aria-haspopup="true" aria-expanded="false">Docs →</button>
+      <div class="nav-docs-dropdown" id="navDocsDropdown" role="menu">
+        <a href="/floci/" role="menuitem" class="aws-link">floci</a>
+        <a href="/floci-az/" role="menuitem" class="az-link">floci-az</a>
+        <a href="/floci-gcp/" role="menuitem" class="gcp-link">floci-gcp</a>
+      </div>
+    </div>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
       <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -79,10 +86,16 @@ const {
     border-bottom: 1px solid var(--border); transition: background 0.25s;
   }
   .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: var(--mono); font-size: 18px; font-weight: 700;
-    color: var(--accent); text-decoration: none;
+    display: flex; align-items: center;
+    text-decoration: none; flex-shrink: 0;
   }
+  .floci-logo { height: 32px; width: auto; display: block; transition: opacity 0.2s; }
+  .nav-logo:hover .floci-logo { opacity: 0.85; }
+  .floci-logo .floci-text, .floci-logo .floci-cloud { fill: #F8FAFC; }
+  .floci-logo .floci-dot { fill: #7A7FD6; }
+  html.light .floci-logo .floci-text { fill: #262425; }
+  html.light .floci-logo .floci-cloud { fill: #151515; }
+  html.light .floci-logo .floci-dot { fill: #5559A7; }
   .nav-links { display: flex; align-items: center; gap: 1.5rem; }
   .nav-links a { color: var(--text-muted); font-size: 15px; text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
@@ -99,11 +112,27 @@ const {
   .nav-link-disabled { color: var(--text-dim); font-size: 15px; cursor: not-allowed; opacity: 0.45; user-select: none; }
   .nav-stars { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-left: 4px; display: inline-block; min-width: 4.5ch; }
   .nav-cta {
-    background: var(--accent); color: #1a1d2e !important;
+    background: var(--accent-deep); color: #ffffff !important;
     padding: 7px 18px; border-radius: 6px; font-size: 13px;
-    font-weight: 700; transition: opacity 0.2s !important;
+    font-weight: 700; transition: background 0.2s !important;
   }
-  .nav-cta:hover { opacity: 0.85 !important; }
+  .nav-cta:hover { background: var(--accent-warm) !important; }
+  .nav-docs-wrap { position: relative; }
+  .nav-docs-btn { border: none; cursor: pointer; white-space: nowrap; }
+  .nav-docs-dropdown {
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: var(--bg2); border: 1px solid var(--border-bright);
+    border-radius: 8px; overflow: hidden; min-width: 130px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 200;
+  }
+  .nav-docs-dropdown.open { display: block; }
+  .nav-docs-dropdown a {
+    display: block; padding: 10px 18px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: background 0.15s;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-docs-dropdown a:last-child { border-bottom: none; }
+  .nav-docs-dropdown a:hover { background: var(--accent-dim); }
   .nav-burger {
     display: none; flex-direction: column; justify-content: center; gap: 5px;
     background: none; border: none; cursor: pointer; padding: 4px;
@@ -129,12 +158,31 @@ const {
     .nav-links a, .nav-link-disabled { padding: 10px 0; width: 100%; border-bottom: 1px solid var(--border); font-size: 15px; display: block; }
     .nav-links a:last-of-type { border-bottom: none; }
     .nav-sep { display: none; }
+    .nav-docs-wrap { width: 100%; margin-top: 8px; }
+    .nav-docs-btn { width: 100%; text-align: center; }
+    .nav-docs-dropdown { position: static; box-shadow: none; border-radius: 0; border: none; border-top: 1px solid var(--border); margin-top: 4px; }
+    .nav-docs-dropdown a { padding: 10px 0; }
     .nav-cta { margin-top: 8px; text-align: center; width: 100%; }
     .theme-toggle { margin-top: 8px; }
   }
 </style>
 
 <script>
+const docsBtn = document.getElementById('navDocsBtn');
+const docsDropdown = document.getElementById('navDocsDropdown');
+if (docsBtn && docsDropdown) {
+  docsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = docsDropdown.classList.toggle('open');
+    docsBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', () => {
+    docsDropdown.classList.remove('open');
+    docsBtn.setAttribute('aria-expanded', 'false');
+  });
+  docsDropdown.addEventListener('click', (e) => e.stopPropagation());
+}
+
 const burger = document.getElementById('navBurger');
 const navLinks = document.getElementById('navLinks');
 if (burger && navLinks) {

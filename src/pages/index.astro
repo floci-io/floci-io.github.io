@@ -19,12 +19,25 @@ import sponsorsData from '../data/sponsors.json';
     <div class="hero-glow"></div>
 
     <div class="hero-logo-wrap">
-      <img src="/floci.svg" width="110" height="78" alt="floci" />
+      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci" role="img">
+        <g style="isolation:isolate"><g style="isolation:isolate">
+          <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+          <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+          <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+          <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+        </g></g>
+        <g>
+          <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+          <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+          <ellipse class="floci-dot" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+          <ellipse class="floci-dot" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+        </g>
+      </svg>
     </div>
 
-    <h1>One suite.<br><span class="accent">Every cloud.</span></h1>
+    <h1><span class="accent">Any cloud.</span><br>Locally.</h1>
     <p class="hero-sub">
-      Run AWS, Azure, and GCP services locally — no account, no token, no restrictions. Built with Quarkus Native for instant startup. Starts in 24ms, uses 13 MiB at idle.
+      Run AWS, Azure, and GCP services locally.
     </p>
     <div class="hero-actions">
       <a href="#products" class="btn-primary">Explore Products ↓</a>
@@ -32,17 +45,17 @@ import sponsorsData from '../data/sponsors.json';
     </div>
 
     <div class="cloud-pills">
-      <a href="/floci/" class="cloud-pill">
+      <a href="/aws/" class="cloud-pill">
         <span class="dot aws"></span>
         <span class="pill-name">floci</span>
         <span style="color:var(--text-dim);font-size:12px">AWS</span>
       </a>
-      <a href="/floci-az/" class="cloud-pill">
+      <a href="/az/" class="cloud-pill">
         <span class="dot az"></span>
         <span class="pill-name">floci-az</span>
         <span style="color:var(--text-dim);font-size:12px">Azure</span>
       </a>
-      <a href="/floci-gcp/" class="cloud-pill">
+      <a href="/gcp/" class="cloud-pill">
         <span class="dot gcp"></span>
         <span class="pill-name">floci-gcp</span>
         <span style="color:var(--text-dim);font-size:12px">GCP</span>
@@ -56,19 +69,32 @@ import sponsorsData from '../data/sponsors.json';
       <div class="reveal">
         <div class="section-label">Cloud Emulators</div>
         <h2>Pick your cloud. Start instantly.</h2>
-        <p class="section-desc">Each emulator is a standalone, MIT-licensed binary — no auth tokens, no feature gates, no cloud account required.</p>
+        <p class="section-desc">Each emulator is a standalone MIT-licensed binary. No auth tokens, no feature gates, no cloud account needed.</p>
       </div>
 
       <div class="emulators-grid reveal" style="transition-delay:0.1s">
         <!-- floci — AWS -->
         <div class="ecard">
           <div class="ecard-head aws">
-            <img src="/floci_aws.svg" class="ecard-cloud-img" alt="floci AWS" loading="lazy" />
+            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <g style="isolation:isolate"><g style="isolation:isolate">
+                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+              </g></g>
+              <g>
+                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+                <ellipse class="floci-dot aws" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+                <ellipse class="floci-dot aws" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+              </g>
+            </svg>
             <span class="cloud-badge aws">AWS</span>
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci</div>
-            <p class="ecard-desc">Drop-in replacement for LocalStack. 47 services, native binary, same port 4566 — switch with zero code changes.</p>
+            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 47 services, native binary. Switch with zero code changes.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4566</span>
@@ -87,7 +113,7 @@ import sponsorsData from '../data/sponsors.json';
               <span>S3</span><span>SQS</span><span>Lambda</span><span>DynamoDB</span><span>RDS</span><span>EKS</span><span>+41 more</span>
             </div>
             <div class="ecard-foot">
-              <a href="/floci/" class="ecard-cta">Learn more →</a>
+              <a href="/aws/" class="ecard-cta">Learn more →</a>
               <a href="https://github.com/floci-io/floci" class="ecard-gh" target="_blank">GitHub ↗</a>
             </div>
           </div>
@@ -96,12 +122,25 @@ import sponsorsData from '../data/sponsors.json';
         <!-- floci-az — Azure -->
         <div class="ecard">
           <div class="ecard-head az">
-            <img src="/floci_az.svg" class="ecard-cloud-img" alt="floci Azure" loading="lazy" />
+            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <g style="isolation:isolate"><g style="isolation:isolate">
+                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+              </g></g>
+              <g>
+                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+                <ellipse class="floci-dot az" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+                <ellipse class="floci-dot az" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+              </g>
+            </svg>
             <span class="cloud-badge az">Azure</span>
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci-az</div>
-            <p class="ecard-desc">Azure Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, and Service Bus. Native speed, MIT license. No Azure account needed.</p>
+            <p class="ecard-desc">Covers Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs and Service Bus. Native speed, MIT license, no Azure account needed.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4577</span>
@@ -120,7 +159,7 @@ import sponsorsData from '../data/sponsors.json';
               <span>Blob</span><span>Queue</span><span>Table</span><span>Functions</span><span>Key Vault</span><span>Event Hubs</span><span>Service Bus</span>
             </div>
             <div class="ecard-foot">
-              <a href="/floci-az/" class="ecard-cta">Learn more →</a>
+              <a href="/az/" class="ecard-cta">Learn more →</a>
               <a href="https://github.com/floci-io/floci-az" class="ecard-gh" target="_blank">GitHub ↗</a>
             </div>
           </div>
@@ -129,19 +168,32 @@ import sponsorsData from '../data/sponsors.json';
         <!-- floci-gcp -->
         <div class="ecard">
           <div class="ecard-head gcp">
-            <img src="/floci_gcp.svg" class="ecard-cloud-img" alt="floci GCP" loading="lazy" />
+            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <g style="isolation:isolate"><g style="isolation:isolate">
+                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+              </g></g>
+              <g>
+                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+                <ellipse class="floci-dot gcp" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+                <ellipse class="floci-dot gcp" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+              </g>
+            </svg>
             <span class="cloud-badge gcp">GCP</span>
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci-gcp</div>
-            <p class="ecard-desc">Google Cloud emulator — Cloud Storage live, Pub/Sub and Firestore coming next. Same native speed, MIT license, single port.</p>
+            <p class="ecard-desc">Seven GCP services live: GCS, Pub/Sub, Firestore, Datastore, Secret Manager, IAM and Managed Kafka. Native speed, MIT license, no GCP account needed.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4588</span>
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">1+</span>
+                <span class="ecard-stat-val">7</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
@@ -150,10 +202,10 @@ import sponsorsData from '../data/sponsors.json';
               </div>
             </div>
             <div class="ecard-chips">
-              <span>Cloud Storage</span><span>Pub/Sub</span><span>Firestore</span><span>Datastore</span><span>+more</span>
+              <span>GCS</span><span>Pub/Sub</span><span>Firestore</span><span>Datastore</span><span>Secret Manager</span><span>IAM</span><span>+1 more</span>
             </div>
             <div class="ecard-foot">
-              <a href="/floci-gcp/" class="ecard-cta">Learn more →</a>
+              <a href="/gcp/" class="ecard-cta">Learn more →</a>
               <a href="https://github.com/floci-io/floci-gcp" class="ecard-gh" target="_blank">GitHub ↗</a>
             </div>
           </div>
@@ -176,7 +228,7 @@ import sponsorsData from '../data/sponsors.json';
         <div class="tool-card">
           <div class="tool-tag">CLI</div>
           <div class="tool-name">floci-cli</div>
-          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install — manage AWS, Azure, and GCP from a single tool.</p>
+          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install covers AWS, Azure, and GCP from a single tool.</p>
           <div class="code-block">
             <span class="comment"># Install (macOS / Linux)</span><br>
             <span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span><br><br>
@@ -194,7 +246,7 @@ import sponsorsData from '../data/sponsors.json';
         <div class="tool-card">
           <div class="tool-tag">UI</div>
           <div class="tool-name">floci-ui</div>
-          <p class="tool-desc">A visual dashboard for all Floci cloud emulators. Browse resources, inspect data, and manage services across AWS, Azure, and GCP — all from one place.</p>
+          <p class="tool-desc">A visual dashboard for all Floci cloud emulators. Browse resources, inspect data, and manage services across AWS, Azure, and GCP from one place.</p>
           <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:4px">
             <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:14px;letter-spacing:.05em">BROWSE ALL SERVICES</div>
             <div class="tool-features">
@@ -233,17 +285,17 @@ import sponsorsData from '../data/sponsors.json';
         <div class="why-card">
           <span class="why-num">✗</span>
           <h3>No auth token. Ever.</h3>
-          <p>Pull the Docker image and go. No sign-ups, no API keys, no telemetry. LocalStack required an auth token starting March 2026 — Floci never will.</p>
+          <p>Pull the Docker image and go. No sign-ups, no API keys, no telemetry. LocalStack started requiring an auth token in March 2026. Floci never will.</p>
         </div>
         <div class="why-card">
           <span class="why-num">24ms</span>
           <h3>Native binary speed.</h3>
-          <p>Compiled with GraalVM Mandrel. Starts in 24ms, idles at 13 MiB. Your CI pipeline — and your laptop — will thank you.</p>
+          <p>Compiled with GraalVM Mandrel. Starts in 24ms, idles at 13 MiB. Your CI pipeline and your laptop will both thank you.</p>
         </div>
         <div class="why-card">
           <span class="why-num">real</span>
           <h3>Real engines, not mocks.</h3>
-          <p>Lambda runs in real Docker containers. RDS uses real PostgreSQL/MySQL. ElastiCache runs real Redis. 100% protocol fidelity — no surprises in production.</p>
+          <p>Lambda runs in real Docker containers. RDS uses real PostgreSQL/MySQL. ElastiCache runs real Redis. 100% protocol fidelity, no surprises in production.</p>
         </div>
       </div>
     </div>
@@ -255,7 +307,7 @@ import sponsorsData from '../data/sponsors.json';
       <div class="reveal">
         <div class="section-label">Quick Start</div>
         <h2>One install. Every service, locally.</h2>
-        <p class="section-desc">No account, no token — pick your platform and go.</p>
+        <p class="section-desc">No account, no token. Pick your platform and go.</p>
       </div>
 
       <div class="install-wrap reveal" style="transition-delay:0.1s">
@@ -355,16 +407,16 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
         <div class="install-outcome" id="installOutcome">
           <span class="outcome-dot"></span>
-          <span id="outcomeText">47 AWS services ready on <span class="outcome-port">:4566</span> — S3 · SQS · DynamoDB · Lambda · RDS · +42 more</span>
+          <span id="outcomeText">47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more</span>
 
         </div>
 
         <div class="install-footer">
-          <a href="/floci/" class="install-link aws-link">floci (AWS) →</a>
+          <a href="/aws/" class="install-link aws-link">floci (AWS) →</a>
           <span class="install-link-sep">·</span>
-          <a href="/floci-az/" class="install-link az-link">floci-az (Azure) →</a>
+          <a href="/az/" class="install-link az-link">floci-az (Azure) →</a>
           <span class="install-link-sep">·</span>
-          <a href="/floci-gcp/" class="install-link gcp-link">floci-gcp (GCP) →</a>
+          <a href="/gcp/" class="install-link gcp-link">floci-gcp (GCP) →</a>
         </div>
       </div>
     </div>
@@ -376,7 +428,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
       <div class="sponsor-banner reveal">
         <div class="sponsor-eyebrow">♥ Open Source Sustainability</div>
         <h2>We're looking for sponsors</h2>
-        <p>Floci is free, MIT licensed, and built in the open. Sponsorships help us keep it that way — funding infrastructure, development time, and new cloud emulators.</p>
+        <p>Floci is free, MIT licensed, and built in the open. Sponsorships help us keep it that way, funding infrastructure, development time, and new cloud emulators.</p>
 
         {sponsorsData.tiers.some(t => t.sponsors.length > 0) && (
           <div class="sponsors-current">
@@ -464,16 +516,26 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   }
   .hero-glow {
     position: absolute; width: 700px; height: 350px;
-    background: radial-gradient(ellipse at center, rgba(249,168,37,0.07), transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(85,89,167,0.12), transparent 70%);
     top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none;
   }
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 24px; }
-  .hero-logo-wrap img { animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 24px rgba(249,168,37,0.3)); }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 32px; }
+  .hero-logo-svg {
+    height: 88px; width: auto;
+    animation: float 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 24px rgba(122,127,214,0.35));
+  }
+  .hero-logo-svg .floci-text, .hero-logo-svg .floci-cloud { fill: #F8FAFC; }
+  .hero-logo-svg .floci-dot { fill: #7A7FD6; }
+  html.light .hero-logo-svg .floci-text { fill: #262425; }
+  html.light .hero-logo-svg .floci-cloud { fill: #151515; }
+  html.light .hero-logo-svg .floci-dot { fill: #5559A7; }
+  html.light .hero-logo-svg { filter: drop-shadow(0 0 24px rgba(85,89,167,0.2)); }
 
   .badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,224,130,0.06); border: 1px solid rgba(255,224,130,0.22);
+    background: rgba(122,127,214,0.08); border: 1px solid rgba(122,127,214,0.25);
     border-radius: 100px; padding: 6px 16px;
     font-size: 12px; color: var(--accent); font-family: var(--mono);
     margin-bottom: 28px; animation: fadeUp 0.6s ease both;
@@ -544,7 +606,13 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     padding: 22px 26px 18px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
   }
-  .ecard-cloud-img { width: 72px; height: 50px; object-fit: contain; }
+  .ecard-cloud-svg { height: 36px; width: auto; display: block; }
+  .ecard-cloud-svg .floci-text, .ecard-cloud-svg .floci-cloud { fill: #F8FAFC; }
+  html.light .ecard-cloud-svg .floci-text { fill: #262425; }
+  html.light .ecard-cloud-svg .floci-cloud { fill: #151515; }
+  .ecard-cloud-svg .floci-dot.aws { fill: #FF9900; }
+  .ecard-cloud-svg .floci-dot.az  { fill: #0078D4; }
+  .ecard-cloud-svg .floci-dot.gcp { fill: #34A853; }
   .ecard-head.aws { background: linear-gradient(135deg, rgba(255,153,0,0.08) 0%, transparent 100%); }
   .ecard-head.az  { background: linear-gradient(135deg, rgba(0,120,212,0.09) 0%, transparent 100%); }
   .ecard-head.gcp { background: linear-gradient(135deg, rgba(52,168,83,0.08) 0%, transparent 100%); }
@@ -709,9 +777,9 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
   /* SPONSORS */
   .sponsor-banner {
-    border: 1px dashed rgba(249,168,37,0.35); border-radius: 16px;
+    border: 1px dashed rgba(85,89,167,0.4); border-radius: 16px;
     padding: 56px 48px; text-align: center;
-    background: rgba(249,168,37,0.03);
+    background: rgba(85,89,167,0.04);
   }
   .sponsor-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -793,11 +861,11 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 // Install tabs
 const outcomeMessages = {
-  cli:   '47 AWS services ready on <span class="outcome-port">:4566</span> — S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  win:   '47 AWS services ready on <span class="outcome-port">:4566</span> — S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  aws:   '47 AWS services ready on <span class="outcome-port">:4566</span> — S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  azure: '8 Azure services ready on <span class="outcome-port">:4577</span> — Blob · Queue · Table · Functions · Key Vault · Event Hubs',
-  gcp:   'Cloud Storage ready on <span class="outcome-port">:4588</span> — Pub/Sub &amp; Firestore coming next',
+  cli:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
+  win:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
+  aws:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
+  azure: '10 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +4 more',
+  gcp:   '7 GCP services ready on <span class="outcome-port">:4588</span>. GCS · Pub/Sub · Firestore · Datastore · Secret Manager · IAM · Kafka',
 };
 
 function activateTab(tabKey) {

@@ -1,10 +1,314 @@
 ---
-title: AWS S3 Buckets — 101
+title: "AWS S3 Buckets: 101"
 description: Create buckets, upload objects, and configure policies using floci's S3-compatible API. No AWS account needed.
 cloud: aws
 difficulty: beginner
 duration: 15 min
-tags: [s3, storage]
+tags: [s3, storage, boto3, presigned]
 ---
 
-Placeholder — full lab coming soon.
+## What You'll Build
+
+By the end of this lab you'll have a local S3 environment running entirely on your laptop:
+
+1. Two buckets with objects organized using key prefixes
+2. A working **boto3 client** that uploads, lists, and downloads objects against `localhost:4566`
+3. A **pre-signed URL** that grants time-limited read access to a private object
+4. A **bucket policy** that restricts write access to a specific IAM principal
+
+No AWS account. No IAM role. No per-request charges.
+
+---
+
+## How It Works
+
+floci listens on port 4566 and implements the full S3 REST API. Every AWS SDK call hits `localhost:4566` instead of `s3.amazonaws.com`. floci accepts any non-empty credentials.
+
+```
+boto3 / AWS CLI / aws-sdk-js
+    │  PUT · GET · HEAD · DELETE
+    ▼
+floci  :4566
+    │  /<bucket>/<key>
+    ▼
+local filesystem
+```
+
+No code changes beyond setting `AWS_ENDPOINT_URL` or passing `endpoint_url` to the client.
+
+---
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/) and Docker Compose
+- Python 3.9+ with `boto3` (`pip install boto3`)
+- [AWS CLI](https://aws.amazon.com/cli/) v2
+
+---
+
+## Step 1: Start floci
+
+Create a `docker-compose.yml`:
+
+```yaml
+services:
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+
+```bash
+docker-compose up -d
+
+# confirm it's healthy
+curl http://localhost:4566/_floci/health
+```
+
+---
+
+## Step 2: Configure Credentials
+
+floci accepts any non-empty credentials. Set these once for the session:
+
+```bash
+export AWS_ENDPOINT_URL=http://localhost:4566
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+export AWS_DEFAULT_REGION=us-east-1
+```
+
+---
+
+## Step 3: Create Buckets and Upload Objects
+
+S3 organizes data into flat key-value stores. Slashes in keys act as logical prefixes, making it easy to group related objects without real subdirectories.
+
+```bash
+# Create two buckets
+aws s3 mb s3://raw-data
+aws s3 mb s3://processed-data
+
+# Create some sample files
+cat > january.csv <<'EOF'
+date,region,sales
+2024-01-01,us-east,1200.00
+2024-01-02,us-west,980.50
+2024-01-03,eu-west,1540.00
+EOF
+
+cat > february.csv <<'EOF'
+date,region,sales
+2024-02-01,us-east,1350.00
+2024-02-02,us-west,1100.00
+2024-02-03,eu-west,1620.00
+EOF
+
+# Upload with a prefix to organize by month
+aws s3 cp january.csv  s3://raw-data/sales/2024/01/data.csv
+aws s3 cp february.csv s3://raw-data/sales/2024/02/data.csv
+
+# Upload a second file directly
+echo "processed on $(date)" > summary.txt
+aws s3 cp summary.txt s3://processed-data/reports/summary.txt
+```
+
+---
+
+## Step 4: List, Download, and Delete Objects
+
+```bash
+# List all objects in a bucket
+aws s3 ls s3://raw-data --recursive
+
+# List only a specific prefix
+aws s3 ls s3://raw-data/sales/2024/01/
+
+# Download a single object
+aws s3 cp s3://raw-data/sales/2024/01/data.csv january-back.csv
+cat january-back.csv
+
+# Sync a prefix to a local directory
+aws s3 sync s3://raw-data/sales/2024/ ./local-sales/
+
+# Delete a single object
+aws s3 rm s3://processed-data/reports/summary.txt
+
+# Delete all objects under a prefix
+aws s3 rm s3://raw-data/sales/2024/02/ --recursive
+```
+
+Expected output from `aws s3 ls s3://raw-data --recursive`:
+
+```
+2024-01-15 10:00:00        155 sales/2024/01/data.csv
+2024-01-15 10:00:01        156 sales/2024/02/data.csv
+```
+
+---
+
+## Step 5: Pre-signed URLs
+
+Pre-signed URLs grant time-limited access to a private object without sharing your credentials. The URL contains a signature that expires after the time you specify.
+
+Save the following as `presign.py` and run it:
+
+```python
+import boto3
+import urllib.request
+
+boto_kwargs = dict(
+    endpoint_url='http://localhost:4566',
+    region_name='us-east-1',
+    aws_access_key_id='test',
+    aws_secret_access_key='test',
+)
+
+s3 = boto3.client('s3', **boto_kwargs)
+
+# Make sure the object exists
+s3.create_bucket(Bucket='raw-data')
+s3.put_object(
+    Bucket='raw-data',
+    Key='sales/2024/01/data.csv',
+    Body=b'date,region,sales\n2024-01-01,us-east,1200.00\n',
+)
+
+# Generate a pre-signed URL valid for 60 seconds
+url = s3.generate_presigned_url(
+    ClientMethod='get_object',
+    Params={'Bucket': 'raw-data', 'Key': 'sales/2024/01/data.csv'},
+    ExpiresIn=60,
+)
+
+print('Pre-signed URL:')
+print(url)
+
+# Fetch it with plain HTTP — no AWS credentials needed
+with urllib.request.urlopen(url) as resp:
+    print('\nContent:')
+    print(resp.read().decode())
+```
+
+Expected output:
+
+```
+Pre-signed URL:
+http://localhost:4566/raw-data/sales/2024/01/data.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&...
+
+Content:
+date,region,sales
+2024-01-01,us-east,1200.00
+```
+
+---
+
+## Step 6: Bucket Policy
+
+Bucket policies control which principals can perform which actions on a bucket. floci evaluates the same policy JSON format as real S3, so you can test access rules locally before deploying them.
+
+```bash
+# Apply a policy that allows any principal to read objects
+# but only the 'writer' identity to write them
+cat > policy.json <<'EOF'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicRead",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::processed-data/*"
+    },
+    {
+      "Sid": "RestrictedWrite",
+      "Effect": "Deny",
+      "NotPrincipal": {
+        "AWS": "arn:aws:iam::000000000000:user/writer"
+      },
+      "Action": ["s3:PutObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::processed-data/*"
+    }
+  ]
+}
+EOF
+
+aws s3api put-bucket-policy \
+  --bucket processed-data \
+  --policy file://policy.json
+
+# Verify the policy was stored
+aws s3api get-bucket-policy --bucket processed-data
+```
+
+---
+
+## Bonus: Full Flow with boto3
+
+```python
+import boto3
+
+s3 = boto3.client(
+    's3',
+    endpoint_url='http://localhost:4566',
+    region_name='us-east-1',
+    aws_access_key_id='test',
+    aws_secret_access_key='test',
+)
+
+# Create a bucket
+s3.create_bucket(Bucket='demo')
+
+# Upload several objects
+for month in ['01', '02', '03']:
+    s3.put_object(
+        Bucket='demo',
+        Key='reports/2024/' + month + '/summary.txt',
+        Body=('Month ' + month + ' report').encode(),
+        ContentType='text/plain',
+    )
+
+# List with a prefix filter
+resp = s3.list_objects_v2(Bucket='demo', Prefix='reports/2024/')
+print('Objects:')
+for obj in resp.get('Contents', []):
+    print('  ' + obj['Key'] + '  (' + str(obj['Size']) + ' bytes)')
+
+# Download one
+data = s3.get_object(Bucket='demo', Key='reports/2024/01/summary.txt')
+print('\nContent of 01/summary.txt:')
+print(data['Body'].read().decode())
+```
+
+Expected output:
+
+```
+Objects:
+  reports/2024/01/summary.txt  (14 bytes)
+  reports/2024/02/summary.txt  (14 bytes)
+  reports/2024/03/summary.txt  (14 bytes)
+
+Content of 01/summary.txt:
+Month 01 report
+```
+
+---
+
+## What You Learned
+
+- floci exposes the **real S3 REST API** on `localhost:4566`. No SDK changes beyond `endpoint_url`
+- floci accepts any non-empty credentials. `test`/`test` is the convention for local development
+- Key prefixes organize objects without real directories. `aws s3 ls --recursive` and `list_objects_v2(Prefix=...)` both respect them
+- Pre-signed URLs are structurally identical to real S3 pre-signed URLs. Use them to validate expiry and signature logic before going to production
+- Bucket policies use the same JSON format as real S3, so you can test access rules locally
+
+---
+
+## Next Steps
+
+- Store JSON objects and query them with **Athena + Glue** — see the [Athena + S3: 101](/labs/athena-s3-101/) lab
+- Enable **versioning** on a bucket (`aws s3api put-bucket-versioning`) and observe how overwrites stack
+- Set up an **S3 event notification** to trigger a Lambda function when a new object lands in a prefix

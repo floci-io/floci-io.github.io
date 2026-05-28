@@ -26,7 +26,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   <section class="content-section">
     <div class="container">
       {posts.length === 0 ? (
-        <p class="empty">No posts yet — check back soon.</p>
+        <p class="empty">No posts yet. Check back soon.</p>
       ) : (
         <div class="card-grid">
           {posts.map(post => (

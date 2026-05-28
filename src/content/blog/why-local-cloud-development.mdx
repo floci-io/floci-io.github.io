@@ -13,12 +13,12 @@ This is the development loop most cloud engineers accept as normal. It isn't.
 
 ## The Hidden Cost of Cloud-First Development
 
-Cloud services are priced for production workloads — not for the hundreds of throwaway API calls you make during a single afternoon of development.
+Cloud services are priced for production workloads, not for the hundreds of throwaway API calls you make during a single afternoon of development.
 
 Consider a typical day for a developer building a data pipeline:
 
 - **S3**: hundreds of PutObject / GetObject calls during local testing
-- **Athena**: 20–30 queries while iterating on SQL — at $5 per TB scanned, even small files add up across a team
+- **Athena**: 20–30 queries while iterating on SQL, at $5 per TB scanned, even small files add up across a team
 - **Lambda**: dozens of invocations per test run, each with a cold start penalty
 - **SQS / SNS**: event fan-out tests that trigger cascading invocations
 
@@ -28,7 +28,7 @@ Every round-trip through real infrastructure adds latency to the developer loop.
 
 ## Staging Environments Don't Solve This
 
-The classic answer is a shared staging environment. It helps — until it doesn't.
+The classic answer is a shared staging environment. It helps, until it doesn't.
 
 **Shared state breaks isolation.** One developer's test run leaves orphaned S3 objects or DynamoDB records that corrupt the next developer's test. Debugging becomes archaeology: whose change caused this?
 
@@ -52,13 +52,13 @@ The worst part: mocks give you confidence. Green tests make you feel like the co
 
 Running your cloud stack locally changes the feedback loop entirely.
 
-With floci, `docker-compose up` gives you S3, Lambda, SQS, DynamoDB, Athena, and 40+ other AWS services on your laptop in under a second. Your existing SDK code — boto3, the AWS CLI, `@aws-sdk/client-s3`, Terraform — works without modification. Change the endpoint from `https://s3.amazonaws.com` to `http://localhost:4566` and you're done.
+With floci, `docker-compose up` gives you S3, Lambda, SQS, DynamoDB, Athena, and 40+ other AWS services on your laptop in under a second. Your existing SDK code (boto3, the AWS CLI, `@aws-sdk/client-s3`, Terraform) works without modification. Change the endpoint from `https://s3.amazonaws.com` to `http://localhost:4566` and you're done.
 
 The gains compound across every part of the workflow:
 
 ### Speed
 
-floci starts in **24 milliseconds**. A cold Lambda invocation that takes 800ms on real AWS completes in the same 800ms locally — but you don't wait 3 minutes for CI to provision the infrastructure before it runs.
+floci starts in **24 milliseconds**. A cold Lambda invocation that takes 800ms on real AWS completes in the same 800ms locally, but you don't wait 3 minutes for CI to provision the infrastructure before it runs.
 
 For Athena specifically, there's no queue. `StartQueryExecution` goes straight to DuckDB. A query that takes 8 seconds on real Athena (because it's waiting in a fleet) takes 80ms locally.
 
@@ -86,7 +86,7 @@ When the feedback loop is 4 minutes, you batch your changes. You think carefully
 
 When the feedback loop is 4 seconds, you explore. You test the weird input. You add one more assertion. You refactor the thing that was bothering you because the cost of being wrong just dropped to nothing.
 
-This is the difference between a team that ships confidently and a team that ships carefully — and confidently is faster.
+This is the difference between a team that ships confidently and a team that ships carefully. Confidently is faster.
 
 ## The Objection
 

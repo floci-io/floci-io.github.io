@@ -11,7 +11,7 @@ const cloudColor: Record<string, string> = {
   aws:   '#FF9900',
   azure: '#0078D4',
   gcp:   '#34A853',
-  all:   '#ffe082',
+  all:   '#7A7FD6',
 };
 const cloudLabel: Record<string, string> = {
   aws:   'AWS',
@@ -21,7 +21,7 @@ const cloudLabel: Record<string, string> = {
 };
 const difficultyColor: Record<string, string> = {
   beginner:     'rgba(52,168,83,0.85)',
-  intermediate: '#ffe082',
+  intermediate: '#7A7FD6',
   advanced:     '#ef4444',
 };
 ---
@@ -37,14 +37,14 @@ const difficultyColor: Record<string, string> = {
     <div class="container">
       <div class="section-label">Hands-on</div>
       <h1>101 Labs</h1>
-      <p class="hero-sub">Step-by-step guides for AWS, Azure, and GCP — running entirely on your laptop. No account needed.</p>
+      <p class="hero-sub">Step-by-step guides for AWS, Azure, and GCP that run entirely on your laptop. No account needed.</p>
     </div>
   </section>
 
   <section class="content-section">
     <div class="container">
       {labs.length === 0 ? (
-        <p class="empty">No labs yet — check back soon.</p>
+        <p class="empty">No labs yet. Check back soon.</p>
       ) : (
         <div class="card-grid">
           {labs.map(lab => (

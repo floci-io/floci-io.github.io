@@ -28,7 +28,9 @@ const { title, description, canonical, ogImage = 'https://floci.io/floci_github_
 <meta name="twitter:title" content={title}>
 <meta name="twitter:description" content={description}>
 <meta name="twitter:image" content={ogImage}>
-<link rel="icon" type="image/svg+xml" href="/floci.svg">
+<link rel="icon" type="image/svg+xml" href="/floci-logo.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 <link rel="dns-prefetch" href="https://api.github.com">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="d4cade84-d61d-4384-82d5-59a8b7771ac4"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,25 +39,25 @@ const { title, description, canonical, ogImage = 'https://floci.io/floci_github_
 <meta name="theme-color" content="#0f1117">
 <style is:global>
   :root {
-    --bg: #0f1117; --bg2: #1a1d2e; --bg3: #12152b;
-    --border: rgba(92,107,192,0.15); --border-bright: rgba(92,107,192,0.3);
-    --text: #e8eaf6; --text-muted: #7986cb; --text-dim: #5c6bc0;
-    --accent: #ffe082; --accent-deep: #e6ac00; --accent-cream: #fff8e1;
-    --accent-warm: #f9a825; --accent-dim: rgba(255,224,130,0.1);
-    --indigo: #3949ab; --indigo-mid: #5c6bc0; --indigo-light: #7986cb;
+    --bg: #070B14; --bg2: #161E2E; --bg3: #0F1520;
+    --border: #2A3142; --border-bright: #3D4559;
+    --text: #F8FAFC; --text-muted: #94A3B8; --text-dim: #64748B;
+    --accent: #7A7FD6; --accent-deep: #5559A7; --accent-cream: #E8E9F8;
+    --accent-warm: #6368C2; --accent-dim: rgba(85,89,167,0.12);
+    --indigo: #5559A7; --indigo-mid: #6368C2; --indigo-light: #7A7FD6;
     --green: #22c55e; --red: #ef4444;
     --mono: 'Space Mono', monospace; --sans: 'Sora', sans-serif;
-    --nav-bg: rgba(15,17,23,0.88);
+    --nav-bg: rgba(7,11,20,0.92);
   }
   html.light {
-    --bg: #f4f6fc; --bg2: #ebedf7; --bg3: #e2e5f0;
-    --border: rgba(57,73,171,0.12); --border-bright: rgba(57,73,171,0.25);
-    --text: #1a1d2e; --text-muted: #3949ab; --text-dim: #7986cb;
-    --accent: #c49000; --accent-cream: #fff8e1; --accent-warm: #d4900a;
-    --accent-dim: rgba(196,144,0,0.08); --nav-bg: rgba(244,246,252,0.92);
+    --bg: #F8FAFC; --bg2: #F1F5F9; --bg3: #E2E8F0;
+    --border: #CBD5E1; --border-bright: #94A3B8;
+    --text: #070B14; --text-muted: #5559A7; --text-dim: #94A3B8;
+    --accent: #5559A7; --accent-cream: #E8E9F8; --accent-warm: #44488C;
+    --accent-dim: rgba(85,89,167,0.1); --nav-bg: rgba(248,250,252,0.92);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 72px; }
   body {
     font-family: var(--sans); font-size: 18px;
     background: var(--bg); color: var(--text);
@@ -76,12 +78,12 @@ const { title, description, canonical, ogImage = 'https://floci.io/floci_github_
   .reveal.visible { opacity: 1; transform: none; }
 
   .btn-primary {
-    background: var(--accent); color: #1a1d2e;
+    background: var(--accent-deep); color: #ffffff;
     padding: 13px 28px; border-radius: 8px; font-size: 15px; font-weight: 700;
     text-decoration: none; transition: all 0.2s;
     display: inline-flex; align-items: center; gap: 8px;
   }
-  .btn-primary:hover { background: var(--accent-cream); transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--accent-warm); transform: translateY(-1px); }
   .btn-ghost {
     background: transparent; border: 1px solid var(--border-bright); color: var(--text);
     padding: 13px 28px; border-radius: 8px; font-size: 15px; font-weight: 500;

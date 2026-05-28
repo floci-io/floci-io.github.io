@@ -1,10 +1,298 @@
 ---
-title: Azure Blob Storage — 101
+title: "Azure Blob Storage: 101"
 description: Create containers, upload blobs, and generate SAS tokens using floci-az's Blob Storage API. No Azure account needed.
 cloud: azure
 difficulty: beginner
 duration: 20 min
-tags: [blob, storage]
+tags: [blob, storage, azure, python, sas]
 ---
 
-Placeholder — full lab coming soon.
+## What You'll Build
+
+By the end of this lab you'll have a local Azure Blob Storage service running entirely on your laptop:
+
+1. A container holding a CSV dataset, uploaded with the Azure CLI
+2. A working **Python SDK client** that reads, lists, and writes blobs against `localhost:4577`
+3. A **SAS token** that scopes read access to a single blob, tested end-to-end with a plain HTTP fetch
+
+No Azure account. No subscription. No per-operation cost.
+
+---
+
+## How It Works
+
+floci-az exposes the Blob Storage REST API on port 4577 using the same Azurite-compatible connection string format that official Azure SDKs expect. Every SDK call hits `localhost:4577` instead of `*.blob.core.windows.net`.
+
+```
+Python SDK / Azure CLI / @azure/storage-blob
+    │  PUT · GET · HEAD · DELETE
+    ▼
+floci-az  :4577
+    │  /devstoreaccount1/<container>/<blob>
+    ▼
+local filesystem
+```
+
+No changes to application code beyond swapping the connection string.
+
+---
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/) and Docker Compose
+- Python 3.9+ with `azure-storage-blob` (`pip install azure-storage-blob`)
+- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) (`az`)
+
+---
+
+## Step 1: Start floci-az
+
+Create a `docker-compose.yml`:
+
+```yaml
+services:
+  floci-az:
+    image: floci/floci-az:latest
+    ports:
+      - "4577:4577"
+```
+
+```bash
+docker-compose up -d
+
+# confirm it's healthy
+curl http://localhost:4577/_floci/health
+```
+
+---
+
+## Step 2: Set the Connection String
+
+floci-az uses the same fixed credentials as Azurite. All Azure SDK tooling expects these values for local development.
+
+```bash
+export CONN_STR="DefaultEndpointsProtocol=http;\
+AccountName=devstoreaccount1;\
+AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;\
+BlobEndpoint=http://localhost:4577/devstoreaccount1;"
+```
+
+If you use the floci CLI, one command sets everything:
+
+```bash
+eval $(floci az env)
+# exports AZURE_STORAGE_CONNECTION_STRING
+```
+
+---
+
+## Step 3: Create a Container and Upload Blobs
+
+```bash
+# Create a container
+az storage container create \
+  --name sales-data \
+  --connection-string "$CONN_STR"
+
+# Create a sample CSV file
+cat > sales.csv <<'EOF'
+order_id,region,product,amount
+1,us-east,widget-a,99.50
+2,us-west,widget-b,150.00
+3,eu-west,widget-a,87.00
+4,us-east,widget-c,210.00
+5,eu-west,widget-b,130.00
+EOF
+
+# Upload it
+az storage blob upload \
+  --container-name sales-data \
+  --name sales/data.csv \
+  --file sales.csv \
+  --connection-string "$CONN_STR"
+```
+
+---
+
+## Step 4: List and Download Blobs
+
+```bash
+# List all blobs in the container
+az storage blob list \
+  --container-name sales-data \
+  --connection-string "$CONN_STR" \
+  --output table
+
+# Download the blob back to disk
+az storage blob download \
+  --container-name sales-data \
+  --name sales/data.csv \
+  --file sales-back.csv \
+  --connection-string "$CONN_STR"
+
+cat sales-back.csv
+```
+
+Expected output:
+
+```
+Name              Blob Type    Blob Tier    Length    Content Type
+----------------  -----------  -----------  --------  --------------
+sales/data.csv    BlockBlob    Hot          155       application/octet-stream
+```
+
+---
+
+## Step 5: Read and Write with the Python SDK
+
+Save the following as `blobs.py` and run it:
+
+```python
+from azure.storage.blob import BlobServiceClient
+
+CONN = (
+    "DefaultEndpointsProtocol=http;"
+    "AccountName=devstoreaccount1;"
+    "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"
+    "BlobEndpoint=http://localhost:4577/devstoreaccount1;"
+)
+
+client = BlobServiceClient.from_connection_string(CONN)
+
+# Create a new container
+client.create_container("reports")
+
+# Upload a blob
+blob = client.get_blob_client("reports", "summary.txt")
+blob.upload_blob(b"Q1 total: $676.50\nRegions: 4")
+
+# Download and print it
+data = blob.download_blob().readall()
+print(data.decode())
+
+# List all blobs in the container
+print("\nBlobs in 'reports':")
+for b in client.get_container_client("reports").list_blobs():
+    print("  " + b.name + "  (" + str(b.size) + " bytes)")
+```
+
+Expected output:
+
+```
+Q1 total: $676.50
+Regions: 4
+
+Blobs in 'reports':
+  summary.txt  (28 bytes)
+```
+
+---
+
+## Step 6: Generate a SAS Token
+
+SAS tokens scope access to a specific blob without sharing the account key. floci-az supports the same SAS format as real Azure Blob Storage, so you can validate expiry and permission logic locally before going to production.
+
+Save the following as `sas.py` and run it:
+
+```python
+import urllib.request
+from datetime import datetime, timedelta, timezone
+from azure.storage.blob import (
+    BlobServiceClient,
+    generate_blob_sas,
+    BlobSasPermissions,
+)
+
+ACCOUNT_NAME = "devstoreaccount1"
+ACCOUNT_KEY  = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+
+CONN = (
+    "DefaultEndpointsProtocol=http;"
+    "AccountName=" + ACCOUNT_NAME + ";"
+    "AccountKey=" + ACCOUNT_KEY + ";"
+    "BlobEndpoint=http://localhost:4577/" + ACCOUNT_NAME + ";"
+)
+
+# Make sure the blob exists before generating the token
+client = BlobServiceClient.from_connection_string(CONN)
+try:
+    client.create_container("sales-data")
+except Exception:
+    pass  # already exists
+blob = client.get_blob_client("sales-data", "sales/data.csv")
+blob.upload_blob(b"order_id,region\n1,us-east\n", overwrite=True)
+
+# Generate a read-only SAS token valid for one hour
+sas_token = generate_blob_sas(
+    account_name=ACCOUNT_NAME,
+    container_name="sales-data",
+    blob_name="sales/data.csv",
+    account_key=ACCOUNT_KEY,
+    permission=BlobSasPermissions(read=True),
+    expiry=datetime.now(timezone.utc) + timedelta(hours=1),
+)
+
+sas_url = (
+    "http://localhost:4577/" + ACCOUNT_NAME
+    + "/sales-data/sales/data.csv?" + sas_token
+)
+
+print("SAS URL:")
+print(sas_url)
+
+# Fetch via plain HTTP — no credentials in the request, only in the URL
+with urllib.request.urlopen(sas_url) as resp:
+    print("\nContent fetched via SAS:")
+    print(resp.read().decode())
+```
+
+Expected output:
+
+```
+SAS URL:
+http://localhost:4577/devstoreaccount1/sales-data/sales/data.csv?sv=2020-08-04&...
+
+Content fetched via SAS:
+order_id,region
+1,us-east
+```
+
+---
+
+## Bonus: SAS Token via the Azure CLI
+
+```bash
+# Generate a SAS token that expires in one hour (macOS / Linux)
+EXPIRY=$(date -u -v+1H +"%Y-%m-%dT%H:%MZ" 2>/dev/null \
+  || date -u -d "+1 hour" +"%Y-%m-%dT%H:%MZ")
+
+SAS=$(az storage blob generate-sas \
+  --container-name sales-data \
+  --name sales/data.csv \
+  --permissions r \
+  --expiry "$EXPIRY" \
+  --connection-string "$CONN_STR" \
+  --output tsv)
+
+echo "Token: $SAS"
+
+# Download using the SAS URL — no account key needed
+curl "http://localhost:4577/devstoreaccount1/sales-data/sales/data.csv?$SAS"
+```
+
+---
+
+## What You Learned
+
+- floci-az exposes the **real Blob Storage REST API** on `localhost:4577`. No SDK changes beyond the connection string
+- The fixed Azurite credentials (`devstoreaccount1`) work with every Azure SDK and the Azure CLI out of the box
+- Containers and blobs behave identically to real Azure: metadata, content type, copy operations, and list pagination all work
+- SAS tokens generated locally are structurally identical to real Azure SAS tokens. Use them to validate expiry and permission logic before deploying to production
+
+---
+
+## Next Steps
+
+- Upload blobs with custom **metadata** (`--metadata` in the CLI) and filter with `az storage blob list --include m`
+- Try `BlobLeaseClient` to test optimistic concurrency patterns against a local blob
+- Register an **Event Grid** subscription on the container so a local Azure Function fires on every upload

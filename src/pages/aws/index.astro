@@ -1,0 +1,697 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const sectionLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#performance', label: 'Performance' },
+  { href: '#quickstart', label: 'Quick Start' },
+  { href: '#examples', label: 'Examples' },
+];
+---
+
+<Layout
+  title="floci — Fast, Free AWS Emulator"
+  description="floci is a fast, free, open-source AWS emulator built with Quarkus Native. Starts in 24ms, uses 13 MiB at idle. Drop-in replacement for LocalStack. No auth token, no restrictions, ever."
+  canonical="https://floci.io/aws/"
+  ogImage="https://floci.io/og/aws.png"
+>
+  <Nav active="aws" githubUrl="https://github.com/floci-io/floci" docsUrl="https://github.com/floci-io/floci" sectionLinks={sectionLinks} />
+
+
+  <!-- HERO -->
+  <section class="hero" id="main-content">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-logo-wrap">
+      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci AWS" role="img">
+        <g style="isolation:isolate"><g style="isolation:isolate">
+          <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+          <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+          <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+          <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+        </g></g>
+        <g>
+          <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+          <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+          <ellipse class="floci-dot aws" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+          <ellipse class="floci-dot aws" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="badge">Drop-in LocalStack replacement</div>
+    <h1>Local AWS.<br><span class="accent">Zero cost.</span><br>Zero compromise.</h1>
+    <p class="hero-sub">Fast, free, open-source AWS emulator built with Quarkus Native. Drop-in replacement for LocalStack. No auth token, no restrictions, ever.</p>
+    <div class="hero-actions">
+      <a href="#quickstart" class="btn-primary">Get Started →</a>
+      <a href="https://github.com/floci-io/floci" class="btn-ghost" target="_blank">★ Star on GitHub <span id="ghStarsBtn"></span></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number">24ms</span><div class="stat-label">Startup time</div><div class="stat-sub">Quarkus Native binary</div></div>
+      <div class="stat-item"><span class="stat-number">13 MiB</span><div class="stat-label">Idle memory</div><div class="stat-sub">native binary, minimal footprint</div></div>
+      <div class="stat-item"><span class="stat-number">289/s</span><div class="stat-label">Lambda throughput</div><div class="stat-sub">real Docker execution per invocation</div></div>
+      <div class="stat-item"><span class="stat-number">1,925/1,925</span><div class="stat-label">SDK compat tests</div><div class="stat-sub">100% pass rate</div></div>
+      <div class="stat-item"><span class="stat-number" id="ghStarsStat">—</span><div class="stat-label">GitHub stars</div><div class="stat-sub">github.com/floci-io/floci</div></div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section>
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Why floci</div>
+        <h2>Built for developers who ship.</h2>
+        <p class="section-desc">No gatekeeping. No pricing tiers. No surprises. A reliable AWS environment that starts instantly and works everywhere.</p>
+      </div>
+      <div class="cards-grid reveal" style="transition-delay:0.1s">
+        <div class="card"><div class="card-icon teal">🚀</div><h3>No auth token. Ever.</h3><p>Pull the Docker image and go. No sign-ups, no API keys, no telemetry. Zero setup required.</p></div>
+        <div class="card"><div class="card-icon green">⚡</div><h3>24ms startup</h3><p>Native binary compiled with GraalVM Mandrel. Starts instantly, and your CI pipeline will thank you.</p></div>
+        <div class="card"><div class="card-icon amber">💾</div><h3>13 MiB idle memory</h3><p>Native binary, minimal memory footprint. Fits on the smallest CI runners.</p></div>
+        <div class="card"><div class="card-icon blue">🔓</div><h3>Truly MIT licensed</h3><p>Fork it, embed it, extend it. No "community edition" sunset. No "enterprise" feature flags. Every service available to every developer, always.</p></div>
+        <div class="card"><div class="card-icon teal">☁️</div><h3>47 AWS services</h3><p>From S3 to Step Functions to Neptune to Transcribe, including ElastiCache, RDS, API Gateway v2 + WebSocket, Route53, Transfer Family, and more. All free.</p></div>
+        <div class="card"><div class="card-icon green">🔁</div><h3>Drop-in compatible</h3><p>Same port 4566. Same wire protocols. Same AWS SDK calls. Zero application code changes needed to switch.</p></div>
+        <div class="card"><div class="card-icon blue">🔒</div><h3>Optional TLS / HTTPS</h3><p>Enable HTTPS with one env var. Floci auto-generates a self-signed certificate at startup so you can test TLS-sensitive code paths locally.</p></div>
+        <div class="card"><div class="card-icon amber">🏢</div><h3>Per-account isolation</h3><p>Full multi-tenancy: each AWS account ID gets its own isolated storage. Run dev, staging, and test on a single Floci instance.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE CTA -->
+  <section style="background:var(--bg2);padding:60px 0">
+    <div class="container">
+      <div class="compare-cta reveal">
+        <div>
+          <div class="section-label" style="margin-bottom:10px">Comparison</div>
+          <h3 style="font-size:22px;font-weight:800;margin-bottom:8px">Switching from LocalStack?</h3>
+          <p style="color:var(--text-muted);font-size:15px;max-width:480px">See the full feature comparison, performance benchmarks, and step-by-step migration guide on the dedicated compare page.</p>
+        </div>
+        <a href="/aws/compare/" class="btn-primary" style="white-space:nowrap;flex-shrink:0">View comparison →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section class="perf-section" id="performance">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Benchmarks</div>
+        <h2>Performance that actually matters.</h2>
+        <p class="section-desc">Real numbers from a 1,925-test AWS SDK compatibility suite.</p>
+      </div>
+      <div class="perf-grid reveal" style="transition-delay:0.1s">
+        <div>
+          <div class="metric-card">
+            <div class="metric-label">Startup Time</div>
+            <div class="metric-bars">
+              <div class="bar-row"><div class="bar-row-header"><span class="name">Floci Native</span><span class="val">24 ms</span></div><div class="bar-track"><div class="bar-fill accent" style="width:2%"></div></div></div>
+              <div class="bar-row"><div class="bar-row-header"><span class="name" style="color:var(--text-dim)">Typical emulator</span><span class="val" style="color:var(--text-dim)">~6 000 ms</span></div><div class="bar-track"><div class="bar-fill" style="width:100%;background:rgba(255,255,255,0.08)"></div></div></div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Idle Memory</div>
+            <div class="metric-bars">
+              <div class="bar-row"><div class="bar-row-header"><span class="name">Floci Native</span><span class="val">13 MiB</span></div><div class="bar-track"><div class="bar-fill accent" style="width:5%"></div></div></div>
+              <div class="bar-row"><div class="bar-row-header"><span class="name" style="color:var(--text-dim)">Typical emulator</span><span class="val" style="color:var(--text-dim)">~250 MiB</span></div><div class="bar-track"><div class="bar-fill" style="width:100%;background:rgba(255,255,255,0.08)"></div></div></div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Lambda Throughput (req/s)</div>
+            <div class="metric-bars">
+              <div class="bar-row"><div class="bar-row-header"><span class="name">Floci Native</span><span class="val">289 req/s</span></div><div class="bar-track"><div class="bar-fill accent" style="width:100%"></div></div></div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Lambda Warm Latency (avg)</div>
+            <div class="metric-bars">
+              <div class="bar-row"><div class="bar-row-header"><span class="name">Floci Native</span><span class="val">2 ms</span></div><div class="bar-track"><div class="bar-fill accent" style="width:100%"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="perf-callouts" style="margin-bottom:24px">
+            <div class="callout"><span class="callout-num">~90 MB</span><div class="callout-label">Docker image size</div></div>
+            <div class="callout"><span class="callout-num">100%</span><div class="callout-label">SDK tests pass<br>1,925 of 1,925</div></div>
+            <div class="callout"><span class="callout-num">47</span><div class="callout-label">AWS services<br>all free, all unlocked</div></div>
+            <div class="callout"><span class="callout-num">$0</span><div class="callout-label">Forever free<br>no auth token</div></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Docker Image Size</div>
+            <div class="image-viz">
+              <div class="img-bar-row"><div class="img-bar-label"><span style="color:var(--text-muted);font-size:13px">Floci Native</span><span style="font-family:var(--mono);font-size:12px;color:var(--accent)">~90 MB</span></div><div class="img-bar-track"><div class="img-bar-fill" style="width:100%;background:var(--accent)"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCKER ENGINES -->
+  <section id="docker-engines">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">True Parity</div>
+        <h2>Real engines. Real protocols.</h2>
+        <p class="section-desc">Floci doesn't mock responses. For complex data services, it orchestrates real engines in Docker to guarantee 100% protocol fidelity.</p>
+      </div>
+      <div class="docker-grid reveal" style="transition-delay:0.1s">
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">λ</div>Lambda Runtimes</div><p>Execution in isolated Docker containers using real AWS runtimes. Node.js, Python, Java, Go, and more with identical environment variables.</p><div class="docker-benefit-tag">Isolated Execution</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">DB</div>RDS Engines</div><p>Real PostgreSQL, MySQL, or MariaDB instances. Full lifecycle, snapshot/restore, and JDBC traffic with IAM database authentication.</p><div class="docker-benefit-tag">JDBC Wire Parity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">R</div>ElastiCache (Redis)</div><p>Real Redis container. Floci acts as a SigV4 proxy for IAM authentication against your local Redis cluster.</p><div class="docker-benefit-tag">RESP Protocol</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">E</div>Amazon ECS</div><p>Orchestrates real Docker containers for task definitions, providing a local control plane for task lifecycle management.</p><div class="docker-benefit-tag">Container Fidelity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">S</div>OpenSearch</div><p>Real OpenSearch clusters. Floci manages the underlying engine nodes, fully functional with the complete OpenSearch API suite.</p><div class="docker-benefit-tag">Search Fidelity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">K</div>MSK (Kafka)</div><p>Real Apache Kafka via Redpanda. Perfect for testing event-driven architectures with the same performance and semantics as Amazon MSK.</p><div class="docker-benefit-tag">Streaming Parity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">R</div>ECR Registry</div><p>Real OCI-compatible registry (<code style="font-family:var(--mono);font-size:12px;color:var(--accent)">registry:2</code>). Push and pull with the stock Docker client, including image-backed Lambdas.</p><div class="docker-benefit-tag">OCI Wire Parity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">A</div>Athena</div><p>Query execution in a DuckDB sidecar container. Same execution model as AWS Athena, no mocking.</p><div class="docker-benefit-tag">Query Fidelity</div></div>
+        <div class="docker-card"><div class="docker-card-title"><div class="icon">⊞</div>EC2 Instances</div><p>RunInstances launches real Docker containers. SSH key injection, UserData execution, and IMDS (IMDSv1 + IMDSv2) with IAM credential serving.</p><div class="docker-benefit-tag">IMDS + SSH Fidelity</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IAM -->
+  <section class="iam-section" id="iam">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">IAM Integration</div>
+        <h2>Real IAM. Real security. Local.</h2>
+        <p class="section-desc">Lambda, ElastiCache, RDS, ECS, EC2, MSK, EKS, OpenSearch, ECR, and CodeBuild all support full IAM authentication and SigV4 validation.</p>
+      </div>
+      <div class="iam-cards reveal" style="transition-delay:0.1s">
+        <div class="iam-card"><div class="iam-card-service">Lambda</div><h3>Function Execution with IAM</h3><p>Functions run in real Docker containers with IAM role assumption. Full warm pool, aliases, ESM triggers, and Cognito Lambda triggers.</p><ul class="iam-features"><li>Docker-native execution (Node, Python, Java, Go, Ruby, .NET)</li><li>SQS, Kinesis, and DynamoDB Streams ESM triggers</li><li>Function URLs with IAM or public access control</li><li>Aliases, versions, concurrency controls</li><li>25 Lambda operations supported</li></ul></div>
+        <div class="iam-card"><div class="iam-card-service">ElastiCache</div><h3>Redis / Valkey with IAM Auth</h3><p>Real Redis instance running in Docker, proxied through Floci with full IAM authentication via SigV4 token validation.</p><ul class="iam-features"><li>Redis via Docker with real RESP protocol</li><li>IAM auth with SigV4 signature validation</li><li>Cluster &amp; replication group creation</li><li>Snapshot and restore support</li><li>21/21 SDK tests passing</li></ul></div>
+        <div class="iam-card"><div class="iam-card-service">RDS</div><h3>Postgres, MySQL &amp; MariaDB with IAM</h3><p>PostgreSQL, MySQL, and MariaDB databases in Docker, with full IAM database authentication and JDBC wire proxying. 50/50 SDK tests pass.</p><ul class="iam-features"><li>PostgreSQL, MySQL, and MariaDB via Docker</li><li>IAM database authentication over JDBC</li><li>Snapshot, restore, parameter groups</li><li>Multi-AZ configuration support</li><li>50/50 SDK tests passing</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">floci — AWS Services</div>
+        <h2>47 AWS services. All of them free.</h2>
+        <p class="section-desc">Every service is fully unlocked. Services marked with ★ are exclusive to Floci.</p>
+      </div>
+      <div class="services-grid reveal" style="transition-delay:0.1s">
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">S3</span><span class="service-proto">REST XML</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">SQS</span><span class="service-proto">Query / JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">SNS</span><span class="service-proto">Query / JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">DynamoDB + Streams</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Lambda</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">API Gateway REST</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">HTTP + WebSocket</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (68+ ops)</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">STS</span><span class="service-proto">Query (7 ops)</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">KMS</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Kinesis</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Secrets Manager</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">SSM Parameter Store</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudFormation</span><span class="service-proto">Query</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Step Functions</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ElastiCache ★</span><span class="service-proto">Redis + IAM</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">RDS ★</span><span class="service-proto">PG + MySQL + IAM</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">EventBridge + Scheduler</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Logs</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Metrics</span><span class="service-proto">Query</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">MSK (Kafka)</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">ECS</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">EC2</span><span class="service-proto">Query</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">ACM</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">ECR</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">SES + SES v2</span><span class="service-proto">Query / JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">OpenSearch</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig + Data</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">Docker · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Glue</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Auto Scaling ★</span><span class="service-proto">Query</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">AWS Backup ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Route 53 ★</span><span class="service-proto">REST XML</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Textract ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Transfer Family ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Transcribe ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Neptune ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cost Explorer</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Pricing</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">CUR + BCM Data Exports</span><span class="service-proto">REST JSON</span></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Exclusive to Floci, not available in other free AWS emulators</p>
+    </div>
+  </section>
+
+
+  <!-- QUICKSTART -->
+  <section class="quickstart-section" id="quickstart">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Quick Start</div>
+        <h2>Up and running in seconds.</h2>
+        <p class="section-desc">Use the floci CLI for the smoothest experience, or run Docker directly if you prefer bare metal.</p>
+      </div>
+
+      <!-- method tabs -->
+      <div class="qs-method-tabs reveal" id="qsMethodTabs" style="transition-delay:0.05s">
+        <button class="qs-method-tab active" data-qs="cli">floci CLI</button>
+        <button class="qs-method-tab" data-qs="docker">Docker</button>
+      </div>
+
+      <!-- floci CLI panel -->
+      <div id="qspanel-cli" class="qs-panel reveal" style="transition-delay:0.1s">
+        <div class="quickstart-grid">
+          <div>
+            <h3 style="margin-bottom:10px;font-size:16px;color:var(--text-muted);font-weight:500">1 · Install floci CLI</h3>
+            <div class="code-tabs" id="installTabs">
+              <button class="code-tab active" data-tab="brew">Homebrew</button>
+              <button class="code-tab" data-tab="curl">curl</button>
+              <button class="code-tab" data-tab="ps">PowerShell</button>
+              <button class="code-tab" data-tab="scoop">Scoop</button>
+            </div>
+            <div id="itab-brew" class="code-block tabbed"><pre
+><span class="cmd">brew install <span class="acc">floci-io/floci/floci</span></span></pre></div>
+            <div id="itab-curl" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span></pre></div>
+            <div id="itab-ps" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">iwr <span class="acc">https://floci.io/install.ps1</span> | iex</span></pre></div>
+            <div id="itab-scoop" class="code-block tabbed" style="display:none"><pre
+><span class="cmd">scoop bucket add floci <span class="acc">https://github.com/floci-io/scoop-floci</span>
+scoop install floci</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">2 · Start the emulator</h3>
+            <div class="code-block"><pre
+><span class="cmd">floci start</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">3 · Export env vars</h3>
+            <div class="code-block"><pre
+><span class="cmd">eval $(floci env)</span>
+<span class="comment"># exports AWS_ENDPOINT_URL, AWS_ACCESS_KEY_ID,</span>
+<span class="comment"># AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Create a bucket</span>
+<span class="cmd">aws s3 mb s3://<span class="str">my-bucket</span></span>
+
+<span class="comment"># Write a file and upload it</span>
+<span class="cmd">echo <span class="str">"Why pay for S3 when floci is free? 🎉"</span> &gt; hello-floci.txt
+aws s3 cp hello-floci.txt \
+  s3://<span class="str">my-bucket</span>/hello-floci.txt</span>
+
+<span class="comment"># Download it back and read it</span>
+<span class="cmd">aws s3 cp s3://<span class="str">my-bucket</span>/hello-floci.txt \
+  hello-back.txt
+cat hello-back.txt</span></pre></div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="comment"># Check status</span>
+<span class="cmd">floci status</span>
+
+<span class="comment"># View logs</span>
+<span class="cmd">floci logs --follow</span>
+
+<span class="comment"># Stop the emulator</span>
+<span class="cmd">floci stop</span>
+
+<span class="comment"># Run health diagnostics</span>
+<span class="cmd">floci doctor</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Start with persistence</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">floci start --persist <span class="acc">./data</span></span>
+<span class="comment"># state survives container restarts</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Save &amp; restore state</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">floci snapshot save <span class="acc">my-snapshot</span></span>
+<span class="cmd">floci snapshot restore <span class="acc">my-snapshot</span></span></pre></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docker panel -->
+      <div id="qspanel-docker" class="qs-panel reveal" style="transition-delay:0.1s;display:none">
+        <div class="quickstart-grid">
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker run</h3>
+            <div class="code-block"><pre
+><span class="comment"># All 47 services on :4566</span>
+<span class="cmd">docker run -d --name floci \
+  -p <span class="acc">4566:4566</span> \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  floci/floci:<span class="acc">latest</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Set env vars</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=http://localhost:4566
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=test
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=test
+export <span class="acc">AWS_DEFAULT_REGION</span>=us-east-1</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">aws s3 mb s3://<span class="str">my-bucket</span>
+echo <span class="str">"Why pay for S3 when floci is free? 🎉"</span> \
+  &gt; hello-floci.txt
+aws s3 cp hello-floci.txt \
+  s3://<span class="str">my-bucket</span>/hello-floci.txt
+aws s3 cp s3://<span class="str">my-bucket</span>/hello-floci.txt \
+  hello-back.txt
+cat hello-back.txt</span></pre></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">services:
+  floci:
+    image: floci/floci:<span class="acc">latest</span>
+    ports:
+      - <span class="str">"4566:4566"</span>
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+    environment:
+      FLOCI_STORAGE_MODE: <span class="acc">hybrid</span></span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Java SDK v2</h3>
+            <div class="code-block" style="font-size:12px"><pre
+><span class="cmd">S3Client s3 = S3Client.builder()
+  .endpointOverride(URI.create(<span class="str">"http://localhost:4566"</span>))
+  .region(Region.<span class="acc">US_EAST_1</span>)
+  .credentialsProvider(
+    StaticCredentialsProvider.create(
+      AwsBasicCredentials.create(<span class="str">"test"</span>, <span class="str">"test"</span>)))
+  .build();</span></pre></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLES -->
+      <div id="examples" class="reveal" style="transition-delay:0.15s;margin-top:60px">
+        <div class="section-label">Examples</div>
+        <h2>Real workflows. Local environment.</h2>
+        <p class="section-desc">End-to-end recipes for complex services. No cloud account needed.</p>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s;margin-top:40px">
+        <div class="code-tabs" id="exampleTabs">
+          <button class="code-tab active" data-tab="eks">EKS + kubectl</button>
+          <button class="code-tab" data-tab="ecs">ECS Tasks</button>
+          <button class="code-tab" data-tab="athena">Athena + S3</button>
+        </div>
+        <div id="tab-eks" class="code-block tabbed" style="font-size:13px;line-height:1.8">
+          <span class="comment"># Set up environment</span><br>
+          <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span><br>
+export <span class="acc">AWS_DEFAULT_REGION</span>=<span class="str">us-east-1</span><br>
+export <span class="acc">AWS_ACCESS_KEY_ID</span>=<span class="str">test</span><br>
+export <span class="acc">AWS_SECRET_ACCESS_KEY</span>=<span class="str">test</span></span><br><br>
+          <span class="comment"># Create EKS cluster (Floci spins up a real k3s node)</span><br>
+          <span class="cmd">aws eks create-cluster \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--name <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--role-arn arn:aws:iam::<span class="acc">000000000000</span>:role/eks-role \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--resources-vpc-config subnetIds=<span class="str">subnet-00000001</span></span><br><br>
+          <span class="comment"># Pull kubeconfig and use kubectl</span><br>
+          <span class="cmd">aws eks update-kubeconfig --name <span class="str">dev-cluster</span><br>
+kubectl run nginx --image=<span class="str">nginx:alpine</span> --port=<span class="acc">80</span><br>
+kubectl get pods,svc</span>
+        </div>
+        <div id="tab-ecs" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment"># Set up environment</span><br>
+          <span class="cmd">export <span class="acc">AWS_ENDPOINT_URL</span>=<span class="str">http://localhost:4566</span></span><br><br>
+          <span class="comment"># Register task definition and create cluster</span><br>
+          <span class="cmd">aws ecs register-task-definition \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--family <span class="str">web-task</span> --network-mode <span class="str">bridge</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--container-definitions <span class="str">'[&#123;"name":"web","image":"nginx:alpine","portMappings":[&#123;"containerPort":80,"hostPort":8081&#125;],"memory":128,"cpu":64&#125;]'</span><br><br>
+aws ecs create-cluster --cluster-name <span class="str">dev-cluster</span></span><br><br>
+          <span class="comment"># Run a task (Floci launches a real Docker container)</span><br>
+          <span class="cmd">aws ecs run-task \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--cluster <span class="str">dev-cluster</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--task-definition <span class="str">web-task</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--count 1</span>
+        </div>
+        <div id="tab-athena" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment"># Upload data to S3</span><br>
+          <span class="cmd">aws s3 mb s3://<span class="str">analytics-bucket</span><br>
+aws s3 cp orders.json s3://<span class="str">analytics-bucket</span>/orders/</span><br><br>
+          <span class="comment"># Register Glue table and run SQL query</span><br>
+          <span class="cmd">aws glue create-database --database-input <span class="str">'&#123;"Name":"shop"&#125;'</span><br><br>
+QUERY_ID=$(aws athena start-query-execution \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--query-string <span class="str">"SELECT customer, SUM(amount) FROM shop.orders GROUP BY customer"</span> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;--result-configuration <span class="str">'&#123;"OutputLocation":"s3://analytics-bucket/results/"&#125;'</span> \<br>
+&nbsp;&nbsp;--query <span class="str">'QueryExecutionId'</span> --output text)<br><br>
+aws athena get-query-results --query-execution-id <span class="acc">$QUERY_ID</span></span>
+        </div>
+      </div>
+
+      <div class="mit-banner reveal" style="transition-delay:0.3s">
+        <div class="mit-badge">MIT License · No Auth Token · Open Source Forever</div>
+        <h3>Light, fluffy, and always free.</h3>
+        <p>Like <em>cirrocumulus floccus</em>, the cloud formation that gave Floci its name. Small, lightweight, and always there when you need it.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="https://github.com/floci-io/floci" class="btn-primary" target="_blank">View on GitHub →</a>
+          <a href="/aws/#quickstart" class="btn-ghost">Quick Start ↑</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="/">← All Products</a>
+      <a href="https://github.com/floci-io/floci" target="_blank">GitHub</a>
+      <a href="https://github.com/floci-io/floci/blob/main/README.md" target="_blank">README</a>
+      <a href="/az/">floci-az (Azure)</a>
+      <a href="/gcp/">floci-gcp (GCP)</a>
+      <a href="https://hectorvent.dev/posts/introducing-floci/" target="_blank">Blog</a>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center">
+      <a href="https://www.linkedin.com/company/floci/" target="_blank" class="social-icon" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+      <a href="https://x.com/floci_io" target="_blank" class="social-icon" aria-label="X / Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    </div>
+  </Footer>
+
+</Layout>
+
+<style>
+  /* AWS-specific CSS vars additions */
+  :root {
+    --bar-track: rgba(255,255,255,0.05); --img-bar-track: rgba(255,255,255,0.04);
+    --row-hover: rgba(255,255,255,0.02);
+    --accent-glow: rgba(85,89,167,0.25);
+  }
+  html.light {
+    --bar-track: rgba(0,0,0,0.06); --img-bar-track: rgba(0,0,0,0.05);
+    --row-hover: rgba(0,0,0,0.02);
+    --accent-glow: rgba(85,89,167,0.15);
+  }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(57,73,171,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(57,73,171,0.08) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+  .hero-glow { position: absolute; width: 800px; height: 400px; background: radial-gradient(ellipse at center, rgba(85,89,167,0.14), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(122,127,214,0.1); border: 1px solid rgba(122,127,214,0.28); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeSlideUp 0.6s ease both; max-width: 100%; }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-warm); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
+  @keyframes fadeSlideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .hero-logo-wrap { animation: fadeSlideUp 0.5s ease both; margin-bottom: 20px; }
+  .hero-logo-svg { height: 72px; width: auto; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 28px rgba(255,153,0,0.35)); }
+  .hero-logo-svg .floci-text, .hero-logo-svg .floci-cloud { fill: #F8FAFC; }
+  html.light .hero-logo-svg .floci-text { fill: #262425; }
+  html.light .hero-logo-svg .floci-cloud { fill: #151515; }
+  .hero-logo-svg .floci-dot.aws { fill: #FF9900; }
+  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeSlideUp 0.6s 0.1s ease both; }
+  .hero h1 .accent { color: #FF9900; }
+  .hero h1 .strike { text-decoration: line-through; color: var(--text-dim); font-size: 0.75em; }
+  .hero-sub { font-size: clamp(20px, 2vw, 24px); color: var(--text-muted); max-width: 600px; margin-bottom: 40px; font-weight: 300; animation: fadeSlideUp 0.6s 0.2s ease both; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeSlideUp 0.6s 0.3s ease both; }
+  #ghStarsBtn { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,0.15); border-radius: 4px; padding: 1px 7px; margin-left: 4px; }
+
+  /* HERO STATS */
+  .hero-stats { display: flex; gap: 0; margin-top: 70px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeSlideUp 0.6s 0.4s ease both; max-width: 860px; width: 100%; }
+  .stat-item { flex: 1; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--bg2); transition: background 0.2s; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--bg3); }
+  @media (max-width: 640px) { .hero-stats { flex-wrap: wrap; } .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); padding: 18px 20px; } .stat-item:nth-child(odd) { border-right: 1px solid var(--border); } .stat-item:nth-last-child(-n+2) { border-bottom: none; } }
+  .stat-number { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+  /* MARQUEE */
+
+  /* SELLING POINTS */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
+  .card { background: var(--bg2); padding: 36px 32px; transition: background 0.2s; position: relative; }
+  .card:hover { background: var(--bg3); }
+  .card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; }
+  .card-icon.green { background: rgba(34,197,94,0.1); }
+  .card-icon.amber { background: rgba(122,127,214,0.1); }
+  .card-icon.blue { background: rgba(92,107,192,0.12); }
+  .card-icon.teal { background: rgba(57,73,171,0.15); }
+  .card h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+  .card p { font-size: 16px; color: var(--text-muted); line-height: 1.65; }
+
+  /* PERFORMANCE */
+  .perf-section { background: var(--bg2); }
+  .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 60px; align-items: start; }
+  @media(max-width: 768px) { .perf-grid { grid-template-columns: 1fr; } }
+  .metric-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 16px; }
+  .metric-label { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .metric-bars { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; flex-direction: column; gap: 5px; }
+  .bar-row-header { display: flex; justify-content: space-between; font-size: 13px; }
+  .bar-row-header .name { color: var(--text-muted); }
+  .bar-row-header .val { font-family: var(--mono); color: var(--text); font-size: 12px; }
+  .bar-track { height: 8px; background: var(--bar-track); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  .bar-fill.accent { background: var(--accent); }
+  .bar-fill.red { background: rgba(239,68,68,0.7); }
+  .win-badge { font-family: var(--mono); font-size: 11px; background: rgba(122,127,214,0.1); color: var(--accent); border: 1px solid rgba(122,127,214,0.28); border-radius: 4px; padding: 2px 8px; }
+  .perf-callouts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .callout { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 24px 20px; text-align: center; }
+  .callout-num { font-family: var(--mono); font-size: 36px; font-weight: 700; color: var(--accent); display: block; line-height: 1; margin-bottom: 6px; }
+  .callout-label { font-size: 13px; color: var(--text-muted); }
+  .image-viz { padding: 20px 0; }
+  .img-bar-row { margin-bottom: 14px; }
+  .img-bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+  .img-bar-track { height: 12px; background: var(--img-bar-track); border-radius: 3px; overflow: hidden; }
+  .img-bar-fill { height: 100%; border-radius: 3px; }
+  .compat-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+  .compat-row:last-child { border-bottom: none; }
+  .compat-name { flex: 1; font-size: 13px; }
+  .compat-bar { flex: 2; }
+  .compat-score { font-family: var(--mono); font-size: 12px; min-width: 70px; text-align: right; }
+  .compat-score.perfect { color: var(--accent); }
+  .compat-bar-inner { height: 6px; border-radius: 3px; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
+  .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
+  .service-item:hover { background: var(--bg3); }
+  .service-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-warm); flex-shrink: 0; }
+  .service-name { font-size: 13px; font-weight: 500; }
+  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+
+  /* IAM */
+  .iam-section { background: var(--bg2); }
+  .iam-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+  @media(max-width: 768px) { .iam-cards { grid-template-columns: 1fr; } }
+  .iam-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 32px 28px; position: relative; overflow: hidden; }
+  .iam-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent-warm), var(--accent), transparent); }
+  .iam-card-service { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .iam-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 14px; }
+  .iam-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+  .iam-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .iam-features li { font-size: 13px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 10px; }
+  .iam-features li::before { content: '✓'; color: var(--accent-warm); font-family: var(--mono); font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+
+  /* DOCKER ENGINES */
+  .docker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 60px; }
+  .docker-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 32px; transition: transform 0.2s, border-color 0.2s; }
+  .docker-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .docker-card-title { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+  .docker-card-title .icon { width: 32px; height: 32px; background: rgba(57,73,171,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 16px; }
+  .docker-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+  .docker-benefit-tag { display: inline-block; padding: 4px 10px; border-radius: 6px; background: rgba(34,197,94,0.08); color: var(--green); font-family: var(--mono); font-size: 11px; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* COMPARISON */
+  .compare-cta { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; background: rgba(85,89,167,0.06); border: 1px solid rgba(122,127,214,0.2); border-radius: 14px; padding: 32px 36px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .compare-table th { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; background: var(--bg2); }
+  .compare-table th:nth-child(2) { color: var(--accent); }
+  .compare-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  .compare-table td:nth-child(2) { color: var(--text); font-weight: 500; }
+  .compare-table tr:hover td { background: var(--row-hover); }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .check { color: var(--accent); font-weight: 700; }
+  .cross { color: var(--red); }
+  .warn { color: var(--accent-warm); }
+  .compare-wrap { border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+  .compare-table { min-width: 540px; }
+
+  /* CODE */
+  .code-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; margin-top: 20px; font-family: var(--mono); font-size: 14px; line-height: 1.7; overflow-x: auto; }
+  .code-block pre { margin: 0; padding: 0; font: inherit; color: inherit; white-space: pre; background: none; border: none; overflow: visible; line-height: inherit; }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .cmd { color: var(--text); }
+  .code-block .acc { color: var(--accent); }
+  .code-block .str { color: #f97316; }
+  .code-tabs { display: flex; gap: 2px; margin-bottom: 0; border: 1px solid var(--border); border-bottom: none; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--bg3); }
+  .code-tab { padding: 10px 18px; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: var(--mono); border: none; background: transparent; transition: all 0.15s; }
+  .code-tab.active { background: var(--bg2); color: var(--text); }
+  .code-block.tabbed { border-radius: 0 0 10px 10px; }
+  .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
+  .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
+  .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .qs-method-tab:hover:not(.active) { color: var(--text); }
+  .qs-panel { margin-top: 36px; }
+  .quickstart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  @media(max-width: 768px) { .quickstart-grid { grid-template-columns: 1fr; } .migration-grid { grid-template-columns: 1fr !important; } }
+
+  /* MIT BANNER */
+  .mit-banner { background: rgba(85,89,167,0.06); border: 1px solid rgba(122,127,214,0.2); border-radius: 12px; padding: 40px; text-align: center; margin-top: 60px; }
+  .mit-banner h3 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+  .mit-banner p { color: var(--text-muted); font-size: 16px; max-width: 480px; margin: 0 auto 24px; }
+  .mit-badge { font-family: var(--mono); font-size: 12px; background: rgba(122,127,214,0.1); color: var(--accent); border: 1px solid rgba(122,127,214,0.28); border-radius: 100px; padding: 4px 12px; display: inline-block; margin-bottom: 20px; }
+
+  /* DEV BANNER */
+
+  @media (max-width: 768px) { .hero { padding: 130px 1.5rem 60px; } }
+  .social-icon { color: var(--text-dim); transition: color 0.2s; display: inline-flex; }
+  .social-icon:hover { color: var(--text); }
+</style>
+
+<script>
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+
+document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#qsMethodTabs .qs-method-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('.qs-panel').forEach(function(p) { p.style.display = 'none'; });
+    const panel = document.getElementById('qspanel-' + tab.dataset.qs);
+    if (panel) panel.style.display = 'block';
+  });
+});
+
+document.querySelectorAll('#installTabs .code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#installTabs .code-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('[id^="itab-"]').forEach(function(p) { p.style.display = 'none'; });
+    const target = document.getElementById('itab-' + tab.getAttribute('data-tab'));
+    if (target) target.style.display = 'block';
+  });
+});
+
+document.querySelectorAll('#exampleTabs .code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#exampleTabs .code-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelectorAll('[id^="tab-"]').forEach(function(p) { p.style.display = 'none'; });
+    const tabKey = tab.getAttribute('data-tab');
+    const target = document.getElementById('tab-' + tabKey);
+    if (target) target.style.display = 'block';
+  });
+});
+
+fetch('https://api.github.com/repos/floci-io/floci').then(r => r.json()).then(data => {
+  const count = data.stargazers_count;
+  if (!count) return;
+  const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
+  const btn = document.getElementById('ghStarsBtn');
+  const stat = document.getElementById('ghStarsStat');
+  const nav = document.getElementById('ghNavStars');
+  if (btn) btn.textContent = fmt;
+  if (stat) stat.textContent = fmt;
+  if (nav) nav.textContent = ' · ' + fmt;
+}).catch(() => {});
+</script>

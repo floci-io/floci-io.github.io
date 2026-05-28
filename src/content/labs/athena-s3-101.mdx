@@ -1,5 +1,5 @@
 ---
-title: Athena + S3 — 101
+title: "Athena + S3: 101"
 description: Register a Glue table over S3 data and query it with the AWS Athena SDK against floci. Real DuckDB execution, no AWS account needed.
 cloud: aws
 difficulty: beginner
@@ -13,7 +13,7 @@ By the end of this lab you'll have a local Athena data lake running entirely on 
 
 1. An S3 bucket (powered by **floci**) holding a CSV sales dataset
 2. A Glue database and table defining the schema over that data
-3. A working **boto3 Athena query** that returns aggregated results — using the standard AWS SDK, just with the endpoint pointed at `localhost:4566`
+3. A working **boto3 Athena query** that returns aggregated results, using the standard AWS SDK with the endpoint pointed at `localhost:4566`
 
 No AWS account. No IAM role. No per-query charges.
 
@@ -21,7 +21,7 @@ No AWS account. No IAM role. No per-query charges.
 
 ## How It Works
 
-floci emulates the full Athena + Glue + S3 API surface on port 4566. When you call `StartQueryExecution`, floci spins up **floci-duck** — a DuckDB sidecar — on first use, injects Glue schema as DuckDB views, then executes your SQL for real.
+floci emulates the full Athena + Glue + S3 API surface on port 4566. When you call `StartQueryExecution`, floci spins up **floci-duck** (a DuckDB sidecar) on first use, injects Glue schema as DuckDB views, then executes your SQL for real.
 
 ```
 boto3 / AWS CLI
@@ -48,7 +48,7 @@ You never call floci-duck directly. It's managed by floci automatically.
 
 ---
 
-## Step 1 — Start floci
+## Step 1: Start floci
 
 Create a `docker-compose.yml`:
 
@@ -73,7 +73,7 @@ curl http://localhost:4566/_floci/health
 
 ---
 
-## Step 2 — Configure Credentials
+## Step 2: Configure Credentials
 
 floci accepts any non-empty credentials. Set these once for the session:
 
@@ -86,7 +86,7 @@ export AWS_DEFAULT_REGION=us-east-1
 
 ---
 
-## Step 3 — Create Buckets and Upload Data
+## Step 3: Create Buckets and Upload Data
 
 ```bash
 aws s3 mb s3://my-data-lake
@@ -107,9 +107,9 @@ aws s3 cp sales.csv s3://my-data-lake/sales/data.csv
 
 ---
 
-## Step 4 — Register the Schema in Glue
+## Step 4: Register the Schema in Glue
 
-Athena needs a schema. Register the database and table in Glue — floci will use this to generate DuckDB views at query time.
+Athena needs a schema. Register the database and table in Glue; floci will use this to generate DuckDB views at query time.
 
 ```bash
 aws glue create-database --database-input '{"Name":"analytics"}'
@@ -139,7 +139,7 @@ aws glue create-table \
 
 ---
 
-## Step 5 — Query with boto3
+## Step 5: Query with boto3
 
 Save the following as `query.py` and run it:
 
@@ -215,7 +215,7 @@ ap-south  75.5     1
 
 ---
 
-## Step 6 — Results Are Also in S3
+## Step 6: Results Are Also in S3
 
 Athena writes the CSV result file to your output bucket, exactly as real Athena does:
 
@@ -228,7 +228,7 @@ Downstream pipelines can read that file with another query, or process it direct
 
 ---
 
-## Bonus — Same Query via AWS CLI
+## Bonus: Same Query via AWS CLI
 
 ```bash
 QUERY_ID=$(aws athena start-query-execution \
@@ -254,15 +254,15 @@ aws athena get-query-results --query-execution-id "$QUERY_ID"
 
 ## What You Learned
 
-- floci exposes the **real Athena + Glue + S3 API** on `localhost:4566` — no SDK changes needed beyond the endpoint URL
+- floci exposes the **real Athena + Glue + S3 API** on `localhost:4566`. No SDK changes needed beyond the endpoint URL
 - floci-duck (DuckDB) is started **automatically** by floci on first use; you never call it directly
-- Registering a Glue table is required — floci converts it into a DuckDB view at query time
+- Registering a Glue table is required. floci converts it into a DuckDB view at query time
 - Results land in the S3 output bucket as CSV, just like real Athena
 
 ---
 
 ## Next Steps
 
-- Register a **Parquet** table (change `SerializationLibrary` to `org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe`) — DuckDB's column pruning makes large Parquet files fast
+- Register a **Parquet** table (change `SerializationLibrary` to `org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe`). DuckDB's column pruning makes large Parquet files fast
 - Use `ListQueryExecutions` and `GetQueryExecution` to build a query history view
 - Try the [floci-duck blog post](/blog/floci-duck-local-athena/) for a deeper look at the architecture

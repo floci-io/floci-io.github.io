@@ -1,5 +1,5 @@
 ---
-title: Introducing floci — Local Cloud Emulators, Free Forever
+title: "Introducing floci: Local Cloud Emulators, Free Forever"
 description: floci brings AWS, Azure, and GCP to your laptop with zero accounts, zero tokens, and sub-second startup. Here's why we built it and what's next.
 pubDate: 2026-05-20
 tags: [announcement, open-source]
@@ -9,21 +9,21 @@ tags: [announcement, open-source]
 
 Every developer on a cloud-native team has burned the same afternoon: pushed a small change, waited for CI to spin up real infrastructure, hit an auth error on a resource that worked fine yesterday, filed a ticket, and waited.
 
-The tooling exists to run cloud services locally — but the most popular option, LocalStack, moved key services behind a paid tier and requires an auth token even for basic S3 access. The alternative is mocking — which works until it doesn't, and it always doesn't in production.
+The tooling exists to run cloud services locally, but the most popular option, LocalStack, moved key services behind a paid tier and requires an auth token even for basic S3 access. The alternative is mocking, which works until it doesn't, and it always doesn't in production.
 
 We wanted a different answer: every AWS, Azure, and GCP service your team actually uses, running on your laptop, with no account, no billing alarm, no token rotation, no tiers. That's floci.
 
 ## What floci Is
 
-floci is a suite of open-source, MIT-licensed cloud emulators built with [Quarkus Native](https://quarkus.io/guides/building-native-image). Quarkus Native compiles to a standalone binary — no JVM warmup — which is why floci starts in **24 milliseconds** and sits at **13 MiB at idle**.
+floci is a suite of open-source, MIT-licensed cloud emulators built with [Quarkus Native](https://quarkus.io/guides/building-native-image). Quarkus Native compiles to a standalone binary with no JVM warmup, which is why floci starts in **24 milliseconds** and sits at **13 MiB at idle**.
 
 There are three products today:
 
-- **floci** — 47 AWS services on port 4566, S3-compatible, drop-in LocalStack replacement
-- **floci-az** — 8 Azure services (Blob, Queue, Table, Functions, App Configuration, Key Vault, Event Hubs, Service Bus) on port 4577
-- **floci-gcp** — Google Cloud Storage, Pub/Sub, and Firestore
+- **floci**: 47 AWS services on port 4566, S3-compatible, drop-in LocalStack replacement
+- **floci-az**: 10 Azure services (Blob, Queue, Table, Functions, App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS) on port 4577
+- **floci-gcp**: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, and Managed Kafka
 
-All three require no cloud account, ship as a single Docker image, and carry an MIT license — fork it, embed it, ship it in your product.
+All three require no cloud account, ship as a single Docker image, and carry an MIT license. Fork it, embed it, ship it in your product.
 
 ## Drop-In LocalStack Replacement
 
@@ -37,11 +37,11 @@ image: localstack/localstack
 image: floci/floci:latest
 ```
 
-floci listens on port 4566 — the same default as LocalStack CE. Your existing `aws-sdk`, `boto3`, `@aws-sdk/client-s3`, and Terraform configurations work without modification. The difference: no `LOCALSTACK_AUTH_TOKEN`, no plan limits, and startup in 24ms instead of 6 seconds.
+floci listens on port 4566, the same default as LocalStack CE. Your existing `aws-sdk`, `boto3`, `@aws-sdk/client-s3`, and Terraform configurations work without modification. The difference: no `LOCALSTACK_AUTH_TOKEN`, no plan limits, and startup in 24ms instead of 6 seconds.
 
 ## The floci Stack
 
-One of the most useful compositions is **floci + floci-duck**: pair the S3 emulator with a DuckDB-powered sidecar and you get local AWS Athena. Upload a CSV or Parquet file to your local S3 bucket, then query it with standard SQL — no AWS account, no per-query charges, no data transfer.
+One of the most useful compositions is **floci + floci-duck**: pair the S3 emulator with a DuckDB-powered sidecar and you get local AWS Athena. Upload a CSV or Parquet file to your local S3 bucket, then query it with standard SQL. No AWS account, no per-query charges, no data transfer.
 
 ```yaml
 services:
@@ -63,6 +63,6 @@ More on floci-duck in the next post.
 
 ## What's Next
 
-Service coverage is expanding across all three clouds. The roadmap is public on GitHub — open an issue with the service you need most.
+Service coverage is expanding across all three clouds. The roadmap is public on GitHub, so open an issue with the service you need most.
 
 floci is free, forever.
