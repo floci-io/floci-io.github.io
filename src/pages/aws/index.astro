@@ -9,6 +9,20 @@ const sectionLinks = [
   { href: '#quickstart', label: 'Quick Start' },
   { href: '#examples', label: 'Examples' },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "floci",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "license": "https://opensource.org/licenses/MIT",
+  "url": "https://floci.io/aws/",
+  "downloadUrl": "https://github.com/floci-io/floci",
+  "description": "Fast, free AWS emulator. 47 services, 24 ms startup, drop-in LocalStack replacement.",
+  "keywords": "AWS emulator, LocalStack alternative, local cloud, S3 mock, DynamoDB local"
+};
 ---
 
 <Layout
@@ -16,6 +30,7 @@ const sectionLinks = [
   description="floci is a fast, free, open-source AWS emulator built with Quarkus Native. Starts in 24ms, uses 13 MiB at idle. Drop-in replacement for LocalStack. No auth token, no restrictions, ever."
   canonical="https://floci.io/aws/"
   ogImage="https://floci.io/og/aws.png"
+  jsonLd={jsonLd}
 >
   <Nav active="aws" githubUrl="https://github.com/floci-io/floci" docsUrl="https://github.com/floci-io/floci" sectionLinks={sectionLinks} />
 

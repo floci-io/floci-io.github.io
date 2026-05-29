@@ -9,6 +9,20 @@ const sectionLinks = [
   { href: '#quickstart', label: 'Quick Start' },
   { href: '#examples', label: 'Examples' },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "floci-gcp",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "license": "https://opensource.org/licenses/MIT",
+  "url": "https://floci.io/gcp/",
+  "downloadUrl": "https://github.com/floci-io/floci-gcp",
+  "description": "Free GCP emulator. Cloud Storage, Pub/Sub, Firestore, Secret Manager and more. No GCP account or billing required.",
+  "keywords": "GCP emulator, Google Cloud local, Firestore emulator, Pub/Sub mock, Cloud Storage local"
+};
 ---
 
 <Layout
@@ -16,6 +30,7 @@ const sectionLinks = [
   description="floci-gcp is a fast, free, open-source GCP emulator. Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, and Managed Kafka. No GCP account, no auth token, MIT licensed."
   canonical="https://floci.io/gcp/"
   ogImage="https://floci.io/og/gcp.png"
+  jsonLd={jsonLd}
 >
   <Nav active="gcp" githubUrl="https://github.com/floci-io/floci-gcp" docsUrl="https://github.com/floci-io/floci-gcp" sectionLinks={sectionLinks} />
 

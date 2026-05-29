@@ -4,9 +4,36 @@ export interface Props {
   description: string;
   canonical: string;
   ogImage?: string;
+  jsonLd?: object | object[];
 }
 
-const { title, description, canonical, ogImage = 'https://floci.io/floci_github_banner.png' } = Astro.props;
+const { title, description, canonical, ogImage = 'https://floci.io/og/home.png', jsonLd } = Astro.props;
+
+const baseSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "floci",
+    "url": "https://floci.io",
+    "description": "Free, MIT-licensed local cloud emulators for AWS, Azure, and GCP.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "floci",
+    "url": "https://floci.io",
+    "logo": "https://floci.io/floci-logo.svg",
+    "sameAs": [
+      "https://github.com/floci-io",
+      "https://twitter.com/floci_io"
+    ]
+  }
+];
+
+const schemas = [
+  ...baseSchema,
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])
+];
 ---
 
 <!DOCTYPE html>
@@ -22,6 +49,9 @@ const { title, description, canonical, ogImage = 'https://floci.io/floci_github_
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
 <meta property="og:image" content={ogImage}>
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Floci">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@floci_io">
@@ -37,6 +67,7 @@ const { title, description, canonical, ogImage = 'https://floci.io/floci_github_
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0f1117">
+<script type="application/ld+json" set:html={JSON.stringify(schemas.length === 1 ? schemas[0] : schemas)} />
 <style is:global>
   :root {
     --bg: #070B14; --bg2: #161E2E; --bg3: #0F1520;

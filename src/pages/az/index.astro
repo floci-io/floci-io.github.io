@@ -9,6 +9,20 @@ const sectionLinks = [
   { href: '#quickstart', label: 'Quick Start' },
   { href: '#sdks', label: 'Examples' },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "floci-az",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux, macOS, Windows",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "license": "https://opensource.org/licenses/MIT",
+  "url": "https://floci.io/az/",
+  "downloadUrl": "https://github.com/floci-io/floci-az",
+  "description": "Free Azure emulator. Blob Storage, Queue, Functions, Key Vault, Cosmos DB and more on a single port. No Azure account required.",
+  "keywords": "Azure emulator, Azurite alternative, local Azure, Blob Storage mock, Cosmos DB local"
+};
 ---
 
 <Layout
@@ -16,6 +30,7 @@ const sectionLinks = [
   description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, Service Bus, Cosmos DB, and AKS on a single port. No Azure account required, MIT licensed."
   canonical="https://floci.io/az/"
   ogImage="https://floci.io/og/az.png"
+  jsonLd={jsonLd}
 >
   <Nav active="az" githubUrl="https://github.com/floci-io/floci-az" docsUrl="https://github.com/floci-io/floci-az#readme" sectionLinks={sectionLinks} />
 
