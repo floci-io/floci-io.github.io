@@ -94,7 +94,7 @@ import sponsorsData from '../data/sponsors.json';
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci</div>
-            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 47 services, native binary. Switch with zero code changes.</p>
+            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 53 services, native binary. Switch with zero code changes.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4566</span>
@@ -355,7 +355,7 @@ import sponsorsData from '../data/sponsors.json';
         </div>
 
         <div id="itab-aws" class="install-block" style="display:none">
-          <span class="comment"># Run all 47 AWS services on port 4566</span><br>
+          <span class="comment"># Run all 53 AWS services on port 4566</span><br>
           <span class="cmd">docker run --rm -p <span class="acc">4566:4566</span> \<br>
 &nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>
 &nbsp;&nbsp;floci/floci:<span class="acc">latest</span></span><br><br>
@@ -407,7 +407,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
         <div class="install-outcome" id="installOutcome">
           <span class="outcome-dot"></span>
-          <span id="outcomeText">47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more</span>
+          <span id="outcomeText">53 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +48 more</span>
 
         </div>
 
@@ -861,10 +861,10 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 // Install tabs
 const outcomeMessages = {
-  cli:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  win:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  aws:   '47 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +42 more',
-  azure: '10 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +4 more',
+  cli:   '53 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +48 more',
+  win:   '53 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +48 more',
+  aws:   '53 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +48 more',
+  azure: '15 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +9 more',
   gcp:   '7 GCP services ready on <span class="outcome-port">:4588</span>. GCS · Pub/Sub · Firestore · Datastore · Secret Manager · IAM · Kafka',
 };
 
