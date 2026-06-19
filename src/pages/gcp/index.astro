@@ -27,7 +27,7 @@ const jsonLd = {
 
 <Layout
   title="floci-gcp — Local GCP Emulator"
-  description="floci-gcp is a fast, free, open-source GCP emulator. Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, Managed Kafka, and Cloud Tasks. No GCP account, no auth token, MIT licensed."
+  description="floci-gcp is a fast, free, open-source GCP emulator. Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, Managed Kafka, Cloud Tasks, Cloud Run, Cloud SQL, Cloud Functions, Cloud KMS, Cloud Logging, Cloud Monitoring, and Cloud Scheduler. No GCP account, no auth token, MIT licensed."
   canonical="https://floci.io/gcp/"
   ogImage="https://floci.io/og/gcp.png"
   jsonLd={jsonLd}
@@ -67,7 +67,7 @@ const jsonLd = {
 
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-number">4588</span><div class="stat-label">Default port</div><div class="stat-sub">all services, one port</div></div>
-      <div class="stat-item"><span class="stat-number">8</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
+      <div class="stat-item"><span class="stat-number">15</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
       <div class="stat-item"><span class="stat-number">186</span><div class="stat-label">SDK compat tests</div><div class="stat-sub">Java · Python · Node.js · Go</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
     </div>
@@ -79,7 +79,7 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci-gcp — GCP Services</div>
-        <h2>8 GCP services. All of them free.</h2>
+        <h2>15 GCP services. All of them free.</h2>
         <p class="section-desc">No project ID, no service account, no billing account. Every service fully unlocked.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
@@ -91,6 +91,13 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Managed Kafka</span><span class="service-proto">REST JSON · Redpanda</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Tasks</span><span class="service-proto">gRPC · v2</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Run</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud SQL</span><span class="service-proto">REST JSON · Postgres / MySQL</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Functions</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud KMS</span><span class="service-proto">gRPC · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Logging</span><span class="service-proto">gRPC · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Monitoring</span><span class="service-proto">gRPC · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Scheduler</span><span class="service-proto">gRPC · REST JSON</span></div>
       </div>
     </div>
   </section>
@@ -101,7 +108,7 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 8 services on one port.</p>
+        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 15 services on one port.</p>
       </div>
       <div class="perf-stats reveal" style="transition-delay:0.1s">
         <div class="perf-stat">

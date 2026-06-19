@@ -27,7 +27,7 @@ const jsonLd = {
 
 <Layout
   title="floci-az — Free Azure Emulator"
-  description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL, API Management, Virtual Machines, Cache for Redis, and Container Registry on a single port. No Azure account required, MIT licensed."
+  description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL, API Management, Virtual Machines, Cache for Redis, Container Registry, Virtual Network, Azure Monitor, Microsoft Entra ID, and Email Communication on a single port. No Azure account required, MIT licensed."
   canonical="https://floci.io/az/"
   ogImage="https://floci.io/og/az.png"
   jsonLd={jsonLd}
@@ -67,7 +67,7 @@ const jsonLd = {
     </div>
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-number">4577</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
-      <div class="stat-item"><span class="stat-number">15</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage · Cosmos · AKS · Functions · Messaging</div></div>
+      <div class="stat-item"><span class="stat-number">17</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage · Cosmos · AKS · Functions · Messaging</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
       <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Azure account needed</div></div>
     </div>
@@ -78,7 +78,7 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci-az — Azure Services</div>
-        <h2>15 Azure services. All of them free.</h2>
+        <h2>17 Azure services. All of them free.</h2>
         <p class="section-desc">Wire-compatible with the official Azure SDKs and Azurite emulator. Switch with zero application code changes.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
@@ -97,6 +97,10 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Virtual Machines</span><span class="service-proto">ARM · REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cache for Redis</span><span class="service-proto">ARM · Redis (Docker)</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Container Registry</span><span class="service-proto">ARM · registry:2</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Virtual Network</span><span class="service-proto">ARM · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Azure Monitor</span><span class="service-proto">Logs · Metrics · KQL</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Microsoft Entra ID</span><span class="service-proto">OAuth2 · OIDC · JWKS</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Email Communication</span><span class="service-proto">REST JSON · ARM</span></div>
       </div>
     </div>
   </section>
@@ -124,7 +128,7 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-az is built with Quarkus Native, the same stack as floci for AWS. Starts in 24ms, single Docker image, 15 services.</p>
+        <p class="section-desc">floci-az is built with Quarkus Native, the same stack as floci for AWS. Starts in 24ms, single Docker image, 17 services.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px" class="reveal" style="transition-delay:0.1s">
         <div style="background:var(--bg2);padding:28px 24px">
