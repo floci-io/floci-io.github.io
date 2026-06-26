@@ -20,7 +20,7 @@ const jsonLd = {
   "license": "https://opensource.org/licenses/MIT",
   "url": "https://floci.io/aws/",
   "downloadUrl": "https://github.com/floci-io/floci",
-  "description": "Fast, free AWS emulator. 59 services, 24 ms startup, drop-in LocalStack replacement.",
+  "description": "Fast, free AWS emulator. 65 services, 24 ms startup, drop-in LocalStack replacement.",
   "keywords": "AWS emulator, LocalStack alternative, local cloud, S3 mock, DynamoDB local"
 };
 ---
@@ -85,7 +85,7 @@ const jsonLd = {
         <div class="card"><div class="card-icon green">⚡</div><h3>24ms startup</h3><p>Native binary compiled with GraalVM Mandrel. Starts instantly, and your CI pipeline will thank you.</p></div>
         <div class="card"><div class="card-icon amber">💾</div><h3>13 MiB idle memory</h3><p>Native binary, minimal memory footprint. Fits on the smallest CI runners.</p></div>
         <div class="card"><div class="card-icon blue">🔓</div><h3>Truly MIT licensed</h3><p>Fork it, embed it, extend it. No "community edition" sunset. No "enterprise" feature flags. Every service available to every developer, always.</p></div>
-        <div class="card"><div class="card-icon teal">☁️</div><h3>59 AWS services</h3><p>From S3 to Step Functions to Neptune to Transcribe, including ElastiCache, RDS, API Gateway v2 + WebSocket, CloudFront, AppSync, Route53, Transfer Family, and more. All free.</p></div>
+        <div class="card"><div class="card-icon teal">☁️</div><h3>65 AWS services</h3><p>From S3 to Step Functions to Neptune to Transcribe, including ElastiCache, RDS, API Gateway v2 + WebSocket, CloudFront, AppSync, Route53, Transfer Family, and more. All free.</p></div>
         <div class="card"><div class="card-icon green">🔁</div><h3>Drop-in compatible</h3><p>Same port 4566. Same wire protocols. Same AWS SDK calls. Zero application code changes needed to switch.</p></div>
         <div class="card"><div class="card-icon blue">🔒</div><h3>Optional TLS / HTTPS</h3><p>Enable HTTPS with one env var. Floci auto-generates a self-signed certificate at startup so you can test TLS-sensitive code paths locally.</p></div>
         <div class="card"><div class="card-icon amber">🏢</div><h3>Per-account isolation</h3><p>Full multi-tenancy: each AWS account ID gets its own isolated storage. Run dev, staging, and test on a single Floci instance.</p></div>
@@ -148,7 +148,7 @@ const jsonLd = {
           <div class="perf-callouts" style="margin-bottom:24px">
             <div class="callout"><span class="callout-num">~90 MB</span><div class="callout-label">Docker image size</div></div>
             <div class="callout"><span class="callout-num">100%</span><div class="callout-label">SDK tests pass<br>1,925 of 1,925</div></div>
-            <div class="callout"><span class="callout-num">59</span><div class="callout-label">AWS services<br>all free, all unlocked</div></div>
+            <div class="callout"><span class="callout-num">65</span><div class="callout-label">AWS services<br>all free, all unlocked</div></div>
             <div class="callout"><span class="callout-num">$0</span><div class="callout-label">Forever free<br>no auth token</div></div>
           </div>
           <div class="metric-card">
@@ -205,7 +205,7 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci — AWS Services</div>
-        <h2>59 AWS services. All of them free.</h2>
+        <h2>65 AWS services. All of them free.</h2>
         <p class="section-desc">Every service is fully unlocked. Services marked with ★ are exclusive to Floci.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
@@ -267,6 +267,11 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">DocumentDB</span><span class="service-proto">Docker · Query</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudTrail</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">WAF v2</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">CodePipeline</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Elastic Beanstalk</span><span class="service-proto">Query</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">IoT Core</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">MemoryDB</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">S3 Vectors</span><span class="service-proto">REST JSON</span></div>
       </div>
       <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Exclusive to Floci, not available in other free AWS emulators</p>
     </div>
@@ -369,7 +374,7 @@ cat hello-back.txt</span></pre></div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker run</h3>
             <div class="code-block"><pre
-><span class="comment"># All 59 services on :4566</span>
+><span class="comment"># All 65 services on :4566</span>
 <span class="cmd">docker run -d --name floci \
   -p <span class="acc">4566:4566</span> \
   -v /var/run/docker.sock:/var/run/docker.sock \

@@ -67,7 +67,7 @@ const jsonLd = {
 
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-number">4588</span><div class="stat-label">Default port</div><div class="stat-sub">all services, one port</div></div>
-      <div class="stat-item"><span class="stat-number">15</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
+      <div class="stat-item"><span class="stat-number">17</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
       <div class="stat-item"><span class="stat-number">186</span><div class="stat-label">SDK compat tests</div><div class="stat-sub">Java · Python · Node.js · Go</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
     </div>
@@ -79,7 +79,7 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci-gcp — GCP Services</div>
-        <h2>15 GCP services. All of them free.</h2>
+        <h2>17 GCP services. All of them free.</h2>
         <p class="section-desc">No project ID, no service account, no billing account. Every service fully unlocked.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
@@ -98,6 +98,8 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Logging</span><span class="service-proto">gRPC · REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Monitoring</span><span class="service-proto">gRPC · REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Scheduler</span><span class="service-proto">gRPC · REST JSON</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">GKE</span><span class="service-proto">REST JSON · k3s / mocked</span></div>
+        <div class="service-item"><div class="service-dot"></div><span class="service-name">Operations</span><span class="service-proto">gRPC · REST JSON · LRO</span></div>
       </div>
     </div>
   </section>
@@ -108,7 +110,7 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 15 services on one port.</p>
+        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 17 services on one port.</p>
       </div>
       <div class="perf-stats reveal" style="transition-delay:0.1s">
         <div class="perf-stat">
@@ -578,8 +580,8 @@ gcloud secrets versions access latest \
     <div class="container">
       <div class="notify-box reveal">
         <div style="font-size:40px;margin-bottom:16px">☁️</div>
-        <h3>Eight services, all live today</h3>
-        <p>Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, Managed Kafka, and Cloud Tasks — every one free and unlocked. Star the repo to follow along and open an issue if there's a service your team needs.</p>
+        <h3>Seventeen services, all live today</h3>
+        <p>Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, Managed Kafka, Cloud Tasks, Cloud Run, Cloud SQL, Cloud Functions, Cloud KMS, Cloud Logging, Cloud Monitoring, Cloud Scheduler, GKE, and Operations — every one free and unlocked. Star the repo to follow along and open an issue if there's a service your team needs.</p>
         <div class="notify-actions">
           <a href="https://github.com/floci-io/floci-gcp" target="_blank" class="btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
