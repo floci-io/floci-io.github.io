@@ -77,23 +77,23 @@ import sponsorsData from '../data/sponsors.json';
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci</div>
-            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 65 services, native binary. Switch with zero code changes.</p>
+            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 66 services, native binary. Switch with zero code changes.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4566</span>
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">65</span>
+                <span class="ecard-stat-val">66</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">13 MiB</span>
-                <div class="ecard-stat-lbl">idle memory</div>
+                <span class="ecard-stat-val">24 ms</span>
+                <div class="ecard-stat-lbl">startup</div>
               </div>
             </div>
             <div class="ecard-chips">
-              <span>S3</span><span>SQS</span><span>Lambda</span><span>DynamoDB</span><span>RDS</span><span>EKS</span><span>+59 more</span>
+              <span>S3</span><span>SQS</span><span>Lambda</span><span>DynamoDB</span><span>RDS</span><span>EKS</span><span>+60 more</span>
             </div>
             <div class="ecard-foot">
               <a href="/aws/" class="ecard-cta">Learn more →</a>
@@ -130,7 +130,7 @@ import sponsorsData from '../data/sponsors.json';
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">19</span>
+                <span class="ecard-stat-val">21</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
@@ -139,7 +139,7 @@ import sponsorsData from '../data/sponsors.json';
               </div>
             </div>
             <div class="ecard-chips">
-              <span>Blob</span><span>Queue</span><span>Table</span><span>Functions</span><span>Key Vault</span><span>Event Hubs</span><span>Service Bus</span><span>+12 more</span>
+              <span>Blob</span><span>Queue</span><span>Table</span><span>Functions</span><span>Key Vault</span><span>Event Hubs</span><span>Service Bus</span><span>+14 more</span>
             </div>
             <div class="ecard-foot">
               <a href="/az/" class="ecard-cta">Learn more →</a>
@@ -169,7 +169,7 @@ import sponsorsData from '../data/sponsors.json';
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci-gcp</div>
-            <p class="ecard-desc">Seventeen GCP services live: GCS, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, Managed Kafka, Cloud Tasks, Cloud Run, Cloud SQL, Cloud Functions, Cloud KMS, Cloud Logging, Cloud Monitoring, Cloud Scheduler, GKE and Operations. Native speed, MIT license, no GCP account needed.</p>
+            <p class="ecard-desc">Covers GCS, Pub/Sub, Firestore, Cloud Run, Cloud SQL, GKE and more. All 17 services on one port, native binary. MIT license, no GCP account needed.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4588</span>
@@ -381,7 +381,7 @@ import sponsorsData from '../data/sponsors.json';
         </div>
 
         <div id="itab-aws" class="install-block" style="display:none">
-          <span class="comment"># Run all 65 AWS services on port 4566</span><br>
+          <span class="comment"># Run all 66 AWS services on port 4566</span><br>
           <span class="cmd">docker run --rm -p <span class="acc">4566:4566</span> \<br>
 &nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>
 &nbsp;&nbsp;floci/floci:<span class="acc">latest</span></span><br><br>
@@ -433,7 +433,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
         <div class="install-outcome" id="installOutcome">
           <span class="outcome-dot"></span>
-          <span id="outcomeText">65 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +60 more</span>
+          <span id="outcomeText">66 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +61 more</span>
 
         </div>
 
@@ -887,10 +887,10 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 // Install tabs
 const outcomeMessages = {
-  cli:   '65 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +60 more',
-  win:   '65 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +60 more',
-  aws:   '65 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +60 more',
-  azure: '19 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +13 more',
+  cli:   '66 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +61 more',
+  win:   '66 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +61 more',
+  aws:   '66 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +61 more',
+  azure: '21 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +15 more',
   gcp:   '17 GCP services ready on <span class="outcome-port">:4588</span>. GCS · Pub/Sub · Firestore · Datastore · Secret Manager · IAM · Kafka · Cloud Tasks · Cloud Run · Cloud SQL · Cloud Functions · Cloud KMS · Cloud Logging · Cloud Monitoring · Cloud Scheduler · GKE · Operations',
 };
 
