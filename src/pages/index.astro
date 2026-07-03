@@ -327,8 +327,42 @@ import sponsorsData from '../data/sponsors.json';
     </div>
   </section>
 
+  <!-- USE CASES -->
+  <section id="use-cases" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Use Cases</div>
+        <h2>Where teams put Floci to work.</h2>
+        <p class="section-desc">From the inner loop to CI to the classroom — anywhere a real cloud account is too slow, too risky, or too expensive.</p>
+      </div>
+
+      <div class="uc-grid reveal" style="transition-delay:0.1s">
+        <div class="uc-card">
+          <span class="why-num">CI</span>
+          <h3>Ephemeral test environments.</h3>
+          <p>Spin up the full stack inside every pipeline job. 24 ms startup adds nothing to the build, each job gets an isolated cloud, and teardown is free.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">λ</span>
+          <h3>Local-first development.</h3>
+          <p>Build against S3, Pub/Sub, or Service Bus on your laptop — offline if you want. No shared dev account to trip over, no credentials to rotate.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">tf</span>
+          <h3>Infrastructure-as-code dry runs.</h3>
+          <p>Apply Terraform, OpenTofu, or CloudFormation against localhost first. Catch typos, drift, and bad refactors before they ever touch a real account.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">101</span>
+          <h3>Workshops &amp; onboarding.</h3>
+          <p>Teach cloud services with zero billing risk. Every student runs the whole stack on their own machine — no accounts to provision, nothing to clean up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- INSTALL -->
-  <section id="install" style="background:var(--bg2)">
+  <section id="install">
     <div class="container">
       <div class="reveal">
         <div class="section-label">Quick Start</div>
@@ -449,7 +483,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   </section>
 
   <!-- SPONSORS -->
-  <section id="sponsors">
+  <section id="sponsors" style="background:var(--bg2)">
     <div class="container">
       <div class="sponsor-banner reveal">
         <div class="sponsor-eyebrow">♥ Open Source Sustainability</div>
@@ -745,6 +779,20 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .install-block .comment { color: var(--text-dim); }
   .install-block .acc { color: var(--accent); }
 
+  /* USE CASES */
+  .uc-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    margin-top: 56px;
+  }
+  @media (max-width: 768px) { .uc-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .uc-grid { grid-template-columns: 1fr; } }
+  .uc-card { background: var(--bg); padding: 36px 28px; transition: background 0.2s; }
+  .uc-card:hover { background: var(--bg3); }
+  .uc-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .uc-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
   /* INSTALL WRAP */
   .install-wrap { max-width: 680px; width: 100%; margin-top: 48px; }
   .install-tab { display: inline-flex; align-items: center; gap: 6px; }
@@ -853,7 +901,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     .install-block { padding: 18px 16px; font-size: 12px; overflow-x: auto; white-space: nowrap; }
 
     /* Why */
-    .why-card { padding: 24px 20px; }
+    .why-card, .uc-card { padding: 24px 20px; }
     .why-num { font-size: 26px; }
 
     /* Sponsor */
