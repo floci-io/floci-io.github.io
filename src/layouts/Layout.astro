@@ -144,6 +144,34 @@ const schemas = [
     text-decoration: none; font-weight: 600; z-index: 9999;
   }
   .skip-link:focus { left: 50%; transform: translateX(-50%); width: auto; height: auto; }
+
+  /* ---- Shareable heading anchors ---- */
+  .heading-anchor {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; margin-left: 8px; vertical-align: middle;
+    color: var(--text-dim);
+    -webkit-text-fill-color: currentColor;
+    border-radius: 6px; opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .heading-anchor svg { display: block; }
+  h1:hover > .heading-anchor, h2:hover > .heading-anchor, h3:hover > .heading-anchor,
+  .heading-anchor:hover, .heading-anchor:focus-visible { opacity: 1; }
+  .heading-anchor:hover { color: var(--accent); }
+  .heading-anchor:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .heading-anchor.copied { color: var(--green); opacity: 1; }
+  @media (hover: none) { .heading-anchor { opacity: 0.4; } }
+
+  @keyframes anchor-flash {
+    0%   { background-color: var(--accent-dim); box-shadow: 0 0 0 8px var(--accent-dim); }
+    100% { background-color: transparent;       box-shadow: 0 0 0 8px transparent; }
+  }
+  .anchor-flash { animation: anchor-flash 1.6s ease-out 1; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .anchor-flash { animation: none; }
+    .heading-anchor { transition: none; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
@@ -178,6 +206,98 @@ const schemas = [
       }).catch(function() {});
     });
   });
+
+  // ---- Shareable section anchors ----
+  (function () {
+    var LINK_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+    var CHECK_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+      return new Promise(function (resolve, reject) {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy') ? resolve() : reject(new Error('copy failed')); }
+        catch (e) { reject(e); }
+        finally { ta.remove(); }
+      });
+    }
+
+    function addAnchor(heading, id) {
+      if (heading.querySelector('.heading-anchor')) return;
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + id;
+      a.setAttribute('aria-label', 'Copy link to this section');
+      a.innerHTML = LINK_ICON;
+      a.addEventListener('click', function () {
+        copyText(location.origin + location.pathname + '#' + id).then(function () {
+          a.innerHTML = CHECK_ICON; a.classList.add('copied');
+          a.setAttribute('aria-label', 'Link copied');
+          setTimeout(function () {
+            a.innerHTML = LINK_ICON; a.classList.remove('copied');
+            a.setAttribute('aria-label', 'Copy link to this section');
+          }, 1500);
+        }).catch(function () {});
+      });
+      heading.appendChild(a);
+    }
+
+    document.querySelectorAll('.prose h2[id], .prose h3[id]').forEach(function (h) {
+      addAnchor(h, h.id);
+    });
+
+    document.querySelectorAll('section[id], section div[id]').forEach(function (el) {
+      if (el.id === 'main-content') return;
+      var h = el.querySelector('h2, h3');
+      if (!h) return;
+      if (h.closest('a')) return;
+      if (h.closest('[id]') !== el) return;
+      addAnchor(h, el.id);
+    });
+
+    function flashTarget() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      if (!id || id === 'main-content') return;
+      var el = document.getElementById(id);
+      if (!el) return;
+      var t = /^H[1-6]$/.test(el.tagName) ? el : (el.querySelector('h2, h3') || el);
+      t.classList.remove('anchor-flash');
+      void t.offsetWidth;
+      t.classList.add('anchor-flash');
+    }
+    window.addEventListener('hashchange', flashTarget);
+    if (location.hash) flashTarget();
+  })();
+
+  // ---- Scrollspy: keep the URL hash in sync while scrolling ----
+  (function () {
+    var targets = [].slice.call(document.querySelectorAll('section[id], .prose h2[id]'))
+      .filter(function (el) { return el.id !== 'main-content'; });
+    if (!targets.length) return;
+    var timer = null;
+    function currentId() {
+      var doc = document.documentElement;
+      if (window.innerHeight + window.scrollY >= doc.scrollHeight - 2) {
+        return targets[targets.length - 1].id;
+      }
+      var current = '';
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i].getBoundingClientRect().top <= 121) current = targets[i].id;
+      }
+      return current;
+    }
+    function sync() {
+      var id = currentId();
+      if (('#' + id) === location.hash || (!id && !location.hash)) return;
+      history.replaceState(null, '', id ? '#' + id : location.pathname + location.search);
+    }
+    window.addEventListener('scroll', function () {
+      clearTimeout(timer);
+      timer = setTimeout(sync, 150);
+    }, { passive: true });
+  })();
   </script>
 </body>
 </html>

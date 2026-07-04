@@ -544,7 +544,7 @@ gcloud secrets versions access latest \
   </section>
 
   <!-- WHY floci-gcp -->
-  <section style="background:var(--bg2)">
+  <section id="why" style="background:var(--bg2)">
     <div class="container">
       <div class="section-label">Why floci-gcp</div>
       <h2>GCP emulation, done <span style="color:var(--accent)">right</span></h2>
@@ -576,7 +576,7 @@ gcloud secrets versions access latest \
   </section>
 
   <!-- NOTIFY CTA -->
-  <section style="background:var(--bg2)">
+  <section id="follow" style="background:var(--bg2)">
     <div class="container">
       <div class="notify-box reveal">
         <div style="font-size:40px;margin-bottom:16px">☁️</div>
@@ -594,7 +594,7 @@ gcloud secrets versions access latest \
   </section>
 
   <!-- SUITE CTA -->
-  <section>
+  <section id="more-emulators">
     <div class="container">
       <div class="cta-banner reveal">
         <h3>Already need a cloud emulator?</h3>
@@ -695,6 +695,7 @@ gcloud secrets versions access latest \
 
   /* SERVICE CARDS */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
+  .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg2); }
   .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
   .service-item:hover { background: var(--bg3); }
   .service-dot { width: 7px; height: 7px; border-radius: 50%; background: #34A853; flex-shrink: 0; }
@@ -762,13 +763,6 @@ gcloud secrets versions access latest \
 
 
 <script>
-const burger = document.getElementById('navBurger');
-const navLinks = document.getElementById('navLinks');
-if (burger && navLinks) {
-  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-}
-
 const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold: 0.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 

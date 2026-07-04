@@ -73,7 +73,7 @@ const jsonLd = {
   </section>
 
   <!-- WHY -->
-  <section>
+  <section id="why">
     <div class="container">
       <div class="reveal">
         <div class="section-label">Why floci</div>
@@ -94,7 +94,7 @@ const jsonLd = {
   </section>
 
   <!-- COMPARE CTA -->
-  <section style="background:var(--bg2);padding:60px 0">
+  <section id="compare" style="background:var(--bg2);padding:60px 0">
     <div class="container">
       <div class="compare-cta reveal">
         <div>
@@ -215,18 +215,18 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">DynamoDB + Streams</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Lambda</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">API Gateway REST</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">HTTP + WebSocket</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">HTTP + WebSocket</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (68+ ops)</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">STS</span><span class="service-proto">Query (7 ops)</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">KMS</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Kinesis</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Secrets Manager</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">SSM Parameter Store</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudFormation</span><span class="service-proto">Query</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Step Functions</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ElastiCache ★</span><span class="service-proto">Redis + IAM</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">RDS ★</span><span class="service-proto">PG + MySQL + IAM</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">ElastiCache ★</span><span class="service-proto">Redis + IAM</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">RDS ★</span><span class="service-proto">PG + MySQL + IAM</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">EventBridge + Scheduler + Pipes</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Logs</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Metrics</span><span class="service-proto">Query</span></div>
@@ -243,16 +243,16 @@ const jsonLd = {
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Auto Scaling ★</span><span class="service-proto">Query</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">AWS Backup ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Route 53 ★</span><span class="service-proto">REST XML</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Textract ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Transfer Family ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Transcribe ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item" style="border:1px solid rgba(122,127,214,0.3)"><div class="service-dot" style="background:var(--accent)"></div><span class="service-name">Neptune ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Auto Scaling ★</span><span class="service-proto">Query</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">AWS Backup ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Route 53 ★</span><span class="service-proto">REST XML</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Textract ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Transfer Family ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Transcribe ★</span><span class="service-proto">REST JSON</span></div>
+        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Neptune ★</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Cost Explorer</span><span class="service-proto">JSON 1.1</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">Pricing</span><span class="service-proto">REST JSON</span></div>
         <div class="service-item"><div class="service-dot"></div><span class="service-name">CUR + BCM Data Exports</span><span class="service-proto">REST JSON</span></div>
@@ -604,8 +604,12 @@ aws athena get-query-results --query-execution-id <span class="acc">$QUERY_ID</s
 
   /* SERVICES */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
+  .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg2); }
   .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
   .service-item:hover { background: var(--bg3); }
+  .service-item.exclusive { background: var(--accent-dim); }
+  .service-item.exclusive:hover { background: rgba(122,127,214,0.2); }
+  .service-item.exclusive .service-dot { background: var(--accent); }
   .service-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-warm); flex-shrink: 0; }
   .service-name { font-size: 13px; font-weight: 500; }
   .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
