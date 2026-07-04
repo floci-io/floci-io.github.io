@@ -1,0 +1,76 @@
+---
+title: "Three Months of Floci: 14k+ Stars, a Third Cloud, and a Community I Could Not Have Built Alone"
+description: "Month three: 14k stars, 1.3k forks, floci-gcp goes live as the third cloud, floci-ui brings a visual console, and 147 contributors building the future of local cloud emulation."
+pubDate: 2026-06-15
+tags: [community, milestone, open-source]
+---
+
+Three months ago today, on March 15, I open sourced Floci.
+
+It started as a reaction. LocalStack's community edition was sunsetting, taking free, no-account AWS emulation with it. I wanted a drop-in replacement that stayed free forever: no accounts, no auth tokens, no feature gates. That was the whole idea. A weekend project to scratch my own itch.
+
+Three months later, it is not a weekend project anymore.
+
+## The numbers
+
+Stars, month over month: 4k, then 11k, now 14k. The curve has not flattened, and teams are still migrating off LocalStack every week.
+
+But the number I care about more is forks: 1.3k of them. A star is a bookmark. A fork is someone opening the hood, building against Floci, and making it their own. That ratio is what tells me people are using this, not just liking the idea of it.
+
+Under the hood: 58 AWS services, roughly 2,290 to 2,400 SDK compatibility tests passing, 24ms cold start, 13 MiB idle. The same promise as day one, just a lot more of it.
+
+## A third cloud: floci-gcp
+
+Floci is not just AWS anymore.
+
+This month floci-gcp went live on port 4588, the newest brother in the family, with seven Google Cloud services: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager, IAM, and Managed Kafka. It joins floci-az, the Azure companion on port 4577.
+
+So here is the picture now: AWS on 4566, Azure on 4577, GCP on 4588. Three clouds, one consistent emulator family, one `docker compose up`. Not three different tools, not three different config formats, not a Windows-only emulator for one service and a separate CLI for another.
+
+GitHub repo: [github.com/floci-io/floci-gcp](https://github.com/floci-io/floci-gcp)
+
+## floci-ui: see your local cloud
+
+Emulators are usually invisible. You trust that the bucket is there because the SDK said so.
+
+floci-ui changes that. It is a visual console for your local cloud: browse S3, inspect DynamoDB, tail Lambda logs, look at Azure Blob, all in one place. It is metadata-driven by design, so it grows as the emulators grow instead of being hand-coded service by service.
+
+floci-ui is a team effort, and a great one. Huge thanks to Freddy Peña, Jannis Lafiotis, and Huda Hajira for making it real. The UI is still a product in development.
+
+## A new look to match
+
+Floci changed a lot on the inside this month, so it got an outside to match. The website has been redesigned from the ground up, the branding is refreshed across the board, and there is a new logo that I am genuinely in love with.
+
+The branding strategy behind all of this is the work of GhostCreator LLC, and they absolutely nailed it. If you like the new look as much as I do, go give them a follow: [GhostCreator LLC](https://www.linkedin.com/company/ghostcreatorllc/about/)
+
+## Who is actually using Floci
+
+This is the part that still surprises me. Floci is showing up in real projects, not just demos.
+
+Apache Camel, Arconia and others. [Read more here](/blog/whos-actually-using-floci/).
+
+When a project like that points its test suite at something you built, it stops being a toy. That is the moment it became real for me.
+
+## The community
+
+None of the above is mine alone.
+
+147 contributors are now fixing real bugs and shipping real services. People I have never met are reviewing pull requests, filing issues with clean reproductions, and arguing about protocol edge cases so the next person does not have to. Maintainers have stepped up for the Testcontainers modules. Slack and GitHub Discussions are full of people helping each other.
+
+I wrote the first commit. The community built almost everything since. Floci is theirs as much as mine now, and that is exactly how I hoped it would go.
+
+## What is next
+
+Month four: deepen the GCP and Azure surfaces, land more AWS services, and finish the Go Testcontainers module so every major ecosystem gets first-class local testing alongside the Java, Python, and Node modules already shipped.
+
+And the one thing that will never change: free, MIT-licensed, no gates, no telemetry. Forever.
+
+## Thank you
+
+To everyone who starred it, forked it, filed an issue, sent a pull request, wrote a blog post, or just told a teammate "try this instead": thank you. You turned a reaction to a paywall into something people depend on.
+
+Any Cloud. Locally. Let's keep Emulating.
+
+---
+
+*Originally published on [LinkedIn](https://www.linkedin.com/pulse/three-months-floci-14k-stars-third-cloud-community-i-could-ventura-wnrwc/).*

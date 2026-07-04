@@ -28,7 +28,7 @@ const { Content } = await post.render();
       <header class="article-header">
         <div class="meta">
           <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
           </time>
           {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
         </div>

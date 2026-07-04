@@ -1,0 +1,214 @@
+---
+title: "EC2 Ports In-Flight: 101"
+description: Launch a local EC2 instance, then open and close ports on it while it runs, and watch the socat sidecars that make it work appear and vanish in docker ps.
+cloud: aws
+difficulty: intermediate
+duration: 20 min
+tags: [ec2, security-groups, socat, docker]
+---
+
+## What You'll Build
+
+By the end of this lab you'll have a real (local) EC2 workflow running on your laptop:
+
+1. An **EC2 instance** launched with `RunInstances`: a real Docker container with UserData, not a mock
+2. A web server inside it that becomes reachable from your host **the moment** you call `authorize-security-group-ingress`, with no restart
+3. X-ray vision into how it works: one `alpine/socat` **sidecar container per opened port**, visible in `docker ps`
+4. Proof of the guardrails: an allow-all `0-65535` rule that does *not* spawn 65,000 sidecars
+
+No AWS account. No instance recreation. No lost state.
+
+This lab is the hands-on companion to [Opening EC2 ports in-flight with socat](/blog/opening-ec2-ports-in-flight-with-socat/). The runnable version lives in [floci-labs](https://github.com/floci-io/floci-labs/tree/main/labs/ec2-open-ports-in-flight), where `./demo.sh` runs this whole flow end to end.
+
+---
+
+## How It Works
+
+Docker only publishes ports at container creation. There is no "add a published port" to a running container. So Floci never touches the instance container. For each opened TCP port it starts a tiny socat sidecar that publishes a host port and forwards it to the instance's IP:
+
+```
+curl localhost:30xxx
+    │
+    ▼
+floci-ec2-fwd-<instanceId>-8080   (alpine/socat sidecar)
+    │  TCP forward
+    ▼
+172.17.0.x:8080                   (your app, inside the instance)
+```
+
+Every `authorize` and `revoke` triggers a reconcile: ports the security groups allow are diffed against the forwards actually live. New ports get a sidecar, revoked ports lose theirs. The instance is never rebuilt, restarted, or touched.
+
+---
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/) for both Floci and the instance containers it launches
+- [AWS CLI](https://aws.amazon.com/cli/) v2
+
+---
+
+## Step 1: Start floci (EC2 needs the Docker socket)
+
+EC2 launches real containers, so floci needs the socket and root:
+
+```bash
+docker run -d --name floci -p 4566:4566 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -u root floci/floci:latest
+
+# confirm it's healthy
+curl http://localhost:4566/_floci/health
+```
+
+```bash
+export AWS_ENDPOINT_URL=http://localhost:4566
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+export AWS_DEFAULT_REGION=us-east-1
+```
+
+---
+
+## Step 2: Create a Security Group with No Rules
+
+Start closed. The point of this lab is opening ports *later*.
+
+```bash
+SG=$(aws ec2 create-security-group \
+      --group-name inflight-demo \
+      --description "open ports in-flight demo" \
+      --query GroupId --output text)
+echo $SG
+```
+
+---
+
+## Step 3: Launch an Instance That Serves HTTP
+
+`ami-alpine` maps to `alpine:latest` (floci ships an AMI catalog: `ami-amazonlinux2023`, `ami-ubuntu2204`, `ami-debian12`, and friends; unknown `ami-*` IDs fall back to Amazon Linux 2023). The UserData script starts busybox `httpd` on port 8080, exactly like cloud-init would run it:
+
+```bash
+IID=$(aws ec2 run-instances \
+  --image-id ami-alpine --instance-type t3.micro \
+  --security-group-ids $SG \
+  --user-data '#!/bin/sh
+mkdir -p /www
+echo "hello from inside EC2 (well, a container)" > /www/index.html
+httpd -p 8080 -h /www' \
+  --query 'Instances[0].InstanceId' --output text)
+
+aws ec2 wait instance-running --instance-ids $IID
+echo $IID
+```
+
+The instance is a real container. See for yourself:
+
+```bash
+docker ps --filter name=$IID
+```
+
+UserData output streams to CloudWatch Logs under `/aws/ec2/<instanceId>`, like the real thing.
+
+---
+
+## Step 4: Confirm Nothing Is Reachable Yet
+
+The security group has no ingress rules, so no forwards exist:
+
+```bash
+docker ps --filter "name=floci-ec2-fwd-" --format '{{.Names}}  {{.Ports}}'
+# (empty)
+```
+
+---
+
+## Step 5: Open the Port on the Running Instance
+
+```bash
+aws ec2 authorize-security-group-ingress \
+  --group-id $SG --protocol tcp --port 8080 --cidr 0.0.0.0/0
+```
+
+Within a moment, the reconcile spawns the sidecar (host port comes from the 30000-30999 range):
+
+```bash
+docker ps --filter "name=floci-ec2-fwd-$IID-8080" --format '{{.Names}}  {{.Ports}}'
+```
+
+Expected output:
+
+```
+floci-ec2-fwd-i-0abc123def456-8080  0.0.0.0:30000->8080/tcp
+```
+
+Now reach the app through it:
+
+```bash
+HOST_PORT=$(docker ps --filter "name=floci-ec2-fwd-$IID-8080" \
+  --format '{{.Ports}}' | sed -n 's/.*:\([0-9]*\)->8080.*/\1/p' | head -1)
+
+curl http://localhost:$HOST_PORT/
+# hello from inside EC2 (well, a container)
+```
+
+The instance container was never rebuilt, never restarted, never touched. Ports opened after launch run through exactly the same code path as ports present at launch.
+
+---
+
+## Step 6: Revoke the Rule and Watch the Sidecar Vanish
+
+```bash
+aws ec2 revoke-security-group-ingress \
+  --group-id $SG --protocol tcp --port 8080 --cidr 0.0.0.0/0
+
+docker ps --filter "name=floci-ec2-fwd-$IID-8080"
+# (gone, host port released)
+```
+
+---
+
+## Step 7: Test the Guardrails
+
+A naive "forward everything" would be a footgun. Try to trigger a sidecar storm:
+
+```bash
+aws ec2 authorize-security-group-ingress \
+  --group-id $SG --protocol tcp --port 0-65535 --cidr 0.0.0.0/0
+
+docker ps --filter "name=floci-ec2-fwd-$IID" --format '{{.Names}}' | wc -l
+# 0. Wide spans are skipped, and forwards are capped per instance (20 by default)
+```
+
+Two more rules you can verify:
+
+- **Port 22 is special**: SSH is published separately at launch (host range 2200-2299) and never re-forwarded by security group rules
+- **CIDR sources only**: a rule that references another security group means private-IP reachability in AWS, not host reachability, so floci records it but starts no sidecar
+
+---
+
+## Cleanup
+
+```bash
+aws ec2 terminate-instances --instance-ids $IID
+aws ec2 wait instance-terminated --instance-ids $IID
+aws ec2 delete-security-group --group-id $SG
+```
+
+---
+
+## What You Learned
+
+- floci's EC2 launches **real containers**: UserData executes cloud-init style, logs land in CloudWatch, and IMDS answers at 169.254.169.254
+- Opening a port on a running instance works because the mutable part (forwards) lives **outside** the immutable part (the instance): one socat sidecar per port, named `floci-ec2-fwd-<instanceId>-<port>`
+- `authorize` / `revoke` run a **reconcile**, not a one-off action: the sidecars always match what the security groups currently allow
+- The guardrails (no port 22 re-forward, CIDR-only, wide-span skip, per-instance cap) keep "forward everything" from becoming a footgun
+- Forwards persist across restarts: surviving sidecars are left alone, missing ones are recreated from the saved mapping
+
+---
+
+## Next Steps
+
+- Read the design story behind this lab: [Opening EC2 ports in-flight with socat](/blog/opening-ec2-ports-in-flight-with-socat/)
+- Run the one-shot version: [`demo.sh` in floci-labs](https://github.com/floci-io/floci-labs/tree/main/labs/ec2-open-ports-in-flight)
+- Open a second port (add another `httpd` on 9090 to UserData) and watch a second sidecar appear
+- Restart the floci container and check `docker ps` to see persisted forwards come back on their saved host ports

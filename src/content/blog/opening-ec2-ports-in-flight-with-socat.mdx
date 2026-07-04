@@ -1,0 +1,64 @@
+---
+title: "Opening EC2 ports in-flight with socat"
+description: Docker only publishes ports at container creation, so how does Floci open a port on a running EC2 instance without restarting it? One tiny socat sidecar per port.
+pubDate: 2026-07-04
+tags: [engineering, aws, docker]
+---
+
+How do you open a port on a running EC2 instance, locally, without restarting it?
+
+That sounds trivial. It turned out to be one of the more satisfying design problems in Floci, and the answer is a tool most of us last touched years ago: `socat`.
+
+## The problem
+
+In Floci, an EC2 instance is not a mock. `RunInstances` launches a real Docker container, with SSH key injection, UserData, and IMDS. That realism is the whole point.
+
+But it collides with a routine AWS action: opening a port on an instance that is already running. In AWS you call `authorize-security-group-ingress` and traffic flows. Locally, there is a catch anyone who has used Docker in anger will feel immediately.
+
+Docker only publishes ports at container creation. There is no "add a published port" for a running container. So when a port opens after launch, you are left with two bad options: recreate the instance container and lose everything it has done since boot, or start reaching into container network namespaces at runtime and pray it behaves the same on Docker Desktop, Colima, and native Linux.
+
+Both fight the constraint. The better move was to stop fighting it.
+
+## The fix: one socat sidecar per port
+
+Instead of touching the instance container at all, Floci leaves it completely alone and puts the forward in a separate container.
+
+For each opened TCP port, Floci starts a tiny `alpine/socat` sidecar as a host sibling. The sidecar publishes an allocated host port and forwards it straight to the instance container's IP:
+
+```
+host:30217 → socat sidecar → 172.17.0.5:8080 (your app)
+```
+
+Now `curl localhost:30217` reaches the app. The instance container is never rebuilt, never restarted, never touched.
+
+The property I like most: because every forward is its own fresh container, a port opened after launch runs through exactly the same code path as a port present at launch. No special case. Same result.
+
+## Reconcile, do not react
+
+Floci does not wire ports up one call at a time. It reconciles. Given an instance and the ports its security groups currently allow, it diffs that against the forwards that are actually live. Newly opened ports get a sidecar. Revoked ports get their sidecar removed and their host port released. Every authorize and every revoke runs the same reconcile, off the API thread, so opening a port never blocks the caller.
+
+## The guardrails that keep it sane
+
+A naive "forward everything" would be a footgun, so a few rules keep it honest:
+
+- SSH on port 22 is published separately at launch and never re-forwarded.
+- Only CIDR-sourced rules are published. A rule that references another security group is private-IP reachability in AWS, not host reachability, so Floci treats it as metadata rather than pretending it opens a host port.
+- Allow-all ranges are refused. A 0 to 65535 rule will not spawn 65 thousand sidecars. Wide spans are skipped and the total is capped per instance (20 by default), so one rule cannot exhaust the host port range.
+
+Forwards are persisted too. On restart, a surviving sidecar is left running untouched, and any that vanished is recreated from the saved mapping.
+
+## Why the sidecar pattern was the right call
+
+The whole design is an exercise in respecting a constraint instead of hacking around it. Docker fixes port bindings at creation, so Floci moves the mutable part, the forwards, out of the immutable part, the instance. The workload behaves like a real instance: created once, then left alone. Opening and closing ports becomes cheap, independent, and reversible.
+
+I will be honest about the tradeoff. One container per port is simple and robust, but it is a container per port. For instances that open many ports, a single vendor-neutral proxy managing every forward through one control API is a leaner shape, and it is on my list to explore. For now, socat wins on being obvious, debuggable, and dependency-light, which for an emulator you point real tooling at is exactly the right first answer.
+
+This is what I mean when I say Floci runs real engines, not mocks. The same philosophy runs through the AWS, GCP, and Azure emulators in the family. All free, all MIT, no feature gates.
+
+If you want to see it: `floci start`, then open a port on a running instance. It just works, and now you know why.
+
+Want to try it hands-on? There's a step-by-step lab for this exact flow: [EC2 Ports In-Flight: 101](/labs/ec2-ports-101/).
+
+---
+
+*Originally published on [LinkedIn](https://www.linkedin.com/pulse/opening-ec2-ports-in-flight-socat-hector-ventura-plptc).*

@@ -1,0 +1,64 @@
+---
+title: "Who's Actually Using Floci? Apache Camel, Just Eat, and the UK Government"
+description: A snapshot of public LocalStack-to-Floci migrations. Major frameworks, established companies, and government engineering teams, each with the source PR so you can check the work.
+pubDate: 2026-06-11
+tags: [adoption, open-source, migration]
+---
+
+When LocalStack put its free tier behind a paywall, thousands of teams needed to replace their local AWS emulation overnight. Here is where a lot of them went, with the source PRs so you can check the work.
+
+In March 2026, LocalStack ended its free Community edition. Auth tokens became mandatory, security updates froze on the last free release, and the open-source repo was archived. Thousands of CI pipelines that auto-pulled the latest image were suddenly depending on a project that was being wound down.
+
+I had been building Floci, and it turned into the replacement for that moment. Floci is a free, MIT-licensed multi-cloud emulator suite. Any cloud, locally. On the AWS side it is a drop-in for LocalStack: the same `localhost:4566` endpoint, no auth token, and a native binary that boots in milliseconds instead of seconds. For most teams the migration is a single Docker image change.
+
+That part has been written about plenty. What I find more interesting is who actually picked it up. Not toy repositories. Major frameworks, established companies, and government engineering teams. Below is a snapshot of public migrations, each linked to the real pull request or repo.
+
+## Frameworks and developer tools
+
+**Apache Camel** swapped LocalStack for Floci across its AWS test infrastructure. It is merged into main, and the maintainer posted the numbers: "the camel-aws suite dropped from 6.5 minutes to 4.5 minutes." (PR #23404)
+
+**Testcontainers for .NET** added a first-party Floci module, so any .NET project on Testcontainers can point at Floci with one line. (PR #1690)
+
+**Spring Cloud AWS** added Floci support to its integration test setup. (PR #1604)
+
+**Kestra**, the open-source orchestration platform for data, AI, and infrastructure workflows, replaced LocalStack with Floci in its AWS plugin tests. (PR #727)
+
+**Quarkus AWS Services** (Quarkiverse) ships the testcontainers-floci integration as a dev-services provider, kept current release over release.
+
+**Cloud Posse / Atmos** went well beyond a migration: Atmos now ships [first-class emulator support](https://atmos.tools/changelog/introducing-emulators) with Floci as the default emulator for AWS, GCP, and Azure ("free, MIT-licensed" in their words), while LocalStack is listed as opt-in / legacy. It started with the AWS emulator demo (PR #2599), citing the Community EOL and the faster boot.
+
+**CrateDB** migrated its DynamoDB and Kinesis emulator tests from LocalStack to Floci. (PR #797)
+
+Several more switched in the same window: **Brighter** (Paramore) and **Patron** (Beat's Go framework) moved off Moto, while **Reposilite** and **Daily DevOps & .NET** moved off LocalStack.
+
+## Companies and teams
+
+**Just Eat Takeaway.com** swapped LocalStack for Floci in two of its open-source messaging projects, JustSaying and LocalSqsSnsMessaging.
+
+**Tibber**, the smart-energy company, migrated its internal AWS utilities from LocalStack to Floci.
+
+**VilnaCRM** replaced LocalStack with Floci for local AWS and SQS emulation across its services. (PR #303)
+
+## Public sector
+
+Several UK government engineering teams are adopting Floci across multiple repositories:
+
+- **DEFRA** (Department for Environment, Food and Rural Affairs) migrated a fleet of services and test suites.
+- **NHS Digital** adopted Floci as a LocalStack alternative. (PR #26)
+- **GOV.UK One Login** has an in-progress migration moving its account components from LocalStack to Floci. (Draft PR #792)
+
+## Why this spread so fast
+
+Two things stand out to me.
+
+First, the adoption is propagating through framework-level integrations. When Testcontainers for .NET, Spring Cloud AWS, and Quarkus ship Floci support, every downstream project inherits a one-line switch. That is open source compounding.
+
+Second, this is not hobby traffic. Apache, household-name companies, and government teams are running their CI against it. Those teams do not adopt a new dependency casually.
+
+If your team is still pinned to an archived LocalStack image, the move is usually a single Docker image change. The migration guide is [here](https://floci.io/floci/getting-started/migrate-from-localstack/).
+
+Using Floci and not on this list? [Leave a comment on the original LinkedIn article](https://www.linkedin.com/pulse/whos-actually-using-floci-apache-camel-just-eat-uk-hector-ventura-ziwnc) and I will add you.
+
+---
+
+*Originally published on [LinkedIn](https://www.linkedin.com/pulse/whos-actually-using-floci-apache-camel-just-eat-uk-hector-ventura-ziwnc).*
