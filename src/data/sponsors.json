@@ -32,7 +32,13 @@
         "Sponsor badge on GitHub",
         "Our sincere thanks"
       ],
-      "sponsors": []
+      "sponsors": [
+        {
+          "name": "Nexxion.ai",
+          "url": "https://nexxion.ai/",
+          "logo": "/sponsors/nexxion.svg"
+        }
+      ]
     }
   ]
 }
