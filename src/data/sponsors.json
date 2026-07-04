@@ -3,7 +3,7 @@
     {
       "id": "gold",
       "label": "🥇 Gold",
-      "price": "$500 / mo",
+      "price": "$500+ / mo",
       "perks": [
         "Large logo, top placement",
         "Dedicated support channel",
@@ -16,6 +16,11 @@
           "url": "https://x.com/jvanzyl",
           "logo": "/sponsors/jvanzyl.png",
           "person": true
+        },
+        {
+          "name": "Softmax",
+          "url": "https://softmax.com/",
+          "logo": "/sponsors/softmax.svg"
         }
       ]
     },
