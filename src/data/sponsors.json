@@ -10,7 +10,14 @@
         "Input on roadmap priorities",
         "Custom integration help"
       ],
-      "sponsors": []
+      "sponsors": [
+        {
+          "name": "Jason van Zyl",
+          "url": "https://x.com/jvanzyl",
+          "logo": "/sponsors/jvanzyl.png",
+          "person": true
+        }
+      ]
     },
     {
       "id": "silver",

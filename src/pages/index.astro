@@ -500,7 +500,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
                   {tier.sponsors.map(s => (
                     tier.id === 'community'
                       ? <div class="sponsor-name-chip">{s.url ? <a href={s.url} target="_blank">{s.name}</a> : s.name}</div>
-                      : <div class={`sponsor-logo ${tier.id}-slot`}>
+                      : <div class={`sponsor-logo ${tier.id}-slot${s.person ? ' person' : ''}`}>
                           {s.logo
                             ? <img src={s.logo} alt={s.name} class="sponsor-logo-img" />
                             : <div class="sponsor-logo-mark">{s.name.slice(0,2).toUpperCase()}</div>
@@ -924,11 +924,21 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .sponsor-slot-plus { color: var(--accent); animation: sponsor-plus-pulse 2.6s ease-in-out infinite; }
   .gold-slot { width: 120px; height: 72px; }
   .silver-slot { width: 90px; height: 58px; }
+  .sponsor-logo-img { max-width: 75%; max-height: 55%; object-fit: contain; }
+  .sponsor-logo.person .sponsor-logo-img {
+    width: 34px; height: 34px; border-radius: 50%; object-fit: cover;
+    border: 1px solid var(--border-bright);
+  }
+  .sponsor-logo.person .sponsor-logo-name { color: var(--text-muted); font-weight: 700; }
+  .gold-slot:not(.empty) { border-color: rgba(232,197,116,0.45); }
+  html.light .gold-slot:not(.empty) { border-color: rgba(166,124,46,0.5); }
   .sponsor-logo-mark {
     font-family: var(--mono); font-size: 16px; font-weight: 800;
     color: var(--accent); letter-spacing: 1px;
   }
   .sponsor-logo-name { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+  .sponsor-logo-name a { color: inherit; text-decoration: none; }
+  .sponsor-logo-name a:hover { color: var(--text); }
   .sponsor-logo.empty .sponsor-logo-name { color: var(--text-muted); }
   .sponsor-logo-plus { font-size: 18px; color: var(--text-dim); line-height: 1; }
 
