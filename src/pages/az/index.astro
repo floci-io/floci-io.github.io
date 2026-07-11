@@ -2,6 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { AZURE_SERVICES, orderByCategory } from '../../data/cloud-services';
+const dockerTiers = new Set(AZURE_SERVICES.map((s) => s.docker).filter(Boolean));
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import { SERVICE_COUNTS } from '../../data/services';
 
 const sectionLinks = [
   { href: '#services', label: 'Services' },
@@ -67,7 +71,7 @@ const jsonLd = {
     </div>
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-number">4577</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
-      <div class="stat-item"><span class="stat-number">22</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage · Cosmos · AKS · Functions · Messaging</div></div>
+      <div class="stat-item"><span class="stat-number">{SERVICE_COUNTS.azure}</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage · Cosmos · AKS · Functions · Messaging</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
       <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Azure account needed</div></div>
     </div>
@@ -78,33 +82,34 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci-az — Azure Services</div>
-        <h2>22 Azure services. All of them free.</h2>
+        <h2>{SERVICE_COUNTS.azure} Azure services. All of them free.</h2>
         <p class="section-desc">Wire-compatible with the official Azure SDKs and Azurite emulator. Switch with zero application code changes.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Blob Storage</span><span class="service-proto">REST XML / JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Queue Storage</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Table Storage</span><span class="service-proto">OData / REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Azure Functions</span><span class="service-proto">HTTP / Timer Triggers</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">App Configuration</span><span class="service-proto">REST JSON · Labels</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Key Vault</span><span class="service-proto">REST · Secrets / Keys / Certs</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Event Hubs</span><span class="service-proto">AMQP / Kafka / REST</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Service Bus</span><span class="service-proto">AMQP · Topics / Queues</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cosmos DB</span><span class="service-proto">SQL · Mongo · Cassandra · Gremlin</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">AKS</span><span class="service-proto">REST JSON · k3s / mocked</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Azure SQL</span><span class="service-proto">ARM · SQL Server (Docker)</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">API Management</span><span class="service-proto">ARM · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Virtual Machines</span><span class="service-proto">ARM · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cache for Redis</span><span class="service-proto">ARM · Redis (Docker)</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Container Registry</span><span class="service-proto">ARM · registry:2</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Virtual Network</span><span class="service-proto">ARM · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Azure Monitor</span><span class="service-proto">Logs · Metrics · KQL</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Microsoft Entra ID</span><span class="service-proto">OAuth2 · OIDC · JWKS</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Email Communication</span><span class="service-proto">REST JSON · ARM</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Event Grid</span><span class="service-proto">REST JSON · CloudEvents</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">PostgreSQL Flexible Server</span><span class="service-proto">ARM · PostgreSQL (Docker)</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Managed Identity</span><span class="service-proto">IMDS · OAuth2 tokens</span></div>
+        {orderByCategory(AZURE_SERVICES).map((s) => (
+          <a
+            class:list={['service-item', { exclusive: s.exclusive }]}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`${s.name} — official documentation`}
+          >
+            <ServiceIcon category={s.category} class="service-icon" />
+            <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
+            <span class="service-proto">{s.proto}{s.docker && (
+              <svg class:list={['docker-mark', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg>
+            )}</span>
+          </a>
+        ))}
       </div>
+        <p class="grid-legend">
+          {dockerTiers.has('default') && (
+            <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
+          )}
+          {dockerTiers.has('optional') && (
+            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional — mocked by default</span>
+          )}
+        </p>
     </div>
   </section>
 
@@ -131,7 +136,7 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-az is built with Quarkus Native, the same stack as floci for AWS. Starts in 24ms, single Docker image, 22 services.</p>
+        <p class="section-desc">floci-az is built with Quarkus Native, the same stack as floci for AWS. Starts in 24ms, single Docker image, {SERVICE_COUNTS.azure} services.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px" class="reveal" style="transition-delay:0.1s">
         <div style="background:var(--bg2);padding:28px 24px">
@@ -487,13 +492,19 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
 
   /* SERVICE CARDS */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
-  .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg2); }
-  .service-item { background: var(--bg); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
+  .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg); }
+  .service-item { background: var(--bg); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px; transition: background 0.15s; cursor: pointer; color: inherit; text-decoration: none; }
   .service-item:hover { background: var(--bg3); }
-  .service-dot { width: 7px; height: 7px; border-radius: 50%; background: #0078D4; flex-shrink: 0; }
-  .service-dot.wip { background: #F59E0B; }
-  .service-name { font-size: 13px; font-weight: 500; }
-  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+  .service-icon { width: 16px; height: 16px; color: #0078D4; flex-shrink: 0; grid-column: 1; grid-row: 1; }
+  .service-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .service-name { font-size: 13px; font-weight: 500; grid-column: 2; grid-row: 1; }
+  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); grid-column: 2; grid-row: 2; white-space: normal; overflow-wrap: anywhere; }
+  .docker-mark { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
+  .docker-mark.default { fill: var(--text-dim); }
+  .docker-mark.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+  .grid-legend { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--text-dim); }
+  .grid-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .grid-legend svg { width: 10px; height: 10px; }
 
   /* CODE */
   .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-x: auto; }

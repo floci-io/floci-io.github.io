@@ -2,6 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { GCP_SERVICES, orderByCategory } from '../../data/cloud-services';
+const dockerTiers = new Set(GCP_SERVICES.map((s) => s.docker).filter(Boolean));
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import { SERVICE_COUNTS } from '../../data/services';
 
 const sectionLinks = [
   { href: '#services', label: 'Services' },
@@ -67,7 +71,7 @@ const jsonLd = {
 
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-number">4588</span><div class="stat-label">Default port</div><div class="stat-sub">all services, one port</div></div>
-      <div class="stat-item"><span class="stat-number">22</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
+      <div class="stat-item"><span class="stat-number">{SERVICE_COUNTS.gcp}</span><div class="stat-label">Services live</div><div class="stat-sub">GCS · Pub/Sub · Firestore · more</div></div>
       <div class="stat-item"><span class="stat-number">186</span><div class="stat-label">SDK compat tests</div><div class="stat-sub">Java · Python · Node.js · Go</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
     </div>
@@ -79,33 +83,34 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci-gcp — GCP Services</div>
-        <h2>22 GCP services. All of them free.</h2>
+        <h2>{SERVICE_COUNTS.gcp} GCP services. All of them free.</h2>
         <p class="section-desc">No project ID, no service account, no billing account. Every service fully unlocked.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Storage</span><span class="service-proto">REST JSON / XML</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Pub/Sub</span><span class="service-proto">gRPC</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Firestore</span><span class="service-proto">gRPC</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Datastore</span><span class="service-proto">HTTP/protobuf</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Secret Manager</span><span class="service-proto">gRPC</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Managed Kafka</span><span class="service-proto">REST JSON · Redpanda</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Tasks</span><span class="service-proto">gRPC · v2</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Run</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud SQL</span><span class="service-proto">REST JSON · Postgres / MySQL</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Functions</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud KMS</span><span class="service-proto">gRPC · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Logging</span><span class="service-proto">gRPC · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Monitoring</span><span class="service-proto">gRPC · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Scheduler</span><span class="service-proto">gRPC · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">GKE</span><span class="service-proto">REST JSON · k3s / mocked</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">BigQuery</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Eventarc</span><span class="service-proto">gRPC · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Firebase Auth</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Resource Manager</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Service Usage</span><span class="service-proto">REST JSON · LRO</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Operations</span><span class="service-proto">gRPC · REST JSON · LRO</span></div>
+        {orderByCategory(GCP_SERVICES).map((s) => (
+          <a
+            class:list={['service-item', { exclusive: s.exclusive }]}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`${s.name} — official documentation`}
+          >
+            <ServiceIcon category={s.category} class="service-icon" />
+            <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
+            <span class="service-proto">{s.proto}{s.docker && (
+              <svg class:list={['docker-mark', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg>
+            )}</span>
+          </a>
+        ))}
       </div>
+        <p class="grid-legend">
+          {dockerTiers.has('default') && (
+            <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
+          )}
+          {dockerTiers.has('optional') && (
+            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional — mocked by default</span>
+          )}
+        </p>
     </div>
   </section>
 
@@ -115,7 +120,7 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all 22 services on one port.</p>
+        <p class="section-desc">floci-gcp is built with Quarkus Native, the same stack as the rest of the suite. Starts in 24ms, single Docker image, all {SERVICE_COUNTS.gcp} services on one port.</p>
       </div>
       <div class="perf-stats reveal" style="transition-delay:0.1s">
         <div class="perf-stat">
@@ -591,7 +596,7 @@ gcloud secrets versions access latest \
           <a href="https://github.com/floci-io/floci-gcp" target="_blank" class="btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
             Star on GitHub
-          </a>
+            </a>
           <a href="/" class="btn-ghost">See other emulators →</a>
         </div>
       </div>
@@ -701,13 +706,18 @@ gcloud secrets versions access latest \
   /* SERVICE CARDS */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
   .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg2); }
-  .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
+  .service-item { background: var(--bg2); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px; transition: background 0.15s; cursor: pointer; color: inherit; text-decoration: none; }
   .service-item:hover { background: var(--bg3); }
-  .service-dot { width: 7px; height: 7px; border-radius: 50%; background: #34A853; flex-shrink: 0; }
-  .service-dot.wip { background: #fbbc04; }
-  .service-dot.planned { background: var(--text-dim); }
-  .service-name { font-size: 13px; font-weight: 500; }
-  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+  .service-icon { width: 16px; height: 16px; color: #34A853; flex-shrink: 0; grid-column: 1; grid-row: 1; }
+  .service-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .service-name { font-size: 13px; font-weight: 500; grid-column: 2; grid-row: 1; }
+  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); grid-column: 2; grid-row: 2; white-space: normal; overflow-wrap: anywhere; }
+  .docker-mark { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
+  .docker-mark.default { fill: var(--text-dim); }
+  .docker-mark.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+  .grid-legend { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--text-dim); }
+  .grid-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .grid-legend svg { width: 10px; height: 10px; }
   .svc-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
   .svc-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
   .svc-features { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }

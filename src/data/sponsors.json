@@ -12,10 +12,10 @@
       ],
       "sponsors": [
         {
-          "name": "Jason van Zyl",
-          "url": "https://x.com/jvanzyl",
-          "logo": "/sponsors/jvanzyl.png",
-          "person": true
+          "name": "IceGuard",
+          "url": "https://github.com/iceguard",
+          "logo": "/sponsors/iceguard.png",
+          "invert": true
         },
         {
           "name": "Softmax",

@@ -2,6 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { AWS_SERVICES, orderByCategory } from '../../data/cloud-services';
+const dockerTiers = new Set(AWS_SERVICES.map((s) => s.docker).filter(Boolean));
+import ServiceIcon from '../../components/ServiceIcon.astro';
+import { SERVICE_COUNTS } from '../../data/services';
 
 const sectionLinks = [
   { href: '#services', label: 'Services' },
@@ -20,7 +24,7 @@ const jsonLd = {
   "license": "https://opensource.org/licenses/MIT",
   "url": "https://floci.io/aws/",
   "downloadUrl": "https://github.com/floci-io/floci",
-  "description": "Fast, free AWS emulator. 67 services, 24 ms startup, drop-in LocalStack replacement.",
+  "description": `Fast, free AWS emulator. ${SERVICE_COUNTS.aws} services, 24 ms startup, drop-in LocalStack replacement.`,
   "keywords": "AWS emulator, LocalStack alternative, local cloud, S3 mock, DynamoDB local"
 };
 ---
@@ -85,7 +89,7 @@ const jsonLd = {
         <div class="card"><div class="card-icon green">⚡</div><h3>24ms startup</h3><p>Native binary compiled with GraalVM Mandrel. Starts instantly, and your CI pipeline will thank you.</p></div>
         <div class="card"><div class="card-icon amber">💾</div><h3>13 MiB idle memory</h3><p>Native binary, minimal memory footprint. Fits on the smallest CI runners.</p></div>
         <div class="card"><div class="card-icon blue">🔓</div><h3>Truly MIT licensed</h3><p>Fork it, embed it, extend it. No "community edition" sunset. No "enterprise" feature flags. Every service available to every developer, always.</p></div>
-        <div class="card"><div class="card-icon teal">☁️</div><h3>67 AWS services</h3><p>From S3 to Step Functions to Neptune to Transcribe, including ElastiCache, RDS, API Gateway v2 + WebSocket, CloudFront, AppSync, Route53, Transfer Family, and more. All free.</p></div>
+        <div class="card"><div class="card-icon teal">☁️</div><h3>{SERVICE_COUNTS.aws} AWS services</h3><p>From S3 to Step Functions to Neptune to Transcribe, including ElastiCache, RDS, API Gateway v2 + WebSocket, CloudFront, AppSync, Route53, Transfer Family, and more. All free.</p></div>
         <div class="card"><div class="card-icon green">🔁</div><h3>Drop-in compatible</h3><p>Same port 4566. Same wire protocols. Same AWS SDK calls. Zero application code changes needed to switch.</p></div>
         <div class="card"><div class="card-icon blue">🔒</div><h3>Optional TLS / HTTPS</h3><p>Enable HTTPS with one env var. Floci auto-generates a self-signed certificate at startup so you can test TLS-sensitive code paths locally.</p></div>
         <div class="card"><div class="card-icon amber">🏢</div><h3>Per-account isolation</h3><p>Full multi-tenancy: each AWS account ID gets its own isolated storage. Run dev, staging, and test on a single Floci instance.</p></div>
@@ -148,7 +152,7 @@ const jsonLd = {
           <div class="perf-callouts" style="margin-bottom:24px">
             <div class="callout"><span class="callout-num">~90 MB</span><div class="callout-label">Docker image size</div></div>
             <div class="callout"><span class="callout-num">100%</span><div class="callout-label">SDK tests pass<br>1,925 of 1,925</div></div>
-            <div class="callout"><span class="callout-num">67</span><div class="callout-label">AWS services<br>all free, all unlocked</div></div>
+            <div class="callout"><span class="callout-num">{SERVICE_COUNTS.aws}</span><div class="callout-label">AWS services<br>all free, all unlocked</div></div>
             <div class="callout"><span class="callout-num">$0</span><div class="callout-label">Forever free<br>no auth token</div></div>
           </div>
           <div class="metric-card">
@@ -205,76 +209,34 @@ const jsonLd = {
     <div class="container">
       <div class="reveal">
         <div class="section-label">floci — AWS Services</div>
-        <h2>67 AWS services. All of them free.</h2>
+        <h2>{SERVICE_COUNTS.aws} AWS services. All of them free.</h2>
         <p class="section-desc">Every service is fully unlocked. Services marked with ★ are exclusive to Floci.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">S3</span><span class="service-proto">REST XML</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">SQS</span><span class="service-proto">Query / JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">SNS</span><span class="service-proto">Query / JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">DynamoDB + Streams</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Lambda</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">API Gateway REST</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">API Gateway v2 ★</span><span class="service-proto">HTTP + WebSocket</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">IAM</span><span class="service-proto">Query (68+ ops)</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">STS</span><span class="service-proto">Query (7 ops)</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Cognito ★</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">KMS</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Kinesis</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Secrets Manager</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">SSM Parameter Store</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudFormation</span><span class="service-proto">Query</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Step Functions</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">ElastiCache ★</span><span class="service-proto">Redis + IAM</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">RDS ★</span><span class="service-proto">PG + MySQL + IAM</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">EventBridge + Scheduler + Pipes</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Logs</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudWatch Metrics</span><span class="service-proto">Query</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">MSK (Kafka)</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">ECS</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">EC2</span><span class="service-proto">Query</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">ACM</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">ECR</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">SES + SES v2</span><span class="service-proto">Query / JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">OpenSearch</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">AppConfig + Data</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Athena</span><span class="service-proto">Docker · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Glue</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Data Firehose</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Bedrock Runtime</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">EKS</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">ELB v2 ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">CodeBuild ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">CodeDeploy ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Auto Scaling ★</span><span class="service-proto">Query</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">AWS Backup ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Route 53 ★</span><span class="service-proto">REST XML</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Textract ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Transfer Family ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Transcribe ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item exclusive"><div class="service-dot"></div><span class="service-name">Neptune ★</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cost Explorer</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Pricing</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CUR + BCM Data Exports</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudFront</span><span class="service-proto">REST XML</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">AppSync</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Map</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">AWS Config</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Resource Groups Tagging</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">RDS Data API</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">AWS Batch</span><span class="service-proto">Docker · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">EMR</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">DocumentDB</span><span class="service-proto">Docker · Query</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CloudTrail</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">WAF v2</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">CodePipeline</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Elastic Beanstalk</span><span class="service-proto">Query</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">IoT Core</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">MemoryDB</span><span class="service-proto">JSON 1.1</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">S3 Vectors</span><span class="service-proto">REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Amazon MQ</span><span class="service-proto">Docker · REST JSON</span></div>
-        <div class="service-item"><div class="service-dot"></div><span class="service-name">Cloud Control API</span><span class="service-proto">JSON 1.0</span></div>
+        {orderByCategory(AWS_SERVICES).map((s) => (
+          <a
+            class:list={['service-item', { exclusive: s.exclusive }]}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`${s.name} — official documentation`}
+          >
+            <ServiceIcon category={s.category} class="service-icon" />
+            <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
+            <span class="service-proto">{s.proto}{s.docker && (
+              <svg class:list={['docker-mark', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg>
+            )}</span>
+          </a>
+        ))}
       </div>
+        <p class="grid-legend">
+          {dockerTiers.has('default') && (
+            <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
+          )}
+          {dockerTiers.has('optional') && (
+            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional — mocked by default</span>
+          )}
+        </p>
       <p style="font-size:12px;color:var(--text-dim);margin-top:14px;text-align:right">★ Exclusive to Floci, not available in other free AWS emulators</p>
     </div>
   </section>
@@ -376,7 +338,7 @@ cat hello-back.txt</span></pre></div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">docker run</h3>
             <div class="code-block"><pre
-><span class="comment"># All 67 services on :4566</span>
+><span class="comment"># All {SERVICE_COUNTS.aws} services on :4566</span>
 <span class="cmd">docker run -d --name floci \
   -p <span class="acc">4566:4566</span> \
   -v /var/run/docker.sock:/var/run/docker.sock \
@@ -606,14 +568,21 @@ aws athena get-query-results --query-execution-id <span class="acc">$QUERY_ID</s
   /* SERVICES */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
   .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg2); }
-  .service-item { background: var(--bg2); padding: 18px 20px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; cursor: default; }
+  .service-item { background: var(--bg2); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px; transition: background 0.15s; cursor: pointer; color: inherit; text-decoration: none; }
   .service-item:hover { background: var(--bg3); }
   .service-item.exclusive { background: var(--accent-dim); }
   .service-item.exclusive:hover { background: rgba(122,127,214,0.2); }
-  .service-item.exclusive .service-dot { background: var(--accent); }
-  .service-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-warm); flex-shrink: 0; }
-  .service-name { font-size: 13px; font-weight: 500; }
-  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: auto; white-space: nowrap; }
+  .service-item.exclusive .service-icon { color: var(--accent); }
+  .service-icon { width: 16px; height: 16px; color: var(--accent-warm); flex-shrink: 0; grid-column: 1; grid-row: 1; }
+  .service-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .service-name { font-size: 13px; font-weight: 500; grid-column: 2; grid-row: 1; }
+  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); grid-column: 2; grid-row: 2; white-space: normal; overflow-wrap: anywhere; }
+  .docker-mark { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
+  .docker-mark.default { fill: var(--text-dim); }
+  .docker-mark.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+  .grid-legend { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--text-dim); }
+  .grid-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .grid-legend svg { width: 10px; height: 10px; }
 
   /* IAM */
   .iam-section { background: var(--bg2); }

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { SERVICE_COUNTS } from '../../data/services';
 
 const sectionLinks = [
   { href: '#at-a-glance', label: 'At a Glance' },
@@ -51,7 +52,7 @@ const sectionLinks = [
         <div class="stat-sub">13 MiB vs 143 MiB idle</div>
       </div>
       <div class="stat-item">
-        <span class="stat-number">67</span>
+        <span class="stat-number">{SERVICE_COUNTS.aws}</span>
         <div class="stat-label">AWS services</div>
         <div class="stat-sub">All free, all unlocked</div>
       </div>

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import sponsorsData from '../data/sponsors.json';
+import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data/services';
 ---
 
 <Layout
@@ -77,14 +78,14 @@ import sponsorsData from '../data/sponsors.json';
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci</div>
-            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, 67 services, native binary. Switch with zero code changes.</p>
+            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, {SERVICE_COUNTS.aws} services, native binary. Switch with zero code changes.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4566</span>
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">67</span>
+                <span class="ecard-stat-val">{SERVICE_COUNTS.aws}</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
@@ -93,7 +94,7 @@ import sponsorsData from '../data/sponsors.json';
               </div>
             </div>
             <div class="ecard-chips">
-              <span>S3</span><span>SQS</span><span>Lambda</span><span>DynamoDB</span><span>RDS</span><span>EKS</span><span>+61 more</span>
+              {CARD_CHIPS.aws.map((s) => <span>{s}</span>)}<span>{moreLabel('aws', CARD_CHIPS.aws)}</span>
             </div>
             <div class="ecard-foot">
               <a href="/aws/" class="ecard-cta">Learn more →</a>
@@ -130,7 +131,7 @@ import sponsorsData from '../data/sponsors.json';
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">22</span>
+                <span class="ecard-stat-val">{SERVICE_COUNTS.azure}</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
@@ -139,7 +140,7 @@ import sponsorsData from '../data/sponsors.json';
               </div>
             </div>
             <div class="ecard-chips">
-              <span>Blob</span><span>Queue</span><span>Table</span><span>Functions</span><span>Key Vault</span><span>Event Hubs</span><span>Service Bus</span><span>+15 more</span>
+              {CARD_CHIPS.azure.map((s) => <span>{s}</span>)}<span>{moreLabel('azure', CARD_CHIPS.azure)}</span>
             </div>
             <div class="ecard-foot">
               <a href="/az/" class="ecard-cta">Learn more →</a>
@@ -169,14 +170,14 @@ import sponsorsData from '../data/sponsors.json';
           </div>
           <div class="ecard-body">
             <div class="ecard-name">floci-gcp</div>
-            <p class="ecard-desc">Covers GCS, Pub/Sub, Firestore, Cloud Run, Cloud SQL, GKE and more. All 22 services on one port, native binary. MIT license, no GCP account needed.</p>
+            <p class="ecard-desc">Covers GCS, Pub/Sub, Firestore, Cloud Run, Cloud SQL, GKE and more. All {SERVICE_COUNTS.gcp} services on one port, native binary. MIT license, no GCP account needed.</p>
             <div class="ecard-stats">
               <div class="ecard-stat">
                 <span class="ecard-stat-val">4588</span>
                 <div class="ecard-stat-lbl">port</div>
               </div>
               <div class="ecard-stat">
-                <span class="ecard-stat-val">22</span>
+                <span class="ecard-stat-val">{SERVICE_COUNTS.gcp}</span>
                 <div class="ecard-stat-lbl">services</div>
               </div>
               <div class="ecard-stat">
@@ -185,7 +186,7 @@ import sponsorsData from '../data/sponsors.json';
               </div>
             </div>
             <div class="ecard-chips">
-              <span>GCS</span><span>Pub/Sub</span><span>Firestore</span><span>Datastore</span><span>Secret Manager</span><span>IAM</span><span>+16 more</span>
+              {CARD_CHIPS.gcp.map((s) => <span>{s}</span>)}<span>{moreLabel('gcp', CARD_CHIPS.gcp)}</span>
             </div>
             <div class="ecard-foot">
               <a href="/gcp/" class="ecard-cta">Learn more →</a>
@@ -415,7 +416,7 @@ import sponsorsData from '../data/sponsors.json';
         </div>
 
         <div id="itab-aws" class="install-block" style="display:none">
-          <span class="comment"># Run all 67 AWS services on port 4566</span><br>
+          <span class="comment"># Run all {SERVICE_COUNTS.aws} AWS services on port 4566</span><br>
           <span class="cmd">docker run --rm -p <span class="acc">4566:4566</span> \<br>
 &nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>
 &nbsp;&nbsp;floci/floci:<span class="acc">latest</span></span><br><br>
@@ -467,7 +468,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
         <div class="install-outcome" id="installOutcome">
           <span class="outcome-dot"></span>
-          <span id="outcomeText">67 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +62 more</span>
+          <span id="outcomeText" set:html={OUTCOME_MESSAGES.aws}></span>
 
         </div>
 
@@ -502,7 +503,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
                       ? <div class="sponsor-name-chip">{s.url ? <a href={s.url} target="_blank">{s.name}</a> : s.name}</div>
                       : <div class={`sponsor-logo ${tier.id}-slot${s.person ? ' person' : ''}`}>
                           {s.logo
-                            ? <img src={s.logo} alt={s.name} class="sponsor-logo-img" />
+                            ? <img src={s.logo} alt={s.name} class:list={['sponsor-logo-img', { invert: s.invert }]} />
                             : <div class="sponsor-logo-mark">{s.name.slice(0,2).toUpperCase()}</div>
                           }
                           <div class="sponsor-logo-name">{s.url ? <a href={s.url} target="_blank">{s.name}</a> : s.name}</div>
@@ -925,6 +926,9 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .gold-slot { width: 120px; height: 72px; }
   .silver-slot { width: 90px; height: 58px; }
   .sponsor-logo-img { max-width: 75%; max-height: 55%; object-fit: contain; }
+  /* monochrome logo: sits directly on the slot like the others, recolored per theme */
+  .sponsor-logo-img.invert { max-width: 72%; max-height: 72%; filter: invert(1); }
+  html.light .sponsor-logo-img.invert { filter: none; }
   .sponsor-logo.person .sponsor-logo-img {
     width: 34px; height: 34px; border-radius: 50%; object-fit: cover;
     border: 1px solid var(--border-bright);
@@ -1135,6 +1139,8 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 </style>
 
 <script>
+import { OUTCOME_MESSAGES } from '../data/services';
+
 // Reveal
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
@@ -1149,13 +1155,7 @@ document.querySelectorAll('.sponsor-tier').forEach(card => {
 });
 
 // Install tabs
-const outcomeMessages = {
-  cli:   '67 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +62 more',
-  win:   '67 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +62 more',
-  aws:   '67 AWS services ready on <span class="outcome-port">:4566</span>. S3 · SQS · DynamoDB · Lambda · RDS · +62 more',
-  azure: '22 Azure services ready on <span class="outcome-port">:4577</span>. Blob · Queue · Table · Functions · Key Vault · Event Hubs · +16 more',
-  gcp:   '22 GCP services ready on <span class="outcome-port">:4588</span>. GCS · Pub/Sub · Firestore · Datastore · Secret Manager · IAM · Kafka · Cloud Tasks · Cloud Run · Cloud SQL · Cloud Functions · Cloud KMS · Cloud Logging · Cloud Monitoring · Cloud Scheduler · GKE · BigQuery · Eventarc · Firebase Auth · Resource Manager · Service Usage · Operations',
-};
+const outcomeMessages = OUTCOME_MESSAGES;
 
 function activateTab(tabKey) {
   document.querySelectorAll('#installTabs .install-tab').forEach(function(t) { t.classList.remove('active'); });

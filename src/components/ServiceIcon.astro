@@ -1,0 +1,58 @@
+---
+/**
+ * Neutral category glyph for a service chip. One icon per service *category*
+ * rather than per product, so no vendor trademarks are reproduced.
+ *
+ * Strokes use currentColor — the parent sets the cloud's brand color.
+ */
+import type { ServiceCategory } from '../data/cloud-services';
+
+interface Props {
+  category: ServiceCategory;
+  class?: string;
+}
+
+const { category, class: className } = Astro.props;
+
+const GLYPHS: Record<ServiceCategory, string> = {
+  // archive box
+  storage: '<rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8"/><path d="M10 12h4"/>',
+  // cylinder
+  database: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+  // cpu
+  compute: '<rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
+  // cube
+  containers: '<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5"/><path d="M12 12v10"/>',
+  // connected nodes
+  networking: '<circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M10.6 7.2 6.4 16.8M13.4 7.2l4.2 9.6M7.5 19h9"/>',
+  // envelope
+  messaging: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  // person
+  identity: '<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/>',
+  // shield
+  security: '<path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/>',
+  // pulse line
+  observability: '<path d="M3 12h4l3 8 4-16 3 8h4"/>',
+  // bar chart
+  analytics: '<path d="M5 20V10M12 20V4M19 20v-7"/>',
+  // sparkle
+  ai: '<path d="M12 3l1.7 4.5L18.2 9.2l-4.5 1.7L12 15.4l-1.7-4.5L5.8 9.2l4.5-1.7z"/><path d="M18 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>',
+  // terminal
+  devtools: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13.5 15H17"/>',
+  // receipt
+  billing: '<path d="M6 2v20l3-2 3 2 3-2 3 2V2z"/><path d="M9.5 8h5M9.5 12h5"/>',
+};
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={GLYPHS[category]}
+/>
