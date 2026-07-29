@@ -6,7 +6,7 @@ export interface SectionLink {
 }
 
 export interface Props {
-  active: 'home' | 'aws' | 'az' | 'gcp' | 'blog' | 'labs';
+  active: 'home' | 'aws' | 'az' | 'gcp' | 'oci' | 'blog' | 'labs';
   githubUrl?: string;
   docsUrl?: string;
   sectionLinks?: SectionLink[];
@@ -47,6 +47,7 @@ const {
     <a href="/aws/" class={`aws-link${active === 'aws' ? ' nav-active' : ''}`} aria-current={active === 'aws' ? 'page' : undefined}>AWS</a>
     <a href="/az/" class={`az-link${active === 'az' ? ' nav-active' : ''}`} aria-current={active === 'az' ? 'page' : undefined}>Azure</a>
     <a href="/gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
+    <a href="/oci/" class={`oci-link${active === 'oci' ? ' nav-active' : ''}`} aria-current={active === 'oci' ? 'page' : undefined}>OCI</a>
     <div class="nav-sep"></div>
     <a href="/blog/" class={active === 'blog' ? 'nav-active' : ''} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a>
     <a href="/labs/" class={active === 'labs' ? 'nav-active' : ''} aria-current={active === 'labs' ? 'page' : undefined}>Labs</a>
@@ -68,6 +69,7 @@ const {
         <a href="/floci/" role="menuitem" class="aws-link">floci</a>
         <a href="/floci-az/" role="menuitem" class="az-link">floci-az</a>
         <a href="/floci-gcp/" role="menuitem" class="gcp-link">floci-gcp</a>
+        <a href="/floci-oci/" role="menuitem" class="oci-link">floci-oci</a>
       </div>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -102,12 +104,15 @@ const {
   .nav-links a.aws-link { color: rgba(255,153,0,0.85); }
   .nav-links a.az-link  { color: rgba(0,120,212,0.85); }
   .nav-links a.gcp-link { color: rgba(52,168,83,0.85); }
+  .nav-links a.oci-link { color: rgba(199,70,52,0.85); }
   html.light .nav-links a.aws-link { color: #cc6600; }
   html.light .nav-links a.az-link  { color: #0078D4; }
   html.light .nav-links a.gcp-link { color: #1e7e34; }
+  html.light .nav-links a.oci-link { color: #C74634; }
   .nav-links a.aws-link.nav-active { color: #FF9900; font-weight: 600; }
   .nav-links a.az-link.nav-active  { color: #0078D4; font-weight: 600; }
   .nav-links a.gcp-link.nav-active { color: #34A853; font-weight: 600; }
+  .nav-links a.oci-link.nav-active { color: #C74634; font-weight: 600; }
   .nav-sep { width: 1px; height: 18px; background: var(--border-bright); }
   .nav-link-disabled { color: var(--text-dim); font-size: 15px; cursor: not-allowed; opacity: 0.45; user-select: none; }
   .nav-stars { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-left: 4px; display: inline-block; min-width: 4.5ch; }

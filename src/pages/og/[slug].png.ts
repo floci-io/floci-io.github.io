@@ -10,6 +10,7 @@ const pages = [
   { slug: 'aws',     title: 'floci',               sub: `${SERVICE_COUNTS.aws} AWS services. 24 ms startup. No auth token.`,  color: '#FF9900', tag: 'Drop-in LocalStack replacement' },
   { slug: 'az',      title: 'floci-az',            sub: `${SERVICE_COUNTS.azure} Azure services. Native speed. MIT license.`,   color: '#0078D4', tag: 'Blob · Queue · Functions · Key Vault · Cosmos DB' },
   { slug: 'gcp',     title: 'floci-gcp',           sub: `${SERVICE_COUNTS.gcp} GCP services. No project, no billing.`,         color: '#34A853', tag: 'Cloud Storage · Pub/Sub · Firestore · Secret Manager' },
+  { slug: 'oci',     title: 'floci-oci',           sub: `${SERVICE_COUNTS.oci} OCI services. No account, no key ceremony.`,    color: '#C74634', tag: 'Object Storage · Queue · Streaming · KMS · Functions' },
   { slug: 'compare', title: 'Floci vs LocalStack', sub: 'Free · No auth token · Drop-in replacement.',     color: '#7A7FD6', tag: '138× faster startup · 91% less memory' },
   { slug: 'blog',    title: 'Blog',                sub: 'Engineering notes from the floci team.',           color: '#7A7FD6', tag: 'floci.io · Open Source · MIT License' },
   { slug: 'labs',    title: '101 Labs',            sub: 'Hands-on guides for AWS, Azure, and GCP.',        color: '#7A7FD6', tag: 'No cloud account needed · Runs on your laptop' },

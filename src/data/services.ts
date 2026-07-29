@@ -9,11 +9,13 @@
  *   aws   — distinct `descriptor("…")` entries in ResolvedServiceCatalog.java
  *   azure — `EmulatorConfig.ServicesConfig` methods, minus `arm` (control plane)
  *   gcp   — one directory per service under services/
+ *   oci   — `*ServiceConfig` accessors on `EmulatorConfig.ServicesConfig`
  */
 export const SERVICE_COUNTS = {
   aws: 68,
   azure: 22,
   gcp: 22,
+  oci: 7,
 } as const;
 
 export type Cloud = keyof typeof SERVICE_COUNTS;
@@ -22,12 +24,14 @@ export const CLOUD_LABELS: Record<Cloud, string> = {
   aws: 'AWS',
   azure: 'Azure',
   gcp: 'GCP',
+  oci: 'OCI',
 };
 
 export const CLOUD_PORTS: Record<Cloud, number> = {
   aws: 4566,
   azure: 4577,
   gcp: 4588,
+  oci: 4599,
 };
 
 /** Service names shown as chips on the home-page cloud cards. */
@@ -35,6 +39,7 @@ export const CARD_CHIPS: Record<Cloud, string[]> = {
   aws: ['S3', 'SQS', 'Lambda', 'DynamoDB', 'RDS', 'EKS'],
   azure: ['Blob', 'Queue', 'Table', 'Functions', 'Key Vault', 'Event Hubs', 'Service Bus'],
   gcp: ['GCS', 'Pub/Sub', 'Firestore', 'Datastore', 'Secret Manager', 'IAM'],
+  oci: ['Object Storage', 'Queue', 'Streaming', 'KMS', 'Vault', 'Functions'],
 };
 
 /**
@@ -46,6 +51,7 @@ const OUTCOME_PREVIEW: Record<Cloud, string[]> = {
   aws: ['S3', 'SQS', 'DynamoDB', 'Lambda', 'RDS'],
   azure: ['Blob', 'Queue', 'Table', 'Functions', 'Key Vault'],
   gcp: ['GCS', 'Pub/Sub', 'Firestore', 'Datastore', 'IAM'],
+  oci: ['Object Storage', 'Queue', 'Streaming', 'KMS', 'Vault'],
 };
 
 /** "+61 more" — the remainder once `listed` names are shown. */
@@ -68,4 +74,5 @@ export const OUTCOME_MESSAGES: Record<string, string> = {
   aws: outcomeMessage('aws'),
   azure: outcomeMessage('azure'),
   gcp: outcomeMessage('gcp'),
+  oci: outcomeMessage('oci'),
 };

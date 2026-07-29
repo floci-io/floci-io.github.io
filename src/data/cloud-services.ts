@@ -1,5 +1,5 @@
 /**
- * Per-service metadata for the AWS / Azure / GCP service grids.
+ * Per-service metadata for the AWS / Azure / GCP / OCI service grids.
  *
  * `category` selects a neutral glyph from <ServiceIcon>; `url` points at the
  * vendor's own documentation. Vendor product icons are deliberately NOT used —
@@ -10,8 +10,8 @@
  * re-run the check rather than trusting the URL shape.
  *
  * The AWS grid combines some services into one chip ("DynamoDB + Streams"), so
- * AWS_SERVICES.length is below SERVICE_COUNTS.aws. Azure and GCP are 1:1 and
- * asserted against SERVICE_COUNTS at build time.
+ * AWS_SERVICES.length is below SERVICE_COUNTS.aws. Azure, GCP and OCI are 1:1
+ * and asserted against SERVICE_COUNTS at build time.
  */
 import { SERVICE_COUNTS } from './services';
 
@@ -30,6 +30,11 @@ export interface CloudService {
   url: string;
   /** Exclusive to Floci among free emulators — rendered with a ★. */
   exclusive?: boolean;
+  /**
+   * 'default' — launches a real Docker container out of the box;
+   * 'optional' — mocked by default, containers only with mocked=false.
+   */
+  docker?: 'default' | 'optional';
 }
 
 export const AWS_SERVICES: CloudService[] = [
@@ -151,9 +156,20 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Operations', proto: 'gRPC · REST JSON · LRO', category: 'devtools', url: 'https://google.aip.dev/151' },
 ];
 
+export const OCI_SERVICES: CloudService[] = [
+  { name: 'Object Storage', proto: 'REST JSON · multipart / PAR', category: 'storage', url: 'https://docs.oracle.com/en-us/iaas/Content/Object/home.htm' },
+  { name: 'Identity (IAM)', proto: 'REST JSON · work requests', category: 'identity', url: 'https://docs.oracle.com/en-us/iaas/Content/Identity/home.htm' },
+  { name: 'Queue', proto: 'REST JSON · DLQ / channels', category: 'messaging', url: 'https://docs.oracle.com/en-us/iaas/Content/queue/home.htm' },
+  { name: 'Streaming', proto: 'REST JSON · cursors / groups', category: 'messaging', url: 'https://docs.oracle.com/en-us/iaas/Content/Streaming/home.htm' },
+  { name: 'KMS', proto: 'REST JSON · real AES / RSA / ECDSA', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/KeyManagement/home.htm' },
+  { name: 'Vault Secrets', proto: 'REST JSON · secret bundles', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Tasks/managingsecrets.htm' },
+  { name: 'Functions', proto: 'REST JSON · Fn Project', category: 'compute', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm' },
+];
+
 for (const [label, list, expected] of [
   ['AZURE_SERVICES', AZURE_SERVICES, SERVICE_COUNTS.azure],
   ['GCP_SERVICES', GCP_SERVICES, SERVICE_COUNTS.gcp],
+  ['OCI_SERVICES', OCI_SERVICES, SERVICE_COUNTS.oci],
 ] as const) {
   if (list.length !== expected) {
     throw new Error(
@@ -223,6 +239,7 @@ for (const [label, list] of [
   ['AWS_SERVICES', AWS_SERVICES],
   ['AZURE_SERVICES', AZURE_SERVICES],
   ['GCP_SERVICES', GCP_SERVICES],
+  ['OCI_SERVICES', OCI_SERVICES],
 ] as const) {
   const grouped = groupByCategory(list).reduce((n, g) => n + g.services.length, 0);
   if (grouped !== list.length) {

@@ -1,6 +1,6 @@
 # floci
 
-> floci is a suite of free, MIT-licensed local cloud emulators for AWS, Azure, and GCP.
+> floci is a suite of free, MIT-licensed local cloud emulators for AWS, Azure, GCP, and OCI.
 > No account required. No auth tokens. Runs entirely on your laptop.
 > Built with Quarkus Native — 24 ms startup, ~13 MiB idle memory.
 
@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 47 emulated AWS services on port 4566
+- 68 emulated AWS services on port 4566
 - Drop-in LocalStack replacement — same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -20,28 +20,38 @@ Kinesis, Firehose, ElastiCache, RDS, Aurora, Cognito, SES, STS, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 10 emulated Azure services on port 4577
+- 22 emulated Azure services on port 4577
 - MIT license — no Azurite license restrictions
 
-Supported services: Blob Storage, Queue Storage, Table Storage, Azure Functions,
-Key Vault, Cosmos DB (Core SQL API), Event Hubs, Service Bus, Notification Hubs,
-Azure Cache for Redis.
+Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
+App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
+Virtual Machines, Cache for Redis, Entra ID, Event Grid, and more.
 
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 7 emulated GCP services on port 4588
+- 22 emulated GCP services on port 4588
 - No project ID or billing account required
 
-Supported services: Cloud Storage, Pub/Sub, Firestore, Secret Manager,
-Cloud Tasks, Cloud Scheduler, BigQuery.
+Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
+IAM, Cloud Tasks, Cloud Scheduler, Cloud Run, Cloud SQL, Cloud Functions, Cloud KMS,
+GKE, BigQuery, Managed Kafka, and more.
+
+### floci-oci (Oracle Cloud)
+- URL: https://floci.io/oci/
+- GitHub: https://github.com/floci-io/floci-oci
+- 7 emulated OCI services on port 4599
+- No Oracle Cloud account or uploaded API keys required
+
+Supported services: Object Storage, Identity (IAM), Queue, Streaming, KMS,
+Vault Secrets, Functions.
 
 ## Key Facts
 
-- License: MIT (all three products)
+- License: MIT (all four products)
 - Free forever — no paid tiers, no feature gates
 - Single binary distribution (Docker image or native executable)
-- Works with all official AWS / Azure / GCP SDKs by pointing the endpoint URL to localhost
+- Works with all official AWS / Azure / GCP / OCI SDKs by pointing the endpoint URL to localhost
 - No internet access required at runtime
 - Designed for local development, CI/CD pipelines, and integration tests
 
@@ -56,6 +66,9 @@ docker run -p 4577:4577 floci/floci-az
 
 # GCP
 docker run -p 4588:4588 floci/floci-gcp
+
+# OCI
+docker run -p 4599:4599 floci/floci-oci
 ```
 
 ## Docs and Guides
@@ -63,6 +76,7 @@ docker run -p 4588:4588 floci/floci-gcp
 - AWS product page: https://floci.io/aws/
 - Azure product page: https://floci.io/az/
 - GCP product page: https://floci.io/gcp/
+- OCI product page: https://floci.io/oci/
 - Hands-on labs (no cloud account needed): https://floci.io/labs/
 - Engineering blog: https://floci.io/blog/
 - Compare floci vs LocalStack: https://floci.io/compare/

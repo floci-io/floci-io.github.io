@@ -2,8 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { AZURE_SERVICES, orderByCategory } from '../../data/cloud-services';
-const dockerTiers = new Set(AZURE_SERVICES.map((s) => s.docker).filter(Boolean));
+import { OCI_SERVICES, orderByCategory } from '../../data/cloud-services';
+const dockerTiers = new Set(OCI_SERVICES.map((s) => s.docker).filter(Boolean));
 import ServiceIcon from '../../components/ServiceIcon.astro';
 import { SERVICE_COUNTS } from '../../data/services';
 
@@ -17,26 +17,26 @@ const sectionLinks = [
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "floci-az",
+  "name": "floci-oci",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Linux, macOS, Windows",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "license": "https://opensource.org/licenses/MIT",
-  "url": "https://floci.io/az/",
-  "downloadUrl": "https://github.com/floci-io/floci-az",
-  "description": "Free Azure emulator. Blob Storage, Queue, Functions, Key Vault, Cosmos DB and more on a single port. No Azure account required.",
-  "keywords": "Azure emulator, Azurite alternative, local Azure, Blob Storage mock, Cosmos DB local"
+  "url": "https://floci.io/oci/",
+  "downloadUrl": "https://github.com/floci-io/floci-oci",
+  "description": "Free Oracle Cloud Infrastructure (OCI) emulator. Object Storage, Identity, Queue, Streaming, KMS, Vault Secrets and Functions on a single port. No Oracle Cloud account required.",
+  "keywords": "OCI emulator, Oracle Cloud emulator, local OCI, Object Storage mock, OCI SDK local"
 };
 ---
 
 <Layout
-  title="floci-az — Free Azure Emulator"
-  description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL, API Management, Virtual Machines, Cache for Redis, Container Registry, Virtual Network, Azure Monitor, Microsoft Entra ID, and Email Communication on a single port. No Azure account required, MIT licensed."
-  canonical="https://floci.io/az/"
-  ogImage="https://floci.io/og/az.png"
+  title="floci-oci — Free Oracle Cloud (OCI) Emulator"
+  description="floci-oci is a fast, free, open-source Oracle Cloud Infrastructure (OCI) emulator. Object Storage, Identity (IAM), Queue, Streaming, KMS, Vault Secrets, and Functions on a single port. No Oracle Cloud account required, MIT licensed."
+  canonical="https://floci.io/oci/"
+  ogImage="https://floci.io/og/oci.png"
   jsonLd={jsonLd}
 >
-  <Nav active="az" githubUrl="https://github.com/floci-io/floci-az" docsUrl="https://github.com/floci-io/floci-az#readme" sectionLinks={sectionLinks} />
+  <Nav active="oci" githubUrl="https://github.com/floci-io/floci-oci" docsUrl="https://github.com/floci-io/floci-oci#readme" sectionLinks={sectionLinks} />
 
 
   <!-- HERO -->
@@ -45,7 +45,7 @@ const jsonLd = {
     <div class="hero-glow"></div>
 
     <div class="hero-logo-wrap">
-      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci-az Azure" role="img">
+      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci-oci Oracle Cloud" role="img">
         <g style="isolation:isolate"><g style="isolation:isolate">
           <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
           <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
@@ -55,25 +55,25 @@ const jsonLd = {
         <g>
           <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
           <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-          <ellipse class="floci-dot az" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-          <ellipse class="floci-dot az" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+          <ellipse class="floci-dot oci" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+          <ellipse class="floci-dot oci" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
         </g>
       </svg>
     </div>
 
-    <h1>Local Azure.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
+    <h1>Local Oracle Cloud.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
     <p class="hero-sub">
-      floci-az is a fast, free, open-source Azure emulator built with Quarkus Native. No Azure account required.
+      floci-oci is a fast, free, open-source Oracle Cloud Infrastructure (OCI) emulator built with Quarkus. No Oracle Cloud account required.
     </p>
     <div class="hero-actions">
       <a href="#quickstart" class="btn-primary">Get Started →</a>
-      <a href="https://github.com/floci-io/floci-az" class="btn-ghost" target="_blank">★ View on GitHub <span id="ghStarsBtn"></span></a>
+      <a href="https://github.com/floci-io/floci-oci" class="btn-ghost" target="_blank">★ View on GitHub <span id="ghStarsBtn"></span></a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item"><span class="stat-number">4577</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
-      <div class="stat-item"><span class="stat-number">{SERVICE_COUNTS.azure}</span><div class="stat-label">Azure services</div><div class="stat-sub">Storage · Cosmos · AKS · Functions · Messaging</div></div>
+      <div class="stat-item"><span class="stat-number">4599</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
+      <div class="stat-item"><span class="stat-number">{SERVICE_COUNTS.oci}</span><div class="stat-label">OCI services</div><div class="stat-sub">Object Storage · Queue · Streaming · KMS · Functions</div></div>
       <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
-      <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Azure account needed</div></div>
+      <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Oracle Cloud account needed</div></div>
     </div>
   </section>
 
@@ -81,12 +81,12 @@ const jsonLd = {
   <section id="services" style="background:var(--bg2)">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">floci-az — Azure Services</div>
-        <h2>{SERVICE_COUNTS.azure} Azure services. All of them free.</h2>
-        <p class="section-desc">Wire-compatible with the official Azure SDKs and Azurite emulator. Switch with zero application code changes.</p>
+        <div class="section-label">floci-oci — OCI Services</div>
+        <h2>{SERVICE_COUNTS.oci} OCI services. All of them free.</h2>
+        <p class="section-desc">Wire-compatible with the official OCI SDKs, the OCI CLI, Terraform and OpenTofu. Point your existing tools at localhost and keep your workflows.</p>
       </div>
       <div class="services-grid reveal" style="transition-delay:0.1s">
-        {orderByCategory(AZURE_SERVICES).map((s) => (
+        {orderByCategory(OCI_SERVICES).map((s) => (
           <a
             class:list={['service-item', { exclusive: s.exclusive }]}
             href={s.url}
@@ -117,15 +117,15 @@ const jsonLd = {
   <section id="why">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">Why floci-az</div>
-        <h2>Drop-in. Native speed. No account.</h2>
-        <p class="section-desc">The same native binary approach as floci for AWS, now applied to Azure. MIT licensed, no restrictions.</p>
+        <div class="section-label">Why floci-oci</div>
+        <h2>Drop-in. No account. No key ceremony.</h2>
+        <p class="section-desc">The same approach as floci for AWS, Azure and GCP, now applied to Oracle Cloud. MIT licensed, no restrictions.</p>
       </div>
       <div class="cards-grid reveal" style="transition-delay:0.1s">
-        <div class="card"><span class="card-num">MIT</span><h3>Free forever, no account</h3><p>MIT licensed. No subscription, no API key, no billing. Pull the Docker image and start using Azure SDKs against localhost immediately.</p></div>
-        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Uses the same Azurite-compatible connection string format. Switch from the real Azure or from Azurite by changing one endpoint URL.</p></div>
-        <div class="card"><span class="card-num">⚡</span><h3>Native binary speed</h3><p>Compiled with GraalVM Mandrel. Starts in 24ms, idles at ~13 MiB. Instant startup, minimal memory footprint.</p></div>
-        <div class="card"><span class="card-num">1</span><h3>Single port (mostly)</h3><p>All REST services on port 4577. Event Hubs and Service Bus also expose AMQP ports so native SDK clients connect without any proxy layer.</p></div>
+        <div class="card"><span class="card-num">MIT</span><h3>Free forever, no account</h3><p>MIT licensed. No subscription, no uploaded API keys, no billing. Pull the Docker image and point the OCI SDKs at localhost immediately.</p></div>
+        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu. Request signatures are parsed for tenancy and user context but never verified — any locally generated API key works.</p></div>
+        <div class="card"><span class="card-num">⚡</span><h3>Real crypto, real Functions</h3><p>KMS performs real AES-GCM, RSA and ECDSA operations. Functions invocations run your real FDK image through an Fn Project sidecar, not a mock.</p></div>
+        <div class="card"><span class="card-num">1</span><h3>Single port</h3><p>Every service answers on port 4599. Only Functions launches a Docker container; the other six services run entirely in-process.</p></div>
       </div>
     </div>
   </section>
@@ -136,28 +136,28 @@ const jsonLd = {
       <div class="reveal">
         <div class="section-label">Performance</div>
         <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-az is built with Quarkus Native, the same stack as floci for AWS. Starts in 24ms, single Docker image, {SERVICE_COUNTS.azure} services.</p>
+        <p class="section-desc">floci-oci is built on Quarkus with GraalVM native-image support, so it starts fast and stays light in test pipelines. One image, {SERVICE_COUNTS.oci} services.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px" class="reveal" style="transition-delay:0.1s">
-        <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">24ms</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Startup time</div>
-          <div style="font-size:13px;color:var(--text-muted)">Quarkus Native binary</div>
-        </div>
         <div style="background:var(--bg2);padding:28px 24px">
           <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">1</div>
           <div style="font-size:14px;font-weight:600;margin-bottom:4px">Docker image</div>
           <div style="font-size:13px;color:var(--text-muted)">All services in a single container</div>
         </div>
         <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4577</div>
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4599</div>
           <div style="font-size:14px;font-weight:600;margin-bottom:4px">Primary port</div>
-          <div style="font-size:13px;color:var(--text-muted)">All REST services, with AMQP ports for Event Hubs and Service Bus</div>
+          <div style="font-size:13px;color:var(--text-muted)">Every service on one endpoint</div>
         </div>
         <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">~13 MiB</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Idle memory</div>
-          <div style="font-size:13px;color:var(--text-muted)">Quarkus Native, minimal memory footprint</div>
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">6/7</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">In-process services</div>
+          <div style="font-size:13px;color:var(--text-muted)">Only Functions needs the Docker socket</div>
+        </div>
+        <div style="background:var(--bg2);padding:28px 24px">
+          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Storage modes</div>
+          <div style="font-size:13px;color:var(--text-muted)">memory · persistent · hybrid · WAL</div>
         </div>
       </div>
     </div>
@@ -201,64 +201,61 @@ scoop install floci</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">2 · Start the emulator</h3>
             <div class="code-block"><pre
-><span class="cmd">floci az start</span></pre></div>
+><span class="cmd">floci oci start</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">3 · Export env vars</h3>
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">3 · One-time setup &amp; env vars</h3>
             <div class="code-block"><pre
-><span class="cmd">eval $(floci az env)</span>
-<span class="comment"># exports AZURE_STORAGE_CONNECTION_STRING</span></pre></div>
+><span class="comment"># creates a throwaway API key + ~/.oci/config profile</span>
+<span class="cmd">floci oci setup</span>
+<span class="cmd">eval $(floci oci env)</span>
+<span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
             <div class="code-block" style="font-size:12px"><pre
-><span class="comment"># Create a container</span>
-<span class="cmd">az storage container create \
-  --name <span class="str">my-container</span> \
-  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span></span>
+><span class="comment"># Create a bucket</span>
+<span class="cmd">oci os bucket create \
+  --namespace-name <span class="str">floci-local</span> \
+  --name <span class="str">my-bucket</span> \
+  --compartment-id <span class="acc">$TENANCY_OCID</span></span>
 
 <span class="comment"># Write a file and upload it</span>
-<span class="cmd">echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+<span class="cmd">echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
-az storage blob upload \
-  --container-name <span class="str">my-container</span> \
-  --name <span class="str">hello-floci.txt</span> \
-  --file hello-floci.txt \
-  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span></span>
+oci os object put \
+  --namespace-name <span class="str">floci-local</span> \
+  --bucket-name <span class="str">my-bucket</span> \
+  --file hello-floci.txt</span>
 
 <span class="comment"># Download it back and read it</span>
-<span class="cmd">az storage blob download \
-  --container-name <span class="str">my-container</span> \
+<span class="cmd">oci os object get \
+  --namespace-name <span class="str">floci-local</span> \
+  --bucket-name <span class="str">my-bucket</span> \
   --name <span class="str">hello-floci.txt</span> \
-  --file hello-back.txt \
-  --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span>
+  --file hello-back.txt
 cat hello-back.txt</span></pre></div>
           </div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
             <div class="code-block" style="font-size:12px"><pre
 ><span class="comment"># Check status</span>
-<span class="cmd">floci az status</span>
+<span class="cmd">floci oci status</span>
 
 <span class="comment"># View logs</span>
-<span class="cmd">floci az logs</span>
+<span class="cmd">floci oci logs</span>
 
 <span class="comment"># Stop the emulator</span>
-<span class="cmd">floci az stop</span>
+<span class="cmd">floci oci stop</span>
 
-<span class="comment"># Print individual SDK endpoint vars</span>
-<span class="cmd">eval $(floci az env --format sdk-vars)</span>
-<span class="comment"># exports AZURE_STORAGE_BLOB_ENDPOINT,</span>
-<span class="comment"># AZURE_APP_CONFIGURATION_ENDPOINT,</span>
-<span class="comment"># AZURE_KEY_VAULT_ENDPOINT, ...</span></pre></div>
+<span class="comment"># List enabled OCI services</span>
+<span class="cmd">floci oci services</span>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Start with persistence</h3>
-            <div class="code-block" style="font-size:12px"><pre
-><span class="cmd">floci az start --persist <span class="acc">./data</span></span>
-<span class="comment"># state survives container restarts</span></pre></div>
+<span class="comment"># Poll until ready (CI-friendly)</span>
+<span class="cmd">floci oci wait</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Diagnose issues</h3>
             <div class="code-block" style="font-size:12px"><pre
-><span class="cmd">floci az doctor</span>
-<span class="comment"># checks Docker, Azure CLI, connectivity</span></pre></div>
+><span class="cmd">floci oci doctor</span>
+<span class="comment"># checks Docker, OCI CLI, connectivity</span></pre></div>
           </div>
         </div>
       </div>
@@ -269,58 +266,48 @@ cat hello-back.txt</span></pre></div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
             <div class="code-block"><pre
-><span class="comment"># REST :4577 · Event Hubs AMQP :5672 · Service Bus AMQP :5673</span>
+><span class="comment"># All services on :4599 · socket mount is for Functions</span>
 <span class="cmd">docker run --rm \
-  -p <span class="acc">4577:4577</span> \
-  -p <span class="acc">5672:5672</span> \
-  -p <span class="acc">5673:5673</span> \
-  floci/floci-az:<span class="acc">latest</span></span></pre></div>
+  -p <span class="acc">4599:4599</span> \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  floci/floci-oci:<span class="acc">latest</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
             <div class="code-block" style="font-size:12px"><pre
 ><span class="cmd">services:
-  floci-az:
-    image: floci/floci-az:<span class="acc">latest</span>
+  floci-oci:
+    image: floci/floci-oci:<span class="acc">latest</span>
     ports:
-      - <span class="str">"4577:4577"</span></span></pre></div>
+      - <span class="str">"4599:4599"</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
             <div class="code-block" style="font-size:12px"><pre
-><span class="cmd">az storage container create \
-  --name <span class="str">my-container</span> \
-  --connection-string <span class="acc">$CONN_STR</span>
-echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+><span class="cmd">oci os bucket create \
+  --endpoint <span class="acc">http://localhost:4599</span> \
+  --namespace-name <span class="str">floci-local</span> \
+  --name <span class="str">my-bucket</span> \
+  --compartment-id <span class="acc">$TENANCY_OCID</span>
+echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
-az storage blob upload \
-  --container-name <span class="str">my-container</span> \
-  --name <span class="str">hello-floci.txt</span> \
-  --file hello-floci.txt \
-  --connection-string <span class="acc">$CONN_STR</span>
-az storage blob download \
-  --container-name <span class="str">my-container</span> \
-  --name <span class="str">hello-floci.txt</span> \
-  --file hello-back.txt \
-  --connection-string <span class="acc">$CONN_STR</span>
-cat hello-back.txt</span></pre></div>
+oci os object put \
+  --endpoint <span class="acc">http://localhost:4599</span> \
+  --namespace-name <span class="str">floci-local</span> \
+  --bucket-name <span class="str">my-bucket</span> \
+  --file hello-floci.txt</span></pre></div>
           </div>
           <div>
-            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Connection string</h3>
+            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Throwaway credentials</h3>
             <div class="code-block" style="font-size:12px"><pre
-><span class="comment"># Standard Azurite-compatible connection string</span>
-<span class="cmd">DefaultEndpointsProtocol=http;
-AccountName=<span class="acc">devstoreaccount1</span>;
-AccountKey=<span class="acc">Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6I
-  FsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</span>;
-BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;
-QueueEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;
-TableEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;</span></pre></div>
+><span class="comment"># Any locally generated key works — the signature</span>
+<span class="comment"># is parsed for context, never verified</span>
+<span class="cmd">mkdir -p ~/.oci
+openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Environment variable</h3>
+<span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
+
+            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Health check</h3>
             <div class="code-block" style="font-size:12px"><pre
-><span class="cmd">export <span class="acc">CONN_STR</span>="DefaultEndpointsProtocol=http;\
-AccountName=devstoreaccount1;\
-AccountKey=Eby8vdM02xNOcq...;\
-BlobEndpoint=http://localhost:4577/devstoreaccount1;"</span></pre></div>
+><span class="cmd">curl http://localhost:<span class="acc">4599</span>/_floci-oci/health</span></pre></div>
           </div>
         </div>
       </div>
@@ -332,90 +319,77 @@ BlobEndpoint=http://localhost:4577/devstoreaccount1;"</span></pre></div>
     <div class="container">
       <div class="reveal">
         <div class="section-label">SDK Examples</div>
-        <h2>Works with every Azure SDK.</h2>
-        <p class="section-desc">Use the standard Azure Storage SDK in any language and point it at localhost:4577.</p>
+        <h2>Works with every OCI SDK.</h2>
+        <p class="section-desc">Use the standard OCI SDK in any language and point it at localhost:4599.</p>
       </div>
       <div class="reveal" style="transition-delay:0.1s;margin-top:48px">
         <div class="code-tabs" id="sdkTabs">
           <button class="code-tab active" data-tab="python">Python</button>
           <button class="code-tab" data-tab="java">Java</button>
-          <button class="code-tab" data-tab="dotnet">.NET</button>
-          <button class="code-tab" data-tab="js">JavaScript</button>
+          <button class="code-tab" data-tab="cli">OCI CLI</button>
         </div>
 
         <div id="stab-python" class="code-block tabbed" style="font-size:13px;line-height:1.8">
-          <span class="comment"># pip install azure-storage-blob</span><br>
-          <span class="cmd">from azure.storage.blob import BlobServiceClient<br><br>
-conn = (<br>
-&nbsp;&nbsp;"DefaultEndpointsProtocol=http;"<br>
-&nbsp;&nbsp;"AccountName=devstoreaccount1;"<br>
-&nbsp;&nbsp;"AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
-&nbsp;&nbsp;"BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;"<br>
-)<br><br>
-client = BlobServiceClient.from_connection_string(conn)<br>
-container = client.create_container(<span class="str">"my-container"</span>)<br><br>
-blob = client.get_blob_client(<span class="str">"my-container"</span>, <span class="str">"hello.txt"</span>)<br>
-blob.upload_blob(<span class="str">b"Hello from floci-az!"</span>)</span>
+          <span class="comment"># pip install oci</span><br>
+          <span class="cmd">import oci<br><br>
+config = {"{"}<br>
+&nbsp;&nbsp;<span class="str">"user"</span>: <span class="str">"ocid1.user.oc1..anyuser"</span>,<br>
+&nbsp;&nbsp;<span class="str">"fingerprint"</span>: <span class="str">"aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99"</span>,<br>
+&nbsp;&nbsp;<span class="str">"tenancy"</span>: <span class="str">"ocid1.tenancy.oc1..flocilocaltenancy00000000…"</span>,<br>
+&nbsp;&nbsp;<span class="str">"region"</span>: <span class="str">"us-ashburn-1"</span>,<br>
+&nbsp;&nbsp;<span class="str">"key_file"</span>: <span class="str">"~/.oci/floci_key.pem"</span>,  <span class="comment"># any locally generated key</span><br>
+{"}"}<br><br>
+client = oci.object_storage.ObjectStorageClient(<br>
+&nbsp;&nbsp;config, service_endpoint=<span class="str">"http://localhost:<span class="acc">4599</span>"</span>)<br><br>
+namespace = client.get_namespace().data<br>
+client.put_object(namespace, <span class="str">"my-bucket"</span>, <span class="str">"hello.txt"</span>, <span class="str">b"Hello from floci-oci!"</span>)</span>
         </div>
 
         <div id="stab-java" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
-          <span class="comment">// azure-storage-blob:12.x</span><br>
-          <span class="cmd">String conn = "DefaultEndpointsProtocol=http;"<br>
-&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
-&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
-&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
-BlobServiceClient client = new BlobServiceClientBuilder()<br>
-&nbsp;&nbsp;.connectionString(conn)<br>
-&nbsp;&nbsp;.buildClient();<br><br>
-BlobContainerClient container = client.createBlobContainer(<span class="str">"my-container"</span>);<br>
-BlobClient blob = container.getBlobClient(<span class="str">"hello.txt"</span>);<br>
-blob.upload(BinaryData.fromString(<span class="str">"Hello from floci-az!"</span>));</span>
+          <span class="comment">// com.oracle.oci.sdk:oci-java-sdk</span><br>
+          <span class="cmd">var auth = SimpleAuthenticationDetailsProvider.builder()<br>
+&nbsp;&nbsp;.tenantId(<span class="str">"ocid1.tenancy.oc1..flocilocaltenancy00000000…"</span>)<br>
+&nbsp;&nbsp;.userId(<span class="str">"ocid1.user.oc1..anyuser"</span>)<br>
+&nbsp;&nbsp;.fingerprint(<span class="str">"aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99"</span>)<br>
+&nbsp;&nbsp;.privateKeySupplier(() -&gt; anyLocallyGeneratedRsaKey())<br>
+&nbsp;&nbsp;.region(Region.US_ASHBURN_1)<br>
+&nbsp;&nbsp;.build();<br><br>
+ObjectStorageClient client = ObjectStorageClient.builder().build(auth);<br>
+client.setEndpoint(<span class="str">"http://localhost:<span class="acc">4599</span>"</span>);<br><br>
+String namespace = client.getNamespace(GetNamespaceRequest.builder().build()).getValue();<br>
+client.createBucket(CreateBucketRequest.builder()<br>
+&nbsp;&nbsp;.namespaceName(namespace)<br>
+&nbsp;&nbsp;.createBucketDetails(CreateBucketDetails.builder()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.name(<span class="str">"my-bucket"</span>).compartmentId(auth.getTenantId()).build())<br>
+&nbsp;&nbsp;.build());</span>
         </div>
 
-        <div id="stab-dotnet" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
-          <span class="comment">// Azure.Storage.Blobs NuGet package</span><br>
-          <span class="cmd">string conn = "DefaultEndpointsProtocol=http;"<br>
-&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
-&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
-&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
-var client = new BlobServiceClient(conn);<br>
-var container = client.GetBlobContainerClient(<span class="str">"my-container"</span>);<br>
-await container.CreateIfNotExistsAsync();<br><br>
-var blob = container.GetBlobClient(<span class="str">"hello.txt"</span>);<br>
-await blob.UploadAsync(<span class="str">"Hello from floci-az!"</span>);</span>
-        </div>
-
-        <div id="stab-js" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
-          <span class="comment">// npm install @azure/storage-blob</span><br>
-          <span class="cmd">import { "{"} BlobServiceClient {"}"} from <span class="str">"@azure/storage-blob"</span>;<br><br>
-const conn = "DefaultEndpointsProtocol=http;"<br>
-&nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
-&nbsp;&nbsp;+ "AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;"<br>
-&nbsp;&nbsp;+ "BlobEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;";<br><br>
-const client = BlobServiceClient.fromConnectionString(conn);<br>
-const container = client.getContainerClient(<span class="str">"my-container"</span>);<br>
-await container.createIfNotExists();<br><br>
-const blob = container.getBlockBlobClient(<span class="str">"hello.txt"</span>);<br>
-await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
+        <div id="stab-cli" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+          <span class="comment"># Every OCI CLI command works with --endpoint</span><br>
+          <span class="cmd">oci os ns get --endpoint http://localhost:<span class="acc">4599</span><br><br>
+oci iam compartment list \<br>
+&nbsp;&nbsp;--endpoint http://localhost:<span class="acc">4599</span> \<br>
+&nbsp;&nbsp;--compartment-id <span class="str">ocid1.tenancy.oc1..flocilocaltenancy00000000…</span><br><br>
+<span class="comment"># Or let the floci CLI wire the endpoint for you</span><br>
+floci oci setup &amp;&amp; eval $(floci oci env)<br>
+oci os ns get</span>
         </div>
       </div>
 
       <!-- Connection reference table -->
       <div class="reveal" style="margin-top:48px;transition-delay:0.15s">
-        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Default credentials</h3>
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:0">The following fixed credentials match Azurite's defaults. All Azure SDK tooling expects these values for local development.</p>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Default connection values</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:0">floci-oci parses request signatures for tenancy and user context but never verifies them, so any locally generated API key works.</p>
         <div class="conn-wrap" style="margin-top:20px">
           <table class="conn-table">
             <thead><tr><th>Property</th><th>Value</th></tr></thead>
             <tbody>
-              <tr><td>Account Name</td><td><code>devstoreaccount1</code></td></tr>
-              <tr><td>Account Key</td><td><code>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6I...</code></td></tr>
-              <tr><td>Blob endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
-              <tr><td>Queue endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
-              <tr><td>Table endpoint</td><td><code>http://localhost:4577/devstoreaccount1</code></td></tr>
-              <tr><td>Event Hubs AMQP</td><td><code>amqp://localhost:5672</code></td></tr>
-              <tr><td>Service Bus AMQP</td><td><code>amqp://localhost:5673</code></td></tr>
-              <tr><td>Event Hubs Kafka</td><td><code>localhost:9093</code></td></tr>
+              <tr><td>Endpoint</td><td><code>http://localhost:4599</code></td></tr>
+              <tr><td>Namespace</td><td><code>floci-local</code></td></tr>
+              <tr><td>Tenancy OCID</td><td><code>ocid1.tenancy.oc1..flocilocaltenancy00000000…</code></td></tr>
+              <tr><td>Region</td><td><code>us-ashburn-1</code></td></tr>
+              <tr><td>API key</td><td><code>any locally generated RSA key</code></td></tr>
+              <tr><td>Health check</td><td><code>http://localhost:4599/_floci-oci/health</code></td></tr>
             </tbody>
           </table>
         </div>
@@ -428,9 +402,9 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
     <div class="container">
       <div class="cta-banner reveal">
         <h3>Free. Fast. Always available.</h3>
-        <p>MIT licensed and built for developer workflows. No Azure account, no subscription, no credit card. Just a Docker image and localhost.</p>
+        <p>MIT licensed and built for developer workflows. No Oracle Cloud account, no uploaded API keys, no credit card. Just a Docker image and localhost.</p>
         <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-          <a href="https://github.com/floci-io/floci-az" class="btn-primary" target="_blank">View on GitHub →</a>
+          <a href="https://github.com/floci-io/floci-oci" class="btn-primary" target="_blank">View on GitHub →</a>
           <a href="/aws/" class="btn-ghost">Also need AWS? Try floci →</a>
         </div>
       </div>
@@ -440,10 +414,10 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
   <Footer variant="sub">
     <div class="footer-links">
       <a href="/">← All Products</a>
-      <a href="https://github.com/floci-io/floci-az" target="_blank">GitHub</a>
+      <a href="https://github.com/floci-io/floci-oci" target="_blank">GitHub</a>
       <a href="/aws/">floci (AWS)</a>
+      <a href="/az/">floci-az (Azure)</a>
       <a href="/gcp/">floci-gcp (GCP)</a>
-      <a href="/oci/">floci-oci (OCI)</a>
       <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
       <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
     </div>
@@ -454,21 +428,21 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
 <style>
   :root {
     --bar-track: rgba(255,255,255,0.05); --row-hover: rgba(255,255,255,0.02);
-    --accent-glow: rgba(85,89,167,0.25);
+    --accent-glow: rgba(199,70,52,0.25);
   }
   html.light {
     --row-hover: rgba(0,0,0,0.02);
-    --accent-glow: rgba(85,89,167,0.15);
+    --accent-glow: rgba(199,70,52,0.15);
   }
 
   /* HERO */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,120,215,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,120,215,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
-  .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(0,120,215,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
-  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,120,212,0.08); border: 1px solid rgba(0,120,212,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(199,70,52,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(199,70,52,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+  .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(199,70,52,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(199,70,52,0.08); border: 1px solid rgba(199,70,52,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
   .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
   .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
-  .hero h1 .accent { color: #0078D4; }
+  .hero h1 .accent { color: #C74634; }
   .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
 
@@ -485,18 +459,18 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
   /* MARQUEE */
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 20px; }
-  .hero-logo-svg { height: 72px; width: auto; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(0,120,212,0.35)); }
+  .hero-logo-svg { height: 72px; width: auto; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(199,70,52,0.35)); }
   .hero-logo-svg .floci-text, .hero-logo-svg .floci-cloud { fill: #F8FAFC; }
   html.light .hero-logo-svg .floci-text { fill: #262425; }
   html.light .hero-logo-svg .floci-cloud { fill: #151515; }
-  .hero-logo-svg .floci-dot.az { fill: #0078D4; }
+  .hero-logo-svg .floci-dot.oci { fill: #C74634; }
 
   /* SERVICE CARDS */
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
   .services-grid::after { content: ''; grid-column: auto / -1; background: var(--bg); }
   .service-item { background: var(--bg); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px; transition: background 0.15s; cursor: pointer; color: inherit; text-decoration: none; }
   .service-item:hover { background: var(--bg3); }
-  .service-icon { width: 16px; height: 16px; color: #0078D4; flex-shrink: 0; grid-column: 1; grid-row: 1; }
+  .service-icon { width: 16px; height: 16px; color: #C74634; flex-shrink: 0; grid-column: 1; grid-row: 1; }
   .service-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .service-name { font-size: 13px; font-weight: 500; grid-column: 2; grid-row: 1; }
   .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); grid-column: 2; grid-row: 2; white-space: normal; overflow-wrap: anywhere; }
@@ -544,7 +518,7 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
   .conn-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 
   /* CTA BANNER */
-  .cta-banner { background: rgba(0,120,212,0.05); border: 1px solid rgba(0,120,212,0.18); border-radius: 12px; padding: 40px; text-align: center; margin-top: 60px; }
+  .cta-banner { background: rgba(199,70,52,0.05); border: 1px solid rgba(199,70,52,0.18); border-radius: 12px; padding: 40px; text-align: center; margin-top: 60px; }
   .cta-banner h3 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
   .cta-banner p { color: var(--text-muted); font-size: 16px; max-width: 480px; margin: 0 auto 24px; }
 
@@ -587,7 +561,7 @@ document.querySelectorAll('#sdkTabs .code-tab').forEach(function(tab) {
   });
 });
 
-fetch('https://api.github.com/repos/floci-io/floci-az').then(r => r.json()).then(data => {
+fetch('https://api.github.com/repos/floci-io/floci-oci').then(r => r.json()).then(data => {
   const count = data.stargazers_count;
   if (!count) return;
   const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;

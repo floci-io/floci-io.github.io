@@ -8,7 +8,7 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
 
 <Layout
   title="Floci — Local Cloud Emulators"
-  description="Floci runs AWS, Azure, and GCP locally in milliseconds: a fast, free, credential-free feedback loop for developers and AI coding agents. MIT licensed. No account, no auth token."
+  description="Floci runs AWS, Azure, GCP, and OCI locally in milliseconds: a fast, free, credential-free feedback loop for developers and AI coding agents. MIT licensed. No account, no auth token."
   canonical="https://floci.io"
   ogImage="https://floci.io/og/home.png"
 >
@@ -38,7 +38,7 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
 
     <h1><span class="accent">Any cloud.</span><br>Locally.</h1>
     <p class="hero-sub">
-      Run AWS, Azure, and GCP locally in milliseconds: the fast, credential-free loop your team and its AI agents need to ship faster.
+      Run AWS, Azure, GCP, and OCI locally in milliseconds: the fast, credential-free loop your team and its AI agents need to ship faster.
     </p>
     <div class="hero-actions">
       <a href="#install" class="btn-primary">Get started ↓</a>
@@ -194,6 +194,52 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
             </div>
           </div>
         </div>
+
+        <!-- floci-oci -->
+        <div class="ecard">
+          <div class="ecard-head oci">
+            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <g style="isolation:isolate"><g style="isolation:isolate">
+                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
+                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
+                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
+                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
+              </g></g>
+              <g>
+                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
+                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
+                <ellipse class="floci-dot oci" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
+                <ellipse class="floci-dot oci" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
+              </g>
+            </svg>
+            <span class="cloud-badge oci">OCI</span>
+          </div>
+          <div class="ecard-body">
+            <div class="ecard-name">floci-oci</div>
+            <p class="ecard-desc">Covers Object Storage, Identity, Queue, Streaming, KMS, Vault and Functions. All {SERVICE_COUNTS.oci} services on one port. MIT license, no Oracle Cloud account needed.</p>
+            <div class="ecard-stats">
+              <div class="ecard-stat">
+                <span class="ecard-stat-val">4599</span>
+                <div class="ecard-stat-lbl">port</div>
+              </div>
+              <div class="ecard-stat">
+                <span class="ecard-stat-val">{SERVICE_COUNTS.oci}</span>
+                <div class="ecard-stat-lbl">services</div>
+              </div>
+              <div class="ecard-stat">
+                <span class="ecard-stat-val">MIT</span>
+                <div class="ecard-stat-lbl">license</div>
+              </div>
+            </div>
+            <div class="ecard-chips">
+              {CARD_CHIPS.oci.map((s) => <span>{s}</span>)}<span>{moreLabel('oci', CARD_CHIPS.oci)}</span>
+            </div>
+            <div class="ecard-foot">
+              <a href="/oci/" class="ecard-cta">Learn more →</a>
+              <a href="https://github.com/floci-io/floci-oci" class="ecard-gh" target="_blank">GitHub ↗</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -255,7 +301,7 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
         <div class="tool-card">
           <div class="tool-tag">CLI</div>
           <div class="tool-name">floci-cli</div>
-          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install covers AWS, Azure, and GCP from a single tool.</p>
+          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install covers AWS, Azure, GCP, and OCI from a single tool.</p>
           <div class="code-block">
             <span class="comment"># Install (macOS / Linux)</span><br>
             <span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span><br><br>
@@ -384,6 +430,7 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
           <button class="install-tab" data-tab="aws">Docker · AWS</button>
           <button class="install-tab" data-tab="azure">Docker · Azure</button>
           <button class="install-tab" data-tab="gcp">Docker · GCP</button>
+          <button class="install-tab" data-tab="oci">Docker · OCI</button>
         </div>
 
         <div id="itab-cli" class="install-block">
@@ -466,6 +513,26 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
           <span class="cmd">cat hello-back.txt</span>
         </div>
 
+        <div id="itab-oci" class="install-block" style="display:none">
+          <span class="comment"># Run all {SERVICE_COUNTS.oci} OCI services on port 4599</span><br>
+          <span class="cmd">docker run --rm -p <span class="acc">4599:4599</span> \<br>
+&nbsp;&nbsp;-v /var/run/docker.sock:/var/run/docker.sock \<br>
+&nbsp;&nbsp;floci/floci-oci:<span class="acc">latest</span></span><br><br>
+          <span class="comment"># One-time OCI CLI setup (throwaway API key + profile) &amp; env vars</span><br>
+          <span class="cmd">floci oci setup &amp;&amp; eval <span class="str">$(</span>floci oci env<span class="str">)</span></span><br>
+          <span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span><br><br>
+          <span class="comment"># Create a bucket &amp; upload a file</span><br>
+          <span class="cmd">oci os bucket create \<br>
+&nbsp;&nbsp;--namespace-name floci-local --name my-bucket --compartment-id $TENANCY_OCID</span><br>
+          <span class="cmd">echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> &gt; hello-floci.txt</span><br>
+          <span class="cmd">oci os object put \<br>
+&nbsp;&nbsp;--namespace-name floci-local --bucket-name my-bucket --file hello-floci.txt</span><br><br>
+          <span class="comment"># Download it back</span><br>
+          <span class="cmd">oci os object get \<br>
+&nbsp;&nbsp;--namespace-name floci-local --bucket-name my-bucket --name hello-floci.txt --file hello-back.txt</span><br>
+          <span class="cmd">cat hello-back.txt</span>
+        </div>
+
         <div class="install-outcome" id="installOutcome">
           <span class="outcome-dot"></span>
           <span id="outcomeText" set:html={OUTCOME_MESSAGES.aws}></span>
@@ -478,6 +545,8 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
           <a href="/az/" class="install-link az-link">floci-az (Azure) →</a>
           <span class="install-link-sep">·</span>
           <a href="/gcp/" class="install-link gcp-link">floci-gcp (GCP) →</a>
+          <span class="install-link-sep">·</span>
+          <a href="/oci/" class="install-link oci-link">floci-oci (OCI) →</a>
         </div>
       </div>
     </div>
@@ -645,13 +714,13 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .cloud-pill .dot.aws { background: #FF9900; box-shadow: 0 0 6px rgba(255,153,0,0.4); }
   .cloud-pill .dot.az  { background: #0078D4; box-shadow: 0 0 6px rgba(0,120,212,0.4); }
   .cloud-pill .dot.gcp { background: #34A853; box-shadow: 0 0 6px rgba(52,168,83,0.4); }
+  .cloud-pill .dot.oci { background: #C74634; box-shadow: 0 0 6px rgba(199,70,52,0.4); }
   .cloud-pill .pill-name { color: var(--text); font-weight: 700; }
   /* EMULATOR CARDS */
   .emulators-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
+    display: grid; grid-template-columns: repeat(2, 1fr);
     gap: 24px; margin-top: 56px;
   }
-  @media (max-width: 960px) { .emulators-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 580px) { .emulators-grid { grid-template-columns: 1fr; } }
 
   .ecard {
@@ -676,9 +745,11 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .ecard-cloud-svg .floci-dot.aws { fill: #FF9900; }
   .ecard-cloud-svg .floci-dot.az  { fill: #0078D4; }
   .ecard-cloud-svg .floci-dot.gcp { fill: #34A853; }
+  .ecard-cloud-svg .floci-dot.oci { fill: #C74634; }
   .ecard-head.aws { background: linear-gradient(135deg, rgba(255,153,0,0.08) 0%, transparent 100%); }
   .ecard-head.az  { background: linear-gradient(135deg, rgba(0,120,212,0.09) 0%, transparent 100%); }
   .ecard-head.gcp { background: linear-gradient(135deg, rgba(52,168,83,0.08) 0%, transparent 100%); }
+  .ecard-head.oci { background: linear-gradient(135deg, rgba(199,70,52,0.08) 0%, transparent 100%); }
   .cloud-badge {
     font-family: var(--mono); font-size: 11px; font-weight: 700;
     padding: 3px 10px; border-radius: 4px; letter-spacing: .06em;
@@ -686,6 +757,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .cloud-badge.aws { background: rgba(255,153,0,0.1); color: #FF9900; border: 1px solid rgba(255,153,0,0.25); }
   .cloud-badge.az  { background: rgba(0,120,212,0.1); color: #0078D4; border: 1px solid rgba(0,120,212,0.25); }
   .cloud-badge.gcp { background: rgba(52,168,83,0.1); color: #34A853; border: 1px solid rgba(52,168,83,0.25); }
+  .cloud-badge.oci { background: rgba(199,70,52,0.1); color: #C74634; border: 1px solid rgba(199,70,52,0.25); }
   .ecard-body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
   .ecard-name { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
   .ecard-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
@@ -819,6 +891,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .install-link.aws-link { color: #FF9900; }
   .install-link.az-link  { color: #0078D4; }
   .install-link.gcp-link { color: #34A853; }
+  .install-link.oci-link { color: #C74634; }
   .install-link-sep { color: var(--text-dim); }
 
   /* SPONSORS — animated shell */
