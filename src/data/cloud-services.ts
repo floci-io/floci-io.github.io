@@ -59,6 +59,7 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'EventBridge + Scheduler + Pipes', proto: 'JSON 1.1', category: 'messaging', url: 'https://aws.amazon.com/eventbridge/' },
   { name: 'CloudWatch Logs', proto: 'JSON 1.1', category: 'observability', url: 'https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html' },
   { name: 'CloudWatch Metrics', proto: 'Query', category: 'observability', url: 'https://aws.amazon.com/cloudwatch/' },
+  { name: 'CloudWatch RUM', proto: 'REST JSON', category: 'observability', url: 'https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM.html' },
   { name: 'MSK (Kafka)', proto: 'REST JSON', category: 'messaging', docker: 'default', url: 'https://aws.amazon.com/msk/' },
   { name: 'ECS', proto: 'JSON 1.1', category: 'containers', docker: 'default', url: 'https://aws.amazon.com/ecs/' },
   { name: 'EC2', proto: 'Query', category: 'compute', docker: 'default', url: 'https://aws.amazon.com/ec2/' },
@@ -128,6 +129,8 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'Email Communication', proto: 'REST JSON · ARM', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/communication-services/concepts/email/email-overview' },
   { name: 'Event Grid', proto: 'REST JSON · CloudEvents', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/event-grid/' },
   { name: 'PostgreSQL Flexible Server', proto: 'ARM · PostgreSQL', category: 'database', docker: 'default', url: 'https://learn.microsoft.com/en-us/azure/postgresql/' },
+  { name: 'MySQL Flexible Server', proto: 'ARM · MySQL', category: 'database', docker: 'default', url: 'https://learn.microsoft.com/en-us/azure/mysql/' },
+  { name: 'MariaDB Server', proto: 'ARM · MariaDB', category: 'database', docker: 'default', url: 'https://learn.microsoft.com/en-us/azure/mariadb/' },
   { name: 'Managed Identity', proto: 'IMDS · OAuth2 tokens', category: 'identity', url: 'https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/' },
 ];
 
@@ -138,6 +141,8 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Datastore', proto: 'HTTP/protobuf', category: 'database', url: 'https://cloud.google.com/datastore/docs' },
   { name: 'Secret Manager', proto: 'gRPC', category: 'security', url: 'https://cloud.google.com/secret-manager/docs' },
   { name: 'IAM', proto: 'REST JSON', category: 'identity', url: 'https://cloud.google.com/iam/docs' },
+  { name: 'IAM Credentials', proto: 'REST JSON', category: 'identity', url: 'https://cloud.google.com/iam/docs/reference/credentials/rest' },
+  { name: 'OAuth 2.0 Token', proto: 'REST · JWT bearer', category: 'identity', url: 'https://developers.google.com/identity/protocols/oauth2/service-account' },
   { name: 'Managed Kafka', proto: 'REST JSON · Redpanda', category: 'messaging', docker: 'default', url: 'https://cloud.google.com/managed-service-for-apache-kafka/docs' },
   { name: 'Cloud Tasks', proto: 'gRPC · v2', category: 'messaging', url: 'https://cloud.google.com/tasks/docs' },
   { name: 'Cloud Run', proto: 'REST JSON', category: 'compute', docker: 'default', url: 'https://cloud.google.com/run/docs' },

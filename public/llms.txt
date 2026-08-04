@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 68 emulated AWS services on port 4566
+- 69 emulated AWS services on port 4566
 - Drop-in LocalStack replacement — same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -20,17 +20,17 @@ Kinesis, Firehose, ElastiCache, RDS, Aurora, Cognito, SES, STS, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 22 emulated Azure services on port 4577
+- 24 emulated Azure services on port 4577
 - MIT license — no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
 App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
-Virtual Machines, Cache for Redis, Entra ID, Event Grid, and more.
+Virtual Machines, Cache for Redis, Entra ID, Event Grid, PostgreSQL, MySQL, MariaDB, and more.
 
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 22 emulated GCP services on port 4588
+- 24 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
