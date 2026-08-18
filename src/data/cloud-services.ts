@@ -105,6 +105,14 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'S3 Vectors', proto: 'REST JSON', category: 'storage', url: 'https://aws.amazon.com/s3/features/vectors/' },
   { name: 'Amazon MQ', proto: 'REST JSON', category: 'messaging', docker: 'default', url: 'https://aws.amazon.com/amazon-mq/' },
   { name: 'Cloud Control API', proto: 'JSON 1.0', category: 'devtools', url: 'https://aws.amazon.com/cloudcontrolapi/' },
+  { name: 'MWAA (Airflow)', proto: 'REST JSON', category: 'analytics', docker: 'default', url: 'https://aws.amazon.com/managed-workflows-for-apache-airflow/' },
+  { name: 'GuardDuty', proto: 'REST JSON', category: 'security', url: 'https://aws.amazon.com/guardduty/' },
+  { name: 'CloudHSM', proto: 'JSON 1.1', category: 'security', url: 'https://aws.amazon.com/cloudhsm/' },
+  { name: 'S3 Tables', proto: 'REST JSON', category: 'storage', url: 'https://aws.amazon.com/s3/features/tables/' },
+  { name: 'SWF', proto: 'JSON 1.0', category: 'devtools', url: 'https://aws.amazon.com/swf/' },
+  { name: 'Managed Flink', proto: 'JSON 1.1', category: 'analytics', docker: 'default', url: 'https://aws.amazon.com/managed-service-apache-flink/' },
+  { name: 'Application Auto Scaling', proto: 'JSON 1.1', category: 'compute', url: 'https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html' },
+  { name: 'Bedrock AgentCore', proto: 'REST JSON', category: 'ai', url: 'https://aws.amazon.com/bedrock/agentcore/' },
 ];
 
 export const AZURE_SERVICES: CloudService[] = [
@@ -143,6 +151,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'IAM', proto: 'REST JSON', category: 'identity', url: 'https://cloud.google.com/iam/docs' },
   { name: 'IAM Credentials', proto: 'REST JSON', category: 'identity', url: 'https://cloud.google.com/iam/docs/reference/credentials/rest' },
   { name: 'OAuth 2.0 Token', proto: 'REST · JWT bearer', category: 'identity', url: 'https://developers.google.com/identity/protocols/oauth2/service-account' },
+  { name: 'STS', proto: 'REST · token exchange', category: 'identity', url: 'https://cloud.google.com/iam/docs/reference/sts/rest' },
   { name: 'Managed Kafka', proto: 'REST JSON · Redpanda', category: 'messaging', docker: 'default', url: 'https://cloud.google.com/managed-service-for-apache-kafka/docs' },
   { name: 'Cloud Tasks', proto: 'gRPC · v2', category: 'messaging', url: 'https://cloud.google.com/tasks/docs' },
   { name: 'Cloud Run', proto: 'REST JSON', category: 'compute', docker: 'default', url: 'https://cloud.google.com/run/docs' },
@@ -169,6 +178,7 @@ export const OCI_SERVICES: CloudService[] = [
   { name: 'KMS', proto: 'REST JSON · real AES / RSA / ECDSA', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/KeyManagement/home.htm' },
   { name: 'Vault Secrets', proto: 'REST JSON · secret bundles', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Tasks/managingsecrets.htm' },
   { name: 'Functions', proto: 'REST JSON · Fn Project', category: 'compute', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm' },
+  { name: 'OKE', proto: 'REST JSON · k3s', category: 'containers', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm' },
 ];
 
 for (const [label, list, expected] of [

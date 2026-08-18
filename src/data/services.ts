@@ -12,10 +12,10 @@
  *   oci   — `*ServiceConfig` accessors on `EmulatorConfig.ServicesConfig`
  */
 export const SERVICE_COUNTS = {
-  aws: 69,
+  aws: 75,
   azure: 24,
-  gcp: 24,
-  oci: 7,
+  gcp: 25,
+  oci: 8,
 } as const;
 
 export type Cloud = keyof typeof SERVICE_COUNTS;

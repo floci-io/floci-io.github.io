@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 69 emulated AWS services on port 4566
+- 75 emulated AWS services on port 4566
 - Drop-in LocalStack replacement — same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -30,7 +30,7 @@ Virtual Machines, Cache for Redis, Entra ID, Event Grid, PostgreSQL, MySQL, Mari
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 24 emulated GCP services on port 4588
+- 25 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
@@ -40,7 +40,7 @@ GKE, BigQuery, Managed Kafka, and more.
 ### floci-oci (Oracle Cloud)
 - URL: https://floci.io/oci/
 - GitHub: https://github.com/floci-io/floci-oci
-- 7 emulated OCI services on port 4599
+- 8 emulated OCI services on port 4599
 - No Oracle Cloud account or uploaded API keys required
 
 Supported services: Object Storage, Identity (IAM), Queue, Streaming, KMS,
