@@ -6,14 +6,14 @@ import { join } from 'node:path';
 import { SERVICE_COUNTS } from '../../data/services';
 
 const pages = [
-  { slug: 'home',    title: 'floci',               sub: 'The local cloud for AWS, Azure & GCP. Built for fast, AI-assisted dev.',  color: '#7A7FD6', tag: 'Instant · Credential-free · MIT License' },
+  { slug: 'home',    title: 'floci',               sub: 'Run AWS, Azure, GCP, and OCI locally in milliseconds: the fast, credential-free loop your team and its AI agents need to ship faster.',  color: '#7A7FD6', tag: 'Instant · Credential-free · MIT License' },
   { slug: 'aws',     title: 'floci',               sub: `${SERVICE_COUNTS.aws} AWS services. 24 ms startup. No auth token.`,  color: '#FF9900', tag: 'Drop-in LocalStack replacement' },
   { slug: 'az',      title: 'floci-az',            sub: `${SERVICE_COUNTS.azure} Azure services. Native speed. MIT license.`,   color: '#0078D4', tag: 'Blob · Queue · Functions · Key Vault · Cosmos DB' },
   { slug: 'gcp',     title: 'floci-gcp',           sub: `${SERVICE_COUNTS.gcp} GCP services. No project, no billing.`,         color: '#34A853', tag: 'Cloud Storage · Pub/Sub · Firestore · Secret Manager' },
   { slug: 'oci',     title: 'floci-oci',           sub: `${SERVICE_COUNTS.oci} OCI services. No account, no key ceremony.`,    color: '#C74634', tag: 'Object Storage · Queue · Streaming · KMS · Functions' },
   { slug: 'compare', title: 'Floci vs LocalStack', sub: 'Free · No auth token · Drop-in replacement.',     color: '#7A7FD6', tag: '138× faster startup · 91% less memory' },
   { slug: 'blog',    title: 'Blog',                sub: 'Engineering notes from the floci team.',           color: '#7A7FD6', tag: 'floci.io · Open Source · MIT License' },
-  { slug: 'labs',    title: '101 Labs',            sub: 'Hands-on guides for AWS, Azure, and GCP.',        color: '#7A7FD6', tag: 'No cloud account needed · Runs on your laptop' },
+  { slug: 'labs',    title: '101 Labs',            sub: 'Hands-on guides for AWS, Azure, GCP, and OCI.',        color: '#7A7FD6', tag: 'No cloud account needed · Runs on your laptop' },
 ];
 
 export const getStaticPaths: GetStaticPaths = () =>
@@ -43,15 +43,117 @@ function buildLogoUri(accentColor: string): string {
 const LOGO_H = 64;
 const LOGO_W = Math.round(LOGO_H * (531.25 / 156.71)); // ≈ 217
 
+// The home card mirrors the homepage hero (light theme): original-color logo,
+// "Any cloud. / Locally." headline, hero subtitle, and the action pills.
+const rawLogoUri =
+  'data:image/svg+xml;base64,' + Buffer.from(rawLogoSvg).toString('base64');
+
+const HERO_LOGO_H = 78;
+const HERO_LOGO_W = Math.round(HERO_LOGO_H * (531.25 / 156.71)); // ≈ 264
+
+const pill = (label: string, primary = false) => ({
+  type: 'div',
+  props: {
+    style: {
+      display: 'flex',
+      padding: '16px 30px',
+      borderRadius: '10px',
+      fontSize: 21,
+      fontWeight: 700,
+      background: primary ? '#5559A7' : '#FFFFFF',
+      color: primary ? '#FFFFFF' : '#070B14',
+      border: primary ? '1px solid #5559A7' : '1px solid #CBD5E1',
+    },
+    children: label,
+  },
+});
+
+const homeCard = (sub: string) => ({
+  type: 'div',
+  props: {
+    style: {
+      width: '1200px',
+      height: '630px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#F8FAFC',
+      backgroundImage:
+        'linear-gradient(rgba(57,73,171,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(57,73,171,0.07) 1px, transparent 1px)',
+      backgroundSize: '60px 60px',
+      fontFamily: 'Sora',
+    },
+    children: [
+      {
+        type: 'img',
+        props: {
+          src: rawLogoUri,
+          width: HERO_LOGO_W,
+          height: HERO_LOGO_H,
+          style: { display: 'block', marginBottom: '40px' },
+        },
+      },
+      {
+        type: 'div',
+        props: {
+          style: {
+            fontSize: 86,
+            fontWeight: 700,
+            color: '#5559A7',
+            lineHeight: '1.05',
+            letterSpacing: '-3px',
+          },
+          children: 'Any cloud.',
+        },
+      },
+      {
+        type: 'div',
+        props: {
+          style: {
+            fontSize: 86,
+            fontWeight: 700,
+            color: '#070B14',
+            lineHeight: '1.05',
+            letterSpacing: '-3px',
+          },
+          children: 'Locally.',
+        },
+      },
+      {
+        type: 'div',
+        props: {
+          style: {
+            fontSize: 27,
+            fontWeight: 700,
+            color: '#5559A7',
+            lineHeight: '1.5',
+            maxWidth: '820px',
+            textAlign: 'center',
+            marginTop: '26px',
+          },
+          children: sub,
+        },
+      },
+      {
+        type: 'div',
+        props: {
+          style: { display: 'flex', gap: '16px', marginTop: '40px' },
+          children: [pill('Get started', true), pill('For AI agents'), pill('GitHub')],
+        },
+      },
+    ],
+  },
+});
+
 export const GET: APIRoute = async ({ props }) => {
-  const { title, sub, color, tag } = props as typeof pages[0];
+  const { slug, title, sub, color, tag } = props as typeof pages[0];
   const logoUri = buildLogoUri(color);
 
   // Scale title font size for longer product names
   const titleSize = title.length > 14 ? 64 : title.length > 8 ? 80 : 96;
 
-  const svg = await satori(
-    {
+  const darkCard = {
       type: 'div',
       props: {
         style: {
@@ -179,7 +281,10 @@ export const GET: APIRoute = async ({ props }) => {
           },
         ],
       },
-    },
+    };
+
+  const svg = await satori(
+    slug === 'home' ? homeCard(sub) : darkCard,
     {
       width: 1200,
       height: 630,
