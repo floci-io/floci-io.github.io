@@ -6,9 +6,8 @@
       "price": "$500+ / mo",
       "perks": [
         "Large logo, top placement",
-        "Dedicated support channel",
-        "Input on roadmap priorities",
-        "Custom integration help"
+        "Logo in the emulator READMEs and on floci.io",
+        "Mention in release notes"
       ],
       "sponsors": [
         {
@@ -29,8 +28,7 @@
       "label": "🥈 Silver",
       "price": "$150 / mo",
       "perks": [
-        "Logo in README + website",
-        "Priority issue support",
+        "Logo in the emulator READMEs and on floci.io",
         "Mention in release notes"
       ],
       "sponsors": []
@@ -40,11 +38,15 @@
       "label": "🥉 Community",
       "price": "$25 / mo",
       "perks": [
-        "Name in README",
+        "Name in the emulator READMEs",
         "Sponsor badge on GitHub",
         "Our sincere thanks"
       ],
       "sponsors": [
+        {
+          "name": "AutoScout24",
+          "url": "https://www.autoscout24.com"
+        },
         {
           "name": "Nexxion.ai",
           "url": "https://nexxion.ai/",
