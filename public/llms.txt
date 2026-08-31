@@ -2,7 +2,7 @@
 
 > floci is a suite of free, MIT-licensed local cloud emulators for AWS, Azure, GCP, and OCI.
 > No account required. No auth tokens. Runs entirely on your laptop.
-> Built with Quarkus Native — 24 ms startup, ~13 MiB idle memory.
+> Built with Quarkus Native: 24 ms startup, ~13 MiB idle memory.
 
 ## Products
 
@@ -10,7 +10,7 @@
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
 - 75 emulated AWS services on port 4566
-- Drop-in LocalStack replacement — same AWS SDK endpoint override, same CLI flags
+- Drop-in LocalStack replacement: same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
 Supported services include: S3, SQS, SNS, DynamoDB, Lambda, API Gateway, IAM, KMS,
@@ -21,7 +21,7 @@ Kinesis, Firehose, ElastiCache, RDS, Aurora, Cognito, SES, STS, and more.
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
 - 24 emulated Azure services on port 4577
-- MIT license — no Azurite license restrictions
+- MIT license: no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
 App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
@@ -49,7 +49,8 @@ Vault Secrets, Functions.
 ## Key Facts
 
 - License: MIT (all four products)
-- Free forever — no paid tiers, no feature gates
+- Free forever: no paid tiers, no feature gates
+- Stable releases on the 1st and 3rd Tuesday of each month; `nightly` tags track main
 - Single binary distribution (Docker image or native executable)
 - Works with all official AWS / Azure / GCP / OCI SDKs by pointing the endpoint URL to localhost
 - No internet access required at runtime
