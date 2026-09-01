@@ -6,14 +6,19 @@
  *
  * How to obtain the true counts from the emulator repos (see
  * .claude/skills/update-service-counts/SKILL.md for the full procedure):
- *   aws   — distinct `descriptor("…")` entries in ResolvedServiceCatalog.java
+ *   aws   — `descriptor("…")` entries in ResolvedServiceCatalog.java that are
+ *           `includeInStatus=true`. That set is exactly what `/_localstack/health`
+ *           reports, so the advertised number is one a user can verify with curl.
+ *           103 descriptors − 3 (`sts`, `signin` ride on `iam`; `ec2messages` on
+ *           `ssm`) = 100. Do NOT count raw descriptors, and do NOT drop hyphenated
+ *           endpoint codes — there are 11 of them and they are real services.
  *   azure — `EmulatorConfig.ServicesConfig` methods, minus `arm` (control plane)
  *   gcp   — one directory per service under services/
  *   oci   — `*ServiceConfig` accessors on `EmulatorConfig.ServicesConfig`
  */
 export const SERVICE_COUNTS = {
-  aws: 75,
-  azure: 24,
+  aws: 100,
+  azure: 26,
   gcp: 25,
   oci: 8,
 } as const;

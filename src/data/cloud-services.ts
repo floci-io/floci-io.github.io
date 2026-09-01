@@ -113,6 +113,26 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'Managed Flink', proto: 'JSON 1.1', category: 'analytics', docker: 'default', url: 'https://aws.amazon.com/managed-service-apache-flink/' },
   { name: 'Application Auto Scaling', proto: 'JSON 1.1', category: 'compute', url: 'https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html' },
   { name: 'Bedrock AgentCore', proto: 'REST JSON', category: 'ai', url: 'https://aws.amazon.com/bedrock/agentcore/' },
+  { name: 'EFS', proto: 'REST JSON', category: 'storage', url: 'https://docs.aws.amazon.com/efs/' },
+  { name: 'Redshift', proto: 'Query + Postgres', category: 'analytics', docker: 'default', url: 'https://docs.aws.amazon.com/redshift/' },
+  { name: 'EMR Serverless', proto: 'REST JSON', category: 'analytics', url: 'https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/' },
+  { name: 'Lake Formation', proto: 'REST JSON', category: 'analytics', url: 'https://docs.aws.amazon.com/lake-formation/' },
+  { name: 'ELB Classic', proto: 'Query', category: 'networking', url: 'https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/' },
+  { name: 'Route 53 Resolver', proto: 'JSON 1.1', category: 'networking', url: 'https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html' },
+  { name: 'Network Firewall', proto: 'JSON 1.0 / 1.1', category: 'security', url: 'https://docs.aws.amazon.com/network-firewall/' },
+  { name: 'Amazon Connect', proto: 'REST JSON', category: 'messaging', url: 'https://docs.aws.amazon.com/connect/' },
+  { name: 'Organizations', proto: 'JSON 1.1', category: 'identity', url: 'https://docs.aws.amazon.com/organizations/' },
+  { name: 'IAM Identity Center', proto: 'JSON 1.1', category: 'identity', url: 'https://docs.aws.amazon.com/singlesignon/' },
+  { name: 'Resource Access Manager', proto: 'REST JSON', category: 'identity', url: 'https://docs.aws.amazon.com/ram/' },
+  { name: 'Managed Prometheus', proto: 'REST JSON', category: 'observability', url: 'https://docs.aws.amazon.com/prometheus/' },
+  { name: 'Comprehend', proto: 'JSON 1.1', category: 'ai', url: 'https://docs.aws.amazon.com/comprehend/' },
+  { name: 'Rekognition', proto: 'JSON 1.1', category: 'ai', url: 'https://docs.aws.amazon.com/rekognition/' },
+  { name: 'Control Tower', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/controltower/' },
+  { name: 'Service Catalog', proto: 'JSON 1.1', category: 'devtools', url: 'https://docs.aws.amazon.com/servicecatalog/' },
+  { name: 'Service Quotas', proto: 'JSON 1.1', category: 'devtools', url: 'https://docs.aws.amazon.com/servicequotas/' },
+  { name: 'Resource Explorer', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/resource-explorer/latest/userguide/welcome.html' },
+  { name: 'Fault Injection Service', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/fis/' },
+  { name: 'CodeGuru Reviewer', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/' },
 ];
 
 export const AZURE_SERVICES: CloudService[] = [
@@ -140,6 +160,8 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'MySQL Flexible Server', proto: 'ARM · MySQL', category: 'database', docker: 'default', url: 'https://learn.microsoft.com/en-us/azure/mysql/' },
   { name: 'MariaDB Server', proto: 'ARM · MariaDB', category: 'database', docker: 'default', url: 'https://learn.microsoft.com/en-us/azure/mariadb/' },
   { name: 'Managed Identity', proto: 'IMDS · OAuth2 tokens', category: 'identity', url: 'https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/' },
+  { name: 'Container Instances', proto: 'ARM · REST JSON', category: 'containers', docker: 'optional', url: 'https://learn.microsoft.com/en-us/azure/container-instances/' },
+  { name: 'Microsoft Graph', proto: 'REST JSON · /v1.0', category: 'identity', url: 'https://learn.microsoft.com/en-us/graph/overview' },
 ];
 
 export const GCP_SERVICES: CloudService[] = [
