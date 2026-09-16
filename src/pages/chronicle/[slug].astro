@@ -1,0 +1,285 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { assertChronicleEntries, chronicleKind, chroniclePublicSlug } from '../../lib/chronicle';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('chronicle', ({ data }) => !data.draft || import.meta.env.DEV);
+  assertChronicleEntries(posts);
+  return posts.map(post => ({
+    params: { slug: chroniclePublicSlug(post) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const publishedPosts = await getCollection('chronicle', ({ data }) => !data.draft || import.meta.env.DEV);
+assertChronicleEntries(publishedPosts);
+const postSlug = chroniclePublicSlug(post);
+const isNote = chronicleKind(post) === 'note';
+const related = publishedPosts
+  .filter(entry => entry.id !== post.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())[0];
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+});
+---
+
+<Layout
+  title={`${post.data.title} — floci Chronicle`}
+  description={post.data.description}
+  canonical={`https://floci.io/chronicle/${postSlug}/`}
+  ogImage="https://floci.io/og/chronicle.png"
+>
+  <Nav active="chronicle" />
+
+  <main id="main-content" class="article-page">
+    <span class="rail-marker rail-marker-left" aria-hidden="true"></span>
+    <span class="rail-marker rail-marker-right" aria-hidden="true"></span>
+    <div
+      class:list={['article-hero', isNote ? 'note-hero' : 'chronicle-hero']}
+      style={post.data.heroImage ? `background-image: url('${post.data.heroImage}')` : undefined}
+      aria-hidden="true"
+    ></div>
+
+    <article class="article">
+      <a href="/chronicle/" class="back-link">← Chronicle</a>
+      <header class="article-header">
+        <div class="meta">
+          <span>FLOCI TEAM</span><b>//</b>
+          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+        </div>
+        <h1>{post.data.title}</h1>
+        <p class="description">{post.data.description}</p>
+        <div class="tags">{post.data.tags.map(tag => <span>{tag}</span>)}</div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {related && (
+        <aside class="related">
+          <span>Also of interest</span>
+          <h2>{related.data.title}</h2>
+          <p>{related.data.description}</p>
+          <a href={`/chronicle/${chroniclePublicSlug(related)}/`}>Read →</a>
+        </aside>
+      )}
+    </article>
+  </main>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="https://github.com/floci-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/company/floci" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/floci_io" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://bsky.app/profile/floci.io" target="_blank" rel="noopener noreferrer">Bluesky</a>
+    </div>
+  </Footer>
+</Layout>
+
+<style>
+  :global(html.light) {
+    --bg: #dfdfc1;
+    --bg2: #d5d4b6;
+    --bg3: #cbcbae;
+    --border: #a6a687;
+    --border-bright: #77795f;
+    --text: #080a08;
+    --text-muted: #252a24;
+    --text-dim: #30362e;
+    --nav-bg: rgba(223, 223, 193, .92);
+  }
+  :global(body) { background: var(--bg); }
+  .article-page {
+    --rule: rgba(148, 163, 184, .2);
+    position: relative; width: min(1180px, calc(100% - 40px)); min-height: 100vh; margin: 88px auto 0;
+    background-image:
+      repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px),
+      repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px);
+    background-position: left top, right top; background-repeat: no-repeat; background-size: 1px 100%;
+  }
+  :global(html.light) .article-page { --rule: rgba(42, 48, 39, .36); }
+  .rail-marker {
+    position: absolute; z-index: 4; width: 3px; height: 72px;
+    background: #000; pointer-events: none;
+  }
+  .rail-marker-left { top: var(--left-rail-marker-y, 560px); left: -1px; }
+  .rail-marker-right { top: var(--right-rail-marker-y, 560px); right: -1px; }
+  .article-hero {
+    height: 400px; margin: 0 24px; position: relative; overflow: hidden; border: 1px solid var(--border);
+    background-color: #10201e; background-position: center top; background-repeat: no-repeat; background-size: cover;
+  }
+  .note-hero { background-image: url('/chronicle/notes-open-hero.webp'); }
+  .chronicle-hero { background-image: url('/chronicle/chronicle-open-hero.webp'); }
+  .article-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,23,22,.18), transparent 42%, rgba(7,23,22,.16)); }
+  .article { position: relative; width: min(700px, calc(100% - 96px)); margin: 0 auto; padding: 76px 0 110px; }
+  .back-link { display: inline-block; margin-bottom: 44px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
+  .back-link:hover { color: var(--accent); }
+  .article-header { padding: 0 0 52px; margin-bottom: 52px; border-bottom: 1px solid var(--border); }
+  .meta { display: flex; gap: 9px; align-items: center; margin-bottom: 22px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .meta b { color: var(--accent); font-weight: 400; }
+  .article-header h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(48px, 7vw, 88px); font-weight: 400; letter-spacing: -.055em; line-height: .98; margin-bottom: 24px; }
+  .description { color: var(--text-muted); font-size: 18px; line-height: 1.55; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tags span { padding: 4px 8px; border: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+  .prose { color: var(--text-muted); font-size: 17px; line-height: 1.78; overflow-wrap: anywhere; }
+  .prose :global(h2) { color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 400; letter-spacing: -1px; line-height: 1.15; margin: 54px 0 18px; }
+  .prose :global(h3) { color: var(--text); font-size: 19px; line-height: 1.4; margin: 36px 0 14px; }
+  .prose :global(h4) { color: var(--text); font-size: 16px; line-height: 1.4; margin: 28px 0 12px; }
+  .prose :global(p) { margin-bottom: 22px; }
+  .prose :global(a) { color: #b6b9ee; text-decoration-color: rgba(182,185,238,.45); text-underline-offset: 4px; }
+  .prose :global(strong) { color: var(--text); }
+  .prose :global(code) { font-family: var(--mono); font-size: .82em; color: #d8daf8; background: rgba(122,127,214,.15); padding: 2px 6px; }
+  .prose :global(pre) { max-width: 100%; background: #0d151f; border: 1px solid var(--border); padding: 22px; overflow-x: auto; margin: 28px 0; }
+  .prose :global(pre code) { background: none; padding: 0; font-size: 13px; }
+  .prose :global(ul), .prose :global(ol) { padding-left: 24px; margin-bottom: 22px; }
+  .prose :global(li) { margin-bottom: 9px; padding-left: 5px; }
+  .prose :global(blockquote) { border-left: 3px solid var(--accent); padding: 4px 0 4px 24px; color: var(--text-muted); font-family: Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.5; margin: 34px 0; }
+  .prose :global(table) { width: 100%; border-collapse: collapse; font-size: 14px; margin: 30px 0; }
+  .prose :global(th), .prose :global(td) { padding: 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  .prose :global(.table-frame) { margin: 30px 0; }
+  .prose :global(.table-frame table) { margin: 0; }
+  .prose :global(.table-scroll-hint) { display: none; }
+  .prose :global(hr) { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+  .prose :global(figure) { margin: 38px 0; }
+  .prose :global(img), .prose :global(video) { display: block; width: 100%; height: auto; border: 1px solid var(--border); background: var(--bg2); }
+  .prose :global(video) { aspect-ratio: 16 / 9; object-fit: cover; }
+  .prose :global(figcaption) { margin-top: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; line-height: 1.5; letter-spacing: .6px; }
+  .prose :global(iframe) { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; margin: 38px 0; border: 1px solid var(--border); background: #0d151f; }
+  .prose :global(.metric-graphic), .prose :global(.mermaid) { margin: 38px 0; padding: 24px; border: 1px solid var(--border); background: var(--bg2); overflow-x: auto; }
+  .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { display: block; width: 100%; max-width: 100% !important; height: auto; margin: 0 auto; }
+  .prose :global(.metric-graphic text) { font-family: var(--mono); fill: var(--text-muted); }
+  .prose :global(.mermaid-error) { color: var(--text-muted); font-family: var(--mono); font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+  :global(html.light) .prose :global(a) { color: #4f4a96; text-decoration-color: rgba(79,74,150,.45); }
+  :global(html.light) .prose :global(code) { color: #3f3b78; background: rgba(85,89,167,.12); }
+  :global(html.light) .prose :global(pre) { background: #d3d2b4; }
+  .related { position: absolute; left: calc(100% + 30px); top: 640px; width: 210px; padding: 24px; background: #17231f; color: #f8fafc; box-shadow: 0 24px 65px rgba(0,0,0,.35); }
+  .related > span { color: #a4a793; font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .related h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 25px; font-weight: 400; line-height: 1.12; margin: 16px 0 12px; }
+  .related p { color: #aeb8b3; font-size: 12px; line-height: 1.5; }
+  .related a { display: inline-block; margin-top: 20px; color: white; background: var(--accent-deep); padding: 8px 13px; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
+  @media (max-width: 1240px) {
+    .related { position: static; width: 100%; margin-top: 72px; }
+  }
+  @media (max-width: 720px) {
+    .article-page { width: calc(100% - 24px); margin-top: 76px; }
+    .article-hero { height: 240px; margin: 0 12px; }
+    .note-hero { background-position: 34% top; }
+    .chronicle-hero { background-position: 28% top; }
+    .article { width: calc(100% - 48px); padding-top: 52px; }
+    .article-header h1 { font-size: clamp(42px, 13vw, 68px); }
+    .description { font-size: 16px; }
+    .prose { font-size: 16px; }
+    .prose :global(pre), .prose :global(.metric-graphic), .prose :global(.mermaid) { padding: 16px; }
+    .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { min-width: 520px; }
+    .prose :global(.table-scroll) { overflow-x: auto; overscroll-behavior-inline: contain; }
+    .prose :global(.table-frame table) { min-width: 560px; overflow-wrap: normal; }
+    .prose :global(.table-scroll-hint) { display: block; margin-top: 8px; color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-align: right; text-transform: uppercase; }
+  }
+</style>
+
+<script>
+  const articlePage = document.querySelector<HTMLElement>('.article-page');
+  const articleTitle = document.querySelector<HTMLElement>('.article-header h1');
+  const markerHeight = 72;
+  const trackInset = 24;
+
+  function updateRailMarkers() {
+    if (!articlePage) return;
+    const scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, window.scrollY / scrollRange));
+    const titleOffset = articleTitle
+      ? articleTitle.getBoundingClientRect().top - articlePage.getBoundingClientRect().top
+      : 560;
+    const rightTravel = Math.max(0, articlePage.offsetHeight - markerHeight - titleOffset - trackInset);
+    articlePage.style.setProperty('--left-rail-marker-y', `${Math.round(titleOffset)}px`);
+    articlePage.style.setProperty('--right-rail-marker-y', `${Math.round(titleOffset + progress * rightTravel)}px`);
+  }
+
+  updateRailMarkers();
+  window.addEventListener('scroll', updateRailMarkers, { passive: true });
+  window.addEventListener('resize', updateRailMarkers);
+
+  document.querySelectorAll<HTMLTableElement>('.prose table').forEach((table) => {
+    const frame = document.createElement('div');
+    const scroller = document.createElement('div');
+    const hint = document.createElement('span');
+    frame.className = 'table-frame';
+    scroller.className = 'table-scroll';
+    hint.className = 'table-scroll-hint';
+    hint.textContent = 'Swipe to compare →';
+    table.replaceWith(frame);
+    scroller.appendChild(table);
+    frame.append(scroller, hint);
+  });
+
+  const diagramNodes = Array.from(document.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]')).map((codeBlock) => {
+    const diagram = document.createElement('div');
+    diagram.className = 'mermaid';
+    diagram.dataset.source = codeBlock.textContent ?? '';
+    codeBlock.replaceWith(diagram);
+    return diagram;
+  });
+  let renderedTheme = '';
+  let rendering = false;
+
+  function showDiagramFallback(diagram: HTMLElement) {
+    diagram.removeAttribute('data-processed');
+    diagram.classList.add('mermaid-error');
+    diagram.textContent = `Diagram unavailable\n\n${diagram.dataset.source ?? ''}`;
+  }
+
+  async function renderDiagrams() {
+    const theme = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+    if (!diagramNodes.length || rendering || theme === renderedTheme) return;
+    rendering = true;
+    try {
+      const { default: mermaid } = await import('mermaid/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: 'base',
+        themeVariables: theme === 'light' ? {
+          background: '#d5d4b6', primaryColor: '#cbcbae', primaryTextColor: '#111512',
+          primaryBorderColor: '#777b67', lineColor: '#5559a7', secondaryColor: '#dfdfc1',
+          tertiaryColor: '#bfc0a1', fontFamily: 'Sora, sans-serif'
+        } : {
+          background: '#161e2e', primaryColor: '#17231f', primaryTextColor: '#f8fafc',
+          primaryBorderColor: '#64748b', lineColor: '#7a7fd6', secondaryColor: '#0f1520',
+          tertiaryColor: '#252f3b', fontFamily: 'Sora, sans-serif'
+        }
+      });
+      for (const diagram of diagramNodes) {
+        diagram.removeAttribute('data-processed');
+        diagram.classList.remove('mermaid-error');
+        diagram.textContent = diagram.dataset.source ?? '';
+        try {
+          await mermaid.run({ nodes: [diagram] });
+        } catch (error) {
+          console.error('Could not render Mermaid diagram', error);
+          showDiagramFallback(diagram);
+        }
+      }
+      renderedTheme = theme;
+    } catch (error) {
+      console.error('Could not load Mermaid', error);
+      diagramNodes.forEach(showDiagramFallback);
+      renderedTheme = theme;
+    } finally {
+      rendering = false;
+      const activeTheme = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+      if (activeTheme !== theme) void renderDiagrams();
+    }
+  }
+
+  void renderDiagrams();
+  new MutationObserver(() => void renderDiagrams()).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+</script>

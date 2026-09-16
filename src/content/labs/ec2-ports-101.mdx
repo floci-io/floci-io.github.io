@@ -18,7 +18,7 @@ By the end of this lab you'll have a real (local) EC2 workflow running on your l
 
 No AWS account. No instance recreation. No lost state.
 
-This lab is the hands-on companion to [Opening EC2 ports in-flight with socat](/blog/opening-ec2-ports-in-flight-with-socat/). The runnable version lives in [floci-labs](https://github.com/floci-io/floci-labs/tree/main/labs/ec2-open-ports-in-flight), where `./demo.sh` runs this whole flow end to end.
+This lab is the hands-on companion to [Opening EC2 ports in-flight with socat](/chronicle/opening-ec2-ports-in-flight-with-socat/). The runnable version lives in [floci-labs](https://github.com/floci-io/floci-labs/tree/main/labs/ec2-open-ports-in-flight), where `./demo.sh` runs this whole flow end to end.
 
 ---
 
@@ -208,7 +208,7 @@ aws ec2 delete-security-group --group-id $SG
 
 ## Next Steps
 
-- Read the design story behind this lab: [Opening EC2 ports in-flight with socat](/blog/opening-ec2-ports-in-flight-with-socat/)
+- Read the design story behind this lab: [Opening EC2 ports in-flight with socat](/chronicle/opening-ec2-ports-in-flight-with-socat/)
 - Run the one-shot version: [`demo.sh` in floci-labs](https://github.com/floci-io/floci-labs/tree/main/labs/ec2-open-ports-in-flight)
 - Open a second port (add another `httpd` on 9090 to UserData) and watch a second sidecar appear
 - Restart the floci container and check `docker ps` to see persisted forwards come back on their saved host ports

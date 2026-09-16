@@ -86,5 +86,5 @@ docker run -p 4599:4599 floci/floci-oci
 - GCP product page: https://floci.io/gcp/
 - OCI product page: https://floci.io/oci/
 - Hands-on labs (no cloud account needed): https://floci.io/labs/
-- Engineering blog: https://floci.io/blog/
+- Engineering chronicle: https://floci.io/chronicle/
 - Compare floci vs LocalStack: https://floci.io/compare/

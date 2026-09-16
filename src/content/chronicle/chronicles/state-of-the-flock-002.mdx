@@ -1,0 +1,198 @@
+---
+title: "State of the Flock #002"
+description: "Five Months, Four Clouds"
+pubDate: 2026-08-15
+tags: [community, milestone, open-source]
+heroImage: /chronicle/state-of-the-flock-002/cover.webp
+---
+
+Five months since Floci went open source, and this was the month the project left the screen. The Flock met in person for the first time, at JConf Dominicana in Santiago. Floci crossed one million Docker pulls. And a fourth emulator joined the family: floci-oci, for Oracle Cloud.
+
+Same skeleton as [last issue](/chronicle/state-of-the-flock-001/): the numbers, what shipped, who made it happen, what I have not decided yet, what is not going well, and one specific ask.
+
+## The numbers
+
+Month 4 (July 15) to month 5 (August 15):
+
+- GitHub stars: 16,700 to 20,089
+- Forks: 1,670 to 2,080
+- Contributors to floci: 177 to 217
+- Contributors across all four emulators: 229 (first time reporting)
+- Merged PRs, all time: 1,002 to 1,204
+- Docker pulls: 861,000 to 1,553,000
+- AWS services: 66 to 68
+- Emulators in the family: 3 to 4
+
+The headline: **one and a half million Docker pulls.** It took four months to reach 861k and one more to nearly double it. Somewhere in mid-July, someone's CI pipeline did the millionth docker pull floci/floci, and neither of us noticed at the time. That is exactly how infrastructure should feel. The other three images are much smaller and worth stating plainly: floci-gcp 36,117, floci-az 29,723, floci-oci 3,734.
+
+41 people sent their first merged PR to floci this month, up from 32 last month, and 194 PRs merged in thirty days. Open issues went from 134 to 138 across those same thirty days. Last issue I said triage latency was creeping up. Absorbing 194 merges for four net new open issues is not creeping.
+
+The four-emulator number is new this issue, and counting it surfaced something I had never measured: 229 people have contributed code across the four emulators, and 245 across the whole floci-io org, which also covers the web UI, the Testcontainers modules, and the CLI. Seven of those people, not counting me, have worked on more than one emulator. Almost nobody crosses clouds, and that is the gap the shared-core work further down is meant to close.
+
+## The Flock, in person: JConf Dominicana
+
+On July 17 and 18 the Flock stopped being only a GitHub org and a Slack workspace. [JConf Dominicana](https://jconfdominicana.org/) in Santiago hosted the first in-person Floci workshop: four hours on Floci and local cloud development, with hands-on labs focused entirely on AWS. About 40 attendees worked through the labs.
+
+<figure>
+  <img src="/chronicle/state-of-the-flock-002/workshop.webp" alt="Conference attendees pose for a group photo at the Floci workshop at JConf Dominicana" loading="lazy" />
+  <figcaption>The Floci workshop at JConf Dominicana, Santiago, July 17.</figcaption>
+</figure>
+
+The energy was the story. From the first minutes it was questions and real scenarios: how do I emulate this queue, how does state survive restarts, can my team run this in CI. We built a backlog of questions during the workshop and were still working through it in hallway conversations on day two.
+
+<figure>
+  <img src="/chronicle/state-of-the-flock-002/labs.webp" alt="Attendees with laptops during the Floci workshop at JConf Dominicana" loading="lazy" />
+  <figcaption>Running the labs.</figcaption>
+</figure>
+
+Which is where I have to admit a planning mistake: I never submitted a talk proposal. I had a workshop and nothing else, and by day two it was obvious the interest deserved more. I got lucky. A speaker could not make it, and the organizers let me fill the slot with a "Floci Quick Start + Q&A" session, organized one hour before it started: five slides, a live quickstart from floci start to working AWS calls, then questions. One hour was not enough either.
+
+Lesson recorded for next time: submit the CFP. The demand for local cloud content was bigger than the slots I asked for. If you organize a conference or meetup and want a Floci workshop or talk, I want to hear from you: that is now a standing invitation.
+
+## On Quarkus Insights: "What is Floci?"
+
+On August 10 I joined [Eric Deandrea](https://bsky.app/profile/ericdeandrea.dev) and [Holly Cummins](https://hollycummins.com/) on [Quarkus Insights](https://quarkus.io/insights/) episode #256, "What is Floci?". Floci is built on Quarkus and compiled to a GraalVM native image, which is how it starts in about 24ms and idles around 13 MiB, and how I ended up on a Quarkus podcast in the first place.
+
+We opened with the two questions I get most, and neither is technical: how do you say it, and where does the name come from. It is **[FLOH-see](https://github.com/orgs/floci-io/discussions/815)**, closest to the Latin and to how a Spanish speaker reads it, which is how I read it. The name is floccus, the popcorn-shaped cloud formation.
+
+Then the vocabulary, which is the part worth repeating here. "Mock", "simulator", and "emulator" get used as if they meant the same thing, and the difference is most of the reason this project exists:
+
+- A **mock** returns answers you wrote yourself. It has no behavior of its own. Your test passes because you told it what to say.
+- A **simulator** reimplements the behavior in its own code. Real state, real logic, but the logic is a second guess at what the real service does.
+- An **emulator** speaks the real wire protocol, so unmodified SDKs, CLIs, and Terraform cannot tell the difference.
+
+Floci is the third, and where a real engine already exists it runs that engine instead of reimplementing it: real Postgres behind RDS, real Airflow behind MWAA. That is what "real engines, not mocks" means in practice, and it is why what breaks locally is usually what would have broken in the cloud.
+
+From there: how Floci got started, and the short version of how it got from there to here. Then the live part, floci start to bring the emulator up and floci env to point the AWS SDKs at it, then a walk through the web UI. We took questions from the attendees and answered most of them against a real Floci running on my machine rather than against slides.
+
+The comment that stuck with me: Floci feels like it has been around a long time. It is five months old. The gap between how settled it looks and how new it actually is says more about the people who have contributed than about me.
+
+We closed on the roadmap, and the honest version is that I set very little of it. Next is depth rather than new logos: CloudFormation first, more stable and covering more resource types, then the same hardening pass on DynamoDB, SQS, and S3. CloudFormation is the biggest single pile in the issue tracker. The other three are what nearly every project touches first. The order came from issues and votes, not from me.
+
+Watch the recording: [Quarkus Insights #256: What is Floci?](https://www.youtube.com/watch?v=VFYZUZbjzd4)
+
+## New: floci-oci, a local emulator for Oracle Cloud
+
+The family has a fourth member. [floci-oci 0.1.0](https://github.com/floci-io/floci-oci/releases/tag/0.1.0) shipped on July 28: a local Oracle Cloud Infrastructure emulator. Oracle Cloud has no official local emulator; testing OCI integrations has meant a real tenancy, real credentials, and real network round trips, even in CI. Now it means one container.
+
+The family and its ports:
+
+- [floci](https://github.com/floci-io/floci), AWS, port 4566
+- [floci-az](https://github.com/floci-io/floci-az), Azure, port 4577
+- [floci-gcp](https://github.com/floci-io/floci-gcp), GCP, port 4588
+- [floci-oci](https://github.com/floci-io/floci-oci), OCI, port 4599
+
+0.1.0 emulates 7 OCI services over real OCI wire protocols, so the OCI SDKs, the OCI CLI, Terraform, and OpenTofu work unchanged against http://localhost:4599. And it follows the family philosophy: real engines, not mocks. KMS is not a stub that hands back base64: encrypt and decrypt run real AES-GCM, sign and verify run real RSA and ECDSA, and checksums are computed so SDK-side validation passes instead of being skipped. Functions invocation proxies to a real fnproject/fnserver sidecar running your actual function image. It ships validated by 414 unit and integration tests plus compatibility suites for the Java SDK, Python SDK, Terraform, and OpenTofu.
+
+MIT licensed, free forever, no account, no feature gates. Same deal as always.
+
+## What shipped across the clouds
+
+Eight releases, all four emulators:
+
+- **floci (AWS)**, 1.5.34 and 1.6.0: MWAA on real Airflow, Bedrock with real inference, CDK bootstrap
+- **floci-az**, 0.9.0 and 0.10.0: PostgreSQL, MySQL, and MariaDB on the real engines
+- **floci-gcp**, 0.5.0 and 0.6.0: BigQuery, and the full service-account auth flow
+- **floci-oci**, 0.1.0 and 0.2.0: the emulator itself, covered above
+
+## floci (AWS): 1.5.34, then 1.6.0
+
+Three things in [1.6.0](https://github.com/floci-io/floci/releases/tag/1.6.0) unlock categories that used to need a real AWS account:
+
+- **MWAA on real Airflow** ([#2086](https://github.com/floci-io/floci/pull/2086), thanks @pgermosen). A real LocalExecutor runs your DAGs. Same pattern as Postgres behind RDS.
+- **Bedrock with real inference** ([#1789](https://github.com/floci-io/floci/pull/1789), thanks @MilleR98). Proxies to any OpenAI-compatible endpoint, Ollama or LM Studio included, instead of returning a canned string. Managed policies too ([#2034](https://github.com/floci-io/floci/pull/2034), thanks @lex00).
+- **Lambda Extensions API** ([#1773](https://github.com/floci-io/floci/pull/1773), thanks @rogueserenity). Observability, secrets, and auth agents that ship as extensions now run end to end.
+
+**CDK bootstrap works** ([#2064](https://github.com/floci-io/floci/pull/2064), thanks @lex00), on the back of a broad CloudFormation expansion: launch templates, VPC gateway attachments, event buses, API Gateway v2 authorizers, secret target attachments, idempotent deletes. Plus CloudWatch RUM ([#1797](https://github.com/floci-io/floci/pull/1797), thanks @abanna), EC2 volume attach and detach ([#1787](https://github.com/floci-io/floci/pull/1787), thanks @Preston-Cai), and floci:override-id ([#2045](https://github.com/floci-io/floci/pull/2045)) for pinning stable API Gateway IDs in tests.
+
+[1.5.34](https://github.com/floci-io/floci/releases/tag/1.5.34) before it: CloudTrail with S3 data events ([#1460](https://github.com/floci-io/floci/pull/1460), thanks @guilhermejsonar), Step Functions HTTP invoke ([#1503](https://github.com/floci-io/floci/pull/1503), thanks @Mulgish) and States.JsonMerge ([#1662](https://github.com/floci-io/floci/pull/1662), thanks @abanna), SES sending-authorization policies ([#1750](https://github.com/floci-io/floci/pull/1750), thanks @okinaka), and provenance plus SBOM attestations on published images ([#2032](https://github.com/floci-io/floci/pull/2032), thanks @kobihikri), so you can verify that the image you pulled matches what was built from source.
+
+## floci-az (Azure): 0.9.0 and 0.10.0
+
+The database story: [0.9.0](https://github.com/floci-io/floci-az/releases/tag/0.9.0) and [0.10.0](https://github.com/floci-io/floci-az/releases/tag/0.10.0) brought Azure Database for PostgreSQL, MySQL, and MariaDB, all on the real engines. Also Managed Identity with a working IMDS token endpoint, Private Endpoint and Private DNS, Cosmos DB composite-index enforcement, Service Bus subscription rules, and synthesized Load Balancer, NSG, and Application Gateway shapes for common azurerm Terraform patterns. Thanks @electrum for the Blob storage conformance pass, and welcome @Ali-Shaikh and the five first-time contributors in 0.10.0.
+
+## floci-gcp (GCP): 0.5.0 and 0.6.0
+
+[0.6.0](https://github.com/floci-io/floci-gcp/releases/tag/0.6.0) closed the auth gap. IAM Credentials generateAccessToken ([#91](https://github.com/floci-io/floci-gcp/pull/91), thanks @snazy) plus GCS service account authentication ([#92](https://github.com/floci-io/floci-gcp/pull/92), thanks @electrum) means the full flow works locally: mint a short-lived token, then authenticate to GCS with it. That is the pattern GCP recommends, and until now you could not test it without a real project. Pub/Sub subscription filters apply on delivery too. Welcome to the three first-time contributors.
+
+[0.5.0](https://github.com/floci-io/floci-gcp/releases/tag/0.5.0) added BigQuery Phase 1, Identity Platform, Eventarc, and Service Usage, plus a Cloud Monitoring parity pass. Welcome @elbird90.
+
+## floci-oci (OCI): 0.2.0
+
+[0.2.0](https://github.com/floci-io/floci-oci/releases/tag/0.2.0) added a compat image with the OCI CLI and Python SDK preconfigured, container and volume labeling, and a BouncyCastle TLS fix ([#6](https://github.com/floci-io/floci-oci/pull/6)). Giovanny Velez ([@gioandtonic](https://github.com/gioandtonic)) is co-maintaining it, more on that below.
+
+Then, on August 9, the thing I was hoping for: the first outside contribution. [@JohnXSparrow](https://github.com/JohnXSparrow) found that prefix pre-authenticated requests were accepting reads and writes they should have rejected, and sent [#10](https://github.com/floci-io/floci-oci/pull/10) to fix it. Forty-three lines. An access-control bug in a two-week-old emulator, found by someone who does not work on it. That is the entire argument for shipping early.
+
+Straight about where it still stands: apart from that one fix, every commit is mine, and nobody has filed an issue yet. That is the honest state of a repo eighteen days old.
+
+So if you use Oracle Cloud: pull floci/floci-oci, point your OCI Terraform, SDK code, or CLI scripts at http://localhost:4599, and file an issue for whatever breaks or is missing. The gap between "works in my compat suite" and "works on your project" is exactly what we cannot find from the inside, and early issues will steer what 0.3.0 emulates next.
+
+## Starting August 18: one release train for all four
+
+floci has been cutting a release every three or four days while floci-az and floci-gcp shipped whenever a batch felt ready. That worked with one emulator, not with four, and it told you nothing about what changed between two versions.
+
+From **Tuesday, August 18**, all four emulators release on the **first and third Tuesday** of every month. If nothing user-facing landed, that repo skips the train quietly. One rule, four repos, no per-project judgment calls.
+
+Version numbers now carry information: trains bump the minor, and patches are reserved for out-of-band regression fixes. 1.6.0 was the first minor bump since 1.5.0, and the 34 releases in between were all patches, several of them containing brand new services.
+
+Nothing gets slower. Nightlies keep building daily on all four (floci/floci:nightly and the -az, -gcp, -oci equivalents), so a merged fix still reaches you within 24 hours, and regressions get an out-of-band patch the same day.
+
+If this is the wrong call for how you use Floci, tell me in [Discussions](https://github.com/orgs/floci-io/discussions) or in Slack. I would rather hear it before August 18 than after.
+
+## The family is converging
+
+The quieter story this month is that the four emulators are becoming one codebase with four faces. floci-gcp converged its storage, Docker, DNS, and runtime clusters on the AWS baseline ([#107](https://github.com/floci-io/floci-gcp/pull/107), [#108](https://github.com/floci-io/floci-gcp/pull/108), [#109](https://github.com/floci-io/floci-gcp/pull/109)), and the same Docker layer optimization and one-button release automation landed in floci, floci-gcp, and floci-oci within days of each other. None of it is user-facing. All of it means a fix written once now reaches every cloud, instead of being ported by hand three times or, more honestly, not ported at all. A shared floci-core is where this is heading. With four emulators to keep in step, it has to be.
+
+## Floci has maintainers, plural
+
+For five months the public maintainer list was one name. That was never quite the truth, and as of this issue it is not the record either.
+
+[Christian Franzen](https://de.linkedin.com/in/christian-franzen) leads the Java Testcontainers module. His first PR merged on March 27, twelve days after Floci went open source, and [testcontainers-floci](https://github.com/floci-io/testcontainers-floci) now carries 223 commits from him against 2 from me. He has been that library's maintainer in every practical sense for months. This is me finally saying so in public, which I should have done a long time ago.
+
+[Freddy Peña](https://do.linkedin.com/in/fred-pena) maintains the web UI and carries a large part of the Azure emulator. [floci-ui](https://github.com/floci-io/floci-ui) has 52 commits, which makes him its top contributor. On [floci-az](https://github.com/floci-io/floci-az) he is second only to me. Same story as Christian: this is a formalization of what has been true for months.
+
+**[James H](https://github.com/hughesjs)** maintains the .NET Testcontainers module. He built it in June, brought it into the floci-io org, and has written all 57 of its commits across 23 merged PRs. Same situation as Christian: he has been its maintainer in practice since the day it existed, and this is the record catching up.
+
+[Priamo Germosen](https://do.linkedin.com/in/priamogermosen) sent his first PR on July 20. Seven merged in four weeks, including the MWAA emulation that headlines 1.6.0 ([#2086](https://github.com/floci-io/floci/pull/2086)), Managed Service for Apache Flink ([#1914](https://github.com/floci-io/floci/pull/1914)), the Application Auto Scaling control plane ([#2159](https://github.com/floci-io/floci/pull/2159)), and a Cognito refresh token forgery fix ([#2139](https://github.com/floci-io/floci/pull/2139)).
+
+[Giovanny Velez](https://co.linkedin.com/in/giovannyvelez) takes floci-oci. The honest origin story: that bootstrap sat on my machine for a long time and I did not open it, because I was afraid of publishing something I could not maintain. It is public because Gio pushed for it and agreed to own it. He has no merged code in the repo yet. His first PR is open as I write this: Container Engine for Kubernetes, OKE, with its compatibility suites ([#12](https://github.com/floci-io/floci-oci/pull/12)). He is the reason the repo exists at all.
+
+I have been asked since March what happens to Floci if I stop. A flock is many small birds moving together with no single point of failure, which is most of the reason for the name. Four maintainers is not a finished answer. It is a real one, and I would like #003 to have more names in it. Where the holes still are is further down, in what is not going well.
+
+## Open decisions
+
+**The Pods artifact name, one more month.** Last issue's ask was to vote in the [Pods artifact naming poll](https://github.com/orgs/floci-io/discussions/1783). It was set to close July 31. I am extending it to **September 14**, the day before State of the Flock #003: the design work behind the feature is taking longer than planned, and there is no reason to lock the name before the thing it names is ready. That issue announces the winner.
+
+Current standings: **Snapshots** is winning, 8 votes of 14, ahead of Puffs 3, Seeds 2, Tufts 1, and Plumes 0. That has not moved since July 31. So if you want a different name on your .snapshot files, you now have a month to say so. Go vote for your favorite.
+
+**Floci hats, apparently.** I brought 12 Floci hats to JConf and gave them to friends. Since then I have had a steady stream of messages asking how to get one. So, genuine question: if there were a small self-serve Floci merch store (hats first, maybe shirts), would you actually use it? To be clear about what this would be: merch at cost-plus-small markup to sustain the project, and it changes nothing about the software. Every emulated service stays free forever, hat or no hat. Tell me in the comments or in Slack.
+
+## What's not going well
+
+**Release cadence dropped before I had a policy for it.** Last issue: nine floci releases in thirty days. This issue: two, 1.5.34 on July 29 and 1.6.0 on August 6. The gap between 1.5.33 and 1.5.34 was fourteen days, after a run of one every three or four. The release train above makes fewer, larger releases the intended behavior, but I should be straight about the order things happened in: the cadence slipped first, because I was at JConf and then away on family vacation, and the policy came afterward. It is a good policy either way. It is also a tidy story told about an untidy month.
+
+**Six maintainers do not cover four emulators and five Testcontainers modules.** 217 people have contributed code to floci. floci-az has 12, floci-gcp has 11, and floci-oci has two, one of whom is me. Naming Giovanny does not change that count until his PR lands. Azure and GCP are both up since last issue, so the direction is right, but a repo where a handful of people know the code is a repo where everything queues behind whoever is awake. Worse, and I have not said this publicly before: three of the five Testcontainers modules have had no commits since May. Go, Node, and Python. They work today. Nobody is moving them forward. The convergence work above is the structural answer for the emulators, since shared code needs fewer hands than four parallel codebases. For the modules there is no structural answer, only people. That is what the ask at the end of this issue is about.
+
+**14 votes on the naming poll.** Floci has 20,000 stars and over 200 contributors, and 14 people voted on a name thousands will type in CI configs. It has also not moved in two weeks. Either the poll is hard to find, or voting feels like it does not matter. I suspect the first, so the extra month comes with a fix: the poll gets linked from the README and the next release notes, not just from a blog post. If turnout is still this low on September 14, that tells me something too, and I will take the hint.
+
+## One ask this month
+
+Take one of the Testcontainers modules.
+
+Go, Node, and Python have had no commits since May. They work today, and that is exactly the problem: nothing is obviously broken, so nothing forces the issue, and a module nobody has touched in three months is one dependency bump away from being everyone's problem.
+
+Each one is self-contained. You could own it without learning a single line of emulator internals. And if you would rather take on a whole cloud than a single module, floci-gcp needs someone.
+
+Open an issue saying so, or find me in Slack. I would rather hand something over early than hold it until I drop it.
+
+## Thank you
+
+To everyone who sat through four hours of labs in Santiago, to the 41 people who sent their first merged PR to floci this month and the first-timers who did the same on the Azure and GCP emulators, and to whoever ran the millionth docker pull: thank you. Floci stays free, MIT-licensed, no gates, no telemetry. Forever.
+
+Same time next month for #003.
+
+**Join the Flock:** [GitHub](https://github.com/floci-io/floci) · [floci.io](https://floci.io/) · [r/floci](https://reddit.com/r/floci) · [Slack](https://join.slack.com/t/floci/shared_invite/zt-3tjn02s3q-A00kEjJ1cZxsg_imTfy6Cw)
+
+Any Cloud. Locally. Let's keep Emulating.
+
+#aws #azure #gcp #oraclecloud #devops #opensource #cloud #testing #java

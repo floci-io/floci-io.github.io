@@ -12,16 +12,18 @@ const pages = [
   { slug: 'gcp',     title: 'floci-gcp',           sub: `${SERVICE_COUNTS.gcp} GCP services. No project, no billing.`,         color: '#34A853', tag: 'Cloud Storage · Pub/Sub · Firestore · Secret Manager' },
   { slug: 'oci',     title: 'floci-oci',           sub: `${SERVICE_COUNTS.oci} OCI services. No account, no key ceremony.`,    color: '#C74634', tag: 'Object Storage · Queue · Streaming · KMS · Functions' },
   { slug: 'compare', title: 'Floci vs LocalStack', sub: 'Free · No auth token · Drop-in replacement.',     color: '#7A7FD6', tag: '138× faster startup · 91% less memory' },
-  { slug: 'blog',    title: 'Blog',                sub: 'Engineering notes from the floci team.',           color: '#7A7FD6', tag: 'floci.io · Open Source · MIT License' },
+  { slug: 'chronicle', title: 'Chronicle',          sub: 'Engineering notes from the floci team.',           color: '#7A7FD6', tag: 'floci.io · Open Source · MIT License' },
   { slug: 'labs',    title: '101 Labs',            sub: 'Hands-on guides for AWS, Azure, GCP, and OCI.',        color: '#7A7FD6', tag: 'No cloud account needed · Runs on your laptop' },
 ];
 
 export const getStaticPaths: GetStaticPaths = () =>
   pages.map(p => ({ params: { slug: p.slug }, props: p }));
 
-const fontData: ArrayBuffer = readFileSync(
-  join(process.cwd(), 'src/fonts/Sora.ttf')
-).buffer as ArrayBuffer;
+const fontBuffer = readFileSync(join(process.cwd(), 'src/fonts/Sora.ttf'));
+const fontData = fontBuffer.buffer.slice(
+  fontBuffer.byteOffset,
+  fontBuffer.byteOffset + fontBuffer.byteLength,
+) as ArrayBuffer;
 
 const rawLogoSvg = readFileSync(
   join(process.cwd(), 'public/floci-logo.svg'),

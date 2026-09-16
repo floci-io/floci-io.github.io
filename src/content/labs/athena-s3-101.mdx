@@ -265,4 +265,4 @@ aws athena get-query-results --query-execution-id "$QUERY_ID"
 
 - Register a **Parquet** table (change `SerializationLibrary` to `org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe`). DuckDB's column pruning makes large Parquet files fast
 - Use `ListQueryExecutions` and `GetQueryExecution` to build a query history view
-- Try the [floci-duck blog post](/blog/floci-duck-local-athena/) for a deeper look at the architecture
+- Try the [floci-duck Chronicle post](/chronicle/floci-duck-local-athena/) for a deeper look at the architecture

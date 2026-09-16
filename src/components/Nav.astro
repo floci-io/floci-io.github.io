@@ -6,10 +6,11 @@ export interface SectionLink {
 }
 
 export interface Props {
-  active: 'home' | 'aws' | 'az' | 'gcp' | 'oci' | 'blog' | 'labs';
+  active: 'home' | 'aws' | 'az' | 'gcp' | 'oci' | 'chronicle' | 'labs';
   githubUrl?: string;
   docsUrl?: string;
   sectionLinks?: SectionLink[];
+  pageTitle?: string;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   githubUrl = 'https://github.com/floci-io',
   docsUrl = 'https://github.com/floci-io/floci#readme',
   sectionLinks,
+  pageTitle,
 } = Astro.props;
 
 ---
@@ -38,6 +40,7 @@ const {
       </g>
     </svg>
   </a>
+  {pageTitle && <h1 class="nav-page-title"><span>{pageTitle}</span></h1>}
   <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
@@ -49,7 +52,7 @@ const {
     <a href="/gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
     <a href="/oci/" class={`oci-link${active === 'oci' ? ' nav-active' : ''}`} aria-current={active === 'oci' ? 'page' : undefined}>OCI</a>
     <div class="nav-sep"></div>
-    <a href="/blog/" class={active === 'blog' ? 'nav-active' : ''} aria-current={active === 'blog' ? 'page' : undefined}>Blog</a>
+    <a href="/chronicle/" class={active === 'chronicle' ? 'nav-active' : ''} aria-current={active === 'chronicle' ? 'page' : undefined}>Chronicle</a>
     <a href="/labs/" class={active === 'labs' ? 'nav-active' : ''} aria-current={active === 'labs' ? 'page' : undefined}>Labs</a>
     {sectionLinks && sectionLinks.length > 0 && (
       <>
@@ -91,6 +94,15 @@ const {
     display: flex; align-items: center;
     text-decoration: none; flex-shrink: 0;
   }
+  .nav-page-title {
+    display: flex; align-items: flex-end; height: 32px; margin-left: 18px;
+    font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 400; line-height: 32px; letter-spacing: -1px;
+  }
+  .nav-page-title::before {
+    content: '//'; margin-right: 18px; color: var(--accent);
+    font-family: var(--mono); font-size: 24px; font-weight: 700; line-height: 32px; letter-spacing: -3px;
+  }
+  .nav-page-title > span { transform: translateY(3px); }
   .floci-logo { height: 32px; width: auto; display: block; transition: opacity 0.2s; }
   .nav-logo:hover .floci-logo { opacity: 0.85; }
   .floci-logo .floci-text, .floci-logo .floci-cloud { fill: #F8FAFC; }
@@ -98,7 +110,7 @@ const {
   html.light .floci-logo .floci-text { fill: #262425; }
   html.light .floci-logo .floci-cloud { fill: #151515; }
   html.light .floci-logo .floci-dot { fill: #5559A7; }
-  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; margin-left: auto; }
   .nav-links a { color: var(--text-muted); font-size: 15px; text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
   .nav-links a.aws-link { color: rgba(255,153,0,0.85); }
@@ -152,7 +164,7 @@ const {
   .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
   .theme-toggle svg { display: block; }
   @media (max-width: 860px) {
-    .nav-burger { display: flex; }
+    .nav-burger { display: flex; margin-left: auto; }
     .nav-links {
       display: none; flex-direction: column; align-items: flex-start;
       gap: 0; position: fixed; top: 60px; left: 0; right: 0;
