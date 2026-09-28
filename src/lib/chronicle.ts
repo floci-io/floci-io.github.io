@@ -20,6 +20,12 @@ export function chroniclePublicSlug(entry: ChronicleEntry): string {
   return slug.substring(slug.lastIndexOf('/') + 1);
 }
 
+export function chronicleFullTitle(entry: ChronicleEntry): string {
+  const { title, subtitle } = entry.data;
+  if (!subtitle) return title;
+  return /[?!]$/.test(title) ? `${title} ${subtitle}` : `${title}: ${subtitle}`;
+}
+
 export function assertChronicleEntries(entries: ChronicleEntry[]): void {
   const entriesBySlug = new Map<string, string>();
 

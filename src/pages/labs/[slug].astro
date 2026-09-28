@@ -2,7 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
 import { getCollection } from 'astro:content';
+import { authorJsonLd, getAuthor } from '../../data/authors';
 
 export async function getStaticPaths() {
   const labs = await getCollection('labs', ({ data }) => !data.draft);
@@ -30,13 +32,27 @@ const difficultyColor: Record<string, string> = {
   advanced:     '#ef4444',
 };
 const color = cloudColor[lab.data.cloud];
+const author = getAuthor(lab.data.author);
+const canonical = `https://floci.io/labs/${lab.slug}/`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: lab.data.title,
+  description: lab.data.description,
+  url: canonical,
+  mainEntityOfPage: canonical,
+  proficiencyLevel: lab.data.difficulty,
+  author: authorJsonLd(lab.data.author),
+  publisher: { '@type': 'Organization', name: 'floci', url: 'https://floci.io' },
+};
 ---
 
 <Layout
   title={`${lab.data.title} — floci 101 Labs`}
   description={lab.data.description}
-  canonical={`https://floci.io/labs/${lab.slug}/`}
+  canonical={canonical}
   ogImage="https://floci.io/og/labs.png"
+  jsonLd={jsonLd}
 >
   <Nav active="labs" />
 
@@ -53,6 +69,7 @@ const color = cloudColor[lab.data.cloud];
             {lab.data.difficulty}
           </span>
           <span class="dur-badge">⏱ {lab.data.duration}</span>
+          <span class="author-badge">by <a href={author.github} target="_blank" rel="noopener noreferrer">{author.name}</a></span>
         </div>
         <h1>{lab.data.title}</h1>
         <p class="description">{lab.data.description}</p>
@@ -61,6 +78,8 @@ const color = cloudColor[lab.data.cloud];
       <div class="prose">
         <Content />
       </div>
+
+      <AuthorCard author={lab.data.author} />
     </div>
   </article>
 
@@ -91,14 +110,16 @@ const color = cloudColor[lab.data.cloud];
     flex-wrap: wrap;
     margin-bottom: 20px;
   }
-  .cloud-badge, .diff-badge, .dur-badge {
+  .cloud-badge, .diff-badge, .dur-badge, .author-badge {
     font-family: var(--mono);
     font-size: 11px;
     padding: 3px 8px;
     border-radius: 4px;
   }
   .diff-badge { text-transform: capitalize; }
-  .dur-badge { color: var(--text-dim); }
+  .dur-badge, .author-badge { color: var(--text-dim); }
+  .author-badge a { color: var(--text-muted); text-decoration: none; }
+  .author-badge a:hover { color: var(--accent); }
   .article-header h1 {
     font-size: clamp(28px, 4vw, 48px);
     font-weight: 800;

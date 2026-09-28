@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { getAuthor } from '../../data/authors';
 
 const labs = (await getCollection('labs', ({ data }) => !data.draft))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
@@ -58,6 +59,7 @@ const difficultyColor: Record<string, string> = {
                   {lab.data.difficulty}
                 </span>
                 <span class="dur-badge">⏱ {lab.data.duration}</span>
+                <span class="author-badge">by {getAuthor(lab.data.author).name}</span>
               </div>
               <h2>{lab.data.title}</h2>
               <p>{lab.data.description}</p>
@@ -122,7 +124,7 @@ const difficultyColor: Record<string, string> = {
     gap: 8px;
     flex-wrap: wrap;
   }
-  .cloud-badge, .diff-badge, .dur-badge {
+  .cloud-badge, .diff-badge, .dur-badge, .author-badge {
     font-family: var(--mono);
     font-size: 11px;
     padding: 3px 8px;
@@ -132,7 +134,7 @@ const difficultyColor: Record<string, string> = {
     background: transparent;
     text-transform: capitalize;
   }
-  .dur-badge {
+  .dur-badge, .author-badge {
     color: var(--text-dim);
   }
   .lab-card h2 {

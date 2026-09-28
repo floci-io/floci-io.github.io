@@ -1,0 +1,49 @@
+---
+import { getAuthor, type AuthorId } from '../data/authors';
+
+export interface Props {
+  author: AuthorId;
+}
+
+const author = getAuthor(Astro.props.author);
+const links = [
+  { label: 'GitHub', href: author.github },
+  { label: 'LinkedIn', href: author.linkedin },
+  { label: 'X', href: author.x },
+].filter((link): link is { label: string; href: string } => Boolean(link.href));
+---
+
+<aside class="author-card" aria-label="About the author">
+  <span class="author-eyebrow">{author.kind === 'person' ? 'Written by' : 'From the'}</span>
+  <a class="author-name" href={author.github} target="_blank" rel="noopener noreferrer">{author.name}</a>
+  <div class="author-links" role="group" aria-label={`${author.name} profiles`}>
+    {links.map(link => (
+      <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+    ))}
+  </div>
+</aside>
+
+<style>
+  .author-card {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px;
+    margin-top: 56px; padding: 22px 24px; border: 1px solid var(--border);
+  }
+  .author-eyebrow {
+    color: var(--text-dim); font-family: var(--mono); font-size: 10px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .author-name {
+    color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 22px;
+    letter-spacing: -.5px; text-decoration: none;
+  }
+  .author-name:hover { color: var(--accent); }
+  .author-links { display: flex; gap: 14px; margin-left: auto; }
+  .author-links a {
+    color: var(--text-dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+    text-decoration: none; text-transform: uppercase; transition: color .2s;
+  }
+  .author-links a:hover { color: var(--accent); }
+  @media (max-width: 520px) {
+    .author-links { margin-left: 0; width: 100%; }
+  }
+</style>
