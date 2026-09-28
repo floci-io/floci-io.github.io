@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
+import SectionNav from '../../components/SectionNav.astro';
 import Footer from '../../components/Footer.astro';
 import { OCI_SERVICES, orderByCategory } from '../../data/cloud-services';
 const dockerTiers = new Set(OCI_SERVICES.map((s) => s.docker).filter(Boolean));
@@ -36,7 +37,8 @@ const jsonLd = {
   ogImage="https://floci.io/og/oci.png"
   jsonLd={jsonLd}
 >
-  <Nav active="oci" githubUrl="https://github.com/floci-io/floci-oci" docsUrl="https://github.com/floci-io/floci-oci#readme" sectionLinks={sectionLinks} />
+  <Nav active="oci" />
+  <SectionNav cloud="oci" label="OCI" links={sectionLinks} docsHref="/floci-oci/" />
 
 
   <!-- HERO -->
@@ -567,8 +569,6 @@ fetch('https://api.github.com/repos/floci-io/floci-oci').then(r => r.json()).the
   const count = data.stargazers_count;
   if (!count) return;
   const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
-  const nav = document.getElementById('ghNavStars');
-  if (nav) nav.textContent = ' · ' + fmt;
   const btn = document.getElementById('ghStarsBtn');
   if (btn) btn.textContent = ' · ' + fmt;
 }).catch(() => {});

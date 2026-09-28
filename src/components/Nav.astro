@@ -1,29 +1,25 @@
 ---
-export interface SectionLink {
-  href: string;
-  label: string;
-  disabled?: boolean;
-}
-
 export interface Props {
   active: 'home' | 'aws' | 'az' | 'gcp' | 'oci' | 'chronicle' | 'labs';
-  githubUrl?: string;
-  docsUrl?: string;
-  sectionLinks?: SectionLink[];
-  pageTitle?: string;
 }
 
-const {
-  active,
-  githubUrl = 'https://github.com/floci-io',
-  docsUrl = 'https://github.com/floci-io/floci#readme',
-  sectionLinks,
-  pageTitle,
-} = Astro.props;
+const { active } = Astro.props;
+
+const pages = [
+  { key: 'home', href: '/', label: 'Home' },
+  { sep: true },
+  { key: 'aws', href: '/aws/', label: 'AWS', cloud: true },
+  { key: 'az', href: '/az/', label: 'Azure', cloud: true },
+  { key: 'gcp', href: '/gcp/', label: 'GCP', cloud: true },
+  { key: 'oci', href: '/oci/', label: 'OCI', cloud: true },
+  { sep: true },
+  { key: 'chronicle', href: '/chronicle/', label: 'Chronicle' },
+  { key: 'labs', href: '/labs/', label: 'Labs' },
+];
 
 ---
 
-<nav>
+<nav aria-label="Main">
   <a class="nav-logo" href="/" aria-label="floci home">
     <svg class="floci-logo" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <g style="isolation:isolate"><g style="isolation:isolate">
@@ -40,52 +36,37 @@ const {
       </g>
     </svg>
   </a>
-  {pageTitle && <h1 class="nav-page-title"><span>{pageTitle}</span></h1>}
   <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links" id="navLinks">
-    <a href="/" class={active === 'home' ? 'nav-active' : ''} aria-current={active === 'home' ? 'page' : undefined}>Home</a>
-    <div class="nav-sep"></div>
-    <a href="/aws/" class={`aws-link${active === 'aws' ? ' nav-active' : ''}`} aria-current={active === 'aws' ? 'page' : undefined}>AWS</a>
-    <a href="/az/" class={`az-link${active === 'az' ? ' nav-active' : ''}`} aria-current={active === 'az' ? 'page' : undefined}>Azure</a>
-    <a href="/gcp/" class={`gcp-link${active === 'gcp' ? ' nav-active' : ''}`} aria-current={active === 'gcp' ? 'page' : undefined}>GCP</a>
-    <a href="/oci/" class={`oci-link${active === 'oci' ? ' nav-active' : ''}`} aria-current={active === 'oci' ? 'page' : undefined}>OCI</a>
-    <div class="nav-sep"></div>
-    <a href="/chronicle/" class={active === 'chronicle' ? 'nav-active' : ''} aria-current={active === 'chronicle' ? 'page' : undefined}>Chronicle</a>
-    <a href="/labs/" class={active === 'labs' ? 'nav-active' : ''} aria-current={active === 'labs' ? 'page' : undefined}>Labs</a>
-    {sectionLinks && sectionLinks.length > 0 && (
-      <>
-        <div class="nav-sep"></div>
-        {sectionLinks.map(link => (
-          link.disabled
-            ? <span class="nav-link-disabled">{link.label}</span>
-            : <a href={link.href}>{link.label}</a>
-        ))}
-      </>
-    )}
-    <div class="nav-sep"></div>
-    <a href={githubUrl} target="_blank" rel="noopener noreferrer">★ GitHub<span class="nav-stars" id="ghNavStars"></span></a>
-    <div class="nav-docs-wrap" id="navDocsWrap">
-      <button class="nav-cta nav-docs-btn" id="navDocsBtn" aria-haspopup="true" aria-expanded="false">Docs →</button>
-      <div class="nav-docs-dropdown" id="navDocsDropdown" role="menu">
-        <a href="/floci/" role="menuitem" class="aws-link">floci</a>
-        <a href="/floci-az/" role="menuitem" class="az-link">floci-az</a>
-        <a href="/floci-gcp/" role="menuitem" class="gcp-link">floci-gcp</a>
-        <a href="/floci-oci/" role="menuitem" class="oci-link">floci-oci</a>
-      </div>
+    <div class="nav-pages">
+      {pages.map(p => p.sep
+        ? <div class="nav-sep" aria-hidden="true"></div>
+        : <a
+            href={p.href}
+            class:list={['nav-page', p.cloud && `${p.key}-link`, { 'nav-active': active === p.key }]}
+            aria-current={active === p.key ? 'page' : undefined}
+          >{p.label}</a>
+      )}
     </div>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
+    <div class="nav-tools">
+      <a class="nav-github" href="https://github.com/floci-io" target="_blank" rel="noopener noreferrer" aria-label="floci on GitHub">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
   </div>
 </nav>
 
 <style is:global>
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 0 2rem; height: 60px;
+    padding: 0 2rem; height: 60px; gap: 24px;
     display: flex; align-items: center; justify-content: space-between;
     background: var(--nav-bg); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border); transition: background 0.25s;
@@ -94,15 +75,6 @@ const {
     display: flex; align-items: center;
     text-decoration: none; flex-shrink: 0;
   }
-  .nav-page-title {
-    display: flex; align-items: flex-end; height: 32px; margin-left: 18px;
-    font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 400; line-height: 32px; letter-spacing: -1px;
-  }
-  .nav-page-title::before {
-    content: '//'; margin-right: 18px; color: var(--accent);
-    font-family: var(--mono); font-size: 24px; font-weight: 700; line-height: 32px; letter-spacing: -3px;
-  }
-  .nav-page-title > span { transform: translateY(3px); }
   .floci-logo { height: 32px; width: auto; display: block; transition: opacity 0.2s; }
   .nav-logo:hover .floci-logo { opacity: 0.85; }
   .floci-logo .floci-text, .floci-logo .floci-cloud { fill: #F8FAFC; }
@@ -110,121 +82,106 @@ const {
   html.light .floci-logo .floci-text { fill: #262425; }
   html.light .floci-logo .floci-cloud { fill: #151515; }
   html.light .floci-logo .floci-dot { fill: #5559A7; }
-  .nav-links { display: flex; align-items: center; gap: 1.5rem; margin-left: auto; }
-  .nav-links a { color: var(--text-muted); font-size: 15px; text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-links a.aws-link { color: rgba(255,153,0,0.85); }
-  .nav-links a.az-link  { color: rgba(0,120,212,0.85); }
-  .nav-links a.gcp-link { color: rgba(52,168,83,0.85); }
-  .nav-links a.oci-link { color: rgba(199,70,52,0.85); }
-  html.light .nav-links a.aws-link { color: #cc6600; }
-  html.light .nav-links a.az-link  { color: #0078D4; }
-  html.light .nav-links a.gcp-link { color: #1e7e34; }
-  html.light .nav-links a.oci-link { color: #C74634; }
-  .nav-links a.aws-link.nav-active { color: #FF9900; font-weight: 600; }
-  .nav-links a.az-link.nav-active  { color: #0078D4; font-weight: 600; }
-  .nav-links a.gcp-link.nav-active { color: #34A853; font-weight: 600; }
-  .nav-links a.oci-link.nav-active { color: #C74634; font-weight: 600; }
-  .nav-sep { width: 1px; height: 18px; background: var(--border-bright); }
-  .nav-link-disabled { color: var(--text-dim); font-size: 15px; cursor: not-allowed; opacity: 0.45; user-select: none; }
-  .nav-stars { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-left: 4px; display: inline-block; min-width: 4.5ch; }
-  .nav-cta {
-    background: var(--accent-deep); color: #ffffff !important;
-    padding: 7px 18px; border-radius: 6px; font-size: 13px;
-    font-weight: 700; transition: background 0.2s !important;
+
+  .nav-links { display: flex; align-items: center; gap: 20px; margin-left: auto; height: 100%; }
+  .nav-pages { display: flex; align-items: center; gap: 4px; height: 100%; }
+  .nav-tools { display: flex; align-items: center; gap: 8px; }
+  .nav-sep { width: 1px; height: 18px; margin: 0 8px; background: var(--border-bright); }
+
+  /* Every page link has the same box in every state, so nothing moves between pages. */
+  .nav-page {
+    height: 100%; display: flex; align-items: center; padding: 0 10px;
+    font-size: 14px; font-weight: 500; white-space: nowrap;
+    color: var(--text-muted); text-decoration: none; transition: color 0.2s, box-shadow 0.2s;
   }
-  .nav-cta:hover { background: var(--accent-warm) !important; }
-  .nav-docs-wrap { position: relative; }
-  .nav-docs-btn { border: none; cursor: pointer; white-space: nowrap; }
-  .nav-docs-dropdown {
-    display: none; position: absolute; top: calc(100% + 8px); right: 0;
-    background: var(--bg2); border: 1px solid var(--border-bright);
-    border-radius: 8px; overflow: hidden; min-width: 130px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 200;
+  .nav-page:hover, .nav-page.nav-active { color: var(--text); }
+  .nav-page.nav-active { box-shadow: inset 0 -2px 0 currentColor; }
+  .nav-page.aws-link:hover, .nav-page.aws-link.nav-active { color: #FF9900; }
+  .nav-page.az-link:hover, .nav-page.az-link.nav-active { color: #3A9BEF; }
+  .nav-page.gcp-link:hover, .nav-page.gcp-link.nav-active { color: #34A853; }
+  .nav-page.oci-link:hover, .nav-page.oci-link.nav-active { color: #F0604D; }
+  html.light .nav-page.aws-link:hover, html.light .nav-page.aws-link.nav-active { color: #B35900; }
+  html.light .nav-page.az-link:hover, html.light .nav-page.az-link.nav-active { color: #0067B8; }
+  html.light .nav-page.gcp-link:hover, html.light .nav-page.gcp-link.nav-active { color: #1E7E34; }
+  html.light .nav-page.oci-link:hover, html.light .nav-page.oci-link.nav-active { color: #B03A2A; }
+
+  .nav-github, .theme-toggle {
+    height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    border: 1px solid var(--border-bright); border-radius: 8px; background: none;
+    color: var(--text-muted); font-family: inherit; font-size: 13px; font-weight: 500;
+    text-decoration: none; cursor: pointer; white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
   }
-  .nav-docs-dropdown.open { display: block; }
-  .nav-docs-dropdown a {
-    display: block; padding: 10px 18px; font-size: 14px; font-weight: 600;
-    text-decoration: none; transition: background 0.15s;
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-docs-dropdown a:last-child { border-bottom: none; }
-  .nav-docs-dropdown a:hover { background: var(--accent-dim); }
-  .nav-burger {
-    display: none; flex-direction: column; justify-content: center; gap: 5px;
-    background: none; border: none; cursor: pointer; padding: 4px;
-  }
-  .nav-burger span { display: block; width: 22px; height: 2px; background: var(--text-muted); border-radius: 2px; transition: all 0.25s; }
-  .theme-toggle {
-    background: none; border: 1px solid var(--border-bright);
-    color: var(--text-muted); cursor: pointer; border-radius: 8px; padding: 6px 10px;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.2s, color 0.2s; flex-shrink: 0;
-  }
-  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-github { padding: 0 12px; }
+  .nav-github:hover, .theme-toggle:hover { border-color: var(--accent); color: var(--text); }
+  .theme-toggle { width: 36px; padding: 0; flex-shrink: 0; }
   .theme-toggle svg { display: block; }
-  @media (max-width: 860px) {
+
+
+  nav a:focus-visible, nav button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px;
+  }
+  .nav-page:focus-visible { outline-offset: -4px; }
+
+  .nav-burger {
+    display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+    width: 44px; height: 44px; margin-right: -10px;
+    background: none; border: none; cursor: pointer;
+  }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: var(--text-muted); border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+  .nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 960px) {
+    nav { padding: 0 1.25rem; }
     .nav-burger { display: flex; margin-left: auto; }
     .nav-links {
-      display: none; flex-direction: column; align-items: flex-start;
-      gap: 0; position: fixed; top: 60px; left: 0; right: 0;
+      display: none; flex-direction: column; align-items: stretch; gap: 0; height: auto;
+      position: fixed; top: 60px; left: 0; right: 0;
+      max-height: calc(100dvh - 60px); overflow-y: auto; overscroll-behavior: contain;
       background: var(--bg2); border-bottom: 1px solid var(--border);
-      padding: 16px 2rem; z-index: 99;
+      padding: 8px 1.25rem 20px; z-index: 99;
     }
     .nav-links.open { display: flex; }
-    .nav-links a, .nav-link-disabled { padding: 10px 0; width: 100%; border-bottom: 1px solid var(--border); font-size: 15px; display: block; }
-    .nav-links a:last-of-type { border-bottom: none; }
+    .nav-pages { flex-direction: column; align-items: stretch; gap: 0; }
+    .nav-page {
+      height: 48px; padding: 0 12px; font-size: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-page.nav-active { box-shadow: inset 3px 0 0 currentColor; }
     .nav-sep { display: none; }
-    .nav-docs-wrap { width: 100%; margin-top: 8px; }
-    .nav-docs-btn { width: 100%; text-align: center; }
-    .nav-docs-dropdown { position: static; box-shadow: none; border-radius: 0; border: none; border-top: 1px solid var(--border); margin-top: 4px; }
-    .nav-docs-dropdown a { padding: 10px 0; }
-    .nav-cta { margin-top: 8px; text-align: center; width: 100%; }
-    .theme-toggle { margin-top: 8px; }
+    .nav-tools { flex-wrap: wrap; gap: 10px; padding-top: 16px; }
+    .nav-github { flex: 1; height: 44px; }
+    .theme-toggle { width: 44px; height: 44px; }
   }
 </style>
 
 <script>
-const docsBtn = document.getElementById('navDocsBtn');
-const docsDropdown = document.getElementById('navDocsDropdown');
-if (docsBtn && docsDropdown) {
-  docsBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const open = docsDropdown.classList.toggle('open');
-    docsBtn.setAttribute('aria-expanded', String(open));
-  });
-  document.addEventListener('click', () => {
-    docsDropdown.classList.remove('open');
-    docsBtn.setAttribute('aria-expanded', 'false');
-  });
-  docsDropdown.addEventListener('click', (e) => e.stopPropagation());
-}
-
 const burger = document.getElementById('navBurger');
 const navLinks = document.getElementById('navLinks');
-if (burger && navLinks) {
-  burger.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('open');
-    burger.setAttribute('aria-expanded', String(open));
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  }));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-      navLinks.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-      burger.focus();
-    }
-  });
+function setMenuOpen(open: boolean) {
+  navLinks?.classList.toggle('open', open);
+  burger?.setAttribute('aria-expanded', String(open));
 }
+if (burger && navLinks) {
+  burger.addEventListener('click', () => setMenuOpen(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (navLinks?.classList.contains('open')) {
+    setMenuOpen(false);
+    burger?.focus();
+  }
+});
 
 const html = document.documentElement;
 const toggle = document.getElementById('themeToggle');
 const moon = document.getElementById('iconMoon');
 const sun = document.getElementById('iconSun');
-function setTheme(light) {
+function setTheme(light: boolean) {
   html.classList.toggle('light', light);
   if (moon) moon.style.display = light ? 'none' : 'block';
   if (sun) sun.style.display = light ? 'block' : 'none';

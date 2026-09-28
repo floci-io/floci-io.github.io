@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
+import SectionNav from '../../components/SectionNav.astro';
 import Footer from '../../components/Footer.astro';
 import { AZURE_SERVICES, orderByCategory } from '../../data/cloud-services';
 const dockerTiers = new Set(AZURE_SERVICES.map((s) => s.docker).filter(Boolean));
@@ -36,7 +37,8 @@ const jsonLd = {
   ogImage="https://floci.io/og/az.png"
   jsonLd={jsonLd}
 >
-  <Nav active="az" githubUrl="https://github.com/floci-io/floci-az" docsUrl="https://github.com/floci-io/floci-az#readme" sectionLinks={sectionLinks} />
+  <Nav active="az" />
+  <SectionNav cloud="az" label="Azure" links={sectionLinks} docsHref="/floci-az/" />
 
 
   <!-- HERO -->
@@ -593,8 +595,6 @@ fetch('https://api.github.com/repos/floci-io/floci-az').then(r => r.json()).then
   const count = data.stargazers_count;
   if (!count) return;
   const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
-  const nav = document.getElementById('ghNavStars');
-  if (nav) nav.textContent = ' · ' + fmt;
   const btn = document.getElementById('ghStarsBtn');
   if (btn) btn.textContent = ' · ' + fmt;
 }).catch(() => {});

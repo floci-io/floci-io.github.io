@@ -1,0 +1,110 @@
+---
+export interface SectionLink {
+  href: string;
+  label: string;
+}
+
+export interface Props {
+  cloud: 'aws' | 'az' | 'gcp' | 'oci';
+  label: string;
+  links: SectionLink[];
+  docsHref: string;
+}
+
+const { cloud, label, links, docsHref } = Astro.props;
+---
+
+<div class={`section-nav section-nav-${cloud}`} aria-label={`${label} sections`} role="navigation">
+  <div class="section-nav-inner">
+    <span class="section-nav-label"><span class="section-nav-dot" aria-hidden="true"></span>{label}</span>
+    <div class="section-nav-links">
+      {links.map(link => <a href={link.href} data-section-link>{link.label}</a>)}
+    </div>
+    <a class="section-nav-docs" href={docsHref}>Docs ↗</a>
+  </div>
+</div>
+
+<style is:global>
+  /* Pages with the sub-bar need anchors to clear both bars. */
+  html { scroll-padding-top: 116px; }
+
+  .section-nav {
+    --section-accent: var(--accent);
+    position: fixed; top: 60px; left: 0; right: 0; z-index: 90; height: 44px;
+    background: var(--nav-bg); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-nav-aws { --section-accent: #FF9900; }
+  .section-nav-az  { --section-accent: #3A9BEF; }
+  .section-nav-gcp { --section-accent: #34A853; }
+  .section-nav-oci { --section-accent: #F0604D; }
+  html.light .section-nav-aws { --section-accent: #B35900; }
+  html.light .section-nav-az  { --section-accent: #0067B8; }
+  html.light .section-nav-gcp { --section-accent: #1E7E34; }
+  html.light .section-nav-oci { --section-accent: #B03A2A; }
+
+  .section-nav-inner {
+    height: 100%; padding: 0 2rem;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .section-nav-label {
+    display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.5px; color: var(--text);
+  }
+  .section-nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--section-accent); }
+  .section-nav-links {
+    display: flex; align-items: center; gap: 4px; height: 100%;
+    margin-right: auto; min-width: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .section-nav-links::-webkit-scrollbar { display: none; }
+  .section-nav-links a, .section-nav-docs {
+    height: 100%; display: flex; align-items: center; padding: 0 10px; flex-shrink: 0;
+    font-size: 13px; font-weight: 500; white-space: nowrap;
+    color: var(--text-muted); text-decoration: none; transition: color 0.2s, box-shadow 0.2s;
+  }
+  .section-nav-links a:hover, .section-nav-docs:hover { color: var(--text); }
+  .section-nav-links a.is-active { color: var(--text); box-shadow: inset 0 -2px 0 var(--section-accent); }
+  .section-nav-docs { color: var(--section-accent); }
+  .section-nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; border-radius: 6px; }
+
+  @media (max-width: 960px) {
+    .section-nav-inner { padding: 0 1.25rem; gap: 12px; }
+  }
+  @media (max-width: 600px) {
+    .section-nav-label { display: none; }
+    .section-nav-links { margin-left: -10px; }
+  }
+</style>
+
+<script>
+// Highlight the sub-bar link for the section currently under the bars.
+const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-section-link]')];
+const targets = links
+  .map(a => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+  .filter((el): el is HTMLElement => el !== null)
+  .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+
+function update() {
+  const doc = document.documentElement;
+  let current: HTMLElement | undefined;
+  if (window.innerHeight + window.scrollY >= doc.scrollHeight - 2) {
+    current = targets[targets.length - 1];
+  } else {
+    for (const el of targets) {
+      if (el.getBoundingClientRect().top <= 140) current = el;
+    }
+  }
+  for (const a of links) {
+    const active = current !== undefined && a.hash === '#' + current.id;
+    a.classList.toggle('is-active', active);
+    if (active) a.setAttribute('aria-current', 'location');
+    else a.removeAttribute('aria-current');
+  }
+}
+
+if (targets.length) {
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+</script>

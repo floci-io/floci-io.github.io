@@ -31,9 +31,10 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   canonical="https://floci.io/chronicle/"
   ogImage="https://floci.io/og/chronicle.png"
 >
-  <Nav active="chronicle" pageTitle="Chronicle" />
+  <Nav active="chronicle" />
 
   <main id="main-content" class="chronicle-shell">
+    <h1 class="sr-only">Chronicle</h1>
     <div class="chronicle-grid">
       <aside class="left-rail" aria-label="Notes and follow floci" tabindex="0">
         <section class="rail-section notes-section">
@@ -138,6 +139,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 </Layout>
 
 <style>
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .chronicle-shell {
     --rule: rgba(148, 163, 184, .2); --rail-marker: #dcece4;
     padding-top: 60px; min-height: 100vh;

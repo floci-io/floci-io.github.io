@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
+import SectionNav from '../../components/SectionNav.astro';
 import Footer from '../../components/Footer.astro';
 import { SERVICE_COUNTS } from '../../data/services';
 
@@ -18,12 +19,8 @@ const sectionLinks = [
   canonical="https://floci.io/aws/compare/"
   ogImage="https://floci.io/og/compare.png"
 >
-  <Nav
-    active="aws"
-    githubUrl="https://github.com/floci-io/floci"
-    docsUrl="https://github.com/floci-io/floci"
-    sectionLinks={sectionLinks}
-  />
+  <Nav active="aws" />
+  <SectionNav cloud="aws" label="floci vs LocalStack" links={sectionLinks} docsHref="/floci/" />
 
   <!-- HERO -->
   <section class="hero" id="main-content">
@@ -406,7 +403,5 @@ fetch('https://api.github.com/repos/floci-io/floci').then(r => r.json()).then(da
   const count = data.stargazers_count;
   if (!count) return;
   const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
-  const nav = document.getElementById('ghNavStars');
-  if (nav) nav.textContent = ' · ' + fmt;
 }).catch(() => {});
 </script>

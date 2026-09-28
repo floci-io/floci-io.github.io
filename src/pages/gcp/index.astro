@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
+import SectionNav from '../../components/SectionNav.astro';
 import Footer from '../../components/Footer.astro';
 import { GCP_SERVICES, orderByCategory } from '../../data/cloud-services';
 const dockerTiers = new Set(GCP_SERVICES.map((s) => s.docker).filter(Boolean));
@@ -36,7 +37,8 @@ const jsonLd = {
   ogImage="https://floci.io/og/gcp.png"
   jsonLd={jsonLd}
 >
-  <Nav active="gcp" githubUrl="https://github.com/floci-io/floci-gcp" docsUrl="https://github.com/floci-io/floci-gcp" sectionLinks={sectionLinks} />
+  <Nav active="gcp" />
+  <SectionNav cloud="gcp" label="GCP" links={sectionLinks} docsHref="/floci-gcp/" />
 
 
   <!-- HERO -->
@@ -820,7 +822,5 @@ fetch('https://api.github.com/repos/floci-io/floci-gcp').then(r => r.json()).the
   const count = data.stargazers_count;
   if (!count) return;
   const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
-  const nav = document.getElementById('ghNavStars');
-  if (nav) nav.textContent = ' · ' + fmt;
 }).catch(() => {});
 </script>
