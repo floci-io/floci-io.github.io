@@ -1,0 +1,303 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+import { assertChronicleEntries, chronicleKind, chroniclePublicSlug } from '../../lib/chronicle';
+
+const posts = (await getCollection('chronicle', ({ data }) => !data.draft || import.meta.env.DEV))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+assertChronicleEntries(posts);
+const notes = posts.filter(post => chronicleKind(post) === 'note');
+const chronicles = posts.filter(post => chronicleKind(post) === 'chronicle');
+const featured = chronicles[0];
+const dispatches = chronicles.slice(1);
+
+const videos = [
+  { id: '_L9sQqcensI', url: 'https://www.youtube.com/watch?v=_L9sQqcensI', title: 'Building a Local AWS Emulator with Java 25 and Quarkus', pubDate: new Date('2026-03-31T00:00:00Z') },
+  { id: '7s462S-qRY4', url: 'https://youtu.be/7s462S-qRY4?si=X_flgTkCa_3rXpxB', title: 'This Tool Runs Real AWS Services on Your Laptop For Free', pubDate: new Date('2026-08-23T00:00:00Z') },
+  { id: 'dvyDakgeMig', url: 'https://youtu.be/dvyDakgeMig?si=jaLFYywOTqobevdh', title: 'Run 45 AWS Services Locally FREE', pubDate: new Date('2026-05-24T00:00:00Z') },
+  { id: 'wQVQHuJ0FC0', url: 'https://youtu.be/wQVQHuJ0FC0?si=6h9hLfdmtuMHlbWD', title: 'Floci: a fast and lightweight AWS emulator', pubDate: new Date('2026-06-17T00:00:00Z') },
+  { id: 'VFYZUZbjzd4', url: 'https://www.youtube.com/live/VFYZUZbjzd4?si=B_iYfxZaZLr50Wsj', title: 'Quarkus Insights #256: What is Floci?', pubDate: new Date('2026-08-10T00:00:00Z') },
+].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+});
+---
+
+<Layout
+  title="Chronicle — floci"
+  description="Field notes, engineering stories, and news from the floci community."
+  canonical="https://floci.io/chronicle/"
+  ogImage="https://floci.io/og/chronicle.png"
+>
+  <Nav active="chronicle" pageTitle="Chronicle" />
+
+  <main id="main-content" class="chronicle-shell">
+    <div class="chronicle-grid">
+      <aside class="left-rail" aria-label="Notes and follow floci" tabindex="0">
+        <section class="rail-section notes-section">
+          <h2 class="eyebrow">Notes</h2>
+          {notes.map((post, index) => index === 0 ? (
+            <a class="note-feature" href={`/chronicle/${chroniclePublicSlug(post)}/`}>
+              <div class="cloud-art cloud-art-small" aria-hidden="true"></div>
+              <div class="feature-panel">
+                <div class="kicker">Featured · {formatDate(post.data.pubDate)}</div>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </div>
+            </a>
+          ) : (
+            <a class="compact-note" href={`/chronicle/${chroniclePublicSlug(post)}/`}>
+              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+            </a>
+          ))}
+        </section>
+
+        <section class="rail-section follow-section">
+          <h2 class="eyebrow">Follow floci</h2>
+          <div class="socials">
+            <a href="https://github.com/floci-io" target="_blank" rel="noopener noreferrer" aria-label="Follow floci on GitHub">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16,2.345c7.735,0,14,6.265,14,14-.002,6.015-3.839,11.359-9.537,13.282-.7,.14-.963-.298-.963-.665,0-.473,.018-1.978,.018-3.85,0-1.312-.437-2.152-.945-2.59,3.115-.35,6.388-1.54,6.388-6.912,0-1.54-.543-2.783-1.435-3.762,.14-.35,.63-1.785-.14-3.71,0,0-1.173-.385-3.85,1.435-1.12-.315-2.31-.472-3.5-.472s-2.38,.157-3.5,.472c-2.677-1.802-3.85-1.435-3.85-1.435-.77,1.925-.28,3.36-.14,3.71-.892,.98-1.435,2.24-1.435,3.762,0,5.355,3.255,6.563,6.37,6.913-.403,.35-.77,.963-.893,1.872-.805,.368-2.818,.963-4.077-1.155-.263-.42-1.05-1.452-2.152-1.435-1.173,.018-.472,.665,.017,.927,.595,.332,1.277,1.575,1.435,1.978,.28,.787,1.19,2.293,4.707,1.645,0,1.173,.018,2.275,.018,2.607,0,.368-.263,.787-.963,.665-5.719-1.904-9.576-7.255-9.573-13.283,0-7.735,6.265-14,14-14Z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/floci" target="_blank" rel="noopener noreferrer" aria-label="Follow floci on LinkedIn">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path fill-rule="evenodd" d="M26.111,3H5.889c-1.595,0-2.889,1.293-2.889,2.889V26.111c0,1.595,1.293,2.889,2.889,2.889H26.111c1.595,0,2.889-1.293,2.889-2.889V5.889c0-1.595-1.293-2.889-2.889-2.889ZM10.861,25.389h-3.877V12.87h3.877v12.519Zm-1.957-14.158c-1.267,0-2.293-1.034-2.293-2.31s1.026-2.31,2.293-2.31,2.292,1.034,2.292,2.31-1.026,2.31-2.292,2.31Zm16.485,14.158h-3.858v-6.571c0-1.802-.685-2.809-2.111-2.809-1.551,0-2.362,1.048-2.362,2.809v6.571h-3.718V12.87h3.718v1.686s1.118-2.069,3.775-2.069,4.556,1.621,4.556,4.975v7.926Z"/></svg>
+            </a>
+            <a href="https://x.com/floci_io" target="_blank" rel="noopener noreferrer" aria-label="Follow floci on X">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M18.42,14.009L27.891,3h-2.244l-8.224,9.559L10.855,3H3.28l9.932,14.455L3.28,29h2.244l8.684-10.095,6.936,10.095h7.576l-10.301-14.991h0Zm-3.074,3.573l-1.006-1.439L6.333,4.69h3.447l6.462,9.243,1.006,1.439,8.4,12.015h-3.447l-6.854-9.804h0Z"/></svg>
+            </a>
+            <a href="https://bsky.app/profile/floci.io" target="_blank" rel="noopener noreferrer" aria-label="Follow floci on Bluesky">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M23.931,5.298c-3.21,2.418-6.663,7.32-7.931,9.951-1.267-2.631-4.721-7.533-7.931-9.951-2.316-1.744-6.069-3.094-6.069,1.201,0,.857,.49,7.206,.778,8.237,.999,3.583,4.641,4.497,7.881,3.944-5.663,.967-7.103,4.169-3.992,7.372,5.908,6.083,8.492-1.526,9.154-3.476,.123-.36,.179-.527,.179-.379,0-.148,.057,.019,.179,.379,.662,1.949,3.245,9.558,9.154,3.476,3.111-3.203,1.671-6.405-3.992-7.372,3.24,.553,6.882-.361,7.881-3.944,.288-1.031,.778-7.38,.778-8.237,0-4.295-3.753-2.945-6.069-1.201Z"/></svg>
+            </a>
+            <a href="https://join.slack.com/t/floci/shared_invite/zt-3tjn02s3q-A00kEjJ1cZxsg_imTfy6Cw" target="_blank" rel="noopener noreferrer" aria-label="Join the floci Slack">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8.463,19.43c0,1.503-1.228,2.731-2.731,2.731s-2.731-1.228-2.731-2.731,1.228-2.731,2.731-2.731h2.731v2.731Z"/><path d="M9.839,19.43c0-1.503,1.228-2.731,2.731-2.731s2.731,1.228,2.731,2.731v6.839c0,1.503-1.228,2.731-2.731,2.731s-2.731-1.228-2.731-2.731v-6.839Z"/><path d="M12.57,8.463c-1.503,0-2.731-1.228-2.731-2.731s1.228-2.731,2.731-2.731,2.731,1.228,2.731,2.731v2.731h-2.731Z"/><path d="M12.57,9.839c1.503,0,2.731,1.228,2.731,2.731s-1.228,2.731-2.731,2.731H5.731c-1.503,0-2.731-1.228-2.731-2.731s1.228-2.731,2.731-2.731h6.839Z"/><path d="M23.537,12.57c0-1.503,1.228-2.731,2.731-2.731s2.731,1.228,2.731,2.731-1.228,2.731-2.731,2.731h-2.731v-2.731Z"/><path d="M22.161,12.57c0,1.503-1.228,2.731-2.731,2.731s-2.731-1.228-2.731-2.731V5.731c0-1.503,1.228-2.731,2.731-2.731s2.731,1.228,2.731,2.731v6.839Z"/><path d="M19.43,23.537c1.503,0,2.731,1.228,2.731,2.731s-1.228,2.731-2.731,2.731-2.731-1.228-2.731-2.731v-2.731h2.731Z"/><path d="M19.43,22.161c-1.503,0-2.731-1.228-2.731-2.731s1.228-2.731,2.731-2.731h6.839c1.503,0,2.731,1.228,2.731,2.731s-1.228,2.731-2.731,2.731h-6.839Z"/></svg>
+            </a>
+          </div>
+        </section>
+      </aside>
+
+      <section class="news-section" aria-label="Chronicle stories" tabindex="0">
+        <div class="section-heading">
+          <h2 class="eyebrow">Chronicle</h2>
+          <a class="rss-link" href="/rss.xml" aria-label="Subscribe to the floci Chronicle RSS feed" title="Subscribe via RSS">
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        {featured && (
+          <a class="main-feature" href={`/chronicle/${chroniclePublicSlug(featured)}/`}>
+            <div
+              class="cloud-art"
+              aria-hidden="true"
+              style={featured.data.heroImage
+                ? `background-image: linear-gradient(90deg, rgba(7,23,22,.04), rgba(7,23,22,.34)), url('${featured.data.heroImage}')`
+                : undefined}
+            ></div>
+            <div class="feature-panel">
+              <div class="kicker">Featured · {formatDate(featured.data.pubDate)}</div>
+              <h2>{featured.data.title}</h2>
+              <p>{featured.data.description}</p>
+            </div>
+          </a>
+        )}
+
+        <div class="dispatch-list">
+          {dispatches.map(post => (
+            <a class="dispatch" href={`/chronicle/${chroniclePublicSlug(post)}/`}>
+              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              <div>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <aside class="right-rail" aria-label="Videos" tabindex="0">
+        <section class="rail-section videos-section">
+          <h2 class="eyebrow">Videos</h2>
+          <div class="video-list">
+            {videos.map(video => (
+              <a class="video-card" href={video.url} target="_blank" rel="noopener noreferrer">
+                <div class="video-thumb">
+                  <img src={`/chronicle/videos/${video.id}.jpg`} alt="" loading="lazy" />
+                  <span aria-hidden="true">▶</span>
+                </div>
+                <h3>{video.title}</h3>
+                <time datetime={video.pubDate.toISOString()}>{formatDate(video.pubDate)}</time>
+              </a>
+            ))}
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  :global(html.light) {
+    --bg: #dfdfc1;
+    --bg2: #d5d4b6;
+    --bg3: #cbcbae;
+    --border: #a6a687;
+    --border-bright: #77795f;
+    --text: #080a08;
+    --text-muted: #252a24;
+    --text-dim: #30362e;
+    --nav-bg: rgba(223, 223, 193, .92);
+  }
+  :global(body) { background: var(--bg); }
+  .chronicle-shell {
+    --rule: rgba(148, 163, 184, .2); --rail-marker: #dcece4;
+    padding-top: 60px; min-height: 100vh;
+  }
+  :global(html.light) .chronicle-shell { --rule: rgba(42, 48, 39, .34); --rail-marker: #000; }
+  .chronicle-grid {
+    display: grid; grid-template-columns: minmax(280px, 320px) minmax(480px, 720px) minmax(210px, 256px);
+    max-width: 1340px; margin: 0 auto; min-height: 900px;
+  }
+  .left-rail, .news-section, .right-rail {
+    position: relative; min-width: 0; padding: 26px 22px 72px;
+    background-image:
+      linear-gradient(var(--rail-marker), var(--rail-marker)),
+      repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px);
+    background-repeat: no-repeat;
+    background-size: 3px 72px, 1px 100%;
+    background-position: right var(--rail-marker-y, 26px), right top;
+  }
+  .left-rail {
+    background-image:
+      linear-gradient(var(--rail-marker), var(--rail-marker)),
+      repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px),
+      repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px);
+    background-size: 3px 72px, 1px 100%, 1px 100%;
+    background-position: right var(--rail-marker-y, 26px), left top, right top;
+  }
+  .eyebrow { font-family: var(--mono); font-size: 12px; line-height: 1; letter-spacing: 2.2px; text-transform: uppercase; color: var(--text-muted); margin: 0 0 22px; }
+  .section-heading { display: flex; align-items: start; justify-content: space-between; }
+  .rss-link {
+    width: 36px; height: 36px; margin-top: -8px;
+    color: var(--text-muted); display: grid; place-items: center;
+    transition: color .2s;
+  }
+  .rss-link span {
+    width: 20px; height: 20px; background: currentColor;
+    -webkit-mask: url('/chronicle/rss.svg') center / contain no-repeat;
+    mask: url('/chronicle/rss.svg') center / contain no-repeat;
+  }
+  .rss-link:hover { color: var(--accent); }
+  .rail-section + .rail-section { margin-top: 42px; padding-top: 28px; border-top: 1px solid var(--rule); }
+  a { text-decoration: none; }
+  .cloud-art {
+    position: absolute; inset: 0; overflow: hidden;
+    background-position: center 48%; background-size: cover;
+  }
+  .main-feature .cloud-art {
+    background-image: linear-gradient(90deg, rgba(7,23,22,.04), rgba(7,23,22,.34)), url('/chronicle/chronicle-cloud-war.webp');
+    background-position: 42% center;
+  }
+  .cloud-art-small {
+    background-image: linear-gradient(90deg, rgba(7,23,22,.06), rgba(7,23,22,.38)), url('/chronicle/notes-cloud-war.webp');
+    background-color: #11201e;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: auto 82%;
+  }
+  .main-feature { position: relative; display: block; height: 360px; overflow: hidden; color: var(--text); }
+  .feature-panel { position: absolute; z-index: 2; right: 0; bottom: 0; width: 62%; padding: 26px; background: #17231f; color: #f8fafc; }
+  .kicker { font-family: var(--mono); color: #a4a793; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
+  .feature-panel h2, .feature-panel h3, .dispatch h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -1px; line-height: 1.08; }
+  .feature-panel h2 { font-size: clamp(22px, 2vw, 30px); margin: 0 0 12px; }
+  .feature-panel h3 { font-size: 16px; margin: 0 0 12px; }
+  .feature-panel p { color: #d5d7bd; font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .main-feature:hover .feature-panel h2, .note-feature:hover h3, .compact-note:hover h3, .dispatch:hover h3, .video-card:hover h3 { color: var(--accent); }
+  .note-feature { display: block; position: relative; height: 310px; overflow: hidden; color: var(--text); }
+  .note-feature .feature-panel { width: 100%; padding: 18px 20px; }
+  .note-feature .feature-panel p { display: none; }
+  .compact-note { display: block; color: var(--text); padding: 22px 0; border-bottom: 1px solid var(--rule); }
+  .compact-note time, .dispatch time { font-family: var(--mono); color: var(--text-dim); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .compact-note h3 { font-size: 16px; line-height: 1.3; margin: 8px 0; }
+  .compact-note p { color: var(--text-muted); font-size: 12px; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .socials { display: flex; gap: 12px; }
+  .socials a { width: 36px; height: 36px; border: 1px solid var(--border-bright); color: var(--text-muted); display: grid; place-items: center; transition: color .2s, border-color .2s; }
+  .socials svg { width: 20px; height: 20px; fill: currentColor; }
+  .socials a:hover { color: var(--accent); border-color: var(--accent); }
+  .dispatch-list { margin-top: 34px; }
+  .dispatch { display: grid; grid-template-columns: 29% 1fr; gap: 28px; color: var(--text); padding: 28px 12px; border-bottom: 1px solid var(--rule); }
+  .dispatch time { text-align: right; padding-top: 7px; }
+  .dispatch h3 { font-size: clamp(20px, 2.2vw, 30px); margin-bottom: 10px; }
+  .dispatch p { color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+  .video-list { display: grid; gap: 28px; }
+  .video-card { color: var(--text); display: block; }
+  .video-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; margin-bottom: 12px; background: var(--bg2); }
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.75) contrast(1.05); transition: transform .3s, filter .3s; }
+  .video-thumb span { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%,-50%); width: 38px; height: 38px; display: grid; place-items: center; padding-left: 2px; border-radius: 50%; background: rgba(7,11,20,.86); color: white; font-size: 12px; }
+  .video-card:hover img { transform: scale(1.03); filter: saturate(1); }
+  .video-card h3 { font-size: 14px; line-height: 1.45; font-weight: 500; }
+  .video-card time { display: block; font-family: var(--mono); color: var(--text-dim); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px; }
+  @media (min-width: 1101px) {
+    .chronicle-shell { height: 100vh; overflow: hidden; }
+    .chronicle-grid { height: calc(100vh - 60px); min-height: 0; }
+    .left-rail, .news-section, .right-rail {
+      overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
+    }
+    .left-rail { padding-bottom: 0; }
+    .follow-section {
+      position: sticky; z-index: 3; bottom: 0;
+      margin: 42px -22px 0; padding: 28px 22px 26px;
+      background: var(--bg);
+    }
+    .left-rail:focus-visible,
+    .news-section:focus-visible,
+    .right-rail:focus-visible { outline: 1px solid var(--rail-marker); outline-offset: -1px; }
+    .left-rail::-webkit-scrollbar,
+    .news-section::-webkit-scrollbar,
+    .right-rail::-webkit-scrollbar { display: none; }
+  }
+  @media (max-width: 1100px) {
+    .chronicle-grid { grid-template-columns: 320px minmax(0, 1fr); }
+    .right-rail { grid-column: 1 / -1; }
+    .videos-section .video-list { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .chronicle-grid { display: flex; flex-direction: column; }
+    .left-rail, .news-section, .right-rail { padding: 28px 20px 52px; background-image: none; border-bottom: 1px dashed var(--rule); }
+    .news-section { order: -1; }
+    .main-feature { height: 390px; }
+    .main-feature .feature-panel { width: 90%; }
+    .dispatch { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
+    .dispatch time { text-align: left; }
+    .videos-section .video-list { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 440px) {
+    .main-feature { height: 380px; }
+    .main-feature .feature-panel { width: 100%; padding: 22px; }
+    .videos-section .video-list { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const rails = document.querySelectorAll<HTMLElement>('.left-rail, .news-section, .right-rail');
+  const markerHeight = 72;
+  const trackInset = 26;
+
+  function updateRailMarker(rail: HTMLElement) {
+    const scrollRange = Math.max(1, rail.scrollHeight - rail.clientHeight);
+    const progress = Math.min(1, Math.max(0, rail.scrollTop / scrollRange));
+    const travel = Math.max(0, rail.clientHeight - markerHeight - trackInset * 2);
+    rail.style.setProperty('--rail-marker-y', `${Math.round(trackInset + progress * travel)}px`);
+  }
+
+  function updateRailMarkers() {
+    rails.forEach(updateRailMarker);
+  }
+
+  rails.forEach((rail) => {
+    rail.addEventListener('scroll', () => updateRailMarker(rail), { passive: true });
+  });
+  updateRailMarkers();
+  window.addEventListener('resize', updateRailMarkers);
+</script>

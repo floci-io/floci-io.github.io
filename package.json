@@ -2,14 +2,17 @@
   "name": "floci-website",
   "version": "1.0.0",
   "scripts": {
+    "add:video": "node scripts/add-chronicle-video.mjs",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.9",
+    "@astrojs/rss": "^4.0.19",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^4.16.0",
+    "mermaid": "^11.17.2",
     "satori": "^0.26.0"
   },
   "devDependencies": {
