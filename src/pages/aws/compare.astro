@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
+import HeroEyebrow from '../../components/HeroEyebrow.astro';
 import SectionNav from '../../components/SectionNav.astro';
 import Footer from '../../components/Footer.astro';
 import { SERVICE_COUNTS } from '../../data/services';
@@ -14,7 +15,7 @@ const sectionLinks = [
 ---
 
 <Layout
-  title="Floci vs LocalStack — Feature Comparison"
+  title="Floci vs LocalStack: Feature Comparison"
   description="Floci vs LocalStack Community: full feature comparison. LocalStack required an auth token starting March 2026 and froze security updates. Floci is the MIT-licensed, no-auth, drop-in replacement."
   canonical="https://floci.io/aws/compare/"
   ogImage="https://floci.io/og/compare.png"
@@ -27,7 +28,7 @@ const sectionLinks = [
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
 
-    <div class="badge">LocalStack sunset March 2026 · Floci is the free alternative</div>
+    <HeroEyebrow cloud="aws">LocalStack sunset March 2026 · Floci is the free alternative</HeroEyebrow>
 
     <h1>Floci vs <span class="indigo">LocalStack</span></h1>
     <p class="hero-sub">LocalStack's community edition required an auth token starting March 2026 and froze security updates. Floci is the MIT-licensed, no-auth, drop-in replacement.</p>
@@ -149,7 +150,7 @@ const sectionLinks = [
             <tr><td>Native binary</td><td class="check">✓ ~40 MB</td><td class="cross">✗ JVM only</td></tr>
 
             <tr class="group-header"><td colspan="3">Compute Services</td></tr>
-            <tr><td>Lambda (Docker runtimes)</td><td class="check">✓ Full — real containers</td><td class="warn">✓ Partial</td></tr>
+            <tr><td>Lambda (Docker runtimes)</td><td class="check">✓ Full: real containers</td><td class="warn">✓ Partial</td></tr>
             <tr><td>ECS (clusters, services, tasks)</td><td class="check">✓ Real Docker tasks</td><td class="cross">✗ Not available</td></tr>
             <tr><td>EKS (clusters + real k3s)</td><td class="check">✓ Live k8s API</td><td class="cross">✗ Not available</td></tr>
             <tr><td>EC2 (Docker + IMDS + SSH + UserData)</td><td class="check">✓ Real containers</td><td class="cross">✗ Not available</td></tr>
@@ -279,8 +280,8 @@ const sectionLinks = [
 
       <div class="migration-banner reveal" style="transition-delay:0.1s">
         <h3>Already using LocalStack? Switch in 30 seconds.</h3>
-        <div class="code-block" style="margin-top:24px;font-size:13px;line-height:1.9"><pre
-><span class="comment"># docker-compose.yml — only one line changes</span>
+        <div class="code-block" style="margin-top:24px"><pre
+><span class="comment"># docker-compose.yml: only one line changes</span>
 <span class="cmd">services:
   localstack:          <span class="comment"># rename optional</span>
     image: <span class="acc">floci/floci:latest</span>   <span class="comment"># ← was: localstack/localstack</span>
@@ -312,8 +313,6 @@ const sectionLinks = [
   .hero { min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 140px 2rem 80px; position: relative; overflow: hidden; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(57,73,171,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(57,73,171,0.08) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
   .hero-glow { position: absolute; width: 800px; height: 400px; background: radial-gradient(ellipse at center, rgba(85,89,167,0.14), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
-  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(122,127,214,0.1); border: 1px solid rgba(122,127,214,0.28); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeSlideUp 0.6s ease both; }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-warm); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
   @keyframes fadeSlideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeSlideUp 0.6s 0.1s ease both; }
@@ -387,12 +386,6 @@ const sectionLinks = [
   .migration-banner { background: rgba(85,89,167,0.06); border: 1px solid rgba(122,127,214,0.2); border-radius: 12px; padding: 40px; margin-top: 60px; }
   .migration-banner h3 { font-size: 26px; font-weight: 800; margin-bottom: 16px; }
   .migration-note { color: var(--text-muted); font-size: 15px; margin-top: 20px; }
-  .code-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; font-family: var(--mono); font-size: 14px; line-height: 1.7; overflow-x: auto; }
-  .code-block pre { margin: 0; padding: 0; font: inherit; color: inherit; white-space: pre; background: none; border: none; overflow: visible; line-height: inherit; }
-  .code-block .comment { color: var(--text-dim); }
-  .code-block .cmd { color: var(--text); }
-  .code-block .acc { color: var(--accent); }
-  .code-block .str { color: #f97316; }
 </style>
 
 <script>

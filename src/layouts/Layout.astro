@@ -126,18 +126,82 @@ const schemas = [
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
 
-  .code-block, .install-block { position: relative; }
-  .copy-btn {
-    position: absolute; top: 10px; right: 10px;
-    background: var(--bg3); border: 1px solid var(--border);
-    color: var(--text-dim); font-family: var(--mono); font-size: 11px;
-    padding: 4px 10px; border-radius: 5px; cursor: pointer;
-    transition: color 0.15s, border-color 0.15s, opacity 0.15s;
-    opacity: 0; pointer-events: none;
+  /* ---- Terminal code blocks: one look everywhere, dark in both themes ---- */
+  :root {
+    --term-bg: #0d1117; --term-bar: #161b22; --term-border: #30363d;
+    --term-text: #e6edf3; --term-dim: #8b949e; --term-acc: #a5a9f0; --term-str: #a5d6a7;
+    --term-shadow: none;
   }
-  .code-block:hover .copy-btn, .install-block:hover .copy-btn,
-  .copy-btn:focus { opacity: 1; pointer-events: auto; }
-  .copy-btn:hover { color: var(--text); border-color: var(--border-bright); }
+  html.light { --term-border: #1f2937; --term-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); }
+
+  .code-block, .install-block {
+    position: relative; overflow: hidden;
+    background: var(--term-bg); color: var(--term-text);
+    border: 1px solid var(--term-border); border-radius: 10px; box-shadow: var(--term-shadow);
+    padding: 18px 20px; font-family: var(--mono); font-size: 13px; line-height: 1.75;
+    text-align: left;
+  }
+  .code-block pre {
+    margin: 0; padding: 0; background: none; border: none; border-radius: 0;
+    font: inherit; color: inherit; white-space: pre; overflow-x: auto;
+  }
+  .code-block pre code { font: inherit; color: inherit; background: none; padding: 0; }
+
+  /* Window bar with the three terminal dots; the language label comes from data-lang. */
+  .code-block:not(.tabbed) { padding-top: 54px; }
+  .code-block:not(.tabbed)::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 36px;
+    background:
+      radial-gradient(circle, #ff5f57 5px, transparent 5.5px) 12px 50% / 18px 18px no-repeat,
+      radial-gradient(circle, #febc2e 5px, transparent 5.5px) 30px 50% / 18px 18px no-repeat,
+      radial-gradient(circle, #28c840 5px, transparent 5.5px) 48px 50% / 18px 18px no-repeat,
+      var(--term-bar);
+    border-bottom: 1px solid var(--term-border);
+  }
+  .code-block[data-lang]:not(.tabbed)::after {
+    content: attr(data-lang); position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    height: 36px; display: flex; align-items: center;
+    font-size: 11px; letter-spacing: 0.08em; color: var(--term-dim);
+  }
+
+  /* Tabs act as the window bar for tabbed blocks. */
+  .code-tabs, .install-tabs {
+    display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+    background: var(--term-bar); border: 1px solid var(--term-border); border-bottom: none;
+    border-radius: 10px 10px 0 0;
+  }
+  .code-tabs::-webkit-scrollbar, .install-tabs::-webkit-scrollbar { display: none; }
+  /* The home install picker has many tabs; wrap them instead of hiding some off the edge. */
+  .install-tabs { flex-wrap: wrap; overflow: visible; }
+  .code-tab, .install-tab {
+    display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+    padding: 10px 16px; border: none; background: transparent; cursor: pointer;
+    font-family: var(--mono); font-size: 12px; color: var(--term-dim);
+    box-shadow: inset 0 -1px 0 var(--term-border); transition: color 0.15s, box-shadow 0.15s;
+  }
+  .code-tab:hover, .install-tab:hover { color: var(--term-text); }
+  .code-tab.active, .install-tab.active { color: var(--term-text); box-shadow: inset 0 -2px 0 var(--accent-warm); }
+  .code-tab:focus-visible, .install-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .code-block.tabbed, .code-tabs + .code-block, .install-tabs ~ .install-block {
+    margin-top: 0; border-top: none; border-radius: 0 0 10px 10px;
+  }
+
+  .code-block .cmd, .install-block .cmd { color: var(--term-text); }
+  .code-block .comment, .install-block .comment { color: var(--term-dim); }
+  .code-block .acc, .install-block .acc, .code-block .val, .install-block .val { color: var(--term-acc); }
+  .code-block .str, .install-block .str { color: var(--term-str); }
+
+  .copy-btn {
+    position: absolute; top: 6px; right: 8px; z-index: 1;
+    background: transparent; border: 1px solid var(--term-border);
+    color: var(--term-dim); font-family: var(--mono); font-size: 11px;
+    padding: 3px 10px; border-radius: 5px; cursor: pointer;
+    opacity: 0.75; transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+  .code-block.tabbed .copy-btn, .install-block .copy-btn { top: 10px; background: var(--term-bg); }
+  .code-block:hover .copy-btn, .install-block:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
+  .copy-btn:hover { color: var(--term-text); border-color: var(--term-dim); }
+  .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .copy-btn.copied { color: var(--green); border-color: var(--green); opacity: 1; pointer-events: none; }
   .skip-link {
     position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;

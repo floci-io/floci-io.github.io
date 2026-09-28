@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import sponsorsData from '../data/sponsors.json';
-import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data/services';
+import { SERVICE_COUNTS, OUTCOME_MESSAGES } from '../data/services';
 ---
 
 <Layout
-  title="Floci — Local Cloud Emulators"
-  description="Floci runs AWS, Azure, GCP, and OCI locally in milliseconds: a fast, free, credential-free feedback loop for developers and AI coding agents. MIT licensed. No account, no auth token."
+  title="Floci: Any cloud. Locally. The local cloud for AI agents"
+  description="Floci is the local cloud for AI coding agents: AWS, Azure, GCP, and OCI emulators that start in milliseconds, so agents build and test against a real-shaped cloud with no credentials and no bill. MIT licensed. No account, no auth token."
   canonical="https://floci.io"
   ogImage="https://floci.io/og/home.png"
 >
@@ -17,7 +17,7 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
   <!-- HERO -->
   <section class="hero" id="main-content">
     <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
 
     <div class="hero-logo-wrap">
       <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci" role="img">
@@ -36,211 +36,18 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
       </svg>
     </div>
 
-    <h1><span class="accent">Any cloud.</span><br>Locally.</h1>
+    <!-- The slogan is the real heading; the other lines rotate in visually only. -->
+    <h1 class="hero-title" aria-label="Any cloud. Locally.">
+      <span class="hero-slide is-active" aria-hidden="true"><span class="accent">Any cloud.</span><br>Locally.</span>
+      <span class="hero-slide" aria-hidden="true">The local cloud<br><span class="accent">for AI agents.</span></span>
+    </h1>
     <p class="hero-sub">
-      Run AWS, Azure, GCP, and OCI locally in milliseconds: the fast, credential-free loop your team and its AI agents need to ship faster.
+      AWS, Azure, GCP and OCI emulators that start in 24 ms. Give your coding agents a real cloud to build and test against: no credentials, no bill, no blast radius.
     </p>
     <div class="hero-actions">
-      <a href="#install" class="btn-primary">Get started ↓</a>
-      <a href="#ai" class="btn-ghost">For AI agents ↓</a>
+      <a href="#ai" class="btn-primary">Set up your agent ↓</a>
+      <a href="#install" class="btn-ghost">Get started ↓</a>
       <a href="https://github.com/floci-io" class="btn-ghost" target="_blank">★ GitHub<span id="ghHeroStars"></span></a>
-    </div>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section id="products" style="background:var(--bg2)">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">Cloud Emulators</div>
-        <h2>Pick your cloud. Start instantly.</h2>
-        <p class="section-desc">Each emulator is a standalone MIT-licensed binary. No auth tokens, no feature gates, no cloud account needed.</p>
-      </div>
-
-      <div class="emulators-grid reveal" style="transition-delay:0.1s">
-        <!-- floci — AWS -->
-        <div class="ecard">
-          <div class="ecard-head aws">
-            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <g style="isolation:isolate"><g style="isolation:isolate">
-                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
-                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
-                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
-                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
-              </g></g>
-              <g>
-                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
-                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-                <ellipse class="floci-dot aws" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-                <ellipse class="floci-dot aws" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
-              </g>
-            </svg>
-            <span class="cloud-badge aws">AWS</span>
-          </div>
-          <div class="ecard-body">
-            <div class="ecard-name">floci</div>
-            <p class="ecard-desc">Drop-in replacement for LocalStack. Same port 4566, {SERVICE_COUNTS.aws} services, native binary. Switch with zero code changes.</p>
-            <div class="ecard-stats">
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">4566</span>
-                <div class="ecard-stat-lbl">port</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">{SERVICE_COUNTS.aws}</span>
-                <div class="ecard-stat-lbl">services</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">24 ms</span>
-                <div class="ecard-stat-lbl">startup</div>
-              </div>
-            </div>
-            <div class="ecard-chips">
-              {CARD_CHIPS.aws.map((s) => <span>{s}</span>)}<span>{moreLabel('aws', CARD_CHIPS.aws)}</span>
-            </div>
-            <div class="ecard-foot">
-              <a href="/aws/" class="ecard-cta">Learn more →</a>
-              <a href="https://github.com/floci-io/floci" class="ecard-gh" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- floci-az — Azure -->
-        <div class="ecard">
-          <div class="ecard-head az">
-            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <g style="isolation:isolate"><g style="isolation:isolate">
-                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
-                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
-                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
-                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
-              </g></g>
-              <g>
-                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
-                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-                <ellipse class="floci-dot az" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-                <ellipse class="floci-dot az" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
-              </g>
-            </svg>
-            <span class="cloud-badge az">Azure</span>
-          </div>
-          <div class="ecard-body">
-            <div class="ecard-name">floci-az</div>
-            <p class="ecard-desc">Covers Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs and Service Bus. Native speed, MIT license, no Azure account needed.</p>
-            <div class="ecard-stats">
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">4577</span>
-                <div class="ecard-stat-lbl">port</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">{SERVICE_COUNTS.azure}</span>
-                <div class="ecard-stat-lbl">services</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">13 MiB</span>
-                <div class="ecard-stat-lbl">idle memory</div>
-              </div>
-            </div>
-            <div class="ecard-chips">
-              {CARD_CHIPS.azure.map((s) => <span>{s}</span>)}<span>{moreLabel('azure', CARD_CHIPS.azure)}</span>
-            </div>
-            <div class="ecard-foot">
-              <a href="/az/" class="ecard-cta">Learn more →</a>
-              <a href="https://github.com/floci-io/floci-az" class="ecard-gh" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- floci-gcp -->
-        <div class="ecard">
-          <div class="ecard-head gcp">
-            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <g style="isolation:isolate"><g style="isolation:isolate">
-                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
-                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
-                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
-                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
-              </g></g>
-              <g>
-                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
-                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-                <ellipse class="floci-dot gcp" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-                <ellipse class="floci-dot gcp" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
-              </g>
-            </svg>
-            <span class="cloud-badge gcp">GCP</span>
-          </div>
-          <div class="ecard-body">
-            <div class="ecard-name">floci-gcp</div>
-            <p class="ecard-desc">Covers GCS, Pub/Sub, Firestore, Cloud Run, Cloud SQL, GKE and more. All {SERVICE_COUNTS.gcp} services on one port, native binary. MIT license, no GCP account needed.</p>
-            <div class="ecard-stats">
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">4588</span>
-                <div class="ecard-stat-lbl">port</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">{SERVICE_COUNTS.gcp}</span>
-                <div class="ecard-stat-lbl">services</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">MIT</span>
-                <div class="ecard-stat-lbl">license</div>
-              </div>
-            </div>
-            <div class="ecard-chips">
-              {CARD_CHIPS.gcp.map((s) => <span>{s}</span>)}<span>{moreLabel('gcp', CARD_CHIPS.gcp)}</span>
-            </div>
-            <div class="ecard-foot">
-              <a href="/gcp/" class="ecard-cta">Learn more →</a>
-              <a href="https://github.com/floci-io/floci-gcp" class="ecard-gh" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- floci-oci -->
-        <div class="ecard">
-          <div class="ecard-head oci">
-            <svg class="ecard-cloud-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <g style="isolation:isolate"><g style="isolation:isolate">
-                <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
-                <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
-                <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
-                <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
-              </g></g>
-              <g>
-                <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
-                <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-                <ellipse class="floci-dot oci" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-                <ellipse class="floci-dot oci" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
-              </g>
-            </svg>
-            <span class="cloud-badge oci">OCI</span>
-          </div>
-          <div class="ecard-body">
-            <div class="ecard-name">floci-oci</div>
-            <p class="ecard-desc">Covers Object Storage, Identity, Queue, Streaming, KMS, Vault and Functions. All {SERVICE_COUNTS.oci} services on one port. MIT license, no Oracle Cloud account needed.</p>
-            <div class="ecard-stats">
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">4599</span>
-                <div class="ecard-stat-lbl">port</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">{SERVICE_COUNTS.oci}</span>
-                <div class="ecard-stat-lbl">services</div>
-              </div>
-              <div class="ecard-stat">
-                <span class="ecard-stat-val">MIT</span>
-                <div class="ecard-stat-lbl">license</div>
-              </div>
-            </div>
-            <div class="ecard-chips">
-              {CARD_CHIPS.oci.map((s) => <span>{s}</span>)}<span>{moreLabel('oci', CARD_CHIPS.oci)}</span>
-            </div>
-            <div class="ecard-foot">
-              <a href="/oci/" class="ecard-cta">Learn more →</a>
-              <a href="https://github.com/floci-io/floci-oci" class="ecard-gh" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -248,12 +55,61 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
   <section id="ai">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">Built for AI-assisted development</div>
+        <div class="section-label">Built for AI coding agents</div>
         <h2>Give your AI agents a cloud they can't break.</h2>
         <p class="section-desc">Coding agents write cloud code faster than ever, but they can't safely run it against a real account. Point them at Floci instead: a local cloud to build, run, and verify against. Instant, free, and credential-free.</p>
       </div>
 
-      <div class="why-grid reveal" style="transition-delay:0.1s">
+      <div class="agent-grid reveal" style="transition-delay:0.1s">
+        <div class="agent-loop">
+          <h3 class="agent-title">The agent loop, on any cloud</h3>
+          <div class="code-tabs" id="agentTabs" role="tablist" aria-label="Cloud">
+            <button class="code-tab cloud-aws active" data-agent="aws" role="tab" aria-selected="true"><span class="tab-dot" aria-hidden="true"></span>AWS</button>
+            <button class="code-tab cloud-az" data-agent="az" role="tab" aria-selected="false"><span class="tab-dot" aria-hidden="true"></span>Azure</button>
+            <button class="code-tab cloud-gcp" data-agent="gcp" role="tab" aria-selected="false"><span class="tab-dot" aria-hidden="true"></span>GCP</button>
+            <button class="code-tab cloud-oci" data-agent="oci" role="tab" aria-selected="false"><span class="tab-dot" aria-hidden="true"></span>OCI</button>
+          </div>
+          <div id="agent-aws" class="code-block tabbed" data-lang="bash"><pre
+><span class="comment"># agent task: add an upload endpoint backed by S3</span>
+<span class="cmd">floci start</span>
+<span class="cmd">eval $(floci env)</span>       <span class="comment"># endpoint → :4566</span>
+<span class="cmd">aws s3 mb s3://<span class="acc">uploads</span></span>
+<span class="cmd">pytest tests/</span>           <span class="comment"># ✓ no AWS account used</span></pre></div>
+          <div id="agent-az" class="code-block tabbed" data-lang="bash" style="display:none"><pre
+><span class="comment"># agent task: store invoices in Blob Storage</span>
+<span class="cmd">floci az start</span>
+<span class="cmd">eval $(floci az env)</span>    <span class="comment"># endpoint → :4577</span>
+<span class="cmd">az storage container create --name <span class="acc">invoices</span></span>
+<span class="cmd">pytest tests/</span>           <span class="comment"># ✓ no Azure subscription used</span></pre></div>
+          <div id="agent-gcp" class="code-block tabbed" data-lang="bash" style="display:none"><pre
+><span class="comment"># agent task: publish order events to Pub/Sub</span>
+<span class="cmd">floci gcp start</span>
+<span class="cmd">eval $(floci gcp env)</span>   <span class="comment"># endpoint → :4588</span>
+<span class="cmd">gcloud pubsub topics create <span class="acc">orders</span></span>
+<span class="cmd">pytest tests/</span>           <span class="comment"># ✓ no GCP project used</span></pre></div>
+          <div id="agent-oci" class="code-block tabbed" data-lang="bash" style="display:none"><pre
+><span class="comment"># agent task: archive reports to Object Storage</span>
+<span class="cmd">floci oci start</span>
+<span class="cmd">floci oci setup</span>         <span class="comment"># throwaway profile, once</span>
+<span class="cmd">eval $(floci oci env)</span>   <span class="comment"># endpoint → :4599</span>
+<span class="cmd">oci os ns get</span>
+<span class="cmd">pytest tests/</span>           <span class="comment"># ✓ no OCI tenancy used</span></pre></div>
+        </div>
+        <div class="agent-rules">
+          <h3 class="agent-title">Teach your agent once</h3>
+          <div class="code-block" data-lang="AGENTS.md"><pre
+><span class="comment">## Local cloud (floci)</span>
+- Never run code or tests against a real cloud account. Use floci instead.
+- Start the emulator you need: <span class="acc">`floci start`</span> (AWS), <span class="acc">`floci az start`</span>, <span class="acc">`floci gcp start`</span> or <span class="acc">`floci oci start`</span>.
+- Load its endpoints before running anything: <span class="acc">`eval $(floci env)`</span> (or <span class="acc">`floci az env`</span>, <span class="acc">`floci gcp env`</span>, <span class="acc">`floci oci env`</span>).
+- State is disposable: <span class="acc">`floci stop`</span> then <span class="acc">`floci start`</span> gives you a clean cloud.</pre></div>
+          <p class="agent-caption">Paste into your repo's <code>AGENTS.md</code> or <code>CLAUDE.md</code>.</p>
+        </div>
+      </div>
+
+      <p class="agent-works reveal">Works with <strong>Claude Code</strong>, <strong>Cursor</strong>, <strong>GitHub Copilot</strong>, <strong>OpenAI Codex</strong>, <strong>Aider</strong> and <strong>Gemini CLI</strong>: anything that can run a shell command.</p>
+
+      <div class="why-grid reveal" style="transition-delay:0.2s">
         <div class="why-card" style="background:var(--accent-dim);box-shadow:inset 0 0 0 1px var(--accent)">
           <span class="why-num">0</span>
           <h3>No credentials to leak.</h3>
@@ -275,135 +131,43 @@ import { SERVICE_COUNTS, CARD_CHIPS, moreLabel, OUTCOME_MESSAGES } from '../data
           <p>Let agents iterate aggressively. Worst case, they reset a local container, not your staging environment or your cloud bill.</p>
         </div>
       </div>
-
-      <div class="reveal" style="transition-delay:0.2s;max-width:620px;margin:32px auto 0;text-align:center">
-        <div class="code-block" style="text-align:left">
-          <span class="comment"># Point any agent's tooling at Floci. No keys, no cloud account</span><br>
-          <span class="cmd">export AWS_ENDPOINT_URL=<span class="acc">http://localhost:4566</span></span><br>
-          <span class="cmd">pytest tests/</span>  <span class="comment"># runs against real-shaped S3, DynamoDB, Lambda…</span>
-        </div>
-        <p class="section-desc" style="margin:16px auto 0;font-size:15px;max-width:100%">Works with every SDK, CLI, Terraform/OpenTofu module, and test runner your agents already use, with no special integration.</p>
-      </div>
     </div>
   </section>
 
-  <!-- TOOLS -->
-  <section id="tools" style="background:var(--bg2)">
+  <!-- PRODUCTS -->
+  <section id="products" style="background:var(--bg2)">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">Developer Tools</div>
-        <h2>One toolchain. All clouds.</h2>
-        <p class="section-desc">Manage and explore every Floci emulator from a unified CLI or visual dashboard.</p>
+        <div class="section-label">Cloud Emulators</div>
+        <h2>Pick your cloud. Start instantly.</h2>
+        <p class="section-desc">Standalone MIT-licensed emulators. No account, no auth token.</p>
       </div>
 
-      <div class="tools-grid reveal" style="transition-delay:0.1s">
-        <!-- floci-cli -->
-        <div class="tool-card">
-          <div class="tool-tag">CLI</div>
-          <div class="tool-name">floci-cli</div>
-          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install covers AWS, Azure, GCP, and OCI from a single tool.</p>
-          <div class="code-block">
-            <span class="comment"># Install (macOS / Linux)</span><br>
-            <span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span><br><br>
-            <span class="comment"># Start the AWS emulator</span><br>
-            <span class="cmd">floci start</span><br><br>
-            <span class="comment"># Check your environment</span><br>
-            <span class="cmd">floci doctor</span>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:4px">
-            <a href="https://github.com/floci-io/floci-cli" class="btn-ghost" target="_blank" style="font-size:13px;padding:9px 18px">GitHub →</a>
-          </div>
-        </div>
-
-        <!-- floci-ui -->
-        <div class="tool-card">
-          <div class="tool-tag">UI</div>
-          <div class="tool-name">floci-ui</div>
-          <p class="tool-desc">A visual dashboard for all Floci cloud emulators. Browse resources, inspect data, and manage services across AWS, Azure, GCP, and OCI from one place.</p>
-          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:4px">
-            <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:14px;letter-spacing:.05em">BROWSE ALL SERVICES</div>
-            <div class="tool-features">
-              <span>S3 Browser</span>
-              <span>DynamoDB</span>
-              <span>SQS Queues</span>
-              <span>Lambda Logs</span>
-              <span>Blob Storage</span>
-              <span>Azure Queue</span>
-              <span>+ more</span>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:4px">
-            <a href="https://github.com/floci-io/floci-ui" class="btn-ghost" target="_blank" style="font-size:13px;padding:9px 18px">GitHub →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY FLOCI -->
-  <section id="why">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">Why Floci</div>
-        <h2>Built for developers who ship.</h2>
-        <p class="section-desc">No gatekeeping. No pricing tiers. No surprises. A local cloud that starts in milliseconds and works everywhere.</p>
-      </div>
-
-      <div class="why-grid reveal" style="transition-delay:0.1s">
-        <div class="why-card">
-          <span class="why-num">$0</span>
-          <h3>MIT Licensed. Forever free.</h3>
-          <p>Fork it, embed it, extend it. No "community edition" sunset, no enterprise feature flags. Every service is available to every developer, always.</p>
-        </div>
-        <div class="why-card">
-          <span class="why-num">✗</span>
-          <h3>No auth token. Ever.</h3>
-          <p>Pull the Docker image and go. No sign-ups, no API keys, no telemetry. LocalStack started requiring an auth token in March 2026. Floci never will.</p>
-        </div>
-        <div class="why-card">
-          <span class="why-num">24ms</span>
-          <h3>Native binary speed.</h3>
-          <p>Compiled with GraalVM Mandrel. Starts in 24ms, idles at 13 MiB, fast enough for inner-loop iteration. Your CI, your laptop, and your AI agents will all thank you.</p>
-        </div>
-        <div class="why-card">
-          <span class="why-num">real</span>
-          <h3>Real engines, not mocks.</h3>
-          <p>Lambda runs in real Docker containers. RDS uses real PostgreSQL/MySQL. ElastiCache runs real Redis. 100% protocol fidelity, no surprises in production.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- USE CASES -->
-  <section id="use-cases" style="background:var(--bg2)">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">Use Cases</div>
-        <h2>Where teams put Floci to work.</h2>
-        <p class="section-desc">From the inner loop to CI to the classroom — anywhere a real cloud account is too slow, too risky, or too expensive.</p>
-      </div>
-
-      <div class="uc-grid reveal" style="transition-delay:0.1s">
-        <div class="uc-card">
-          <span class="why-num">CI</span>
-          <h3>Ephemeral test environments.</h3>
-          <p>Spin up the full stack inside every pipeline job. 24 ms startup adds nothing to the build, each job gets an isolated cloud, and teardown is free.</p>
-        </div>
-        <div class="uc-card">
-          <span class="why-num">λ</span>
-          <h3>Local-first development.</h3>
-          <p>Build against S3, Pub/Sub, or Service Bus on your laptop — offline if you want. No shared dev account to trip over, no credentials to rotate.</p>
-        </div>
-        <div class="uc-card">
-          <span class="why-num">tf</span>
-          <h3>Infrastructure-as-code dry runs.</h3>
-          <p>Apply Terraform, OpenTofu, or CloudFormation against localhost first. Catch typos, drift, and bad refactors before they ever touch a real account.</p>
-        </div>
-        <div class="uc-card">
-          <span class="why-num">101</span>
-          <h3>Workshops &amp; onboarding.</h3>
-          <p>Teach cloud services with zero billing risk. Every student runs the whole stack on their own machine — no accounts to provision, nothing to clean up.</p>
-        </div>
+      <div class="cloud-cards reveal" style="transition-delay:0.1s">
+        <a href="/aws/" class="cloud-card cloud-aws">
+          <span class="cloud-card-top"><span class="cloud-card-dot" aria-hidden="true"></span>AWS<span class="cloud-card-arrow" aria-hidden="true">→</span></span>
+          <span class="cloud-card-name">floci</span>
+          <span class="cloud-card-desc">Drop-in LocalStack replacement.</span>
+          <span class="cloud-card-meta">{SERVICE_COUNTS.aws} services · :4566</span>
+        </a>
+        <a href="/az/" class="cloud-card cloud-az">
+          <span class="cloud-card-top"><span class="cloud-card-dot" aria-hidden="true"></span>Azure<span class="cloud-card-arrow" aria-hidden="true">→</span></span>
+          <span class="cloud-card-name">floci-az</span>
+          <span class="cloud-card-desc">Blob, Functions, Key Vault, Service Bus.</span>
+          <span class="cloud-card-meta">{SERVICE_COUNTS.azure} services · :4577</span>
+        </a>
+        <a href="/gcp/" class="cloud-card cloud-gcp">
+          <span class="cloud-card-top"><span class="cloud-card-dot" aria-hidden="true"></span>GCP<span class="cloud-card-arrow" aria-hidden="true">→</span></span>
+          <span class="cloud-card-name">floci-gcp</span>
+          <span class="cloud-card-desc">GCS, Pub/Sub, Firestore, Cloud Run.</span>
+          <span class="cloud-card-meta">{SERVICE_COUNTS.gcp} services · :4588</span>
+        </a>
+        <a href="/oci/" class="cloud-card cloud-oci">
+          <span class="cloud-card-top"><span class="cloud-card-dot" aria-hidden="true"></span>OCI<span class="cloud-card-arrow" aria-hidden="true">→</span></span>
+          <span class="cloud-card-name">floci-oci</span>
+          <span class="cloud-card-desc">Object Storage, Queue, Streaming, Vault.</span>
+          <span class="cloud-card-meta">{SERVICE_COUNTS.oci} services · :4599</span>
+        </a>
       </div>
     </div>
   </section>
@@ -524,7 +288,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
           <span class="comment"># Create a bucket &amp; upload a file</span><br>
           <span class="cmd">oci os bucket create \<br>
 &nbsp;&nbsp;--namespace-name floci-local --name my-bucket --compartment-id $TENANCY_OCID</span><br>
-          <span class="cmd">echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> &gt; hello-floci.txt</span><br>
+          <span class="cmd">echo <span class="str">"Oracle Cloud locally: no bill, no drama. 🚀"</span> &gt; hello-floci.txt</span><br>
           <span class="cmd">oci os object put \<br>
 &nbsp;&nbsp;--namespace-name floci-local --bucket-name my-bucket --file hello-floci.txt</span><br><br>
           <span class="comment"># Download it back</span><br>
@@ -552,8 +316,122 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     </div>
   </section>
 
+  <!-- TOOLS -->
+  <section id="tools" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Developer Tools</div>
+        <h2>One toolchain. All clouds.</h2>
+        <p class="section-desc">Manage and explore every Floci emulator from a unified CLI or visual dashboard.</p>
+      </div>
+
+      <div class="tools-grid reveal" style="transition-delay:0.1s">
+        <!-- floci-cli -->
+        <div class="tool-card">
+          <div class="tool-tag">CLI</div>
+          <div class="tool-name">floci-cli</div>
+          <p class="tool-desc">A unified command-line interface to start, stop, and inspect all Floci emulators. One install covers AWS, Azure, GCP, and OCI from a single tool.</p>
+          <div class="code-block">
+            <span class="comment"># Install (macOS / Linux)</span><br>
+            <span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span><br><br>
+            <span class="comment"># Start the AWS emulator</span><br>
+            <span class="cmd">floci start</span><br><br>
+            <span class="comment"># Check your environment</span><br>
+            <span class="cmd">floci doctor</span>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <a href="https://github.com/floci-io/floci-cli" class="btn-ghost" target="_blank" style="font-size:13px;padding:9px 18px">GitHub →</a>
+          </div>
+        </div>
+
+        <!-- floci-ui -->
+        <div class="tool-card">
+          <div class="tool-tag">UI</div>
+          <div class="tool-name">floci-ui</div>
+          <p class="tool-desc">A visual dashboard for all Floci cloud emulators. Browse resources, inspect data, and manage services across AWS, Azure, GCP, and OCI from one place.</p>
+          <a class="ui-shot" href="/tools/floci-ui-console.png" target="_blank" rel="noopener" aria-label="Open the floci-ui console screenshot full size">
+            <span class="ui-shot-bar" aria-hidden="true"><span class="ui-shot-url">localhost:4500/console/aws</span></span>
+            <img src="/tools/floci-ui-console.png" width="1600" height="1000" loading="lazy" decoding="async"
+              alt="floci-ui Console Home for AWS: runtime reachable, 19 active services, and a grid of services such as Compute, Storage, SQS and EventBridge with their resource counts." />
+          </a>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <a href="https://github.com/floci-io/floci-ui" class="btn-ghost" target="_blank" style="font-size:13px;padding:9px 18px">GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY FLOCI -->
+  <section id="why">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Why Floci</div>
+        <h2>Built for developers who ship.</h2>
+        <p class="section-desc">No gatekeeping. No pricing tiers. No surprises. A local cloud that starts in milliseconds and works everywhere.</p>
+      </div>
+
+      <div class="why-grid reveal" style="transition-delay:0.1s">
+        <div class="why-card">
+          <span class="why-num">$0</span>
+          <h3>MIT Licensed. Forever free.</h3>
+          <p>Fork it, embed it, extend it. No "community edition" sunset, no enterprise feature flags. Every service is available to every developer, always.</p>
+        </div>
+        <div class="why-card">
+          <span class="why-num">✗</span>
+          <h3>No auth token. Ever.</h3>
+          <p>Pull the Docker image and go. No sign-ups, no API keys, no telemetry. LocalStack started requiring an auth token in March 2026. Floci never will.</p>
+        </div>
+        <div class="why-card">
+          <span class="why-num">24ms</span>
+          <h3>Native binary speed.</h3>
+          <p>Compiled with GraalVM Mandrel. Starts in 24ms, idles at 13 MiB, fast enough for inner-loop iteration. Your CI, your laptop, and your AI agents will all thank you.</p>
+        </div>
+        <div class="why-card">
+          <span class="why-num">real</span>
+          <h3>Real engines, not mocks.</h3>
+          <p>Lambda runs in real Docker containers. RDS uses real PostgreSQL/MySQL. ElastiCache runs real Redis. 100% protocol fidelity, no surprises in production.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section id="use-cases" style="background:var(--bg2)">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Use Cases</div>
+        <h2>Where teams put Floci to work.</h2>
+        <p class="section-desc">From the inner loop to CI to the classroom: anywhere a real cloud account is too slow, too risky, or too expensive.</p>
+      </div>
+
+      <div class="uc-grid reveal" style="transition-delay:0.1s">
+        <div class="uc-card">
+          <span class="why-num">CI</span>
+          <h3>Ephemeral test environments.</h3>
+          <p>Spin up the full stack inside every pipeline job. 24 ms startup adds nothing to the build, each job gets an isolated cloud, and teardown is free.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">λ</span>
+          <h3>Local-first development.</h3>
+          <p>Build against S3, Pub/Sub, or Service Bus on your laptop, offline if you want. No shared dev account to trip over, no credentials to rotate.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">tf</span>
+          <h3>Infrastructure-as-code dry runs.</h3>
+          <p>Apply Terraform, OpenTofu, or CloudFormation against localhost first. Catch typos, drift, and bad refactors before they ever touch a real account.</p>
+        </div>
+        <div class="uc-card">
+          <span class="why-num">101</span>
+          <h3>Workshops &amp; onboarding.</h3>
+          <p>Teach cloud services with zero billing risk. Every student runs the whole stack on their own machine: no accounts to provision, nothing to clean up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SPONSORS -->
-  <section id="sponsors" style="background:var(--bg2)">
+  <section id="sponsors">
     <div class="container">
       <div class="sponsor-banner reveal">
         <div class="sponsor-aurora" aria-hidden="true"></div>
@@ -625,11 +503,8 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
 <style>
   /* LIGHT MODE OVERRIDES */
-  html.light .ecard:hover { box-shadow: 0 10px 40px rgba(57,73,171,0.12); }
   html.light .hero-grid { opacity: 0.5; }
   html.light .tool-card:hover { box-shadow: 0 4px 24px rgba(57,73,171,0.1); }
-  html.light .install-tabs { background: var(--bg3); }
-  html.light .install-block { background: var(--bg2); }
 
   /* HERO */
   .hero {
@@ -646,10 +521,54 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
   }
+  /* One colour per supported cloud; everything multi-cloud on this page reads from these. */
+  .hero, #ai, #products, .section-label {
+    --c-aws: #FF9900; --c-az: #3A9BEF; --c-gcp: #34A853; --c-oci: #F0604D;
+  }
+  :global(html.light) .hero, :global(html.light) #ai, :global(html.light) #products, :global(html.light) .section-label {
+    --c-aws: #B35900; --c-az: #0067B8; --c-gcp: #1E7E34; --c-oci: #B03A2A;
+  }
+
   .hero-glow {
-    position: absolute; width: 700px; height: 350px;
-    background: radial-gradient(ellipse at center, rgba(85,89,167,0.12), transparent 70%);
-    top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none;
+    --glow: 0.13;
+    position: absolute; width: min(900px, 100%); height: 460px;
+    top: 14%; left: 50%; transform: translateX(-50%); pointer-events: none;
+    background:
+      radial-gradient(closest-side at 28% 34%, color-mix(in srgb, #FF9900 calc(var(--glow) * 100%), transparent), transparent),
+      radial-gradient(closest-side at 72% 30%, color-mix(in srgb, #3A9BEF calc(var(--glow) * 100%), transparent), transparent),
+      radial-gradient(closest-side at 32% 72%, color-mix(in srgb, #34A853 calc(var(--glow) * 100%), transparent), transparent),
+      radial-gradient(closest-side at 70% 70%, color-mix(in srgb, #F0604D calc(var(--glow) * 100%), transparent), transparent);
+    filter: blur(40px);
+    animation: glowDrift 24s ease-in-out infinite alternate;
+  }
+  :global(html.light) .hero-glow { --glow: 0.09; }
+  @keyframes glowDrift {
+    from { transform: translateX(-50%) rotate(0deg) scale(1); }
+    to   { transform: translateX(-50%) rotate(8deg) scale(1.06); }
+  }
+
+  /* Both logo dots return to the floci indigo between each cloud colour:
+     floci → AWS → floci → Azure → floci → GCP → floci → OCI. */
+  .hero-logo-svg .floci-dot { animation: dotCycle 16s linear infinite; }
+  @keyframes dotCycle {
+    0%, 10%       { fill: var(--accent); }
+    12.5%, 22.5%  { fill: var(--c-aws); }
+    25%, 35%      { fill: var(--accent); }
+    37.5%, 47.5%  { fill: var(--c-az); }
+    50%, 60%      { fill: var(--accent); }
+    62.5%, 72.5%  { fill: var(--c-gcp); }
+    75%, 85%      { fill: var(--accent); }
+    87.5%, 97.5%  { fill: var(--c-oci); }
+    100%          { fill: var(--accent); }
+  }
+
+  .cloud-aws { --chip: var(--c-aws); }
+  .cloud-az  { --chip: var(--c-az); }
+  .cloud-gcp { --chip: var(--c-gcp); }
+  .cloud-oci { --chip: var(--c-oci); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-glow, .hero-logo-svg .floci-dot { animation: none; }
   }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
   .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 32px; }
@@ -665,24 +584,21 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   html.light .hero-logo-svg .floci-dot { fill: #5559A7; }
   html.light .hero-logo-svg { filter: drop-shadow(0 0 24px rgba(85,89,167,0.2)); }
 
-  .badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(122,127,214,0.08); border: 1px solid rgba(122,127,214,0.25);
-    border-radius: 100px; padding: 6px 16px;
-    font-size: 12px; color: var(--accent); font-family: var(--mono);
-    margin-bottom: 28px; animation: fadeUp 0.6s ease both;
-  }
-  .badge::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent-warm); flex-shrink: 0;
-    animation: pulse 2s ease-in-out infinite;
-  }
   .hero h1 {
     font-size: clamp(48px, 7.5vw, 96px); font-weight: 800;
     line-height: 1.02; letter-spacing: -3px; margin-bottom: 24px;
     animation: fadeUp 0.6s 0.1s ease both;
   }
   .hero h1 .accent { color: var(--accent); }
+  /* Headline slides share one grid cell, so swapping them never moves the layout. */
+  .hero-title { display: grid; justify-items: center; }
+  .hero-slide {
+    grid-area: 1 / 1; opacity: 0; transform: translateY(14px); filter: blur(6px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2, .7, .2, 1), filter 0.7s ease;
+    pointer-events: none;
+  }
+  .hero-slide.is-active { opacity: 1; transform: none; filter: none; pointer-events: auto; }
+  @media (prefers-reduced-motion: reduce) { .hero-slide { transition: none; } }
   .hero-sub {
     font-size: clamp(17px, 2vw, 21px); color: var(--text-muted);
     max-width: 520px; margin-bottom: 40px; font-weight: 300;
@@ -717,76 +633,7 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .cloud-pill .dot.oci { background: #C74634; box-shadow: 0 0 6px rgba(199,70,52,0.4); }
   .cloud-pill .pill-name { color: var(--text); font-weight: 700; }
   /* EMULATOR CARDS */
-  .emulators-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 24px; margin-top: 56px;
-  }
-  @media (max-width: 580px) { .emulators-grid { grid-template-columns: 1fr; } }
 
-  .ecard {
-    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
-    background: var(--bg2); display: flex; flex-direction: column;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-    position: relative;
-  }
-  .ecard:hover {
-    transform: translateY(-3px);
-    border-color: var(--border-bright);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-  }
-  .ecard-head {
-    padding: 22px 26px 18px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .ecard-cloud-svg { height: 36px; width: auto; display: block; }
-  .ecard-cloud-svg .floci-text, .ecard-cloud-svg .floci-cloud { fill: #F8FAFC; }
-  html.light .ecard-cloud-svg .floci-text { fill: #262425; }
-  html.light .ecard-cloud-svg .floci-cloud { fill: #151515; }
-  .ecard-cloud-svg .floci-dot.aws { fill: #FF9900; }
-  .ecard-cloud-svg .floci-dot.az  { fill: #0078D4; }
-  .ecard-cloud-svg .floci-dot.gcp { fill: #34A853; }
-  .ecard-cloud-svg .floci-dot.oci { fill: #C74634; }
-  .ecard-head.aws { background: linear-gradient(135deg, rgba(255,153,0,0.08) 0%, transparent 100%); }
-  .ecard-head.az  { background: linear-gradient(135deg, rgba(0,120,212,0.09) 0%, transparent 100%); }
-  .ecard-head.gcp { background: linear-gradient(135deg, rgba(52,168,83,0.08) 0%, transparent 100%); }
-  .ecard-head.oci { background: linear-gradient(135deg, rgba(199,70,52,0.08) 0%, transparent 100%); }
-  .cloud-badge {
-    font-family: var(--mono); font-size: 11px; font-weight: 700;
-    padding: 3px 10px; border-radius: 4px; letter-spacing: .06em;
-  }
-  .cloud-badge.aws { background: rgba(255,153,0,0.1); color: #FF9900; border: 1px solid rgba(255,153,0,0.25); }
-  .cloud-badge.az  { background: rgba(0,120,212,0.1); color: #0078D4; border: 1px solid rgba(0,120,212,0.25); }
-  .cloud-badge.gcp { background: rgba(52,168,83,0.1); color: #34A853; border: 1px solid rgba(52,168,83,0.25); }
-  .cloud-badge.oci { background: rgba(199,70,52,0.1); color: #C74634; border: 1px solid rgba(199,70,52,0.25); }
-  .ecard-body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-  .ecard-name { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
-  .ecard-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-  .ecard-stats { display: flex; gap: 24px; flex-wrap: wrap; }
-  .ecard-stat-val { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--accent); display: block; }
-  .ecard-stat-lbl { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
-  .ecard-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .ecard-chips span {
-    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
-    background: var(--bg3); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px;
-  }
-  .ecard-foot {
-    margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  }
-  .ecard-cta {
-    font-family: var(--mono); font-size: 13px; color: var(--accent);
-    text-decoration: none; font-weight: 700; transition: opacity 0.2s;
-  }
-  .ecard-cta::before {
-    content: ''; position: absolute; inset: 0; z-index: 1;
-  }
-  .ecard-cta:hover { opacity: 0.75; }
-  .ecard-gh {
-    font-size: 12px; color: var(--text-dim); text-decoration: none;
-    transition: color 0.2s; font-family: var(--mono);
-    position: relative; z-index: 2;
-  }
-  .ecard-gh:hover { color: var(--text-muted); }
 
   /* TOOLS */
   .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 56px; }
@@ -800,21 +647,28 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .tool-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
   .tool-name { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text); }
   .tool-desc { font-size: 15px; color: var(--text-muted); line-height: 1.65; }
-  .code-block {
-    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
-    padding: 18px 20px; font-family: var(--mono); font-size: 13px;
-    color: var(--text-muted); line-height: 2;
+  /* floci-ui screenshot in a browser frame that matches the terminal bars. */
+  .ui-shot {
+    display: block; overflow: hidden; border-radius: 10px;
+    border: 1px solid var(--term-border); background: var(--term-bg); box-shadow: var(--term-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
-  .code-block .cmd { color: var(--text); }
-  .code-block .comment { color: var(--text-dim); }
-  .code-block .acc { color: var(--accent); }
-  .code-block .str { color: #a5d6a7; }
-  .tool-features { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tool-features span {
-    font-size: 12px; color: var(--text-muted); background: var(--bg3);
-    border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px;
-    font-family: var(--mono);
+  .ui-shot:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+  .ui-shot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .ui-shot-bar {
+    display: flex; align-items: center; justify-content: center; height: 32px;
+    background:
+      radial-gradient(circle, #ff5f57 4.5px, transparent 5px) 8px 50% / 16px 16px no-repeat,
+      radial-gradient(circle, #febc2e 4.5px, transparent 5px) 24px 50% / 16px 16px no-repeat,
+      radial-gradient(circle, #28c840 4.5px, transparent 5px) 40px 50% / 16px 16px no-repeat,
+      var(--term-bar);
+    border-bottom: 1px solid var(--term-border);
   }
+  .ui-shot-url {
+    font-family: var(--mono); font-size: 11px; color: var(--term-dim);
+    background: var(--term-bg); border: 1px solid var(--term-border); border-radius: 6px; padding: 2px 12px;
+  }
+  .ui-shot img { display: block; width: 100%; height: auto; }
 
   /* WHY */
   .why-grid {
@@ -831,28 +685,56 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
   .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
   .why-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
+  /* CLOUD EMULATORS: one compact card per cloud; the cloud pages carry the detail. */
+  .cloud-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+  @media (max-width: 960px) { .cloud-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .cloud-cards { grid-template-columns: minmax(0, 1fr); } }
+  .cloud-card {
+    display: flex; flex-direction: column; gap: 6px; padding: 20px 22px 18px;
+    background: var(--bg); border: 1px solid var(--border); border-top: 2px solid var(--chip); border-radius: 12px;
+    text-decoration: none; color: var(--text);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .cloud-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--chip) 55%, var(--border)); border-top-color: var(--chip); box-shadow: 0 12px 32px color-mix(in srgb, var(--chip) 14%, transparent); }
+  .cloud-card:focus-visible { outline: 2px solid var(--chip); outline-offset: 3px; }
+  .cloud-card-top { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--chip); }
+  .cloud-card-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--chip); }
+  .cloud-card-arrow { margin-left: auto; color: var(--text-dim); transition: transform 0.2s, color 0.2s; }
+  .cloud-card:hover .cloud-card-arrow { transform: translateX(3px); color: var(--chip); }
+  .cloud-card-name { font-family: var(--mono); font-size: 18px; font-weight: 700; margin-top: 4px; }
+  .cloud-card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .cloud-card-meta { margin-top: auto; padding-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+
+  /* Four-colour bar before every section label on the home page. */
+  .section-label::before {
+    content: ''; display: inline-block; width: 24px; height: 3px; margin-right: 12px; vertical-align: middle;
+    background: linear-gradient(90deg, var(--c-aws) 0 25%, var(--c-az) 25% 50%, var(--c-gcp) 50% 75%, var(--c-oci) 75%);
+    border-radius: 2px;
+  }
+
+  /* AI AGENTS */
+  .agent-grid {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px;
+    margin-top: 48px; align-items: start;
+  }
+  .agent-title { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+  .agent-loop .code-tab.active { box-shadow: inset 0 -2px 0 var(--chip); }
+  .tab-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--chip); opacity: 0.55; transition: opacity 0.15s; }
+  .code-tab.active .tab-dot, .code-tab:hover .tab-dot { opacity: 1; }
+  /* AGENTS.md is prose, so let it wrap instead of scrolling sideways. */
+  .agent-rules .code-block pre { white-space: pre-wrap; }
+  .agent-caption { margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+  .agent-caption code { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .agent-works { margin: 32px auto 40px; max-width: 760px; text-align: center; font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+  .agent-works strong { color: var(--text); font-weight: 600; }
+  @media (max-width: 900px) { .agent-grid { grid-template-columns: minmax(0, 1fr); } }
+
   /* INSTALL */
-  .install-tabs {
-    display: flex; gap: 2px; border: 1px solid var(--border);
-    border-bottom: none; border-radius: 10px 10px 0 0;
-    background: var(--bg3); flex-wrap: wrap;
-  }
-  .install-tab {
-    padding: 10px 18px; font-size: 12px; color: var(--text-muted);
-    cursor: pointer; font-family: var(--mono); border: none;
-    background: transparent; transition: all 0.15s;
-  }
-  .install-tab.active { background: var(--bg2); color: var(--text); }
-  .install-block {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 0 10px 0 0;
-    border-bottom: none;
-    padding: 24px 28px; font-family: var(--mono); font-size: 13px;
-    color: var(--text-muted); line-height: 2;
+  /* The install block sits between the tabs and the outcome bar below it. */
+  .install-wrap .install-block {
+    border-radius: 0; border-bottom: none;
     overflow-wrap: break-word; word-break: break-all;
   }
-  .install-block .cmd { color: var(--text); }
-  .install-block .comment { color: var(--text-dim); }
-  .install-block .acc { color: var(--accent); }
 
   /* USE CASES */
   .uc-grid {
@@ -870,7 +752,6 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
 
   /* INSTALL WRAP */
   .install-wrap { max-width: 680px; width: 100%; margin-top: 48px; }
-  .install-tab { display: inline-flex; align-items: center; gap: 6px; }
   .install-outcome {
     display: flex; align-items: center; gap: 10px;
     margin-top: 0; padding: 10px 16px;
@@ -1168,19 +1049,12 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     .cloud-pill { min-width: unset; padding: 10px 14px; font-size: 12px; }
 
     /* Cards */
-    .ecard-body { padding: 18px 18px 20px; gap: 12px; }
-    .ecard-head { padding: 16px 18px 14px; }
-    .ecard-stats { gap: 16px; }
-    .ecard-stat-val { font-size: 17px; }
 
     /* Tools */
     .tool-card { padding: 24px 20px; }
-    .code-block { font-size: 12px; padding: 14px 16px; overflow-x: auto; }
 
     /* Install */
-    .install-tabs { flex-wrap: wrap; }
-    .install-tab { padding: 8px 14px; font-size: 11px; }
-    .install-block { padding: 18px 16px; font-size: 12px; overflow-x: auto; white-space: nowrap; }
+    .install-wrap .install-block { padding: 16px; font-size: 12px; overflow-x: auto; white-space: nowrap; word-break: normal; }
 
     /* Why */
     .why-card, .uc-card { padding: 24px 20px; }
@@ -1206,7 +1080,6 @@ export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
     .hero { padding: 100px 1rem 50px; }
     .hero h1 { letter-spacing: -1px; }
     section { padding: 60px 1rem; }
-    .ecard-chips span { font-size: 10px; padding: 2px 6px; }
     .sponsor-tier-price { font-size: 18px; }
   }
 </style>
@@ -1247,6 +1120,32 @@ activateTab(isWindows ? 'win' : 'cli');
 
 document.querySelectorAll('#installTabs .install-tab').forEach(function(tab) {
   tab.addEventListener('click', function() { activateTab(tab.dataset.tab); });
+});
+
+// Hero headline: start on the slogan, then alternate with the agent line.
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (slides.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let current = 0;
+  setInterval(function () {
+    if (document.hidden) return;
+    slides[current].classList.remove('is-active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('is-active');
+  }, 4500);
+})();
+
+// Agent loop tabs
+document.querySelectorAll('#agentTabs .code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('#agentTabs .code-tab').forEach(function(t) {
+      const on = t === tab;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', String(on));
+      const panel = document.getElementById('agent-' + t.dataset.agent);
+      if (panel) panel.style.display = on ? 'block' : 'none';
+    });
+  });
 });
 
 // Hero GitHub stars

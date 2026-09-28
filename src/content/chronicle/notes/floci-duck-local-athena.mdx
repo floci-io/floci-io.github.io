@@ -68,7 +68,7 @@ echo 'id,region,amount
 # Glue database
 aws glue create-database --database-input '{"Name":"analytics"}'
 
-# Glue table — points to the S3 prefix, CSV format
+# Glue table: points to the S3 prefix, CSV format
 aws glue create-table \
   --database-name analytics \
   --table-input '{
@@ -100,7 +100,7 @@ session = boto3.Session(
 )
 athena = session.client('athena', endpoint_url='http://localhost:4566')
 
-# 1 — start query
+# 1: start query
 resp = athena.start_query_execution(
     QueryString='SELECT region, SUM(amount) AS total FROM sales GROUP BY region ORDER BY total DESC',
     QueryExecutionContext={'Database': 'analytics'},
@@ -108,7 +108,7 @@ resp = athena.start_query_execution(
 )
 qid = resp['QueryExecutionId']
 
-# 2 — poll until done
+# 2: poll until done
 while True:
     status = athena.get_query_execution(QueryExecutionId=qid)
     state = status['QueryExecution']['Status']['State']
@@ -118,7 +118,7 @@ while True:
         raise RuntimeError(f"Query {state}")
     time.sleep(0.5)
 
-# 3 — fetch results
+# 3: fetch results
 results = athena.get_query_results(QueryExecutionId=qid)
 for row in results['ResultSet']['Rows']:
     print([col.get('VarCharValue', '') for col in row['Data']])

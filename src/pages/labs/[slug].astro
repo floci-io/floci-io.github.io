@@ -48,7 +48,7 @@ const jsonLd = {
 ---
 
 <Layout
-  title={`${lab.data.title} — floci 101 Labs`}
+  title={`${lab.data.title} · floci 101 Labs`}
   description={lab.data.description}
   canonical={canonical}
   ogImage="https://floci.io/og/labs.png"
@@ -142,9 +142,8 @@ const jsonLd = {
   .prose :global(h3) { font-size: 18px; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
   .prose :global(p) { margin-bottom: 20px; }
   .prose :global(a) { color: var(--cloud-color); text-underline-offset: 3px; }
-  .prose :global(code) { font-family: var(--mono); font-size: 14px; background: var(--bg2); padding: 2px 6px; border-radius: 4px; }
-  .prose :global(pre) { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 24px; overflow-x: auto; margin: 24px 0; }
-  .prose :global(pre code) { background: none; padding: 0; font-size: 14px; }
+  .prose :global(:not(pre) > code) { font-family: var(--mono); font-size: 14px; background: var(--bg2); padding: 2px 6px; border-radius: 4px; }
+  .prose :global(.code-block) { margin: 24px 0; }
   .prose :global(ul), .prose :global(ol) { padding-left: 24px; margin-bottom: 20px; }
   .prose :global(li) { margin-bottom: 8px; }
   .prose :global(blockquote) { border-left: 3px solid var(--cloud-color); padding-left: 20px; color: var(--text-dim); margin: 24px 0; }

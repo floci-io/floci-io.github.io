@@ -187,7 +187,7 @@ url = s3.generate_presigned_url(
 print('Pre-signed URL:')
 print(url)
 
-# Fetch it with plain HTTP — no AWS credentials needed
+# Fetch it with plain HTTP: no AWS credentials needed
 with urllib.request.urlopen(url) as resp:
     print('\nContent:')
     print(resp.read().decode())
@@ -310,6 +310,6 @@ Month 01 report
 
 ## Next Steps
 
-- Store JSON objects and query them with **Athena + Glue** — see the [Athena + S3: 101](/labs/athena-s3-101/) lab
+- Store JSON objects and query them with **Athena + Glue**; see the [Athena + S3: 101](/labs/athena-s3-101/) lab
 - Enable **versioning** on a bucket (`aws s3api put-bucket-versioning`) and observe how overwrites stack
 - Set up an **S3 event notification** to trigger a Lambda function when a new object lands in a prefix

@@ -46,7 +46,7 @@ const jsonLd = {
 ---
 
 <Layout
-  title={`${fullTitle} — floci Chronicle`}
+  title={`${fullTitle} · floci Chronicle`}
   description={post.data.description}
   canonical={canonical}
   ogImage="https://floci.io/og/chronicle.png"
@@ -112,21 +112,21 @@ const jsonLd = {
       repeating-linear-gradient(to bottom, var(--rule) 0 2px, transparent 2px 10px);
     background-position: left top, right top; background-repeat: no-repeat; background-size: 1px 100%;
   }
-  :global(html.light) .article-page { --rule: rgba(42, 48, 39, .36); }
+  :global(html.light) .article-page { --rule: rgba(71, 85, 105, .36); }
   .rail-marker {
     position: absolute; z-index: 4; width: 3px; height: 72px;
-    background: #000; pointer-events: none;
+    background: var(--text); pointer-events: none;
   }
   .rail-marker-left { top: var(--left-rail-marker-y, 560px); left: -1px; }
   .rail-marker-right { top: var(--right-rail-marker-y, 560px); right: -1px; }
   .article-hero {
     height: 400px; margin: 0 24px; position: relative; overflow: hidden; border: 1px solid var(--border);
-    background-color: #10201e; background-position: center top; background-repeat: no-repeat; background-size: cover;
+    background-color: var(--bg2); background-position: center top; background-repeat: no-repeat; background-size: cover;
   }
   .note-hero { background-image: url('/chronicle/notes-open-hero.webp'); }
   .chronicle-hero { background-image: url('/chronicle/chronicle-open-hero.webp'); }
   .article-hero.has-hero-image { background-position: center 60%; }
-  .article-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,23,22,.18), transparent 42%, rgba(7,23,22,.16)); }
+  .article-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,11,20,.18), transparent 42%, rgba(7,11,20,.16)); }
   .article { position: relative; width: min(700px, calc(100% - 96px)); margin: 0 auto; padding: 76px 0 110px; }
   .back-link { display: inline-block; margin-bottom: 44px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
   .back-link:hover { color: var(--accent); }
@@ -145,11 +145,10 @@ const jsonLd = {
   .prose :global(h3) { color: var(--text); font-size: 19px; line-height: 1.4; margin: 36px 0 14px; }
   .prose :global(h4) { color: var(--text); font-size: 16px; line-height: 1.4; margin: 28px 0 12px; }
   .prose :global(p) { margin-bottom: 22px; }
-  .prose :global(a) { color: #b6b9ee; text-decoration-color: rgba(182,185,238,.45); text-underline-offset: 4px; }
+  .prose :global(a) { color: var(--accent); text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 4px; }
   .prose :global(strong) { color: var(--text); }
-  .prose :global(code) { font-family: var(--mono); font-size: .82em; color: #d8daf8; background: rgba(122,127,214,.15); padding: 2px 6px; }
-  .prose :global(pre) { max-width: 100%; background: #0d151f; border: 1px solid var(--border); padding: 22px; overflow-x: auto; margin: 28px 0; }
-  .prose :global(pre code) { background: none; padding: 0; font-size: 13px; }
+  .prose :global(:not(pre) > code) { font-family: var(--mono); font-size: .82em; color: var(--text); background: var(--accent-dim); padding: 2px 6px; }
+  .prose :global(.code-block) { max-width: 100%; margin: 28px 0; }
   .prose :global(ul), .prose :global(ol) { padding-left: 24px; margin-bottom: 22px; }
   .prose :global(li) { margin-bottom: 9px; padding-left: 5px; }
   .prose :global(blockquote) { border-left: 3px solid var(--accent); padding: 4px 0 4px 24px; color: var(--text-muted); font-family: Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.5; margin: 34px 0; }
@@ -163,18 +162,15 @@ const jsonLd = {
   .prose :global(img), .prose :global(video) { display: block; width: 100%; height: auto; border: 1px solid var(--border); background: var(--bg2); }
   .prose :global(video) { aspect-ratio: 16 / 9; object-fit: cover; }
   .prose :global(figcaption) { margin-top: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; line-height: 1.5; letter-spacing: .6px; }
-  .prose :global(iframe) { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; margin: 38px 0; border: 1px solid var(--border); background: #0d151f; }
+  .prose :global(iframe) { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; margin: 38px 0; border: 1px solid var(--border); background: var(--bg2); }
   .prose :global(.metric-graphic), .prose :global(.mermaid) { margin: 38px 0; padding: 24px; border: 1px solid var(--border); background: var(--bg2); overflow-x: auto; }
   .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { display: block; width: 100%; max-width: 100% !important; height: auto; margin: 0 auto; }
   .prose :global(.metric-graphic text) { font-family: var(--mono); fill: var(--text-muted); }
   .prose :global(.mermaid-error) { color: var(--text-muted); font-family: var(--mono); font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
-  :global(html.light) .prose :global(a) { color: #4f4a96; text-decoration-color: rgba(79,74,150,.45); }
-  :global(html.light) .prose :global(code) { color: #3f3b78; background: rgba(85,89,167,.12); }
-  :global(html.light) .prose :global(pre) { background: var(--bg3); }
-  .related { position: absolute; left: calc(100% + 30px); top: 640px; width: 210px; padding: 24px; background: #17231f; color: #f8fafc; box-shadow: 0 24px 65px rgba(0,0,0,.35); }
-  .related > span { color: #a4a793; font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .related { position: absolute; left: calc(100% + 30px); top: 640px; width: 210px; padding: 24px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); box-shadow: 0 24px 65px rgba(7,11,20,.35); }
+  .related > span { color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
   .related h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 25px; font-weight: 400; line-height: 1.12; margin: 16px 0 12px; }
-  .related p { color: #aeb8b3; font-size: 12px; line-height: 1.5; }
+  .related p { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
   .related a { display: inline-block; margin-top: 20px; color: white; background: var(--accent-deep); padding: 8px 13px; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
   @media (max-width: 1240px) {
     .related { position: static; width: 100%; margin-top: 72px; }
@@ -189,7 +185,7 @@ const jsonLd = {
     .article-header h1 { font-size: clamp(42px, 13vw, 68px); }
     .description { font-size: 16px; }
     .prose { font-size: 16px; }
-    .prose :global(pre), .prose :global(.metric-graphic), .prose :global(.mermaid) { padding: 16px; }
+    .prose :global(.metric-graphic), .prose :global(.mermaid) { padding: 16px; }
     .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { min-width: 520px; }
     .prose :global(.table-scroll) { overflow-x: auto; overscroll-behavior-inline: contain; }
     .prose :global(.table-frame table) { min-width: 560px; overflow-wrap: normal; }
@@ -263,9 +259,9 @@ const jsonLd = {
           primaryBorderColor: '#94A3B8', lineColor: '#5559a7', secondaryColor: '#F8FAFC',
           tertiaryColor: '#CBD5E1', fontFamily: 'Sora, sans-serif'
         } : {
-          background: '#161e2e', primaryColor: '#17231f', primaryTextColor: '#f8fafc',
-          primaryBorderColor: '#64748b', lineColor: '#7a7fd6', secondaryColor: '#0f1520',
-          tertiaryColor: '#252f3b', fontFamily: 'Sora, sans-serif'
+          background: '#161E2E', primaryColor: '#1E2738', primaryTextColor: '#F8FAFC',
+          primaryBorderColor: '#3D4559', lineColor: '#7A7FD6', secondaryColor: '#0F1520',
+          tertiaryColor: '#2A3142', fontFamily: 'Sora, sans-serif'
         }
       });
       for (const diagram of diagramNodes) {

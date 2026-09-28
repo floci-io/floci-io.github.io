@@ -31,7 +31,7 @@ const jsonLd = {
 ---
 
 <Layout
-  title="floci-az — Free Azure Emulator"
+  title="floci-az: Free Azure Emulator"
   description="floci-az is a fast, free, open-source Azure emulator. Blob, Queue, Table, Functions, App Config, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL, API Management, Virtual Machines, Cache for Redis, Container Registry, Virtual Network, Azure Monitor, Microsoft Entra ID, and Email Communication on a single port. No Azure account required, MIT licensed."
   canonical="https://floci.io/az/"
   ogImage="https://floci.io/og/az.png"
@@ -83,7 +83,7 @@ const jsonLd = {
   <section id="services" style="background:var(--bg2)">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">floci-az — Azure Services</div>
+        <div class="section-label">floci-az · Azure Services</div>
         <h2>{SERVICE_COUNTS.azure} Azure services. All of them free.</h2>
         <p class="section-desc">Wire-compatible with the official Azure SDKs and Azurite emulator. Switch with zero application code changes.</p>
       </div>
@@ -94,7 +94,7 @@ const jsonLd = {
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            title={`${s.name} — official documentation`}
+            title={`${s.name}: official documentation`}
           >
             <ServiceIcon category={s.category} class="service-icon" />
             <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
@@ -109,7 +109,7 @@ const jsonLd = {
             <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
           )}
           {dockerTiers.has('optional') && (
-            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional — mocked by default</span>
+            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional: mocked by default</span>
           )}
         </p>
     </div>
@@ -207,14 +207,14 @@ const jsonLd = {
 <span class="comment"># exports AZURE_STORAGE_CONNECTION_STRING</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="comment"># Create a container</span>
 <span class="cmd">az storage container create \
   --name <span class="str">my-container</span> \
   --connection-string <span class="acc">$AZURE_STORAGE_CONNECTION_STRING</span></span>
 
 <span class="comment"># Write a file and upload it</span>
-<span class="cmd">echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+<span class="cmd">echo <span class="str">"Azure locally: no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
 az storage blob upload \
   --container-name <span class="str">my-container</span> \
@@ -232,7 +232,7 @@ cat hello-back.txt</span></pre></div>
           </div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="comment"># Check status</span>
 <span class="cmd">floci az status</span>
 
@@ -249,12 +249,12 @@ cat hello-back.txt</span></pre></div>
 <span class="comment"># AZURE_KEY_VAULT_ENDPOINT, ...</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Start with persistence</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">floci az start --persist <span class="acc">./data</span></span>
 <span class="comment"># state survives container restarts</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Diagnose issues</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">floci az doctor</span>
 <span class="comment"># checks Docker, Azure CLI, connectivity</span></pre></div>
           </div>
@@ -275,7 +275,7 @@ cat hello-back.txt</span></pre></div>
   floci/floci-az:<span class="acc">latest</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">services:
   floci-az:
     image: floci/floci-az:<span class="acc">latest</span>
@@ -283,11 +283,11 @@ cat hello-back.txt</span></pre></div>
       - <span class="str">"4577:4577"</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">az storage container create \
   --name <span class="str">my-container</span> \
   --connection-string <span class="acc">$CONN_STR</span>
-echo <span class="str">"Azure locally — no bill, no drama. 🚀"</span> \
+echo <span class="str">"Azure locally: no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
 az storage blob upload \
   --container-name <span class="str">my-container</span> \
@@ -303,7 +303,7 @@ cat hello-back.txt</span></pre></div>
           </div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Connection string</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="comment"># Standard Azurite-compatible connection string</span>
 <span class="cmd">DefaultEndpointsProtocol=http;
 AccountName=<span class="acc">devstoreaccount1</span>;
@@ -314,7 +314,7 @@ QueueEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;
 TableEndpoint=http://localhost:<span class="acc">4577</span>/devstoreaccount1;</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Environment variable</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">export <span class="acc">CONN_STR</span>="DefaultEndpointsProtocol=http;\
 AccountName=devstoreaccount1;\
 AccountKey=Eby8vdM02xNOcq...;\
@@ -341,7 +341,7 @@ BlobEndpoint=http://localhost:4577/devstoreaccount1;"</span></pre></div>
           <button class="code-tab" data-tab="js">JavaScript</button>
         </div>
 
-        <div id="stab-python" class="code-block tabbed" style="font-size:13px;line-height:1.8">
+        <div id="stab-python" class="code-block tabbed">
           <span class="comment"># pip install azure-storage-blob</span><br>
           <span class="cmd">from azure.storage.blob import BlobServiceClient<br><br>
 conn = (<br>
@@ -356,7 +356,7 @@ blob = client.get_blob_client(<span class="str">"my-container"</span>, <span cla
 blob.upload_blob(<span class="str">b"Hello from floci-az!"</span>)</span>
         </div>
 
-        <div id="stab-java" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <div id="stab-java" class="code-block tabbed" style="display:none">
           <span class="comment">// azure-storage-blob:12.x</span><br>
           <span class="cmd">String conn = "DefaultEndpointsProtocol=http;"<br>
 &nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
@@ -370,7 +370,7 @@ BlobClient blob = container.getBlobClient(<span class="str">"hello.txt"</span>);
 blob.upload(BinaryData.fromString(<span class="str">"Hello from floci-az!"</span>));</span>
         </div>
 
-        <div id="stab-dotnet" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <div id="stab-dotnet" class="code-block tabbed" style="display:none">
           <span class="comment">// Azure.Storage.Blobs NuGet package</span><br>
           <span class="cmd">string conn = "DefaultEndpointsProtocol=http;"<br>
 &nbsp;&nbsp;+ "AccountName=devstoreaccount1;"<br>
@@ -383,7 +383,7 @@ var blob = container.GetBlobClient(<span class="str">"hello.txt"</span>);<br>
 await blob.UploadAsync(<span class="str">"Hello from floci-az!"</span>);</span>
         </div>
 
-        <div id="stab-js" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <div id="stab-js" class="code-block tabbed" style="display:none">
           <span class="comment">// npm install @azure/storage-blob</span><br>
           <span class="cmd">import { "{"} BlobServiceClient {"}"} from <span class="str">"@azure/storage-blob"</span>;<br><br>
 const conn = "DefaultEndpointsProtocol=http;"<br>
@@ -463,8 +463,6 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,120,215,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,120,215,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
   .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(0,120,215,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
-  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,120,212,0.08); border: 1px solid rgba(0,120,212,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
   .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
   .hero h1 .accent { color: #0078D4; }
   .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
@@ -512,16 +510,6 @@ await blob.upload(<span class="str">"Hello from floci-az!"</span>, 20);</span>
   .grid-legend svg { width: 10px; height: 10px; }
 
   /* CODE */
-  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-x: auto; }
-  .code-block pre { margin: 0; padding: 0; font: inherit; color: inherit; white-space: pre; background: none; border: none; overflow: visible; line-height: inherit; }
-  .code-block .cmd { color: var(--text); }
-  .code-block .comment { color: var(--text-dim); }
-  .code-block .acc { color: var(--accent); }
-  .code-block .str { color: #a5d6a7; }
-  .code-tabs { display: flex; gap: 2px; border: 1px solid var(--border); border-bottom: none; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--bg3); }
-  .code-tab { padding: 10px 18px; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: var(--mono); border: none; background: transparent; transition: all 0.15s; }
-  .code-tab.active { background: var(--bg2); color: var(--text); }
-  .code-block.tabbed { border-radius: 0 0 10px 10px; }
   .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
   .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
   .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }

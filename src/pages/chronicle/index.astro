@@ -26,7 +26,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 ---
 
 <Layout
-  title="Chronicle — floci"
+  title="Chronicle · floci"
   description="Field notes, engineering stories, and news from the floci community."
   canonical="https://floci.io/chronicle/"
   ogImage="https://floci.io/og/chronicle.png"
@@ -93,7 +93,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
               class="cloud-art"
               aria-hidden="true"
               style={featured.data.heroImage
-                ? `background-image: linear-gradient(90deg, rgba(7,23,22,.04), rgba(7,23,22,.34)), url('${featured.data.heroImage}')`
+                ? `background-image: linear-gradient(90deg, rgba(7,11,20,.04), rgba(7,11,20,.34)), url('${featured.data.heroImage}')`
                 : undefined}
             ></div>
             <div class="feature-panel">
@@ -141,10 +141,10 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 <style>
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .chronicle-shell {
-    --rule: rgba(148, 163, 184, .2); --rail-marker: #dcece4;
+    --rule: rgba(148, 163, 184, .2); --rail-marker: var(--text);
     padding-top: 60px; min-height: 100vh;
   }
-  :global(html.light) .chronicle-shell { --rule: rgba(42, 48, 39, .34); --rail-marker: #000; }
+  :global(html.light) .chronicle-shell { --rule: rgba(71, 85, 105, .34); }
   .chronicle-grid {
     display: grid; grid-template-columns: minmax(280px, 320px) minmax(480px, 720px) minmax(210px, 256px);
     max-width: 1340px; margin: 0 auto; min-height: 900px;
@@ -186,23 +186,23 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
     background-position: center 48%; background-size: cover;
   }
   .main-feature .cloud-art {
-    background-image: linear-gradient(90deg, rgba(7,23,22,.04), rgba(7,23,22,.34)), url('/chronicle/chronicle-cloud-war.webp');
+    background-image: linear-gradient(90deg, rgba(7,11,20,.04), rgba(7,11,20,.34)), url('/chronicle/chronicle-cloud-war.webp');
     background-position: 42% center;
   }
   .cloud-art-small {
-    background-image: linear-gradient(90deg, rgba(7,23,22,.06), rgba(7,23,22,.38)), url('/chronicle/notes-cloud-war.webp');
-    background-color: #11201e;
+    background-image: linear-gradient(90deg, rgba(7,11,20,.06), rgba(7,11,20,.38)), url('/chronicle/notes-cloud-war.webp');
+    background-color: var(--bg2);
     background-position: left top;
     background-repeat: no-repeat;
     background-size: auto 82%;
   }
   .main-feature { position: relative; display: block; height: 360px; overflow: hidden; color: var(--text); }
-  .feature-panel { position: absolute; z-index: 2; right: 0; bottom: 0; width: 62%; padding: 26px; background: #17231f; color: #f8fafc; }
-  .kicker { font-family: var(--mono); color: #a4a793; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
+  .feature-panel { position: absolute; z-index: 2; right: 0; bottom: 0; width: 62%; padding: 26px; background: var(--bg2); color: var(--text); border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+  .kicker { font-family: var(--mono); color: var(--text-dim); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
   .feature-panel h2, .feature-panel h3, .dispatch h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -1px; line-height: 1.08; }
   .feature-panel h2 { font-size: clamp(22px, 2vw, 30px); margin: 0 0 12px; }
   .feature-panel h3 { font-size: 16px; margin: 0 0 12px; }
-  .feature-panel p { color: #d5d7bd; font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .feature-panel p { color: var(--text-muted); font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
   .main-feature:hover .feature-panel h2, .note-feature:hover h3, .compact-note:hover h3, .dispatch:hover h3, .video-card:hover h3 { color: var(--accent); }
   .note-feature { display: block; position: relative; height: 310px; overflow: hidden; color: var(--text); }
   .note-feature .feature-panel { width: 100%; padding: 18px 20px; }

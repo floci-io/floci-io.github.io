@@ -158,7 +158,7 @@ boto_kwargs = dict(
 
 athena = boto3.client('athena', **boto_kwargs)
 
-# 1 — submit the query
+# 1: submit the query
 resp = athena.start_query_execution(
     QueryString='''
         SELECT region,
@@ -174,7 +174,7 @@ resp = athena.start_query_execution(
 query_id = resp['QueryExecutionId']
 print(f'Query submitted: {query_id}')
 
-# 2 — poll until done
+# 2: poll until done
 while True:
     exec_resp = athena.get_query_execution(QueryExecutionId=query_id)
     state = exec_resp['QueryExecution']['Status']['State']
@@ -186,7 +186,7 @@ while True:
         raise RuntimeError(f'Query {state}: {reason}')
     time.sleep(0.5)
 
-# 3 — fetch and print results
+# 3: fetch and print results
 results = athena.get_query_results(QueryExecutionId=query_id)
 rows = results['ResultSet']['Rows']
 

@@ -31,7 +31,7 @@ const jsonLd = {
 ---
 
 <Layout
-  title="floci-oci — Free Oracle Cloud (OCI) Emulator"
+  title="floci-oci: Free Oracle Cloud (OCI) Emulator"
   description="floci-oci is a fast, free, open-source Oracle Cloud Infrastructure (OCI) emulator. Object Storage, Identity (IAM), Queue, Streaming, KMS, Vault Secrets, and Functions on a single port. No Oracle Cloud account required, MIT licensed."
   canonical="https://floci.io/oci/"
   ogImage="https://floci.io/og/oci.png"
@@ -83,7 +83,7 @@ const jsonLd = {
   <section id="services" style="background:var(--bg2)">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">floci-oci — OCI Services</div>
+        <div class="section-label">floci-oci · OCI Services</div>
         <h2>{SERVICE_COUNTS.oci} OCI services. All of them free.</h2>
         <p class="section-desc">Wire-compatible with the official OCI SDKs, the OCI CLI, Terraform and OpenTofu. Point your existing tools at localhost and keep your workflows.</p>
       </div>
@@ -94,7 +94,7 @@ const jsonLd = {
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            title={`${s.name} — official documentation`}
+            title={`${s.name}: official documentation`}
           >
             <ServiceIcon category={s.category} class="service-icon" />
             <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
@@ -109,7 +109,7 @@ const jsonLd = {
             <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
           )}
           {dockerTiers.has('optional') && (
-            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional — mocked by default</span>
+            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional: mocked by default</span>
           )}
         </p>
     </div>
@@ -125,7 +125,7 @@ const jsonLd = {
       </div>
       <div class="cards-grid reveal" style="transition-delay:0.1s">
         <div class="card"><span class="card-num">MIT</span><h3>Free forever, no account</h3><p>MIT licensed. No subscription, no uploaded API keys, no billing. Pull the Docker image and point the OCI SDKs at localhost immediately.</p></div>
-        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu. Request signatures are parsed for tenancy and user context but never verified — any locally generated API key works.</p></div>
+        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu. Request signatures are parsed for tenancy and user context but never verified, so any locally generated API key works.</p></div>
         <div class="card"><span class="card-num">⚡</span><h3>Real crypto, real Functions</h3><p>KMS performs real AES-GCM, RSA and ECDSA operations. Functions invocations run your real FDK image through an Fn Project sidecar, not a mock.</p></div>
         <div class="card"><span class="card-num">1</span><h3>Single port</h3><p>Every service answers on port 4599. Only Functions launches a Docker container; the other six services run entirely in-process.</p></div>
       </div>
@@ -209,7 +209,7 @@ const jsonLd = {
 <span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="comment"># Create a bucket</span>
 <span class="cmd">oci os bucket create \
   --namespace-name <span class="str">floci-local</span> \
@@ -217,7 +217,7 @@ const jsonLd = {
   --compartment-id <span class="acc">$TENANCY_OCID</span></span>
 
 <span class="comment"># Write a file and upload it</span>
-<span class="cmd">echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> \
+<span class="cmd">echo <span class="str">"Oracle Cloud locally: no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
 oci os object put \
   --namespace-name <span class="str">floci-local</span> \
@@ -234,7 +234,7 @@ cat hello-back.txt</span></pre></div>
           </div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="comment"># Check status</span>
 <span class="cmd">floci oci status</span>
 
@@ -251,7 +251,7 @@ cat hello-back.txt</span></pre></div>
 <span class="cmd">floci oci wait</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Diagnose issues</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">floci oci doctor</span>
 <span class="comment"># checks Docker, OCI CLI, connectivity</span></pre></div>
           </div>
@@ -271,7 +271,7 @@ cat hello-back.txt</span></pre></div>
   floci/floci-oci:<span class="acc">latest</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">services:
   floci-oci:
     image: floci/floci-oci:<span class="acc">latest</span>
@@ -279,13 +279,13 @@ cat hello-back.txt</span></pre></div>
       - <span class="str">"4599:4599"</span></span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">oci os bucket create \
   --endpoint <span class="acc">http://localhost:4599</span> \
   --namespace-name <span class="str">floci-local</span> \
   --name <span class="str">my-bucket</span> \
   --compartment-id <span class="acc">$TENANCY_OCID</span>
-echo <span class="str">"Oracle Cloud locally — no bill, no drama. 🚀"</span> \
+echo <span class="str">"Oracle Cloud locally: no bill, no drama. 🚀"</span> \
   &gt; hello-floci.txt
 oci os object put \
   --endpoint <span class="acc">http://localhost:4599</span> \
@@ -295,8 +295,8 @@ oci os object put \
           </div>
           <div>
             <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Throwaway credentials</h3>
-            <div class="code-block" style="font-size:12px"><pre
-><span class="comment"># Any locally generated key works — the signature</span>
+            <div class="code-block"><pre
+><span class="comment"># Any locally generated key works; the signature</span>
 <span class="comment"># is parsed for context, never verified</span>
 <span class="cmd">mkdir -p ~/.oci
 openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
@@ -304,7 +304,7 @@ openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
 <span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Health check</h3>
-            <div class="code-block" style="font-size:12px"><pre
+            <div class="code-block"><pre
 ><span class="cmd">curl http://localhost:<span class="acc">4599</span>/_floci-oci/health</span></pre></div>
           </div>
         </div>
@@ -327,7 +327,7 @@ openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
           <button class="code-tab" data-tab="cli">OCI CLI</button>
         </div>
 
-        <div id="stab-python" class="code-block tabbed" style="font-size:13px;line-height:1.8">
+        <div id="stab-python" class="code-block tabbed">
           <span class="comment"># pip install oci</span><br>
           <span class="cmd">import oci<br><br>
 config = {"{"}<br>
@@ -343,7 +343,7 @@ namespace = client.get_namespace().data<br>
 client.put_object(namespace, <span class="str">"my-bucket"</span>, <span class="str">"hello.txt"</span>, <span class="str">b"Hello from floci-oci!"</span>)</span>
         </div>
 
-        <div id="stab-java" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <div id="stab-java" class="code-block tabbed" style="display:none">
           <span class="comment">// com.oracle.oci.sdk:oci-java-sdk</span><br>
           <span class="cmd">var auth = SimpleAuthenticationDetailsProvider.builder()<br>
 &nbsp;&nbsp;.tenantId(<span class="str">"ocid1.tenancy.oc1..flocilocaltenancy00000000…"</span>)<br>
@@ -362,7 +362,7 @@ client.createBucket(CreateBucketRequest.builder()<br>
 &nbsp;&nbsp;.build());</span>
         </div>
 
-        <div id="stab-cli" class="code-block tabbed" style="font-size:13px;line-height:1.8;display:none">
+        <div id="stab-cli" class="code-block tabbed" style="display:none">
           <span class="comment"># Every OCI CLI command works with --endpoint</span><br>
           <span class="cmd">oci os ns get --endpoint http://localhost:<span class="acc">4599</span><br><br>
 oci iam compartment list \<br>
@@ -437,8 +437,6 @@ oci os ns get</span>
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(199,70,52,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(199,70,52,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
   .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(199,70,52,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
-  .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(199,70,52,0.08); border: 1px solid rgba(199,70,52,0.25); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: var(--accent); font-family: var(--mono); margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
   .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
   .hero h1 .accent { color: #C74634; }
   .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
@@ -486,16 +484,6 @@ oci os ns get</span>
   .grid-legend svg { width: 10px; height: 10px; }
 
   /* CODE */
-  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 2; overflow-x: auto; }
-  .code-block pre { margin: 0; padding: 0; font: inherit; color: inherit; white-space: pre; background: none; border: none; overflow: visible; line-height: inherit; }
-  .code-block .cmd { color: var(--text); }
-  .code-block .comment { color: var(--text-dim); }
-  .code-block .acc { color: var(--accent); }
-  .code-block .str { color: #a5d6a7; }
-  .code-tabs { display: flex; gap: 2px; border: 1px solid var(--border); border-bottom: none; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--bg3); }
-  .code-tab { padding: 10px 18px; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: var(--mono); border: none; background: transparent; transition: all 0.15s; }
-  .code-tab.active { background: var(--bg2); color: var(--text); }
-  .code-block.tabbed { border-radius: 0 0 10px 10px; }
   .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
   .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
   .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }

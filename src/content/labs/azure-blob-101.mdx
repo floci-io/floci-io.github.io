@@ -241,7 +241,7 @@ sas_url = (
 print("SAS URL:")
 print(sas_url)
 
-# Fetch via plain HTTP — no credentials in the request, only in the URL
+# Fetch via plain HTTP: no credentials in the request, only in the URL
 with urllib.request.urlopen(sas_url) as resp:
     print("\nContent fetched via SAS:")
     print(resp.read().decode())
@@ -277,7 +277,7 @@ SAS=$(az storage blob generate-sas \
 
 echo "Token: $SAS"
 
-# Download using the SAS URL — no account key needed
+# Download using the SAS URL: no account key needed
 curl "http://localhost:4577/devstoreaccount1/sales-data/sales/data.csv?$SAS"
 ```
 
