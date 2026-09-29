@@ -257,12 +257,20 @@ const schemas = [
       if (pre) {
         text = pre.textContent.trim();
       } else {
-        var div = document.createElement('div');
-        div.innerHTML = block.innerHTML;
+        // <br>-based block: copy what is rendered. Newlines and indentation in the
+        // markup are formatting the browser collapses; only <br> breaks a line and
+        // &nbsp; is real indentation.
+        var div = block.cloneNode(true);
         var cb = div.querySelector('.copy-btn');
         if (cb) cb.remove();
+        var walker = document.createTreeWalker(div, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+          walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(/[ \t\r\n]+/g, ' ');
+        }
         div.querySelectorAll('br').forEach(function(br) { br.replaceWith('\n'); });
-        text = div.textContent.replace(/\xA0/g, ' ').trim();
+        text = div.textContent
+          .split('\n').map(function(line) { return line.replace(/^ +| +$/g, ''); }).join('\n')
+          .replace(/\xA0/g, ' ').trim();
       }
       navigator.clipboard.writeText(text).then(function() {
         btn.textContent = '✓ Copied';
