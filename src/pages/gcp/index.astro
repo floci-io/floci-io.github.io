@@ -190,7 +190,13 @@ const jsonLd = {
 ><span class="cmd">eval $(floci gcp env)</span>
 <span class="comment"># exports STORAGE_EMULATOR_HOST,</span>
 <span class="comment"># PUBSUB_EMULATOR_HOST, FIRESTORE_EMULATOR_HOST,</span>
-<span class="comment"># DATASTORE_EMULATOR_HOST, SECRET_MANAGER_EMULATOR_HOST</span></pre></div>
+<span class="comment"># DATASTORE_EMULATOR_HOST, SECRET_MANAGER_EMULATOR_HOST</span>
+
+<span class="comment"># gcloud ignores those; point it at floci-gcp too</span>
+<span class="comment"># (any token works locally)</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+export <span class="acc">CLOUDSDK_AUTH_ACCESS_TOKEN</span>=floci</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
             <div class="code-block"><pre
@@ -251,9 +257,10 @@ cat hello-back.txt</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Set env vars</h3>
             <div class="code-block"><pre
-><span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=\
-  http://localhost:4588/
-export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span></pre></div>
+><span class="comment"># any token works locally</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+export <span class="acc">CLOUDSDK_AUTH_ACCESS_TOKEN</span>=floci</span></pre></div>
 
             <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
             <div class="code-block"><pre
@@ -350,10 +357,10 @@ print(blob.download_as_text())</span></pre></div>
         <div>
           <div class="ex-label">gcloud CLI</div>
           <div class="code-block"><pre
-><span class="comment"># set endpoint override</span>
-<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=\
-  http://localhost:4588/
+><span class="comment"># point gcloud at floci-gcp (any token works locally)</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=http://localhost:4588/
 export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+export <span class="acc">CLOUDSDK_AUTH_ACCESS_TOKEN</span>=floci
 
 <span class="comment"># create a bucket</span>
 gcloud storage buckets create gs://<span class="str">my-bucket</span>
@@ -531,8 +538,10 @@ print(resp.payload.data.decode())</span></pre></div>
         <div>
           <div class="ex-label">gcloud CLI</div>
           <div class="code-block"><pre
-><span class="comment"># set project</span>
-<span class="cmd">export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+><span class="comment"># point gcloud at floci-gcp (any token works locally)</span>
+<span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_SECRETMANAGER</span>=http://localhost:4588/
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local
+export <span class="acc">CLOUDSDK_AUTH_ACCESS_TOKEN</span>=floci
 
 <span class="comment"># create a secret</span>
 gcloud secrets create db-password \

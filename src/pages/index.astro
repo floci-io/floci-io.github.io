@@ -84,7 +84,10 @@ import { SERVICE_COUNTS, OUTCOME_MESSAGES } from '../data/services';
           <div id="agent-gcp" class="code-block tabbed" data-lang="bash" style="display:none"><pre
 ><span class="comment"># agent task: publish order events to Pub/Sub</span>
 <span class="cmd">floci gcp start</span>
-<span class="cmd">eval $(floci gcp env)</span>   <span class="comment"># endpoint → :4588</span>
+<span class="cmd">eval $(floci gcp env)</span>   <span class="comment"># SDK endpoints → :4588</span>
+<span class="comment"># gcloud needs its own override, plus a dummy token</span>
+<span class="cmd">export CLOUDSDK_API_ENDPOINT_OVERRIDES_PUBSUB=http://localhost:4588/</span>
+<span class="cmd">export CLOUDSDK_CORE_PROJECT=floci-local CLOUDSDK_AUTH_ACCESS_TOKEN=floci</span>
 <span class="cmd">gcloud pubsub topics create <span class="acc">orders</span></span>
 <span class="cmd">pytest tests/</span>           <span class="comment"># ✓ no GCP project used</span></pre></div>
           <div id="agent-oci" class="code-block tabbed" data-lang="bash" style="display:none"><pre
@@ -265,9 +268,10 @@ BlobEndpoint=http://localhost:4577/devstoreaccount1;"</span><br><br>
           <span class="comment"># Run Cloud Storage on port 4588</span><br>
           <span class="cmd">docker run --rm -p <span class="acc">4588:4588</span> \<br>
 &nbsp;&nbsp;floci/floci-gcp:<span class="acc">latest</span></span><br><br>
-          <span class="comment"># Point the gcloud CLI at floci-gcp</span><br>
+          <span class="comment"># Point the gcloud CLI at floci-gcp (any token works locally)</span><br>
           <span class="cmd">export <span class="acc">CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE</span>=http://localhost:4588/<br>
-export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local</span><br><br>
+export <span class="acc">CLOUDSDK_CORE_PROJECT</span>=floci-local<br>
+export <span class="acc">CLOUDSDK_AUTH_ACCESS_TOKEN</span>=floci</span><br><br>
           <span class="comment"># Create a bucket &amp; upload a file</span><br>
           <span class="cmd">gcloud storage buckets create gs://my-bucket</span><br>
           <span class="cmd">echo <span class="str">"No billing alert? Must be floci. ☁️"</span> &gt; hello-floci.txt</span><br>
