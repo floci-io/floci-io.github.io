@@ -64,8 +64,8 @@ services:
 ```bash
 docker-compose up -d
 
-# confirm it's healthy
-curl http://localhost:4566/_floci/health
+# wait until it's healthy (the first start takes a few seconds)
+until curl -fs http://localhost:4566/_floci/health; do sleep 1; done
 ```
 
 ---

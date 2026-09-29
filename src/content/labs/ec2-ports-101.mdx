@@ -57,8 +57,8 @@ docker run -d --name floci -p 4566:4566 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -u root floci/floci:latest
 
-# confirm it's healthy
-curl http://localhost:4566/_floci/health
+# wait until it's healthy (the first start takes a few seconds)
+until curl -fs http://localhost:4566/_floci/health; do sleep 1; done
 ```
 
 ```bash
@@ -86,13 +86,14 @@ echo $SG
 
 ## Step 3: Launch an Instance That Serves HTTP
 
-`ami-alpine` maps to `alpine:latest` (floci ships an AMI catalog: `ami-amazonlinux2023`, `ami-ubuntu2204`, `ami-debian12`, and friends; unknown `ami-*` IDs fall back to Amazon Linux 2023). The UserData script starts busybox `httpd` on port 8080, exactly like cloud-init would run it:
+`ami-alpine` maps to `alpine:latest` (floci ships an AMI catalog: `ami-amazonlinux2023`, `ami-ubuntu2204`, `ami-debian12`, and friends; unknown `ami-*` IDs fall back to Amazon Linux 2023). The UserData script starts busybox `httpd` on port 8080, exactly like cloud-init would run it. Alpine's busybox leaves `httpd` out, so the script installs `busybox-extras` first (the instance needs internet access for `apk`):
 
 ```bash
 IID=$(aws ec2 run-instances \
   --image-id ami-alpine --instance-type t3.micro \
   --security-group-ids $SG \
   --user-data '#!/bin/sh
+apk add --no-cache busybox-extras
 mkdir -p /www
 echo "hello from inside EC2 (well, a container)" > /www/index.html
 httpd -p 8080 -h /www' \
@@ -130,9 +131,11 @@ aws ec2 authorize-security-group-ingress \
   --group-id $SG --protocol tcp --port 8080 --cidr 0.0.0.0/0
 ```
 
-Within a moment, the reconcile spawns the sidecar (host port comes from the 30000-30999 range):
+The reconcile spawns the sidecar (host port comes from the 30000-30999 range). The first time, floci pulls `alpine/socat`, which can take about 30 seconds, so wait for it:
 
 ```bash
+until docker ps -q --filter "name=floci-ec2-fwd-$IID-8080" | grep -q .; do sleep 1; done
+
 docker ps --filter "name=floci-ec2-fwd-$IID-8080" --format '{{.Names}}  {{.Ports}}'
 ```
 
@@ -142,13 +145,13 @@ Expected output:
 floci-ec2-fwd-i-0abc123def456-8080  0.0.0.0:30000->8080/tcp
 ```
 
-Now reach the app through it:
+Now reach the app through it. `--retry` covers the few seconds UserData needs to get `httpd` up:
 
 ```bash
 HOST_PORT=$(docker ps --filter "name=floci-ec2-fwd-$IID-8080" \
   --format '{{.Ports}}' | sed -n 's/.*:\([0-9]*\)->8080.*/\1/p' | head -1)
 
-curl http://localhost:$HOST_PORT/
+curl --retry 15 --retry-delay 1 --retry-all-errors http://localhost:$HOST_PORT/
 # hello from inside EC2 (well, a container)
 ```
 
