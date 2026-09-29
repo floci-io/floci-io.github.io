@@ -1,0 +1,63 @@
+---
+// A top-to-bottom request flow for labs and posts: boxes joined by arrows.
+// Static HTML + inline SVG (no client JS); colors come from the theme tokens.
+interface Step {
+  title: string;
+  note?: string;
+}
+interface Props {
+  label: string;          // one-sentence description for screen readers
+  steps: Step[];
+  links?: string[];       // label on the arrow after steps[i]; '' for none
+}
+const { label, steps, links = [] } = Astro.props;
+---
+<figure class="flow" aria-label={label}>
+  <ol class="flow-steps">
+    {steps.map((step, i) => (
+      <li class="flow-step">
+        <div class="flow-box">
+          <code class="flow-title">{step.title}</code>
+          {step.note && <span class="flow-note">{step.note}</span>}
+        </div>
+        {i < steps.length - 1 && (
+          <div class="flow-link">
+            <svg class="flow-arrow" width="16" height="36" viewBox="0 0 16 36" aria-hidden="true" focusable="false">
+              <line x1="8" y1="2" x2="8" y2="32" />
+              <polyline points="3,26 8,33 13,26" />
+            </svg>
+            {links[i] && <span class="flow-link-label">{links[i]}</span>}
+          </div>
+        )}
+      </li>
+    ))}
+  </ol>
+</figure>
+
+<style>
+  .flow { margin: 32px 0; }
+  .flow-steps { list-style: none; margin: 0 auto; padding: 0; max-width: 560px; }
+  .flow-step { margin: 0; padding: 0; }
+  .flow-step::before { content: none; }
+  .flow-box {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 14px 18px; text-align: center;
+    background: var(--bg2); border: 1px solid var(--border-bright); border-radius: 6px;
+  }
+  /* .flow prefix: outranks the page's inline-code style in .prose */
+  .flow .flow-title {
+    font-family: var(--mono); font-size: 15px; color: var(--text);
+    background: none; padding: 0; overflow-wrap: anywhere;
+  }
+  .flow-note { font-family: var(--sans); font-size: 14px; color: var(--text-muted); }
+  /* arrow stays centered under the box; its label sits to the right */
+  .flow-link { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 10px; min-height: 40px; color: var(--accent); }
+  .flow-arrow { grid-column: 2; }
+  .flow-arrow line, .flow-arrow polyline { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .flow-link-label { grid-column: 3; font-family: var(--mono); font-size: 13px; color: var(--text-muted); overflow-wrap: anywhere; }
+  /* phones: label goes under the arrow, full width, so long paths don't wrap mid-word */
+  @media (max-width: 560px) {
+    .flow-link { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0 6px; }
+    .flow-link-label { text-align: center; }
+  }
+</style>

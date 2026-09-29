@@ -8,6 +8,8 @@ author: floci-team
 tags: [s3, storage, boto3, presigned]
 ---
 
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
 ## What You'll Build
 
 By the end of this lab you'll have a local S3 environment running entirely on your laptop:
@@ -25,15 +27,15 @@ No AWS account. No IAM role. No per-request charges.
 
 floci listens on port 4566 and implements the full S3 REST API. Every AWS SDK call hits `localhost:4566` instead of `s3.amazonaws.com`. floci accepts any non-empty credentials.
 
-```
-boto3 / AWS CLI / aws-sdk-js
-    │  PUT · GET · HEAD · DELETE
-    ▼
-floci  :4566
-    │  /<bucket>/<key>
-    ▼
-local filesystem
-```
+<FlowDiagram
+  label="SDK and CLI calls go to floci on port 4566, which stores buckets and objects on the local filesystem."
+  steps={[
+    { title: 'boto3 / AWS CLI / aws-sdk-js' },
+    { title: 'floci :4566' },
+    { title: 'local filesystem' },
+  ]}
+  links={['PUT · GET · HEAD · DELETE', '/<bucket>/<key>']}
+/>
 
 No code changes beyond setting `AWS_ENDPOINT_URL` or passing `endpoint_url` to the client.
 

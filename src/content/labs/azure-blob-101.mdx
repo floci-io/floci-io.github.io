@@ -8,6 +8,8 @@ author: floci-team
 tags: [blob, storage, azure, python, sas]
 ---
 
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
 ## What You'll Build
 
 By the end of this lab you'll have a local Azure Blob Storage service running entirely on your laptop:
@@ -24,15 +26,15 @@ No Azure account. No subscription. No per-operation cost.
 
 floci-az exposes the Blob Storage REST API on port 4577 using the same Azurite-compatible connection string format that official Azure SDKs expect. Every SDK call hits `localhost:4577` instead of `*.blob.core.windows.net`.
 
-```
-Python SDK / Azure CLI / @azure/storage-blob
-    │  PUT · GET · HEAD · DELETE
-    ▼
-floci-az  :4577
-    │  /devstoreaccount1/<container>/<blob>
-    ▼
-local filesystem
-```
+<FlowDiagram
+  label="SDK and CLI calls go to floci-az on port 4577, which stores containers and blobs on the local filesystem."
+  steps={[
+    { title: 'Python SDK / Azure CLI / @azure/storage-blob' },
+    { title: 'floci-az :4577' },
+    { title: 'local filesystem' },
+  ]}
+  links={['PUT · GET · HEAD · DELETE', '/devstoreaccount1/<container>/<blob>']}
+/>
 
 No changes to application code beyond swapping the connection string.
 

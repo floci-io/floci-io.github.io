@@ -8,6 +8,8 @@ author: floci-team
 tags: [athena, s3, glue, boto3]
 ---
 
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
 ## What You'll Build
 
 By the end of this lab you'll have a local Athena data lake running entirely on your laptop:
@@ -24,18 +26,16 @@ No AWS account. No IAM role. No per-query charges.
 
 floci emulates the full Athena + Glue + S3 API surface on port 4566. When you call `StartQueryExecution`, floci spins up **floci-duck** (a DuckDB sidecar) on first use, injects Glue schema as DuckDB views, then executes your SQL for real.
 
-```
-boto3 / AWS CLI
-    │  StartQueryExecution
-    ▼
-floci  :4566
-    │  SQL + Glue views
-    ▼
-floci-duck (DuckDB)
-    │  results → CSV
-    ▼
-S3 output bucket
-```
+<FlowDiagram
+  label="A query goes to floci on port 4566, runs in the floci-duck DuckDB sidecar, and the results land in the S3 output bucket."
+  steps={[
+    { title: 'boto3 / AWS CLI' },
+    { title: 'floci :4566' },
+    { title: 'floci-duck', note: 'DuckDB' },
+    { title: 'S3 output bucket' },
+  ]}
+  links={['StartQueryExecution', 'SQL + Glue views', 'results → CSV']}
+/>
 
 You never call floci-duck directly. It's managed by floci automatically.
 

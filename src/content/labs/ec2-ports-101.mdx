@@ -8,6 +8,8 @@ author: floci-team
 tags: [ec2, security-groups, socat, docker]
 ---
 
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
 ## What You'll Build
 
 By the end of this lab you'll have a real (local) EC2 workflow running on your laptop:
@@ -27,15 +29,15 @@ This lab is the hands-on companion to [Opening EC2 ports in-flight with socat](/
 
 Docker only publishes ports at container creation. There is no "add a published port" to a running container. So Floci never touches the instance container. For each opened TCP port it starts a tiny socat sidecar that publishes a host port and forwards it to the instance's IP:
 
-```
-curl localhost:30xxx
-    │
-    ▼
-floci-ec2-fwd-<instanceId>-8080   (alpine/socat sidecar)
-    │  TCP forward
-    ▼
-172.17.0.x:8080                   (your app, inside the instance)
-```
+<FlowDiagram
+  label="A request to a host port reaches a socat sidecar, which forwards it over TCP to the app inside the instance."
+  steps={[
+    { title: 'curl localhost:30xxx', note: 'your machine' },
+    { title: 'floci-ec2-fwd-<instanceId>-8080', note: 'alpine/socat sidecar' },
+    { title: '172.17.0.x:8080', note: 'your app, inside the instance' },
+  ]}
+  links={['', 'TCP forward']}
+/>
 
 Every `authorize` and `revoke` triggers a reconcile: ports the security groups allow are diffed against the forwards actually live. New ports get a sidecar, revoked ports lose theirs. The instance is never rebuilt, restarted, or touched.
 
