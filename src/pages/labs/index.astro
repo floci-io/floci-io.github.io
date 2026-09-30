@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import { getAuthor } from '../../data/authors';
 
-const labs = (await getCollection('labs', ({ data }) => !data.draft))
+const labs = (await getCollection('labs', ({ data }) => !data.draft || import.meta.env.DEV))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const cloudColor: Record<string, string> = {
