@@ -20,7 +20,7 @@ const labs = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    cloud: z.enum(['aws', 'azure', 'gcp', 'all']),
+    cloud: z.enum(['aws', 'azure', 'gcp', 'oci', 'all']),
     difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
     duration: z.string(),
     author: z.enum(authorIds),

@@ -1,0 +1,346 @@
+---
+title: "OCI Object Storage: 101"
+description: Create buckets, upload objects, and share them with pre-authenticated requests using floci-oci's Object Storage API. No Oracle Cloud account needed.
+cloud: oci
+difficulty: beginner
+duration: 20 min
+author: floci-team
+tags: [object-storage, storage, oci, python, par]
+draft: false
+---
+
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
+## What You'll Build
+
+By the end of this lab you'll have a local OCI Object Storage service running entirely on your laptop:
+
+1. A bucket holding a CSV dataset, uploaded with the OCI CLI
+2. A working **Python SDK client** that creates buckets, writes, reads, and lists objects against `localhost:4599`
+3. A **pre-authenticated request (PAR)** that shares a single object through a plain URL, tested with `curl`
+
+No Oracle Cloud account. No tenancy. No API key registered anywhere.
+
+---
+
+## How It Works
+
+floci-oci exposes the Object Storage REST API on port 4599, next to every other floci-oci service. The OCI CLI and SDKs sign each request with an API key as usual; floci-oci reads the tenancy and user from the signature but never verifies it, so a throwaway key you generate locally is all you need.
+
+<FlowDiagram
+  label="SDK and CLI calls go to floci-oci on port 4599, which stores buckets and objects locally, partitioned by tenancy."
+  steps={[
+    { title: 'OCI CLI / Python SDK / Java SDK' },
+    { title: 'floci-oci :4599' },
+    { title: 'local storage (per tenancy)' },
+  ]}
+  links={['signed REST calls', '/n/<namespace>/b/<bucket>/o/<object>']}
+/>
+
+The only change to application code is the service endpoint.
+
+---
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm) (`oci`)
+- Python 3.9+ with the OCI SDK (`pip install oci`)
+- `openssl` (preinstalled on macOS and most Linux distributions)
+
+---
+
+## Step 1: Start floci-oci
+
+```bash
+docker run -d --name floci-oci -p 4599:4599 \
+  floci/floci-oci:latest
+
+# wait until it's healthy (the first start takes a few seconds)
+until curl -fs http://localhost:4599/_floci-oci/health; do
+  sleep 1
+done
+```
+
+The health check prints the running services, `objectstorage` among them.
+
+---
+
+## Step 2: Create a Throwaway Profile
+
+The OCI CLI refuses to run without an API key, so generate one locally and add a `FLOCI` profile that uses floci-oci's built-in tenancy. The key never leaves your machine and is never registered with Oracle.
+
+```bash
+mkdir -p ~/.oci
+openssl genrsa -out ~/.oci/floci_key.pem 2048
+echo "OCI_API_KEY" >> ~/.oci/floci_key.pem   # silences a CLI warning
+chmod 600 ~/.oci/floci_key.pem
+
+cat >> ~/.oci/config <<'EOF'
+[FLOCI]
+user=ocid1.user.oc1..flocilocaluser0000000000000000000000000000000000000000000000
+fingerprint=aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99
+tenancy=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000
+region=us-ashburn-1
+key_file=~/.oci/floci_key.pem
+EOF
+chmod 600 ~/.oci/config
+```
+
+Now point the CLI at the profile and the emulator. `OCI_CLI_ENDPOINT` saves you a `--endpoint` flag on every command:
+
+```bash
+export OCI_CLI_PROFILE=FLOCI
+export OCI_CLI_ENDPOINT=http://localhost:4599
+export TENANCY=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000
+
+oci os ns get
+```
+
+Expected output:
+
+```text
+{
+  "data": "floci-local"
+}
+```
+
+If you use the floci CLI, two commands do all of the above:
+
+```bash
+floci oci setup          # generates the key and writes the FLOCI profile
+eval $(floci oci env)    # exports OCI_CLI_PROFILE and OCI_CLI_ENDPOINT
+```
+
+---
+
+## Step 3: Create a Bucket and Upload an Object
+
+In OCI, every bucket lives in a **compartment**. Here the root compartment is the tenancy itself.
+
+```bash
+# Create a bucket
+oci os bucket create \
+  --compartment-id "$TENANCY" \
+  --name sales-data
+
+# Create a sample CSV file
+cat > sales.csv <<'EOF'
+order_id,region,product,amount
+1,us-ashburn-1,widget-a,99.50
+2,us-phoenix-1,widget-b,150.00
+3,eu-frankfurt-1,widget-a,87.00
+EOF
+
+# Upload it
+oci os object put \
+  --bucket-name sales-data \
+  --name sales/data.csv \
+  --file sales.csv
+```
+
+---
+
+## Step 4: List and Download Objects
+
+```bash
+# List the objects in the bucket
+oci os object list \
+  --bucket-name sales-data \
+  --query 'data[].{name:name,size:size}' \
+  --output table
+
+# Download the object back to disk
+oci os object get \
+  --bucket-name sales-data \
+  --name sales/data.csv \
+  --file sales-back.csv
+
+cat sales-back.csv
+```
+
+Expected output:
+
+```text
++----------------+------+
+| name           | size |
++----------------+------+
+| sales/data.csv | 124  |
++----------------+------+
+```
+
+---
+
+## Step 5: Read and Write with the Python SDK
+
+The SDK reads the same `FLOCI` profile, so there are no credentials in the code. Save the following as `objects.py` and run it:
+
+```python
+import oci
+
+config = oci.config.from_file(profile_name="FLOCI")
+client = oci.object_storage.ObjectStorageClient(
+    config, service_endpoint="http://localhost:4599"
+)
+
+ns = client.get_namespace().data
+tenancy = config["tenancy"]
+
+# Create a bucket
+client.create_bucket(
+    ns,
+    oci.object_storage.models.CreateBucketDetails(
+        name="reports", compartment_id=tenancy
+    ),
+)
+
+# Upload an object
+client.put_object(ns, "reports", "summary.txt",
+                  b"Q1 total: $336.50\nRegions: 3")
+
+# Download and print it
+obj = client.get_object(ns, "reports", "summary.txt")
+print(obj.data.content.decode())
+
+# List all objects in the bucket
+print("\nObjects in 'reports':")
+listing = client.list_objects(ns, "reports", fields="name,size")
+for o in listing.data.objects:
+    print("  " + o.name + "  (" + str(o.size) + " bytes)")
+```
+
+Expected output:
+
+```text
+Q1 total: $336.50
+Regions: 3
+
+Objects in 'reports':
+  summary.txt  (28 bytes)
+```
+
+---
+
+## Step 6: Share an Object with a Pre-Authenticated Request
+
+A **pre-authenticated request (PAR)** is OCI's answer to S3 pre-signed URLs and Azure SAS tokens: a URL that grants one kind of access (read, write, or both) to one object or bucket until it expires. Whoever holds the URL needs no key and no signature.
+
+Save the following as `par.py` and run it:
+
+```python
+import urllib.request
+from datetime import datetime, timedelta, timezone
+import oci
+from oci.object_storage.models import (
+    CreatePreauthenticatedRequestDetails,
+)
+
+ENDPOINT = "http://localhost:4599"
+config = oci.config.from_file(profile_name="FLOCI")
+client = oci.object_storage.ObjectStorageClient(
+    config, service_endpoint=ENDPOINT
+)
+ns = client.get_namespace().data
+
+# A read-only PAR for one object, valid for one hour
+par = client.create_preauthenticated_request(
+    ns,
+    "reports",
+    CreatePreauthenticatedRequestDetails(
+        name="share-summary",
+        access_type="ObjectRead",
+        object_name="summary.txt",
+        time_expires=datetime.now(timezone.utc) + timedelta(hours=1),
+    ),
+).data
+
+url = ENDPOINT + par.access_uri
+print("PAR URL:")
+print(url)
+
+# Fetch via plain HTTP: no key, no signature, just the URL
+with urllib.request.urlopen(url) as resp:
+    print("\nContent fetched via PAR:")
+    print(resp.read().decode())
+```
+
+Expected output:
+
+```text
+PAR URL:
+http://localhost:4599/p/MWZkODBh.../n/floci-local/b/reports/o/summary.txt
+
+Content fetched via PAR:
+Q1 total: $336.50
+Regions: 3
+```
+
+The `access_uri` is a path, not a full URL: prepend your Object Storage endpoint. Against real OCI that is `https://objectstorage.<region>.oraclecloud.com`.
+
+---
+
+## Bonus: Let Someone Upload Without Credentials
+
+A PAR can grant write access too. This is how you let a partner or a browser drop a file into a bucket without handing out an API key:
+
+```bash
+# Expiry one hour from now (macOS / Linux)
+EXPIRY=$(date -u -v+1H +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
+  || date -u -d "+1 hour" +"%Y-%m-%dT%H:%M:%SZ")
+
+UPLOAD=$(oci os preauth-request create \
+  --bucket-name sales-data \
+  --name upload-q2 \
+  --access-type ObjectWrite \
+  --object-name sales/q2.csv \
+  --time-expires "$EXPIRY" \
+  --query 'data."access-uri"' --raw-output)
+
+# Upload with plain curl: no OCI CLI, no key
+curl -s -X PUT --data-binary @sales.csv "$OCI_CLI_ENDPOINT$UPLOAD"
+
+# The object is now in the bucket
+oci os object list --bucket-name sales-data --query 'data[].name'
+```
+
+---
+
+## Cleanup
+
+OCI won't delete a bucket that still holds objects, so remove each bucket's PARs and objects first:
+
+```bash
+for B in sales-data reports; do
+  for PAR_ID in $(oci os preauth-request list --bucket-name "$B" \
+      --query 'data[].id' --raw-output | tr -d '[]",'); do
+    oci os preauth-request delete --bucket-name "$B" \
+      --par-id "$PAR_ID" --force
+  done
+  oci os object bulk-delete --bucket-name "$B" --force
+  oci os bucket delete --bucket-name "$B" --force
+done
+
+# Stop and remove the emulator
+docker rm -f floci-oci
+```
+
+The `FLOCI` profile and key are harmless to keep for the next lab. To remove them, delete `~/.oci/floci_key.pem` and the `[FLOCI]` section of `~/.oci/config`.
+
+---
+
+## What You Learned
+
+- floci-oci serves the **real Object Storage REST API** on `localhost:4599`. The OCI CLI and SDKs need only an endpoint override
+- A locally generated API key is enough: floci-oci reads the tenancy from the request signature but never verifies it
+- `OCI_CLI_PROFILE` and `OCI_CLI_ENDPOINT` point every `oci` command at the emulator without extra flags
+- Buckets belong to a compartment and live under a namespace (`floci-local`), exactly as on real OCI
+- PARs share read or write access to a single object through a plain URL, the OCI counterpart of S3 pre-signed URLs and Azure SAS tokens
+
+---
+
+## Next Steps
+
+- Compare the same workflow on other clouds: [AWS S3 Buckets: 101](/labs/aws-s3-101/), [Azure Blob Storage: 101](/labs/azure-blob-101/), and [GCP Cloud Storage: 101](/labs/gcp-cloud-storage-101/)
+- Create a bucket-level PAR (`--access-type AnyObjectRead`, no `--object-name`) and fetch any object by appending its name to the URL
+- Sign requests with a second profile that uses a different tenancy OCID and watch its buckets stay invisible to the first. Tenancies are fully isolated in floci-oci
+- Browse everything floci-oci emulates on the [OCI page](/oci/)

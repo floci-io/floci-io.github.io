@@ -296,6 +296,7 @@ curl "http://localhost:4577/devstoreaccount1/sales-data/sales/data.csv?$SAS"
 
 ## Next Steps
 
+- Compare the same workflow on other clouds: [AWS S3 Buckets: 101](/labs/aws-s3-101/), [GCP Cloud Storage: 101](/labs/gcp-cloud-storage-101/), and [OCI Object Storage: 101](/labs/oci-object-storage-101/)
 - Upload blobs with custom **metadata** (`--metadata` in the CLI) and filter with `az storage blob list --include m`
 - Try `BlobLeaseClient` to test optimistic concurrency patterns against a local blob
 - Register an **Event Grid** subscription on the container so a local Azure Function fires on every upload

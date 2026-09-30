@@ -1,0 +1,307 @@
+---
+title: "GCP Cloud Storage: 101"
+description: Create buckets, upload objects, and share them with V4 signed URLs using floci-gcp's Cloud Storage API. No Google Cloud account needed.
+cloud: gcp
+difficulty: beginner
+duration: 20 min
+author: floci-team
+tags: [gcs, storage, gcp, python, signed-url]
+draft: false
+---
+
+import FlowDiagram from '../../components/FlowDiagram.astro';
+
+## What You'll Build
+
+By the end of this lab you'll have a local Google Cloud Storage service running entirely on your laptop:
+
+1. A bucket holding a CSV dataset, uploaded with the `gcloud` CLI
+2. A working **Python client** that creates buckets, writes, reads, and lists objects against `localhost:4588`
+3. A **V4 signed URL** that shares a single object through a plain URL, plus a second one you watch expire
+
+No Google Cloud account. No project. No billing account.
+
+---
+
+## How It Works
+
+floci-gcp serves the Cloud Storage JSON and XML APIs on port 4588, next to every other floci-gcp service. The Google Cloud client libraries switch to it when `STORAGE_EMULATOR_HOST` is set; `gcloud` needs its own endpoint override and any access token.
+
+<FlowDiagram
+  label="gcloud and SDK calls go to floci-gcp on port 4588, which stores buckets and objects locally."
+  steps={[
+    { title: 'gcloud / google-cloud-storage / @google-cloud/storage' },
+    { title: 'floci-gcp :4588' },
+    { title: 'local storage' },
+  ]}
+  links={['JSON · XML · gRPC', '/storage/v1/b/<bucket>/o/<object>']}
+/>
+
+No code changes beyond the endpoint.
+
+---
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) (`gcloud`). No `gcloud auth login` needed
+- Python 3.9+ with the Cloud Storage client (`pip install google-cloud-storage`)
+- `openssl` (preinstalled on macOS and most Linux distributions)
+
+---
+
+## Step 1: Start floci-gcp
+
+```bash
+docker run -d --name floci-gcp -p 4588:4588 \
+  floci/floci-gcp:latest
+
+# wait until it's healthy (the first start takes a few seconds)
+until curl -fs http://localhost:4588/health; do sleep 1; done
+```
+
+The health check prints the running services, `gcs` among them.
+
+---
+
+## Step 2: Point gcloud and the SDK at floci-gcp
+
+The client libraries and `gcloud` are configured separately. Set both:
+
+```bash
+# Client libraries (Python, Node.js, Go, Java...)
+export STORAGE_EMULATOR_HOST=http://localhost:4588
+
+# gcloud ignores STORAGE_EMULATOR_HOST, so override its endpoint.
+# Any token works locally.
+export CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE=http://localhost:4588/
+export CLOUDSDK_CORE_PROJECT=floci-local
+export CLOUDSDK_AUTH_ACCESS_TOKEN=floci
+```
+
+These are environment variables, so they only affect this terminal. Your real `gcloud` configuration and credentials stay untouched.
+
+If you use the floci CLI, `eval $(floci gcp env)` exports `STORAGE_EMULATOR_HOST` and the other SDK emulator hosts for you. You still need the three `CLOUDSDK_*` lines for `gcloud`.
+
+---
+
+## Step 3: Create a Bucket and Upload an Object
+
+```bash
+# Create a bucket
+gcloud storage buckets create gs://sales-data
+
+# Create a sample CSV file
+cat > sales.csv <<'EOF'
+order_id,region,product,amount
+1,us-central1,widget-a,99.50
+2,us-east1,widget-b,150.00
+3,europe-west1,widget-a,87.00
+EOF
+
+# Upload it
+gcloud storage cp sales.csv gs://sales-data/sales/data.csv
+```
+
+---
+
+## Step 4: List and Download Objects
+
+```bash
+# List the objects in the bucket
+gcloud storage ls --long --recursive gs://sales-data
+
+# Download the object back to disk
+gcloud storage cp gs://sales-data/sales/data.csv sales-back.csv
+
+cat sales-back.csv
+```
+
+Expected output of the listing:
+
+```text
+gs://sales-data/:
+
+gs://sales-data/sales/:
+       117  2026-09-30T20:41:32Z  gs://sales-data/sales/data.csv
+TOTAL: 1 objects, 117 bytes (117.00B)
+```
+
+---
+
+## Step 5: Read and Write with the Python Client
+
+With `STORAGE_EMULATOR_HOST` set, the client skips authentication and talks to floci-gcp. Save the following as `objects.py` and run it:
+
+```python
+import os
+os.environ.setdefault("STORAGE_EMULATOR_HOST", "http://localhost:4588")
+
+from google.cloud import storage
+
+client = storage.Client(project="floci-local")
+
+# Create a new bucket
+bucket = client.create_bucket("reports")
+
+# Upload an object
+blob = bucket.blob("summary.txt")
+blob.upload_from_string("Q1 total: $336.50\nRegions: 3")
+
+# Download and print it
+print(blob.download_as_text())
+
+# List all objects in the bucket
+print("\nObjects in 'reports':")
+for b in client.list_blobs("reports"):
+    print("  " + b.name + "  (" + str(b.size) + " bytes)")
+```
+
+Expected output:
+
+```text
+Q1 total: $336.50
+Regions: 3
+
+Objects in 'reports':
+  summary.txt  (28 bytes)
+```
+
+---
+
+## Step 6: Share an Object with a Signed URL
+
+A **V4 signed URL** is Cloud Storage's counterpart of S3 pre-signed URLs and Azure SAS tokens: a URL signed with a service account's private key that grants one operation on one object until it expires. Whoever holds the URL needs no Google credentials.
+
+On real GCP the signer is a service account key. floci-gcp checks the URL's expiry but not its signature, so a locally generated RSA key stands in for one:
+
+```bash
+openssl genrsa -out signer.pem 2048
+```
+
+Save the following as `signed_url.py` and run it:
+
+```python
+import os
+os.environ.setdefault("STORAGE_EMULATOR_HOST", "http://localhost:4588")
+
+import time
+import urllib.error
+import urllib.request
+from datetime import timedelta
+from google.cloud import storage
+from google.oauth2 import service_account
+
+ENDPOINT = "http://localhost:4588"
+
+# A throwaway signer: any RSA key works locally
+signer = service_account.Credentials.from_service_account_info({
+    "client_email": "lab-signer@floci-local.iam.gserviceaccount.com",
+    "private_key": open("signer.pem").read(),
+    "token_uri": "https://oauth2.googleapis.com/token",
+})
+
+client = storage.Client(project="floci-local")
+blob = client.bucket("reports").blob("summary.txt")
+
+# A V4 GET URL, valid for one hour
+url = blob.generate_signed_url(
+    version="v4",
+    method="GET",
+    expiration=timedelta(hours=1),
+    credentials=signer,
+    api_access_endpoint=ENDPOINT,
+)
+print("Signed URL:")
+print(url[:70] + "...")
+
+# Fetch via plain HTTP: no token, just the URL
+with urllib.request.urlopen(url) as resp:
+    print("\nContent fetched via signed URL:")
+    print(resp.read().decode())
+
+# A URL that expires after one second
+short = blob.generate_signed_url(
+    version="v4",
+    expiration=timedelta(seconds=1),
+    credentials=signer,
+    api_access_endpoint=ENDPOINT,
+)
+time.sleep(2)
+try:
+    urllib.request.urlopen(short)
+except urllib.error.HTTPError as e:
+    print("Expired URL ->", e.code)
+```
+
+Expected output:
+
+```text
+Signed URL:
+http://localhost:4588/reports/summary.txt?X-Goog-Algorithm=GOOG4-RSA-S...
+
+Content fetched via signed URL:
+Q1 total: $336.50
+Regions: 3
+
+Expired URL -> 400
+```
+
+The expired URL is rejected with `400`, the same status real Cloud Storage returns, so you can test your expiry handling locally. Against real GCP, drop `api_access_endpoint` and sign with a real service account.
+
+---
+
+## Bonus: Custom Metadata and Versioning
+
+```bash
+# Attach custom metadata and a content type to an object
+gcloud storage objects update gs://sales-data/sales/data.csv \
+  --custom-metadata=source=crm,quarter=q1 \
+  --content-type=text/csv
+
+gcloud storage objects describe gs://sales-data/sales/data.csv \
+  --format='yaml(name,content_type,custom_fields)'
+
+# Turn on versioning, then overwrite the object
+gcloud storage buckets update gs://sales-data --versioning
+echo "4,us-central1,widget-c,210.00" >> sales.csv
+gcloud storage cp sales.csv gs://sales-data/sales/data.csv
+
+# Both generations are kept
+gcloud storage ls --all-versions gs://sales-data/sales/
+```
+
+---
+
+## Cleanup
+
+```bash
+# Delete every object (all versions), then the buckets
+gcloud storage rm --all-versions 'gs://sales-data/**' 'gs://reports/**'
+gcloud storage buckets delete gs://sales-data gs://reports
+
+# Stop and remove the emulator
+docker rm -f floci-gcp
+
+# Forget the endpoint overrides in this shell
+unset STORAGE_EMULATOR_HOST CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE \
+  CLOUDSDK_CORE_PROJECT CLOUDSDK_AUTH_ACCESS_TOKEN
+```
+
+---
+
+## What You Learned
+
+- floci-gcp serves the **real Cloud Storage API** on `localhost:4588`. Client libraries need only `STORAGE_EMULATOR_HOST`
+- `gcloud` is configured separately, with `CLOUDSDK_API_ENDPOINT_OVERRIDES_STORAGE` and any access token, and only for the current shell
+- Buckets and objects behave like real Cloud Storage: prefixes, custom metadata, content types, and object versioning all work
+- V4 signed URLs share one object through a plain URL; floci-gcp enforces their expiry, so you can test that logic before deploying
+
+---
+
+## Next Steps
+
+- Compare the same workflow on other clouds: [AWS S3 Buckets: 101](/labs/aws-s3-101/), [Azure Blob Storage: 101](/labs/azure-blob-101/), and [OCI Object Storage: 101](/labs/oci-object-storage-101/)
+- Generate a signed `PUT` URL (`method="PUT"`) and upload a file to it with `curl -X PUT --data-binary`
+- Wire up a **Pub/Sub notification** on the bucket (`gcloud storage buckets notifications create`) so every upload publishes a message. Point `CLOUDSDK_API_ENDPOINT_OVERRIDES_PUBSUB` at floci-gcp as well
+- Browse everything floci-gcp emulates on the [GCP page](/gcp/)
