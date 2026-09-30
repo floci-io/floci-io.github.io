@@ -14,6 +14,7 @@ const pages = [
   { slug: 'compare', title: 'Floci vs LocalStack', sub: 'Free · No auth token · Drop-in replacement.',     color: '#7A7FD6', tag: '138× faster startup · 91% less memory' },
   { slug: 'chronicle', title: 'Chronicle',          sub: 'Engineering notes from the floci team.',           color: '#7A7FD6', tag: 'floci.io · Open Source · MIT License' },
   { slug: 'labs',    title: '101 Labs',            sub: 'Hands-on guides for AWS, Azure, GCP, and OCI.',        color: '#7A7FD6', tag: 'No cloud account needed · Runs on your laptop' },
+  { slug: 'contact', title: 'Contact',             sub: 'Sponsorship, enterprise, partnerships, and press.', color: '#7A7FD6', tag: 'contact@floci.io · We reply within two business days' },
 ];
 
 export const getStaticPaths: GetStaticPaths = () =>

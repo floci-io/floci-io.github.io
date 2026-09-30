@@ -1,0 +1,9 @@
+# Copy to .dev.vars for `npm run dev`. These are Cloudflare's Turnstile test secrets
+# (1x… always passes, 2x… always fails) and Resend's test inbox, so nothing real is sent.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+RESEND_API_KEY=re_your_key
+TO_EMAIL=delivered@resend.dev
+RETURN_URL=http://localhost:4321/contact/
+# Optional: leave empty to skip Telegram locally
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=

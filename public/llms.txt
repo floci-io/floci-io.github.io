@@ -88,3 +88,9 @@ docker run -p 4599:4599 floci/floci-oci
 - Hands-on labs (no cloud account needed): https://floci.io/labs/
 - Engineering chronicle: https://floci.io/chronicle/
 - Compare floci vs LocalStack: https://floci.io/compare/
+
+## Contact
+
+- Contact form (sponsorship, enterprise and support, partnerships, press): https://floci.io/contact/
+- Email: contact@floci.io
+- Bugs and feature requests: GitHub issues in the relevant repo under https://github.com/floci-io

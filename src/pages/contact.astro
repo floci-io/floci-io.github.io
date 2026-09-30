@@ -1,0 +1,386 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import {
+  CONTACT_EMAIL,
+  CONTACT_ENDPOINT,
+  CONTACT_TOPICS,
+  TURNSTILE_SITE_KEY,
+} from '../data/contact';
+---
+
+<Layout
+  title="Contact · floci"
+  description="Talk to the floci team about sponsorship, enterprise adoption and support, partnerships, or press."
+  canonical="https://floci.io/contact/"
+  ogImage="https://floci.io/og/contact.png"
+>
+  <Nav active="contact" />
+
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
+        <div class="section-label">Contact</div>
+        <h1>Talk to the team</h1>
+        <p class="hero-sub">Sponsorship, enterprise adoption, partnerships, or press: send us a note and a maintainer will reply.</p>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-grid">
+        <aside class="contact-aside">
+          <h2>Before you write</h2>
+          <ul class="aside-list">
+            <li>
+              <strong>Found a bug or need a feature?</strong>
+              <span>GitHub issues are the fastest route and help everyone who hits the same thing.
+                <a href="https://github.com/floci-io" target="_blank" rel="noopener noreferrer">Open&nbsp;an&nbsp;issue&nbsp;→</a></span>
+            </li>
+            <li>
+              <strong>Prefer email?</strong>
+              <span>Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</span>
+            </li>
+            <li>
+              <strong>When to expect a reply</strong>
+              <span>We usually answer within two business days.</span>
+            </li>
+          </ul>
+        </aside>
+
+        <div class="form-card">
+          <noscript>
+            <p class="noscript-note">This form needs JavaScript for its spam check. With JavaScript off, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> instead.</p>
+          </noscript>
+          <form id="contact-form" action={CONTACT_ENDPOINT} method="post" data-email={CONTACT_EMAIL}>
+            <fieldset class="topics">
+              <legend>What's this about?</legend>
+              <div class="topic-grid">
+                {CONTACT_TOPICS.map((t, i) => (
+                  <label class="topic">
+                    <input type="radio" name="topic" value={t.id} required checked={i === 0} />
+                    <span class="topic-body">
+                      <span class="topic-label">{t.label}</span>
+                      <span class="topic-hint">{t.hint}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="cf-name">Name</label>
+                <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="err-name" />
+                <span class="field-error" id="err-name"></span>
+              </div>
+              <div class="field">
+                <label for="cf-email">Work email</label>
+                <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="err-email" />
+                <span class="field-error" id="err-email"></span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cf-company">Company <span class="optional">(optional)</span></label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="100" aria-describedby="err-company" />
+              <span class="field-error" id="err-company"></span>
+            </div>
+
+            <div class="field">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" rows="6" required minlength="10" maxlength="5000" aria-describedby="err-message"></textarea>
+              <span class="field-error" id="err-message"></span>
+            </div>
+
+            <!-- Honeypot: hidden from people and screen readers, filled in by naive bots -->
+            <div class="hp" aria-hidden="true">
+              <label for="cf-website">Website</label>
+              <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-size="flexible"></div>
+
+            <div class="form-footer">
+              <button type="submit" class="btn-primary submit">Send message</button>
+              <p class="privacy">We only use your details to reply. Nothing is stored beyond the email we receive.</p>
+            </div>
+
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div id="form-success" class="form-success" hidden tabindex="-1">
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h2>Message sent</h2>
+            <p>Thanks for reaching out. We sent a confirmation to your inbox and will reply within two business days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer variant="sub" />
+</Layout>
+
+<!-- Match the Turnstile widget to the site theme before its script renders it -->
+<script is:inline>
+  (function () {
+    // Same rule as setTheme() in Nav.astro, which runs later as a deferred module.
+    var w = document.querySelector('.cf-turnstile');
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var light = saved ? saved === 'light' : matchMedia('(prefers-color-scheme: light)').matches;
+    if (w) w.setAttribute('data-theme', light ? 'light' : 'dark');
+  })();
+</script>
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const success = document.getElementById('form-success');
+  const CONTACT_EMAIL = form?.dataset.email ?? '';
+
+  const MESSAGES: Record<string, string> = {
+    invalid: 'Some fields need a second look.',
+    captcha: 'The spam check did not pass. Please try again.',
+    rate_limited: 'Too many messages in a short time. Please wait a minute and try again.',
+    send_failed: `We could not send your message. Please email ${CONTACT_EMAIL} directly.`,
+    network: `We could not reach the server. Please try again, or email ${CONTACT_EMAIL}.`,
+  };
+
+  function showSuccess() {
+    if (!form || !success) return;
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
+  }
+
+  function showError(code: string) {
+    if (!status) return;
+    status.textContent = MESSAGES[code] ?? MESSAGES.network;
+    status.classList.add('is-error');
+  }
+
+  function clearErrors() {
+    form?.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+    form?.querySelectorAll('.field-error').forEach((el) => (el.textContent = ''));
+    if (status) {
+      status.textContent = '';
+      status.classList.remove('is-error');
+    }
+  }
+
+  function showFieldErrors(fields: Record<string, string>) {
+    let first: HTMLElement | null = null;
+    for (const [name, msg] of Object.entries(fields)) {
+      const input = form?.querySelector<HTMLElement>(`[name="${name}"]`);
+      const err = document.getElementById(`err-${name}`);
+      if (input) {
+        input.setAttribute('aria-invalid', 'true');
+        first ??= input;
+      }
+      if (err) err.textContent = msg;
+    }
+    first?.focus();
+  }
+
+  // Preselect a topic from ?topic=, and show the result of a no-JS submission.
+  const params = new URLSearchParams(location.search);
+  const topic = params.get('topic');
+  if (topic && form) {
+    const radio = form.querySelector<HTMLInputElement>(`input[name="topic"][value="${CSS.escape(topic)}"]`);
+    if (radio) radio.checked = true;
+  }
+  if (params.get('sent') === '1') showSuccess();
+  else if (params.get('error')) showError(params.get('error')!);
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearErrors();
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending…';
+    }
+
+    try {
+      const data = Object.fromEntries(new FormData(form));
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.ok && body.ok) {
+        (window as any).umami?.track?.('contact-sent', { topic: data.topic });
+        showSuccess();
+        return;
+      }
+      if (body.fields) showFieldErrors(body.fields);
+      showError(body.error ?? 'network');
+    } catch {
+      showError('network');
+    } finally {
+      // A Turnstile token works once; get a fresh one for the next attempt.
+      (window as any).turnstile?.reset?.();
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Send message';
+      }
+    }
+  });
+</script>
+
+<style>
+  .page-hero {
+    padding: 140px 2rem 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-hero h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 560px;
+  }
+
+  .contact-section { padding: 64px 2rem 120px; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .contact-aside h2 { font-size: 22px; letter-spacing: -0.5px; margin-bottom: 20px; }
+  .aside-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .aside-list li { display: flex; flex-direction: column; gap: 4px; }
+  .aside-list strong { font-size: 16px; color: var(--text); }
+  .aside-list span { font-size: 16px; color: var(--text-muted); }
+  .aside-list a { color: var(--accent); }
+
+  .form-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+  }
+  form { display: flex; flex-direction: column; gap: 20px; }
+  form[hidden] { display: none; }
+
+  .topics { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .topics legend,
+  .field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .topics legend { padding: 0; margin-bottom: 12px; }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 10px;
+  }
+  .topic { position: relative; cursor: pointer; display: block; }
+  .topic input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .topic-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 44px;
+    height: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .topic:hover .topic-body { border-color: var(--border-bright); }
+  .topic input:checked + .topic-body {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .topic input:focus-visible + .topic-body { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .topic-label { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topic-hint { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; min-width: 0; }
+  .optional { font-weight: 400; color: var(--text-dim); }
+  .field input,
+  .field textarea {
+    font: inherit;
+    font-size: 16px; /* 16px keeps iOS from zooming on focus */
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    min-height: 44px;
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  .field textarea { resize: vertical; min-height: 140px; }
+  .field input:focus-visible,
+  .field textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+  .field [aria-invalid='true'] { border-color: var(--red); }
+  .field-error { font-size: 13px; color: var(--red); min-height: 0; margin-top: 6px; }
+  .field-error:empty { display: none; }
+
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+  .form-footer { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .submit { border: 0; cursor: pointer; font-family: inherit; min-height: 44px; }
+  .submit:disabled { opacity: 0.6; cursor: progress; transform: none; }
+  .privacy { font-size: 13px; color: var(--text-dim); flex: 1 1 220px; }
+
+  .noscript-note {
+    font-size: 15px; color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 20px;
+  }
+  .noscript-note a { color: var(--accent); }
+  .form-status { font-size: 15px; }
+  .form-status:empty { display: none; }
+  .form-status.is-error { color: var(--red); }
+
+  .form-success { text-align: center; padding: 32px 8px; outline: none; }
+  .success-mark {
+    width: 56px; height: 56px; margin: 0 auto 16px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 28px; font-weight: 700;
+    color: var(--green);
+    border: 2px solid var(--green);
+  }
+  .form-success h2 { font-size: 28px; margin-bottom: 8px; }
+  .form-success p { color: var(--text-muted); font-size: 16px; max-width: 420px; margin: 0 auto; }
+
+  @media (max-width: 860px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 560px) {
+    .page-hero { padding: 110px 16px 40px; }
+    .contact-section { padding: 32px 16px 80px; }
+    .form-card { padding: 20px 16px; }
+    .field-row { grid-template-columns: 1fr; }
+    .topic-grid { grid-template-columns: 1fr; }
+    .submit { width: 100%; justify-content: center; }
+  }
+</style>

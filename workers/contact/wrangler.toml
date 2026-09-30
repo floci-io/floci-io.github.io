@@ -1,0 +1,20 @@
+name = "floci-contact"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://floci.io,https://www.floci.io,http://localhost:4321"
+RETURN_URL = "https://floci.io/contact/"
+TO_EMAIL = "contact@floci.io"
+FROM_EMAIL = "floci <contact@floci.io>"
+
+# 5 submissions per minute per IP. Secrets are set with `wrangler secret put`:
+# RESEND_API_KEY, TURNSTILE_SECRET, and optionally TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID
+# (leave both unset to turn Telegram notifications off).
+[[ratelimits]]
+name = "CONTACT_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
