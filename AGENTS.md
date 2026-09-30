@@ -69,6 +69,16 @@ validated at build time).
 - One `<h1>` per page, headings in order, and a `<main id="main-content">` so the skip link works.
 - Keep pages fast: avoid client-side JS and heavy assets; prefer WebP images with width/height set.
 
+## Contact form
+
+- `/contact` (`src/pages/contact.astro`) posts to a Cloudflare Worker in `workers/contact/`, which
+  emails the team through Resend (and pings Telegram when its secrets are set; currently off). See `workers/contact/README.md`.
+- The endpoint, Turnstile site key and contact address live in `src/data/contact.ts`; the topic list
+  lives in `workers/contact/src/topics.ts` and is shared by both. Don't hardcode any of them.
+- Secrets live only in Cloudflare (`wrangler secret put`), never in the repo.
+- The Worker has its own `package.json`; `npm run build` for the site doesn't touch it. Run
+  `npm test` in `workers/contact/` when changing it.
+
 ## Git
 
 - Conventional Commits: `feat:`, `fix:`, `docs:`, `chore:` (see `git log`).
