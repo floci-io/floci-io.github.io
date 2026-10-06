@@ -160,6 +160,16 @@ const jsonLd = {
   .prose :global(hr) { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
   .prose :global(figure) { margin: 38px 0; }
   .prose :global(img), .prose :global(video) { display: block; width: 100%; height: auto; border: 1px solid var(--border); background: var(--bg2); }
+  .prose :global(.image-zoom) { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .prose :global(.image-zoom:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
+  :global(.image-lightbox) { margin: auto; max-width: 96vw; max-height: 96vh; padding: 0; border: 1px solid var(--border); background: var(--bg2); }
+  :global(.image-lightbox::backdrop) { background: rgba(7, 11, 20, .88); }
+  :global(.image-lightbox img) { display: block; width: auto; height: auto; max-width: 96vw; max-height: 92vh; cursor: zoom-out; }
+  :global(.image-lightbox-close) {
+    position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font: 24px/1 var(--mono); cursor: pointer;
+  }
+  :global(.image-lightbox-close:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
   .prose :global(video) { aspect-ratio: 16 / 9; object-fit: cover; }
   .prose :global(figcaption) { margin-top: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; line-height: 1.5; letter-spacing: .6px; }
   .prose :global(iframe) { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; margin: 38px 0; border: 1px solid var(--border); background: var(--bg2); }
@@ -226,6 +236,38 @@ const jsonLd = {
     table.replaceWith(frame);
     scroller.appendChild(table);
     frame.append(scroller, hint);
+  });
+
+  // Post images open full size in a native <dialog>; without JS they stay plain images.
+  const lightbox = document.createElement('dialog');
+  const lightboxImage = document.createElement('img');
+  const lightboxClose = document.createElement('button');
+  lightbox.className = 'image-lightbox';
+  lightboxClose.type = 'button';
+  lightboxClose.className = 'image-lightbox-close';
+  lightboxClose.setAttribute('aria-label', 'Close image');
+  lightboxClose.textContent = '×';
+  lightbox.append(lightboxClose, lightboxImage);
+  document.body.appendChild(lightbox);
+  lightboxClose.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('click', (event) => {
+    if (event.target !== lightboxClose) lightbox.close();
+  });
+  lightbox.addEventListener('close', () => lightboxImage.removeAttribute('src'));
+
+  document.querySelectorAll<HTMLImageElement>('.prose img').forEach((image) => {
+    if (image.closest('a, button')) return;
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'image-zoom';
+    trigger.setAttribute('aria-label', image.alt ? `Expand image: ${image.alt}` : 'Expand image');
+    image.replaceWith(trigger);
+    trigger.appendChild(image);
+    trigger.addEventListener('click', () => {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt;
+      lightbox.showModal();
+    });
   });
 
   const diagramNodes = Array.from(document.querySelectorAll<HTMLElement>('pre[data-language="mermaid"]')).map((codeBlock) => {

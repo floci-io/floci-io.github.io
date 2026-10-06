@@ -151,6 +151,12 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'AWS Budgets', proto: 'JSON 1.1', category: 'billing', url: 'https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html' },
   { name: 'BCM Pricing Calculator', proto: 'JSON 1.1', category: 'billing', url: 'https://docs.aws.amazon.com/pricing-calculator/latest/userguide/what-is-pricing-calculator.html' },
   { name: 'AWS Marketplace', proto: 'REST JSON + CBOR', category: 'billing', url: 'https://docs.aws.amazon.com/marketplace/' },
+  { name: 'Data Lifecycle Manager', proto: 'REST JSON', category: 'storage', url: 'https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.html' },
+  { name: 'Timestream for InfluxDB', proto: 'JSON 1.0 + InfluxDB', category: 'database', docker: 'default', url: 'https://docs.aws.amazon.com/timestream/latest/developerguide/timestream-for-influxdb.html' },
+  { name: 'DMS', proto: 'JSON 1.1', category: 'database', url: 'https://aws.amazon.com/dms/' },
+  { name: 'Redshift Serverless', proto: 'JSON 1.1', category: 'analytics', url: 'https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html' },
+  { name: 'CodeArtifact', proto: 'REST JSON', category: 'devtools', docker: 'default', url: 'https://aws.amazon.com/codeartifact/' },
+  { name: 'SageMaker', proto: 'JSON 1.1', category: 'ai', docker: 'default', url: 'https://aws.amazon.com/sagemaker/' },
 ];
 
 export const AZURE_SERVICES: CloudService[] = [
@@ -210,6 +216,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Resource Manager', proto: 'REST JSON', category: 'devtools', url: 'https://cloud.google.com/resource-manager/docs' },
   { name: 'Service Usage', proto: 'REST JSON · LRO', category: 'devtools', url: 'https://cloud.google.com/service-usage/docs' },
   { name: 'Operations', proto: 'gRPC · REST JSON · LRO', category: 'devtools', url: 'https://google.aip.dev/151' },
+  { name: 'Compute Engine', proto: 'REST JSON · LRO', category: 'compute', url: 'https://cloud.google.com/compute/docs' },
 ];
 
 export const OCI_SERVICES: CloudService[] = [

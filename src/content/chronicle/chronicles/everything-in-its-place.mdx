@@ -1,0 +1,75 @@
+---
+title: "Everything in Its Place"
+subtitle: "The October 6 Release"
+description: "Floci's oldest file is gone: CloudFormation taken apart service by service, every resource kept in its own account, region and partition, and new services on AWS, Google Cloud and Azure."
+pubDate: 2026-10-06
+author: hectorvent
+tags: [release, announcement, open-source]
+draft: true
+---
+
+All four Floci emulators shipped a new release this morning:
+
+| Cloud | Docker image | Release |
+|---|---|---|
+| AWS | `floci/floci` | [2.2.0](https://github.com/floci-io/floci/releases/tag/2.2.0) |
+| Azure | `floci/floci-az` | [0.14.0](https://github.com/floci-io/floci-az/releases/tag/0.14.0) |
+| Google Cloud | `floci/floci-gcp` | [0.10.0](https://github.com/floci-io/floci-gcp/releases/tag/0.10.0) |
+| Oracle Cloud | `floci/floci-oci` | [0.4.2](https://github.com/floci-io/floci-oci/releases/tag/0.4.2) |
+
+This one says goodbye to the oldest file in Floci.
+
+It was written on day one, back in March, and it had a simple job: when you deployed a CloudFormation template, it read each resource and handed it to the right service. Your bucket went to S3, your queue went to SQS. At the start it knew about 33 kinds of resources.
+
+Six months later it knew about almost all of them, and it had grown past 7,000 lines. Every time someone added support for a new kind of resource, they had to edit that same file. It still worked. It had just become the one door everybody had to squeeze through.
+
+So over the last few weeks I took it apart, one service at a time. No big rewrite, just small, careful moves, each one checked by the tests we already had. On September 23 the last piece moved out and the file was deleted.
+
+If you use CloudFormation with Floci, nothing should look different, and that's on purpose. The change is for the people building it: support for a new resource now lives with the service it belongs to, so it's much quicker to add. You can already see it. Three weeks ago Floci understood 144 kinds of CloudFormation resources. Today it understands 163, and the next releases build on this.
+
+## Keeping things where they belong
+
+Real clouds are divided up. On AWS, everything you create belongs to an account and a region, and regions are grouped into partitions: the regular commercial cloud, China, GovCloud for the US government, and a few others. A queue you create in Ireland shouldn't show up when you look in Virginia.
+
+<figure>
+  <img src="/chronicle/everything-in-its-place/isolation.webp" alt="Diagram: two identical setups, each with a queue named orders, a bucket named assets and a function named checkout, one in partition aws, account 111111111111, region eu-west-1, the other in partition aws-cn, account 222222222222, region cn-north-1, kept apart. Below, the matching boundary on each cloud: AWS account, region and partition, Azure subscription, Google Cloud project, Oracle Cloud tenancy. At the bottom, one Docker host running two Floci namespaces, ci-job-1 and ci-job-2, each with its own containers." loading="lazy" />
+</figure>
+
+Floci mostly got this right already, but we went looking for the places it didn't, and found four services where things could leak from one region to another. Those are fixed. Floci also now understands all eight AWS partitions, so if your company deploys to GovCloud or China, you can test that on your laptop and see exactly what you'll get there.
+
+The other clouds got the same attention. On Azure, two subscriptions can now hold resources with the same name without stepping on each other. On Google Cloud, monitoring data, Kubernetes operations and event triggers stay inside the project they belong to. On Oracle Cloud, identity stays inside its own tenancy.
+
+And if you run more than one copy of Floci on the same machine, as parallel CI jobs often do, the containers that Azure and Google Cloud start for you are now labelled with what they're for, so it's easy to tell them apart.
+
+## What's new
+
+Six new AWS services this time, and several of them run the real software behind the scenes instead of pretending:
+
+- **SageMaker**, for machine learning: training jobs and model endpoints run in real containers.
+- **Timestream for InfluxDB**, a time-series database, backed by a real InfluxDB.
+- **CodeArtifact**, a private package repository that works with pip, npm and Maven.
+- **Database Migration Service**, **Redshift Serverless** and **Data Lifecycle Manager**.
+
+Lambda also gained durable functions, AWS's newer way to write long-running workflows that can pause and pick up where they left off.
+
+Google Cloud had its biggest month so far. BigQuery now runs your queries on DuckDB, and handles changing data, creating tables and views, and loading files from Cloud Storage. Cloud Run picked up jobs and worker pools. Managed Kafka and Cloud SQL now run real Kafka Connect and real MySQL. Compute Engine arrived for managing instances and disks, though it doesn't start real virtual machines. And Cloud Storage now enforces access policies, so a permissions mistake shows up on your laptop instead of in production.
+
+On Azure, Container Instances now start real containers. Oracle Cloud had a quiet release, just fixes. Not every release has to be a big one.
+
+Real engines, not mocks, wherever we can.
+
+## Thank you
+
+To the maintainers: a release this size only goes out on time because of the reviewing nobody sees. More than a thousand pull requests read, questioned and merged in three weeks. Thank you.
+
+To the contributors: eighty-five people besides me have work in this release, and forty of them had never had a pull request merged in floci-io before. Every one of you is in it. Thank you.
+
+To the sponsors: [IceGuard](https://github.com/iceguard) and [Softmax](https://softmax.com/), [AutoScout24](https://www.autoscout24.com), [Nexxion AI](https://nexxion.ai/) and [Rod Jenkins](https://github.com/scriptmonkey), and every one of the [Friends of the Flock](https://github.com/sponsors/floci-io). Sponsorship buys gratitude and nothing else. Floci stays free and MIT-licensed, with no feature gates for anyone. Thank you.
+
+Got a CloudFormation template Floci can't deploy yet? That's now the easiest contribution there is.
+
+**Join the Flock:** [GitHub](https://github.com/floci-io/floci) · [r/floci](https://reddit.com/r/floci) · [Slack](https://join.slack.com/t/floci/shared_invite/zt-3tjn02s3q-A00kEjJ1cZxsg_imTfy6Cw) · [floci.io](https://floci.io)
+
+*Any Cloud. Locally. Let's keep Emulating.*
+
+\#opensource #aws #azure #googlecloud #oraclecloud #cloudformation #devops #testing #docker #java
