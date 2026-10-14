@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "kind": "announcement",
+      "date": "2026-10-13",
+      "title": "Floci now has an agent skill, shipped with floci-cli",
+      "summary": "It teaches Claude Code, Codex, Cursor, Kiro and other coding agents to run the emulators with floci-cli and point your cloud tools at them. Install it with: npx skills add floci-io/floci-cli",
+      "url": "https://github.com/floci-io/floci-cli#ai-agents"
+    },
+    {
+      "kind": "release",
+      "product": "aws",
+      "version": "2.2.0",
+      "date": "2026-10-06",
+      "title": "Floci 2.2.0",
+      "summary": "Scheduler gains retry backoff and dead-letter queue handling, and API Gateway and AppSync VTL rendering is now sandboxed with execution limits.",
+      "url": "https://github.com/floci-io/floci/releases/tag/2.2.0"
+    }
+  ]
+}

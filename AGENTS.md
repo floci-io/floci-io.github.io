@@ -25,7 +25,7 @@ validated at build time).
 ## Layout
 
 - `src/pages/` — routes: `/`, `/aws` (+ `/aws/compare`), `/az`, `/gcp`, `/oci`, `/floci*`,
-  `/chronicle`, `/labs`, legacy `/blog/*` redirects, `og/[slug].png.ts` (OG images), `rss.xml.ts`.
+  `/chronicle`, `/labs`, legacy `/blog/*` redirects, `og/[slug].png.ts` (OG images), `rss.xml.ts`, `news.json.ts` (dashboard news feed).
 - `src/layouts/Layout.astro` — shared `<head>`, global CSS and design tokens, skip link.
 - `src/components/` — `Nav`, `Footer`, `SectionNav`, `ServiceIcon`, `AuthorCard`, etc.
 - `src/content/` — `chronicle/` and `labs/` collections; schemas in `src/content/config.ts`.
@@ -41,6 +41,9 @@ validated at build time).
 - **Service grids:** `src/data/cloud-services.ts`. Use neutral glyphs from `ServiceIcon`, not
   vendor product icons. Verify every `url` returns HTTP 200 when adding a service.
 - **Authors:** `src/data/authors.ts`. An unknown `author` handle fails the build.
+- **News feed:** `src/data/news.json`, published as `/news.json` by `src/pages/news.json.ts` and
+  read by the emulator dashboards of all four clouds. Newest first, at most 10 items per
+  dashboard; an invalid feed fails the build.
 - **`public/llms.txt`:** keep it in sync when counts or key facts change.
 
 ## Content
