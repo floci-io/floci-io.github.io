@@ -12,6 +12,8 @@ import { SERVICE_COUNTS } from '../data/services';
 >
   <Nav active="home" />
 
+  <main id="main-content" tabindex="-1">
+
   <section class="not-found">
     <div class="container">
       <div class="nf-glyph">404</div>
@@ -47,9 +49,11 @@ import { SERVICE_COUNTS } from '../data/services';
         ))}
       </div>
 
-      <a href="/" class="btn-ghost" style="margin-top:40px">← Back to home</a>
+      <a href="/" class="btn-ghost nf-home">← Back to home</a>
     </div>
   </section>
+
+  </main>
 
   <Footer variant="main" />
 </Layout>
@@ -80,11 +84,18 @@ import { SERVICE_COUNTS } from '../data/services';
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
     min-width: 140px;
   }
-  .nf-card:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-  .nf-card.aws:hover { border-color: rgba(255,153,0,0.4); }
-  .nf-card.az:hover  { border-color: rgba(0,120,212,0.4); }
-  .nf-card.gcp:hover { border-color: rgba(52,168,83,0.4); }
-  .nf-card.oci:hover { border-color: rgba(199,70,52,0.4); }
+  /* Hover: a 2px lift and a shadow tinted with the cloud's hue, as on the other cloud cards. */
+  .nf-card.aws { --hue: var(--c-aws); }
+  .nf-card.az  { --hue: var(--c-az); }
+  .nf-card.gcp { --hue: var(--c-gcp); }
+  .nf-card.oci { --hue: var(--c-oci); }
+  .nf-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--hue) 45%, var(--border));
+    box-shadow: 0 10px 32px color-mix(in srgb, var(--hue) 14%, transparent);
+  }
+  .nf-card:focus-visible { outline: 2px solid var(--hue); outline-offset: 3px; }
+  .nf-home { margin-top: 40px; }
   .nf-card-svg { height: 28px; width: auto; display: block; }
   .nf-card-svg .floci-text, .nf-card-svg .floci-cloud { fill: #F8FAFC; }
   html.light .nf-card-svg .floci-text { fill: #262425; }

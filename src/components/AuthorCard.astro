@@ -29,18 +29,20 @@ const links = [
     margin-top: 56px; padding: 22px 24px; border: 1px solid var(--border);
   }
   .author-eyebrow {
-    color: var(--text-dim); font-family: var(--mono); font-size: 10px;
+    color: var(--text-dim); font-family: var(--mono); font-size: 11px;
     letter-spacing: 1.5px; text-transform: uppercase;
   }
   .author-name {
     color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 22px;
     letter-spacing: -.5px; text-decoration: none;
+    display: inline-flex; align-items: center; min-height: 44px;
   }
   .author-name:hover { color: var(--accent); }
   .author-links { display: flex; gap: 14px; margin-left: auto; }
   .author-links a {
-    color: var(--text-dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+    color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
     text-decoration: none; text-transform: uppercase; transition: color .2s;
+    display: inline-flex; align-items: center; min-height: 44px;
   }
   .author-links a:hover { color: var(--accent); }
   @media (max-width: 520px) {
