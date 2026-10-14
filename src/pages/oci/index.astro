@@ -1,19 +1,11 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Nav from '../../components/Nav.astro';
-import SectionNav from '../../components/SectionNav.astro';
-import Footer from '../../components/Footer.astro';
-import { OCI_SERVICES, orderByCategory } from '../../data/cloud-services';
-const dockerTiers = new Set(OCI_SERVICES.map((s) => s.docker).filter(Boolean));
-import ServiceIcon from '../../components/ServiceIcon.astro';
+import CloudPage from '../../layouts/CloudPage.astro';
+import { OCI_SERVICES } from '../../data/cloud-services';
 import { SERVICE_COUNTS } from '../../data/services';
 
-const sectionLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#performance', label: 'Performance' },
-  { href: '#quickstart', label: 'Quick Start' },
-  { href: '#sdks', label: 'Examples' },
-];
+// Services that launch a Docker container, from the service data, so the copy can't drift from the grid.
+const dockerServices = OCI_SERVICES.filter((s) => s.docker).map((s) => s.name);
+const inProcessCount = OCI_SERVICES.length - dockerServices.length;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -30,186 +22,61 @@ const jsonLd = {
 };
 ---
 
-<Layout
+<CloudPage
+  cloud="oci"
   title="floci-oci: Free Oracle Cloud (OCI) Emulator"
   description="floci-oci is a fast, free, open-source Oracle Cloud Infrastructure (OCI) emulator. Object Storage, Identity (IAM), Queue, Streaming, KMS, Vault Secrets, and Functions on a single port. No Oracle Cloud account required, MIT licensed."
   canonical="https://floci.io/oci/"
   ogImage="https://floci.io/og/oci.png"
   jsonLd={jsonLd}
+  docsHref="/floci-oci/"
+  services={OCI_SERVICES}
+  servicesDesc="Wire-compatible with the official OCI SDKs, the OCI CLI, Terraform and OpenTofu. Point your existing tools at localhost and keep your workflows."
 >
-  <Nav active="oci" />
-  <SectionNav cloud="oci" label="OCI" links={sectionLinks} docsHref="/floci-oci/" />
-
-
-  <!-- HERO -->
-  <section class="hero" id="main-content">
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-
-    <div class="hero-logo-wrap">
-      <svg class="hero-logo-svg" viewBox="0 0 531.25 156.71" xmlns="http://www.w3.org/2000/svg" aria-label="floci-oci Oracle Cloud" role="img">
-        <g style="isolation:isolate"><g style="isolation:isolate">
-          <path class="floci-text" d="M305.44,141.35h-15.94V39.04h-17.08c-13.18,0-16.75,7.81-16.59,17.4v8.95h17.4v13.34h-17.4v62.62h-15.94v-62.62h-14.64v-13.34h14.64v-7.16c0-20.66,8.95-34.16,29.6-34.16h35.95v117.28Z"/>
-          <path class="floci-text" d="M324.31,103.29c0-24.07,18.22-39.85,39.85-39.85s40.01,15.78,40.01,39.85-18.38,40.01-40.01,40.01-39.85-15.94-39.85-40.01ZM388.24,103.29c0-14.64-11.06-24.89-24.07-24.89s-23.91,10.25-23.91,24.89,10.9,25.05,23.91,25.05,24.07-10.25,24.07-25.05Z"/>
-          <path class="floci-text" d="M418,103.29c0-24.07,19.03-39.85,40.99-39.85,12.36,0,22.93,5.04,29.6,13.01l-10.57,9.92c-4.39-4.88-11.06-7.97-18.71-7.97-14.15,0-25.38,10.41-25.38,24.89s11.22,25.05,25.38,25.05c7.65,0,14.31-3.09,18.71-7.97l10.57,9.92c-6.67,7.97-17.24,13.01-29.6,13.01-21.96,0-40.99-15.94-40.99-40.01Z"/>
-          <path class="floci-text" d="M502.91,37.74c0-5.86,5.04-10.25,10.9-10.25s10.9,4.39,10.9,10.25-4.88,10.25-10.9,10.25-10.9-4.39-10.9-10.25ZM505.84,141.35v-75.96h15.94v75.96h-15.94Z"/>
-        </g></g>
-        <g>
-          <path class="floci-cloud" d="M44.46,52.16l-1.44,9.05c-.1.64-35.57,8.08-30.51,43.05,2.04,14.08,14.69,31.06,31.94,31.22l84.34.78c3.64.03,7.49.5,9.97,2.81,1.69,1.57,1.95,6.1-.29,9.22l-83.49.43c-22.68.12-43.45-11.19-51.76-32.9-8.64-22.56.61-49.48,22.58-59.54,5.11-2.34,7.7-4,8.39-9.37l10.28,5.24h-.01Z"/>
-          <path class="floci-cloud" d="M44.46,52.16l-10.28-5.24c1.94-15.09,10.61-28.25,23.15-36.38C74.85-.82,94.57-3.69,115.01,5.35c14.93,6.6,26.96,21.97,32.12,39.33,26.07,3.63,46.19,26.18,40.75,53.8-3.06.86-9.18-1.15-11.34-3.72,1.28-12.11-3.1-22.27-10.75-29.43-8.19-7.67-17.88-9.28-30.09-8.04-.09-25.91-19.81-43.97-43.82-45.33-22.91-1.29-43.59,16.13-47.42,40.2h0Z"/>
-          <ellipse class="floci-dot oci" cx="173.57" cy="127.13" rx="20.36" ry="20.4"/>
-          <ellipse class="floci-dot oci" cx="513.02" cy="37.71" rx="13.22" ry="13.25"/>
-        </g>
-      </svg>
-    </div>
-
-    <h1>Local Oracle Cloud.<br><span class="accent">Zero cost.</span><br>Zero restrictions.</h1>
-    <p class="hero-sub">
-      floci-oci is a fast, free, open-source Oracle Cloud Infrastructure (OCI) emulator built with Quarkus. No Oracle Cloud account required.
-    </p>
-    <div class="hero-actions">
-      <a href="#quickstart" class="btn-primary">Get Started →</a>
-      <a href="https://github.com/floci-io/floci-oci" class="btn-ghost" target="_blank">★ View on GitHub <span id="ghStarsBtn"></span></a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item"><span class="stat-number">4599</span><div class="stat-label">Default port</div><div class="stat-sub">all services on one port</div></div>
-      <div class="stat-item"><span class="stat-number">{SERVICE_COUNTS.oci}</span><div class="stat-label">OCI services</div><div class="stat-sub">Object Storage · Queue · Streaming · KMS · Functions</div></div>
-      <div class="stat-item"><span class="stat-number">MIT</span><div class="stat-label">License</div><div class="stat-sub">fork, embed, extend freely</div></div>
-      <div class="stat-item"><span class="stat-number">$0</span><div class="stat-label">Forever free</div><div class="stat-sub">no Oracle Cloud account needed</div></div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" style="background:var(--bg2)">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">floci-oci · OCI Services</div>
-        <h2>{SERVICE_COUNTS.oci} OCI services. All of them free.</h2>
-        <p class="section-desc">Wire-compatible with the official OCI SDKs, the OCI CLI, Terraform and OpenTofu. Point your existing tools at localhost and keep your workflows.</p>
-      </div>
-      <div class="services-grid reveal" style="transition-delay:0.1s">
-        {orderByCategory(OCI_SERVICES).map((s) => (
-          <a
-            class:list={['service-item', { exclusive: s.exclusive }]}
-            href={s.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={`${s.name}: official documentation`}
-          >
-            <ServiceIcon category={s.category} class="service-icon" />
-            <span class="service-name">{s.name}{s.exclusive && ' ★'}</span>
-            <span class="service-proto">{s.proto}{s.docker && (
-              <svg class:list={['docker-mark', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg>
-            )}</span>
-          </a>
-        ))}
-      </div>
-        <p class="grid-legend">
-          {dockerTiers.has('default') && (
-            <span><svg class="docker-mark default" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Runs a Docker container</span>
-          )}
-          {dockerTiers.has('optional') && (
-            <span><svg class="docker-mark optional" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z"/></svg> Docker optional: mocked by default</span>
-          )}
-        </p>
-    </div>
-  </section>
-
-  <!-- SELLING POINTS -->
-  <section id="why">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">Why floci-oci</div>
-        <h2>Drop-in. No account. No key ceremony.</h2>
-        <p class="section-desc">The same approach as floci for AWS, Azure and GCP, now applied to Oracle Cloud. MIT licensed, no restrictions.</p>
-      </div>
-      <div class="cards-grid reveal" style="transition-delay:0.1s">
-        <div class="card"><span class="card-num">MIT</span><h3>Free forever, no account</h3><p>MIT licensed. No subscription, no uploaded API keys, no billing. Pull the Docker image and point the OCI SDKs at localhost immediately.</p></div>
-        <div class="card"><span class="card-num">✓</span><h3>SDK compatible</h3><p>Works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu. Request signatures are parsed for tenancy and user context but never verified, so any locally generated API key works.</p></div>
-        <div class="card"><span class="card-num">⚡</span><h3>Real crypto, real Functions</h3><p>KMS performs real AES-GCM, RSA and ECDSA operations. Functions invocations run your real FDK image through an Fn Project sidecar, not a mock.</p></div>
-        <div class="card"><span class="card-num">1</span><h3>Single port</h3><p>Every service answers on port 4599. Only Functions launches a Docker container; the other six services run entirely in-process.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PERFORMANCE -->
-  <section id="performance">
-    <div class="container">
-      <div class="reveal">
-        <div class="section-label">Performance</div>
-        <h2>Fast. <span style="color:var(--accent)">Lightweight.</span> Zero overhead.</h2>
-        <p class="section-desc">floci-oci is built on Quarkus with GraalVM native-image support, so it starts fast and stays light in test pipelines. One image, {SERVICE_COUNTS.oci} services.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px" class="reveal" style="transition-delay:0.1s">
-        <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">1</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Docker image</div>
-          <div style="font-size:13px;color:var(--text-muted)">All services in a single container</div>
-        </div>
-        <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4599</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Primary port</div>
-          <div style="font-size:13px;color:var(--text-muted)">Every service on one endpoint</div>
-        </div>
-        <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">6/7</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">In-process services</div>
-          <div style="font-size:13px;color:var(--text-muted)">Only Functions needs the Docker socket</div>
-        </div>
-        <div style="background:var(--bg2);padding:28px 24px">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent);margin-bottom:8px">4</div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">Storage modes</div>
-          <div style="font-size:13px;color:var(--text-muted)">memory · persistent · hybrid · WAL</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUICKSTART -->
-  <section id="quickstart" style="background:var(--bg2)">
+  <section slot="quickstart" id="quickstart">
     <div class="container">
       <div class="reveal">
         <div class="section-label">Quick Start</div>
-        <h2>Up in seconds.</h2>
-        <p class="section-desc">Use the floci CLI for the smoothest experience, or run Docker directly if you prefer bare metal.</p>
+        <h2>Every way to run it.</h2>
+        <p class="section-desc">One CLI installs and runs all four emulators: use Homebrew, the install script or PowerShell. Or skip the CLI and run the Docker image.</p>
       </div>
 
       <!-- method tabs -->
-      <div class="qs-method-tabs reveal" id="qsMethodTabs" style="transition-delay:0.05s">
+      <div class="qs-method-tabs reveal reveal-delay-sm" id="qsMethodTabs">
         <button class="qs-method-tab active" data-qs="cli">floci CLI</button>
         <button class="qs-method-tab" data-qs="docker">Docker</button>
       </div>
 
       <!-- floci CLI panel -->
-      <div id="qspanel-cli" class="qs-panel reveal" style="transition-delay:0.1s">
+      <div id="qspanel-cli" class="qs-panel reveal reveal-delay">
         <div class="qs-grid">
           <div>
-            <h3 style="margin-bottom:10px;font-size:16px;color:var(--text-muted);font-weight:500">1 · Install floci CLI</h3>
+            <h3 class="qs-step">1 · Install floci CLI</h3>
             <div class="code-tabs" id="installTabs">
               <button class="code-tab active" data-tab="brew">Homebrew</button>
               <button class="code-tab" data-tab="curl">curl</button>
               <button class="code-tab" data-tab="ps">PowerShell</button>
             </div>
-            <div id="itab-brew" class="code-block tabbed"><pre
+            <div id="itab-brew" class="code-block tabbed" data-lang="bash"><pre
 ><span class="cmd">brew install <span class="acc">floci-io/floci/floci</span></span></pre></div>
-            <div id="itab-curl" class="code-block tabbed" style="display:none"><pre
+            <div id="itab-curl" class="code-block tabbed" style="display:none" data-lang="bash"><pre
 ><span class="cmd">curl -fsSL <span class="acc">https://floci.io/install.sh</span> | sh</span></pre></div>
-            <div id="itab-ps" class="code-block tabbed" style="display:none"><pre
+            <div id="itab-ps" class="code-block tabbed" style="display:none" data-lang="bash"><pre
 ><span class="cmd">iwr <span class="acc">https://floci.io/install.ps1</span> | iex</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">2 · Start the emulator</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">2 · Start the emulator</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="cmd">floci oci start</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">3 · One-time setup &amp; env vars</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">3 · One-time setup &amp; env vars</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="comment"># creates a throwaway API key + ~/.oci/config profile</span>
 <span class="cmd">floci oci setup</span>
 <span class="cmd">eval $(floci oci env)</span>
 <span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">4 · Upload a file</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">4 · Upload a file</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="comment"># Create a bucket</span>
 <span class="cmd">oci os bucket create \
   --namespace-name <span class="str">floci-local</span> \
@@ -217,7 +84,7 @@ const jsonLd = {
   --compartment-id <span class="acc">$TENANCY_OCID</span></span>
 
 <span class="comment"># Write a file and upload it</span>
-<span class="cmd">echo <span class="str">"Oracle Cloud locally: no bill, no drama. 🚀"</span> \
+<span class="cmd">echo <span class="str">"Oracle Cloud locally: no bill, no drama."</span> \
   &gt; hello-floci.txt
 oci os object put \
   --namespace-name <span class="str">floci-local</span> \
@@ -233,8 +100,14 @@ oci os object put \
 cat hello-back.txt</span></pre></div>
           </div>
           <div>
-            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Other useful commands</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">Teach your coding agent</h3>
+            <div class="code-block" data-lang="bash"><pre
+><span class="comment"># Asks which agents to install it for</span>
+<span class="cmd">npx skills add <span class="acc">floci-io/floci-cli</span></span></pre></div>
+            <p class="qs-note">The Floci skill teaches Claude Code, Codex, Cursor, Kiro and other coding agents to run the emulators with floci-cli.</p>
+
+            <h3 class="qs-step">Other useful commands</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="comment"># Check status</span>
 <span class="cmd">floci oci status</span>
 
@@ -250,8 +123,13 @@ cat hello-back.txt</span></pre></div>
 <span class="comment"># Poll until ready (CI-friendly)</span>
 <span class="cmd">floci oci wait</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Diagnose issues</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">Start with persistence</h3>
+            <div class="code-block" data-lang="bash"><pre
+><span class="cmd">floci oci start --persist <span class="acc">./data</span></span>
+<span class="comment"># state survives container restarts</span></pre></div>
+
+            <h3 class="qs-step">Diagnose issues</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="cmd">floci oci doctor</span>
 <span class="comment"># checks Docker, OCI CLI, connectivity</span></pre></div>
           </div>
@@ -259,52 +137,67 @@ cat hello-back.txt</span></pre></div>
       </div>
 
       <!-- Docker panel -->
-      <div id="qspanel-docker" class="qs-panel reveal" style="transition-delay:0.1s;display:none">
+      <div id="qspanel-docker" class="qs-panel reveal reveal-delay" style="display:none">
         <div class="qs-grid">
           <div>
-            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Docker</h3>
-            <div class="code-block"><pre
-><span class="comment"># All services on :4599 · socket mount is for Functions</span>
-<span class="cmd">docker run --rm \
+            <h3 class="qs-step">Docker</h3>
+            <div class="code-block" data-lang="bash"><pre
+><span class="comment"># All services on :4599 · socket mount is for Functions and OKE</span>
+<span class="cmd">docker run -d --name floci-oci \
   -p <span class="acc">4599:4599</span> \
   -v /var/run/docker.sock:/var/run/docker.sock \
   floci/floci-oci:<span class="acc">latest</span></span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">docker-compose</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">docker-compose</h3>
+            <div class="code-block" data-lang="yaml"><pre
 ><span class="cmd">services:
   floci-oci:
     image: floci/floci-oci:<span class="acc">latest</span>
     ports:
-      - <span class="str">"4599:4599"</span></span></pre></div>
+      - <span class="str">"4599:4599"</span>
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock</span></pre></div>
 
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Upload a file</h3>
-            <div class="code-block"><pre
-><span class="cmd">oci os bucket create \
+            <h3 class="qs-step">Throwaway key and OCI config</h3>
+            <div class="code-block" data-lang="bash"><pre
+><span class="comment"># Adds a separate [FLOCI] profile; your existing OCI profiles are left untouched</span>
+<span class="cmd">mkdir -p ~/.oci
+[ -f ~/.oci/floci_key.pem ] || openssl genrsa -out ~/.oci/floci_key.pem 2048
+grep -qs '^\[FLOCI\]' ~/.oci/config || cat &gt;&gt; ~/.oci/config &lt;&lt;'EOF'
+[FLOCI]
+user=ocid1.user.oc1..anyuser
+fingerprint=aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99
+tenancy=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000
+region=us-ashburn-1
+key_file=~/.oci/floci_key.pem
+EOF
+export OCI_CLI_PROFILE=FLOCI</span></pre></div>
+
+            <h3 class="qs-step">Upload a file</h3>
+            <div class="code-block" data-lang="bash"><pre
+><span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span>
+<span class="cmd">oci os bucket create \
   --endpoint <span class="acc">http://localhost:4599</span> \
   --namespace-name <span class="str">floci-local</span> \
   --name <span class="str">my-bucket</span> \
   --compartment-id <span class="acc">$TENANCY_OCID</span>
-echo <span class="str">"Oracle Cloud locally: no bill, no drama. 🚀"</span> \
+echo <span class="str">"Oracle Cloud locally: no bill, no drama."</span> \
   &gt; hello-floci.txt
 oci os object put \
   --endpoint <span class="acc">http://localhost:4599</span> \
   --namespace-name <span class="str">floci-local</span> \
   --bucket-name <span class="str">my-bucket</span> \
-  --file hello-floci.txt</span></pre></div>
+  --file hello-floci.txt
+oci os object get \
+  --endpoint <span class="acc">http://localhost:4599</span> \
+  --namespace-name <span class="str">floci-local</span> \
+  --bucket-name <span class="str">my-bucket</span> \
+  --name hello-floci.txt --file hello-back.txt
+cat hello-back.txt</span></pre></div>
           </div>
           <div>
-            <h3 style="margin-bottom:16px;font-size:16px;color:var(--text-muted);font-weight:500">Throwaway credentials</h3>
-            <div class="code-block"><pre
-><span class="comment"># Any locally generated key works; the signature</span>
-<span class="comment"># is parsed for context, never verified</span>
-<span class="cmd">mkdir -p ~/.oci
-openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
-
-<span class="cmd">export <span class="acc">TENANCY_OCID</span>=ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span></pre></div>
-
-            <h3 style="margin:28px 0 16px;font-size:16px;color:var(--text-muted);font-weight:500">Health check</h3>
-            <div class="code-block"><pre
+            <h3 class="qs-step">Health check</h3>
+            <div class="code-block" data-lang="bash"><pre
 ><span class="cmd">curl http://localhost:<span class="acc">4599</span>/_floci-oci/health</span></pre></div>
           </div>
         </div>
@@ -312,62 +205,72 @@ openssl genrsa -out ~/.oci/floci_key.pem 2048</span>
     </div>
   </section>
 
-  <!-- SDK EXAMPLES -->
-  <section id="sdks">
+  <section slot="examples" id="examples">
     <div class="container">
       <div class="reveal">
-        <div class="section-label">SDK Examples</div>
-        <h2>Works with every OCI SDK.</h2>
+        <div class="section-label">Examples</div>
+        <h2>Python, Java and the OCI CLI.</h2>
         <p class="section-desc">Use the standard OCI SDK in any language and point it at localhost:4599.</p>
       </div>
-      <div class="reveal" style="transition-delay:0.1s;margin-top:48px">
+      <div class="reveal reveal-delay examples-body">
         <div class="code-tabs" id="sdkTabs">
           <button class="code-tab active" data-tab="python">Python</button>
           <button class="code-tab" data-tab="java">Java</button>
           <button class="code-tab" data-tab="cli">OCI CLI</button>
         </div>
 
-        <div id="stab-python" class="code-block tabbed">
+        <div id="stab-python" class="code-block tabbed" data-lang="python">
           <span class="comment"># pip install oci</span><br>
           <span class="cmd">import oci<br><br>
 config = {"{"}<br>
 &nbsp;&nbsp;<span class="str">"user"</span>: <span class="str">"ocid1.user.oc1..anyuser"</span>,<br>
 &nbsp;&nbsp;<span class="str">"fingerprint"</span>: <span class="str">"aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99"</span>,<br>
-&nbsp;&nbsp;<span class="str">"tenancy"</span>: <span class="str">"ocid1.tenancy.oc1..flocilocaltenancy00000000…"</span>,<br>
+&nbsp;&nbsp;<span class="str">"tenancy"</span>: <span class="str">"ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000"</span>,<br>
 &nbsp;&nbsp;<span class="str">"region"</span>: <span class="str">"us-ashburn-1"</span>,<br>
 &nbsp;&nbsp;<span class="str">"key_file"</span>: <span class="str">"~/.oci/floci_key.pem"</span>,  <span class="comment"># any locally generated key</span><br>
 {"}"}<br><br>
 client = oci.object_storage.ObjectStorageClient(<br>
 &nbsp;&nbsp;config, service_endpoint=<span class="str">"http://localhost:<span class="acc">4599</span>"</span>)<br><br>
 namespace = client.get_namespace().data<br>
-client.put_object(namespace, <span class="str">"my-bucket"</span>, <span class="str">"hello.txt"</span>, <span class="str">b"Hello from floci-oci!"</span>)</span>
+try:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;client.create_bucket(namespace, oci.object_storage.models.CreateBucketDetails(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=<span class="str">"python-bucket"</span>, compartment_id=config[<span class="str">"tenancy"</span>]))<br>
+except oci.exceptions.ServiceError as e:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if e.status != 409:  <span class="comment"># 409: created on an earlier run</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise<br>
+client.put_object(namespace, <span class="str">"python-bucket"</span>, <span class="str">"hello.txt"</span>, <span class="str">b"Hello from floci-oci!"</span>)</span>
         </div>
 
-        <div id="stab-java" class="code-block tabbed" style="display:none">
+        <div id="stab-java" class="code-block tabbed" style="display:none" data-lang="java">
           <span class="comment">// com.oracle.oci.sdk:oci-java-sdk</span><br>
           <span class="cmd">var auth = SimpleAuthenticationDetailsProvider.builder()<br>
-&nbsp;&nbsp;.tenantId(<span class="str">"ocid1.tenancy.oc1..flocilocaltenancy00000000…"</span>)<br>
+&nbsp;&nbsp;.tenantId(<span class="str">"ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000"</span>)<br>
 &nbsp;&nbsp;.userId(<span class="str">"ocid1.user.oc1..anyuser"</span>)<br>
 &nbsp;&nbsp;.fingerprint(<span class="str">"aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99"</span>)<br>
-&nbsp;&nbsp;.privateKeySupplier(() -&gt; anyLocallyGeneratedRsaKey())<br>
+&nbsp;&nbsp;.privateKeySupplier(new SimplePrivateKeySupplier(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.getProperty(<span class="str">"user.home"</span>) + <span class="str">"/.oci/floci_key.pem"</span>))<br>
 &nbsp;&nbsp;.region(Region.US_ASHBURN_1)<br>
 &nbsp;&nbsp;.build();<br><br>
 ObjectStorageClient client = ObjectStorageClient.builder().build(auth);<br>
 client.setEndpoint(<span class="str">"http://localhost:<span class="acc">4599</span>"</span>);<br><br>
 String namespace = client.getNamespace(GetNamespaceRequest.builder().build()).getValue();<br>
+try &#123;<br>
 client.createBucket(CreateBucketRequest.builder()<br>
 &nbsp;&nbsp;.namespaceName(namespace)<br>
 &nbsp;&nbsp;.createBucketDetails(CreateBucketDetails.builder()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;.name(<span class="str">"my-bucket"</span>).compartmentId(auth.getTenantId()).build())<br>
-&nbsp;&nbsp;.build());</span>
+&nbsp;&nbsp;&nbsp;&nbsp;.name(<span class="str">"java-bucket"</span>).compartmentId(auth.getTenantId()).build())<br>
+&nbsp;&nbsp;.build());<br>
+&#125; catch (BmcException e) &#123;<br>
+&nbsp;&nbsp;if (e.getStatusCode() != 409) throw e;  <span class="comment">// 409: created on an earlier run</span><br>
+&#125;</span>
         </div>
 
-        <div id="stab-cli" class="code-block tabbed" style="display:none">
+        <div id="stab-cli" class="code-block tabbed" style="display:none" data-lang="bash">
           <span class="comment"># Every OCI CLI command works with --endpoint</span><br>
           <span class="cmd">oci os ns get --endpoint http://localhost:<span class="acc">4599</span><br><br>
 oci iam compartment list \<br>
 &nbsp;&nbsp;--endpoint http://localhost:<span class="acc">4599</span> \<br>
-&nbsp;&nbsp;--compartment-id <span class="str">ocid1.tenancy.oc1..flocilocaltenancy00000000…</span><br><br>
+&nbsp;&nbsp;--compartment-id <span class="str">ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</span><br><br>
 <span class="comment"># Or let the floci CLI wire the endpoint for you</span><br>
 floci oci setup &amp;&amp; eval $(floci oci env)<br>
 oci os ns get</span>
@@ -375,16 +278,16 @@ oci os ns get</span>
       </div>
 
       <!-- Connection reference table -->
-      <div class="reveal" style="margin-top:48px;transition-delay:0.15s">
-        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Default connection values</h3>
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:0">floci-oci parses request signatures for tenancy and user context but never verifies them, so any locally generated API key works.</p>
-        <div class="conn-wrap" style="margin-top:20px">
+      <div class="reveal reveal-delay-lg migrate-table">
+        <h3 class="table-title">Default connection values</h3>
+        <p class="table-intro">floci-oci parses request signatures for tenancy and user context but never verifies them, so any locally generated API key works.</p>
+        <div class="conn-wrap">
           <table class="conn-table">
             <thead><tr><th>Property</th><th>Value</th></tr></thead>
             <tbody>
               <tr><td>Endpoint</td><td><code>http://localhost:4599</code></td></tr>
               <tr><td>Namespace</td><td><code>floci-local</code></td></tr>
-              <tr><td>Tenancy OCID</td><td><code>ocid1.tenancy.oc1..flocilocaltenancy00000000…</code></td></tr>
+              <tr><td>Tenancy OCID</td><td><code>ocid1.tenancy.oc1..flocilocaltenancy0000000000000000000000000000000000000000</code></td></tr>
               <tr><td>Region</td><td><code>us-ashburn-1</code></td></tr>
               <tr><td>API key</td><td><code>any locally generated RSA key</code></td></tr>
               <tr><td>Health check</td><td><code>http://localhost:4599/_floci-oci/health</code></td></tr>
@@ -395,126 +298,41 @@ oci os ns get</span>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section id="open-source" style="background:var(--bg2)">
+  <section slot="why" id="why">
     <div class="container">
-      <div class="cta-banner reveal">
-        <h3>Free. Fast. Always available.</h3>
-        <p>MIT licensed and built for developer workflows. No Oracle Cloud account, no uploaded API keys, no credit card. Just a Docker image and localhost.</p>
-        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-          <a href="https://github.com/floci-io/floci-oci" class="btn-primary" target="_blank">View on GitHub →</a>
-          <a href="/aws/" class="btn-ghost">Also need AWS? Try floci →</a>
-        </div>
+      <div class="reveal">
+        <div class="section-label">Why floci-oci</div>
+        <h2>No account. No key ceremony.</h2>
+        <p class="section-desc">Object Storage, Queue, Streaming, KMS, Vault, Functions and OKE on one port, with throwaway keys in place of real credentials.</p>
       </div>
+      <div class="hairline reveal reveal-delay"><div class="hairline-grid cols-4">
+        <div><h3>Any key works</h3><p>Request signatures are parsed for tenancy and user context but never verified, so any locally generated API key works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu.</p></div>
+        <div><h3>Real crypto, real Functions</h3><p>KMS performs real AES-GCM, RSA and ECDSA operations. Functions invocations run your real FDK image through an Fn Project sidecar, not a mock.</p></div>
+        <div><h3>One port, few containers</h3><p>Every service answers on port 4599. {dockerServices.join(' and ')} launch Docker containers; the other {inProcessCount} services run entirely in-process.</p></div>
+        <div><h3>Native binary speed</h3><p>Starts in 24 ms and idles at ~13 MiB, fast enough to start a fresh emulator for every test run.</p></div>
+      </div></div>
     </div>
   </section>
-
-  <Footer variant="sub">
-    <div class="footer-links">
-      <a href="/">← All Products</a>
-      <a href="https://github.com/floci-io/floci-oci" target="_blank">GitHub</a>
-      <a href="/aws/">floci (AWS)</a>
-      <a href="/az/">floci-az (Azure)</a>
-      <a href="/gcp/">floci-gcp (GCP)</a>
-      <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
-      <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
-    </div>
-  </Footer>
-
-</Layout>
+</CloudPage>
 
 <style>
   :root {
     --bar-track: rgba(255,255,255,0.05); --row-hover: rgba(255,255,255,0.02);
-    --accent-glow: rgba(199,70,52,0.25);
   }
   html.light {
     --row-hover: rgba(0,0,0,0.02);
-    --accent-glow: rgba(199,70,52,0.15);
   }
-
-  /* HERO */
-  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 160px 2rem 80px; position: relative; overflow: hidden; }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(199,70,52,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(199,70,52,0.06) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
-  .hero-glow { position: absolute; width: 700px; height: 350px; background: radial-gradient(ellipse at center, rgba(199,70,52,0.1), transparent 70%); top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none; }
-  .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
-  .hero h1 .accent { color: #C74634; }
-  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
-  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
-
-  /* HERO STATS */
-  .hero-stats { display: flex; gap: 0; margin-top: 60px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeUp 0.6s 0.4s ease both; max-width: 720px; width: 100%; }
-  .stat-item { flex: 1; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--bg2); transition: background 0.2s; }
-  .stat-item:last-child { border-right: none; }
-  .stat-item:hover { background: var(--bg3); }
-  @media (max-width: 580px) { .hero-stats { flex-wrap: wrap; } .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--border); padding: 18px 20px; } .stat-item:nth-child(odd) { border-right: 1px solid var(--border); } .stat-item:last-child { border-bottom: none; } }
-  .stat-number { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 4px; }
-  .stat-label { font-size: 12px; color: var(--text-muted); }
-  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-
-  /* MARQUEE */
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  .hero-logo-wrap { animation: fadeUp 0.5s ease both; margin-bottom: 20px; }
-  .hero-logo-svg { height: 72px; width: auto; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(199,70,52,0.35)); }
-  .hero-logo-svg .floci-text, .hero-logo-svg .floci-cloud { fill: #F8FAFC; }
-  html.light .hero-logo-svg .floci-text { fill: #262425; }
-  html.light .hero-logo-svg .floci-cloud { fill: #151515; }
-  .hero-logo-svg .floci-dot.oci { fill: #C74634; }
-
-  /* SERVICE CARDS */
-  /* The 1px grid gap is filled by a ring drawn on each ITEM, not by a border-coloured
-     background on the grid: with the latter, a partial last row renders its empty cells
-     as bright slabs (and `grid-column: auto / -1` only parks a filler in the last column,
-     not across the rest of the row). An empty cell has no item, so it draws no ring and
-     stays plain background, while its filled neighbours still line its edges. The grid's
-     own border supplies the outer edge: the outermost rings fall outside the padding box
-     and are clipped by overflow:hidden, so edges stay 1px instead of doubling. */
-  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 60px; }
-  .service-item { background: var(--bg); box-shadow: 0 0 0 1px var(--border); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px; transition: background 0.15s; cursor: pointer; color: inherit; text-decoration: none; }
-  .service-item:hover { background: var(--bg3); }
-  .service-icon { width: 16px; height: 16px; color: #C74634; flex-shrink: 0; grid-column: 1; grid-row: 1; }
-  .service-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-  .service-name { font-size: 13px; font-weight: 500; grid-column: 2; grid-row: 1; }
-  .service-proto { font-family: var(--mono); font-size: 10px; color: var(--text-dim); grid-column: 2; grid-row: 2; white-space: normal; overflow-wrap: anywhere; }
-  .docker-mark { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
-  .docker-mark.default { fill: var(--text-dim); }
-  .docker-mark.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
-  .grid-legend { display: flex; gap: 22px; justify-content: flex-end; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--text-dim); }
-  .grid-legend span { display: inline-flex; align-items: center; gap: 7px; }
-  .grid-legend svg { width: 10px; height: 10px; }
 
   /* CODE */
   .qs-method-tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--border); }
-  .qs-method-tab { padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
+  .qs-method-tab { min-height: 44px; padding: 10px 22px; font-size: 13px; font-family: var(--mono); color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; margin-bottom: -1px; }
   .qs-method-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .qs-method-tab:hover:not(.active) { color: var(--text); }
   .qs-panel { margin-top: 36px; }
-  .qs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
-  @media (max-width: 768px) { .qs-grid { grid-template-columns: 1fr; } }
-
-  /* SELLING POINTS */
-  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 56px; }
-  .card { background: var(--bg2); padding: 32px 28px; transition: background 0.2s; }
-  .card:hover { background: var(--bg3); }
-  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-  .card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
-  .card-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 12px; }
+  .qs-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; }
+  @media (max-width: 768px) { .qs-grid { grid-template-columns: minmax(0, 1fr); } }
 
   /* CONNECTION TABLE */
-  .conn-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 36px; }
-  .conn-table th { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; background: var(--bg2); }
-  .conn-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 13px; }
-  .conn-table td:first-child { color: var(--text); font-weight: 500; }
-  .conn-table td code { font-family: var(--mono); font-size: 12px; background: var(--bg3); padding: 2px 6px; border-radius: 3px; color: var(--accent); }
-  .conn-table tr:last-child td { border-bottom: none; }
-  .conn-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-
-  /* CTA BANNER */
-  .cta-banner { background: rgba(199,70,52,0.05); border: 1px solid rgba(199,70,52,0.18); border-radius: 12px; padding: 40px; text-align: center; margin-top: 60px; }
-  .cta-banner h3 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
-  .cta-banner p { color: var(--text-muted); font-size: 16px; max-width: 480px; margin: 0 auto 24px; }
-
-  @media (max-width: 480px) { .hero { padding: 120px 1.5rem 60px; } section { padding: 80px 1.5rem; } }
 
 </style>
 
@@ -553,11 +371,4 @@ document.querySelectorAll('#sdkTabs .code-tab').forEach(function(tab) {
   });
 });
 
-fetch('https://api.github.com/repos/floci-io/floci-oci').then(r => r.json()).then(data => {
-  const count = data.stargazers_count;
-  if (!count) return;
-  const fmt = count >= 1000 ? (count / 1000).toFixed(1) + 'k' : count;
-  const btn = document.getElementById('ghStarsBtn');
-  if (btn) btn.textContent = ' · ' + fmt;
-}).catch(() => {});
 </script>

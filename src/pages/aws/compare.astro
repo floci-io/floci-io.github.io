@@ -23,8 +23,10 @@ const sectionLinks = [
   <Nav active="aws" />
   <SectionNav cloud="aws" label="floci vs LocalStack" links={sectionLinks} docsHref="/floci/" />
 
+  <main id="main-content" tabindex="-1">
+
   <!-- HERO -->
-  <section class="hero" id="main-content">
+  <section class="hero">
     <div class="hero-grid"></div>
     <div class="hero-glow"></div>
 
@@ -71,7 +73,7 @@ const sectionLinks = [
         <p class="section-desc">Everything you need to know before switching, summarized in two cards.</p>
       </div>
 
-      <div class="vis-compare reveal" style="transition-delay:0.1s">
+      <div class="vis-compare reveal reveal-delay">
         <div class="vis-card">
           <div class="vis-header floci-header">
             <svg width="20" height="14" viewBox="-10 -55 240 170" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +129,7 @@ const sectionLinks = [
         <p class="section-desc">All feature dimensions compared across pricing, performance, services, SDKs, and IaC.</p>
       </div>
 
-      <div class="compare-wrap reveal" style="margin-top:50px;transition-delay:0.1s">
+      <div class="compare-wrap reveal reveal-delay" style="margin-top:50px">
         <table class="compare-table">
           <thead>
             <tr>
@@ -199,7 +201,7 @@ const sectionLinks = [
         <p class="section-desc">Real numbers from a 1,925-test AWS SDK compatibility suite. Floci Native vs LocalStack Community 4.14.0.</p>
       </div>
 
-      <div class="perf-grid reveal" style="transition-delay:0.1s">
+      <div class="perf-grid reveal reveal-delay">
         <div>
           <div class="metric-card">
             <div class="metric-label">Startup Time</div>
@@ -278,7 +280,7 @@ const sectionLinks = [
         <h2>Switch from LocalStack in seconds.</h2>
       </div>
 
-      <div class="migration-banner reveal" style="transition-delay:0.1s">
+      <div class="migration-banner reveal reveal-delay">
         <h3>Already using LocalStack? Switch in 30 seconds.</h3>
         <div class="code-block" style="margin-top:24px"><pre
 ><span class="comment"># docker-compose.yml: only one line changes</span>
@@ -295,6 +297,8 @@ const sectionLinks = [
       </div>
     </div>
   </section>
+
+  </main>
 
   <Footer variant="sub">
     <div class="footer-links">
@@ -317,7 +321,7 @@ const sectionLinks = [
   @keyframes fadeSlideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   .hero h1 { font-size: clamp(44px, 7vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; animation: fadeSlideUp 0.6s 0.1s ease both; }
   .hero h1 .indigo { color: var(--indigo-light); }
-  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 660px; margin-bottom: 40px; font-weight: 300; animation: fadeSlideUp 0.6s 0.2s ease both; }
+  .hero-sub { font-size: clamp(18px, 2vw, 22px); color: var(--text-muted); max-width: 660px; margin-bottom: 40px; font-weight: 400; animation: fadeSlideUp 0.6s 0.2s ease both; }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeSlideUp 0.6s 0.3s ease both; }
   .hero-stats { display: flex; gap: 0; margin-top: 70px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeSlideUp 0.6s 0.4s ease both; max-width: 860px; width: 100%; }
   .stat-item { flex: 1; padding: 24px 28px; border-right: 1px solid var(--border); background: var(--bg2); transition: background 0.2s; }
