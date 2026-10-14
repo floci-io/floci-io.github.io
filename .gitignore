@@ -7,3 +7,9 @@ dist/
 CLAUDE.md
 
 local
+
+# Impeccable working files (critique snapshots, live config, local agent scaffolding)
+.impeccable/
+.github/agents/
+.github/hooks/
+.github/skills/
