@@ -41,6 +41,8 @@ const schemas = [
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Marks that scripts run, so content hidden for the scroll reveal stays visible without JS. -->
+<script is:inline>(function(d){d.classList.add('js');var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t?t==='light':matchMedia('(prefers-color-scheme: light)').matches)d.classList.add('light');})(document.documentElement);</script>
 <title>{title}</title>
 <meta name="description" content={description}>
 <link rel="canonical" href={canonical}>
@@ -65,27 +67,35 @@ const schemas = [
 <script defer src="https://cloud.umami.is/script.js" data-website-id="d4cade84-d61d-4384-82d5-59a8b7771ac4"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0f1117">
 <script type="application/ld+json" set:html={JSON.stringify(schemas.length === 1 ? schemas[0] : schemas)} />
 <style is:global>
   :root {
     --bg: #070B14; --bg2: #161E2E; --bg3: #0F1520;
     --border: #2A3142; --border-bright: #3D4559;
-    --text: #F8FAFC; --text-muted: #94A3B8; --text-dim: #64748B;
+    --text: #F8FAFC; --text-muted: #94A3B8; --text-dim: #7A889E;
     --accent: #7A7FD6; --accent-deep: #5559A7; --accent-cream: #E8E9F8;
     --accent-warm: #6368C2; --accent-dim: rgba(85,89,167,0.12);
     --indigo: #5559A7; --indigo-mid: #6368C2; --indigo-light: #7A7FD6;
     --green: #22c55e; --red: #ef4444;
     --mono: 'Space Mono', monospace; --sans: 'Sora', sans-serif;
     --nav-bg: rgba(7,11,20,0.92);
+    /* Cloud hues, text tier (see DESIGN.md, The Two-Tier Hue Rule); the light theme swaps in the -day values. */
+    --c-aws: #FF9900; --c-az: #3A9BEF; --c-gcp: #34A853; --c-oci: #F0604D;
+    --green-text: #22c55e;
+    /* Error text; Signal Red (--red) stays for borders and marks, which only need 3:1. */
+    --red-text: #f87171;
   }
   html.light {
     --bg: #F8FAFC; --bg2: #F1F5F9; --bg3: #E2E8F0;
     --border: #CBD5E1; --border-bright: #94A3B8;
-    --text: #070B14; --text-muted: #5559A7; --text-dim: #94A3B8;
+    --text: #070B14; --text-muted: #475569; --text-dim: #5F6E84;
     --accent: #5559A7; --accent-cream: #E8E9F8; --accent-warm: #44488C;
     --accent-dim: rgba(85,89,167,0.1); --nav-bg: rgba(248,250,252,0.92);
+    --c-aws: #9A4D00; --c-az: #0067B8; --c-gcp: #1E7E34; --c-oci: #B03A2A;
+    --green-text: #1E7E34;
+    --red-text: #B91C1C;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 72px; }
@@ -100,13 +110,68 @@ const schemas = [
   .container { max-width: 1100px; margin: 0 auto; }
   .section-label {
     font-family: var(--mono); font-size: 12px;
-    color: var(--indigo-light); letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
     margin-bottom: 14px;
   }
-  h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
-  .section-desc { color: var(--text-muted); font-size: 18px; max-width: 540px; }
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
+  h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 16px; }
+  .section-desc { color: var(--text-muted); font-size: 18px; max-width: 540px; text-wrap: pretty; }
+  .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .js .reveal.visible { opacity: 1; transform: none; }
+  /* Hairline grid: content split by 1px rules instead of boxed cards. The wrapper clips the
+     first row's top rule and the first column's left rule, so only the inner dividers show. */
+  .hairline { overflow: hidden; margin-top: 56px; }
+  .hairline-grid {
+    --cols: 3; --gutter: 32px;
+    display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    margin: -1px 0 0 calc(-1 * var(--gutter) - 1px);
+  }
+  .hairline-grid.cols-2 { --cols: 2; }
+  .hairline-grid.cols-4 { --cols: 4; }
+  .hairline-grid > * {
+    min-width: 0; padding: 32px var(--gutter) 36px;
+    border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+  }
+  .hairline-grid h3 { font-size: 18px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+  .hairline-grid p { font-size: 16px; line-height: 1.6; color: var(--text-muted); }
+  /* A figure inside a hairline grid: value, label, note (cloud-page performance strips). */
+  .fig-value { font-family: var(--mono); font-size: 32px; font-weight: 700; line-height: 1.1; color: var(--accent); margin-bottom: 10px; }
+  .fig-label { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .fig-note { font-size: 15px; line-height: 1.5; color: var(--text-muted); }
+  @media (max-width: 960px) { .hairline-grid.cols-3, .hairline-grid.cols-4 { --cols: 2; } }
+  @media (max-width: 600px) {
+    .hairline { margin-top: 32px; }
+    .hairline-grid, .hairline-grid.cols-2, .hairline-grid.cols-3, .hairline-grid.cols-4 { --cols: 1; --gutter: 0px; }
+    .hairline-grid > * { padding: 24px 0 28px; }
+  }
+
+  /* Cloud pages: bands alternate by position (hero, services, why...), so every page shares one rhythm. */
+  .cloud-main > section:nth-of-type(even) { background: var(--bg2); }
+  .cloud-main > section:nth-of-type(odd) { background: var(--bg); }
+  /* Cloud-page reference tables (connection values, LocalStack settings) and migrate before/after blocks. */
+  .table-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .table-intro { font-size: 16px; color: var(--text-muted); margin-bottom: 20px; max-width: 46em; }
+  .table-intro code { font-family: var(--mono); font-size: 14px; color: var(--text); }
+  .conn-wrap { border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+  .conn-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .conn-table th { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .conn-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  .conn-table td:first-child { color: var(--text); font-weight: 500; }
+  .conn-table td code { font-family: var(--mono); font-size: 13px; background: var(--bg3); padding: 2px 6px; border-radius: 4px; color: var(--accent); overflow-wrap: anywhere; }
+  .conn-table tr:last-child td { border-bottom: none; }
+  .migrate-strings { display: grid; gap: 16px; margin-top: 40px; }
+  .migrate-strings pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .migrate-table, .examples-body { margin-top: 48px; }
+  .migrate-more { margin-top: 16px; }
+  .migrate-more a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .migrate-more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Quick Start step headings on the cloud pages. */
+  .qs-step { margin: 28px 0 16px; font-size: 16px; font-weight: 500; color: var(--text-muted); }
+  .qs-step:first-child { margin-top: 0; }
+  /* Caption under a Quick Start code block on the cloud pages. */
+  .qs-note { margin-top: 12px; font-size: 15px; line-height: 1.6; color: var(--text-muted); }
+  .js .reveal.reveal-delay-sm { transition-delay: 0.05s; }
+  .js .reveal.reveal-delay { transition-delay: 0.1s; }
+  .js .reveal.reveal-delay-lg { transition-delay: 0.15s; }
 
   .btn-primary {
     background: var(--accent-deep); color: #ffffff;
@@ -175,13 +240,18 @@ const schemas = [
   .install-tabs { flex-wrap: wrap; overflow: visible; }
   .code-tab, .install-tab {
     display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
-    padding: 10px 16px; border: none; background: transparent; cursor: pointer;
+    min-height: 44px; padding: 10px 16px; border: none; background: transparent; cursor: pointer;
     font-family: var(--mono); font-size: 12px; color: var(--term-dim);
     box-shadow: inset 0 -1px 0 var(--term-border); transition: color 0.15s, box-shadow 0.15s;
   }
   .code-tab:hover, .install-tab:hover { color: var(--term-text); }
-  .code-tab.active, .install-tab.active { color: var(--term-text); box-shadow: inset 0 -2px 0 var(--accent-warm); }
-  .code-tab:focus-visible, .install-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .code-tab.active, .install-tab.active { color: var(--term-text); box-shadow: inset 0 -2px 0 var(--term-acc); }
+  .code-tab:focus-visible, .install-tab:focus-visible { outline: 2px solid var(--term-acc); outline-offset: -2px; }
+  /* Terminals stay dark in both themes, so cloud markers inside them keep the dark-theme hues. */
+  .code-tabs .cloud-aws { --chip: #FF9900; }
+  .code-tabs .cloud-az  { --chip: #3A9BEF; }
+  .code-tabs .cloud-gcp { --chip: #34A853; }
+  .code-tabs .cloud-oci { --chip: #F0604D; }
   .code-block.tabbed, .code-tabs + .code-block, .install-tabs ~ .install-block {
     margin-top: 0; border-top: none; border-radius: 0 0 10px 10px;
   }
@@ -196,18 +266,28 @@ const schemas = [
     background: transparent; border: 1px solid var(--term-border);
     color: var(--term-dim); font-family: var(--mono); font-size: 11px;
     padding: 3px 10px; border-radius: 5px; cursor: pointer;
-    opacity: 0.75; transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+    transition: color 0.15s, border-color 0.15s;
   }
   .code-block.tabbed .copy-btn, .install-block .copy-btn { top: 10px; background: var(--term-bg); }
-  .code-block:hover .copy-btn, .install-block:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
   .copy-btn:hover { color: var(--term-text); border-color: var(--term-dim); }
-  .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .copy-btn.copied { color: var(--green); border-color: var(--green); opacity: 1; pointer-events: none; }
+  /* The button is about 26px tall; the invisible ::after makes the tap area 44px. */
+  .copy-btn::after { content: ''; position: absolute; inset: -11px -4px; }
+  /* Code blocks built from <br> lines (no <pre>) can't scroll, so long tokens such as keys and OCIDs wrap instead. */
+  .code-block:not(:has(pre)) { overflow-wrap: anywhere; }
+  .copy-btn:focus-visible { outline: 2px solid var(--term-acc); outline-offset: 2px; }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); pointer-events: none; }
   .skip-link {
     position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
     font-size: 14px; color: var(--bg); background: var(--accent); padding: 8px 16px; border-radius: 0 0 8px 8px;
     text-decoration: none; font-weight: 600; z-index: 9999;
   }
+  main:focus { outline: none; }
+  /* The hidden attribute wins over component display rules (tab panels). */
+  [hidden] { display: none !important; }
+  /* Marks a service that only Floci emulates among free emulators (service grids on the cloud pages). */
+  .exclusive-mark { display: inline-block; width: 6px; height: 6px; margin-left: 6px; vertical-align: middle; border-radius: 50%; background: var(--accent); }
+  /* Visible to screen readers only. */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   .skip-link:focus { left: 50%; transform: translateX(-50%); width: auto; height: auto; }
 
   /* ---- Shareable heading anchors ---- */
@@ -219,6 +299,9 @@ const schemas = [
     border-radius: 6px; opacity: 0;
     transition: opacity 0.15s, color 0.15s;
   }
+  /* The icon is 28px; the invisible ::after makes the tap area 44px. */
+  .heading-anchor { position: relative; }
+  .heading-anchor::after { content: ''; position: absolute; inset: -8px; }
   .heading-anchor svg { display: block; }
   h1:hover > .heading-anchor, h2:hover > .heading-anchor, h3:hover > .heading-anchor,
   .heading-anchor:hover, .heading-anchor:focus-visible { opacity: 1; }
@@ -233,7 +316,12 @@ const schemas = [
   }
   .anchor-flash { animation: anchor-flash 1.6s ease-out 1; border-radius: 4px; }
   @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .btn-primary:hover { transform: none; }
     .anchor-flash { animation: none; }
+    .lab-card:hover, .nf-card:hover, .video-card:hover img { transform: none; }
+    .outcome-dot { animation: none; }
+    .ui-shot:hover { transform: none; }
     .heading-anchor { transition: none; }
     html { scroll-behavior: auto; }
   }
@@ -242,14 +330,34 @@ const schemas = [
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <slot />
+  <div id="copyStatus" class="sr-only" role="status" aria-live="polite"></div>
   <script>
   document.querySelectorAll('a[target="_blank"]:not([rel~="noopener"])').forEach(function(a) {
     a.setAttribute('rel', 'noopener noreferrer');
   });
+  // Shell snippets copy as runnable commands: comment lines and trailing "# ..." notes are
+  // dropped, since zsh without interactivecomments runs "#" as a command.
+  var SHELL_LANG = /^(bash|sh|shell|zsh|console|powershell)$/i;
+  function stripShellComments(text) {
+    return text.split('\n').filter(function(line) { return !/^\s*#/.test(line); }).map(function(line) {
+      var quote = null;
+      for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (quote) { if (c === quote) quote = null; }
+        else if (c === '"' || c === "'") quote = c;
+        else if (c === '#' && /\s/.test(line[i - 1] || '')) return line.slice(0, i).replace(/\s+$/, '');
+      }
+      return line;
+    }).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  var copyStatus = document.getElementById('copyStatus');
   document.querySelectorAll('.code-block, .install-block').forEach(function(block) {
     var btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'copy-btn';
     btn.textContent = 'Copy';
+    var lang = block.dataset.lang || (block.dataset.copyMode === 'commands' ? 'commands' : '');
+    btn.setAttribute('aria-label', lang ? 'Copy ' + lang : 'Copy code');
     block.appendChild(btn);
     btn.addEventListener('click', function() {
       var pre = block.querySelector('pre');
@@ -272,10 +380,15 @@ const schemas = [
           .split('\n').map(function(line) { return line.replace(/^ +| +$/g, ''); }).join('\n')
           .replace(/\xA0/g, ' ').trim();
       }
+      if (SHELL_LANG.test(block.dataset.lang || '') || block.dataset.copyMode === 'commands') text = stripShellComments(text);
       navigator.clipboard.writeText(text).then(function() {
         btn.textContent = '✓ Copied';
         btn.classList.add('copied');
-        setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+        if (copyStatus) copyStatus.textContent = 'Copied to clipboard';
+        setTimeout(function() {
+          btn.textContent = 'Copy'; btn.classList.remove('copied');
+          if (copyStatus) copyStatus.textContent = '';
+        }, 1500);
       }).catch(function() {});
     });
   });

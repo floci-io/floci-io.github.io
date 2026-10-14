@@ -22,14 +22,10 @@ const { cloud } = Astro.props;
     letter-spacing: var(--eyebrow-track); text-transform: uppercase; color: var(--text-muted);
     animation: heroEyebrowIn 0.7s cubic-bezier(.2, .7, .2, 1) both;
   }
-  .hero-eyebrow-aws { --eyebrow-accent: #FF9900; }
-  .hero-eyebrow-az  { --eyebrow-accent: #3A9BEF; }
-  .hero-eyebrow-gcp { --eyebrow-accent: #34A853; }
-  .hero-eyebrow-oci { --eyebrow-accent: #F0604D; }
-  :global(html.light) .hero-eyebrow-aws { --eyebrow-accent: #B35900; }
-  :global(html.light) .hero-eyebrow-az  { --eyebrow-accent: #0067B8; }
-  :global(html.light) .hero-eyebrow-gcp { --eyebrow-accent: #1E7E34; }
-  :global(html.light) .hero-eyebrow-oci { --eyebrow-accent: #B03A2A; }
+  .hero-eyebrow-aws { --eyebrow-accent: var(--c-aws); }
+  .hero-eyebrow-az  { --eyebrow-accent: var(--c-az); }
+  .hero-eyebrow-gcp { --eyebrow-accent: var(--c-gcp); }
+  .hero-eyebrow-oci { --eyebrow-accent: var(--c-oci); }
 
   /* Hairlines that fade out away from the text. */
   .hero-eyebrow-rule {
@@ -54,7 +50,7 @@ const { cloud } = Astro.props;
     .hero-eyebrow { animation: none; }
   }
   @media (max-width: 600px) {
-    .hero-eyebrow { gap: 10px; font-size: 10.5px; --eyebrow-track: 0.14em; }
+    .hero-eyebrow { gap: 10px; font-size: 11px; --eyebrow-track: 0.14em; }
     .hero-eyebrow-rule { display: none; }
   }
 </style>

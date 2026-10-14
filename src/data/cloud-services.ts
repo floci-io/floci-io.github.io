@@ -28,7 +28,7 @@ export interface CloudService {
   category: ServiceCategory;
   /** Vendor documentation URL (verified 200). */
   url: string;
-  /** Exclusive to Floci among free emulators — rendered with a ★. */
+  /** Exclusive to Floci among free emulators: rendered with an indigo dot (.exclusive-mark). */
   exclusive?: boolean;
   /**
    * 'default' — launches a real Docker container out of the box;
