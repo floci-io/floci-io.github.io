@@ -1,0 +1,94 @@
+---
+/**
+ * Shared skeleton for the four cloud pages (/aws, /az, /gcp, /oci).
+ *
+ * The order is fixed here so the pages can't drift apart:
+ *   Hero → Quick Start → Examples → Services → Why → Migrate → Closing
+ * Pages pass their own content as named slots (each slot is a <section> with the matching id);
+ * the services grid, section nav, closing and footer are built from data. Bands alternate by
+ * position through `.cloud-main` in Layout.astro.
+ */
+import Layout from './Layout.astro';
+import Nav from '../components/Nav.astro';
+import SectionNav from '../components/SectionNav.astro';
+import Footer from '../components/Footer.astro';
+import CloudHero from '../components/CloudHero.astro';
+import CloudClosing from '../components/CloudClosing.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import { CLOUD_LABELS, CLOUD_PACKAGES, CLOUD_PAGES, SERVICE_COUNTS, type Cloud } from '../data/services';
+import type { CloudService } from '../data/cloud-services';
+
+interface Props {
+  cloud: Cloud;
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage: string;
+  jsonLd?: object;
+  /** The emulator's docs page on this site (/floci/, /floci-az/, ...). */
+  docsHref: string;
+  services: CloudService[];
+  /** Sentence under the services heading. */
+  servicesDesc: string;
+  /** Section-nav label for the optional migrate slot, e.g. "From LocalStack". */
+  migrateLabel?: string;
+}
+
+const { cloud, title, description, canonical, ogImage, jsonLd, docsHref, services, servicesDesc, migrateLabel } = Astro.props;
+
+// Short keys used by Nav and SectionNav ('az' for Azure).
+const short = ({ aws: 'aws', azure: 'az', gcp: 'gcp', oci: 'oci' } as const)[cloud];
+const label = CLOUD_LABELS[cloud];
+const pkg = CLOUD_PACKAGES[cloud];
+const repo = `https://github.com/floci-io/${pkg}`;
+
+const hasExamples = Astro.slots.has('examples');
+const hasMigrate = Astro.slots.has('migrate');
+const sectionLinks = [
+  { href: '#quickstart', label: 'Quick Start' },
+  ...(hasExamples ? [{ href: '#examples', label: 'Examples' }] : []),
+  { href: '#services', label: 'Services' },
+  { href: '#why', label: 'Why' },
+  ...(hasMigrate ? [{ href: '#migrate', label: migrateLabel ?? 'Migrate' }] : []),
+];
+
+const otherClouds = (Object.keys(CLOUD_PAGES) as Cloud[]).filter((k) => k !== cloud);
+---
+
+<Layout title={title} description={description} canonical={canonical} ogImage={ogImage} jsonLd={jsonLd}>
+  <Nav active={short} />
+  <SectionNav cloud={short} label={label} links={sectionLinks} docsHref={docsHref} />
+
+  <main id="main-content" class="cloud-main" tabindex="-1">
+    <CloudHero cloud={cloud} />
+
+    <slot name="quickstart" />
+    <slot name="examples" />
+
+    <section id="services">
+      <div class="container">
+        <div class="reveal">
+          <div class="section-label">{pkg} · {label} services</div>
+          <h2>{SERVICE_COUNTS[cloud]} {label} services. All of them free.</h2>
+          <p class="section-desc">{servicesDesc}</p>
+        </div>
+        <ServicesGrid cloud={cloud} services={services} />
+      </div>
+    </section>
+
+    <slot name="why" />
+    <slot name="migrate" />
+
+    <CloudClosing cloud={cloud} />
+  </main>
+
+  <Footer variant="sub">
+    <div class="footer-links">
+      <a href="/">← All Products</a>
+      <a href={repo} target="_blank">{pkg} on GitHub</a>
+      {otherClouds.map((k) => <a href={CLOUD_PAGES[k]}>{CLOUD_PACKAGES[k]} ({CLOUD_LABELS[k]})</a>)}
+      <a href="https://github.com/floci-io/floci-cli" target="_blank">floci-cli</a>
+      <a href="https://github.com/floci-io/floci-ui" target="_blank">floci-ui</a>
+    </div>
+  </Footer>
+</Layout>

@@ -96,14 +96,10 @@ const pages = [
   }
   .nav-page:hover, .nav-page.nav-active { color: var(--text); }
   .nav-page.nav-active { box-shadow: inset 0 -2px 0 currentColor; }
-  .nav-page.aws-link:hover, .nav-page.aws-link.nav-active { color: #FF9900; }
-  .nav-page.az-link:hover, .nav-page.az-link.nav-active { color: #3A9BEF; }
-  .nav-page.gcp-link:hover, .nav-page.gcp-link.nav-active { color: #34A853; }
-  .nav-page.oci-link:hover, .nav-page.oci-link.nav-active { color: #F0604D; }
-  html.light .nav-page.aws-link:hover, html.light .nav-page.aws-link.nav-active { color: #B35900; }
-  html.light .nav-page.az-link:hover, html.light .nav-page.az-link.nav-active { color: #0067B8; }
-  html.light .nav-page.gcp-link:hover, html.light .nav-page.gcp-link.nav-active { color: #1E7E34; }
-  html.light .nav-page.oci-link:hover, html.light .nav-page.oci-link.nav-active { color: #B03A2A; }
+  .nav-page.aws-link:hover, .nav-page.aws-link.nav-active { color: var(--c-aws); }
+  .nav-page.az-link:hover, .nav-page.az-link.nav-active { color: var(--c-az); }
+  .nav-page.gcp-link:hover, .nav-page.gcp-link.nav-active { color: var(--c-gcp); }
+  .nav-page.oci-link:hover, .nav-page.oci-link.nav-active { color: var(--c-oci); }
 
   .nav-github, .theme-toggle {
     height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;

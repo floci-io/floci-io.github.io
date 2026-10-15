@@ -17,9 +17,9 @@
  *   oci   — `*ServiceConfig` accessors on `EmulatorConfig.ServicesConfig`
  */
 export const SERVICE_COUNTS = {
-  aws: 125,
-  azure: 28,
-  gcp: 26,
+  aws: 126,
+  azure: 29,
+  gcp: 27,
   oci: 8,
 } as const;
 
@@ -39,7 +39,29 @@ export const CLOUD_PORTS: Record<Cloud, number> = {
   oci: 4599,
 };
 
-/** Service names shown as chips on the home-page cloud cards. */
+/** One-line summary of each emulator for the home page, taken from its cloud page's hero. */
+export const CLOUD_SUMMARIES: Record<Cloud, string> = {
+  aws: 'Drop-in replacement for LocalStack.',
+  azure: 'No Azure account required.',
+  gcp: 'No GCP project, no billing account.',
+  oci: 'No Oracle Cloud account required.',
+};
+
+/** Package (repo and image) name of each emulator, and its page on this site. */
+export const CLOUD_PACKAGES: Record<Cloud, string> = {
+  aws: 'floci',
+  azure: 'floci-az',
+  gcp: 'floci-gcp',
+  oci: 'floci-oci',
+};
+export const CLOUD_PAGES: Record<Cloud, string> = {
+  aws: '/aws/',
+  azure: '/az/',
+  gcp: '/gcp/',
+  oci: '/oci/',
+};
+
+/** Service names shown on the home-page cloud cards (the first four are used). */
 export const CARD_CHIPS: Record<Cloud, string[]> = {
   aws: ['S3', 'SQS', 'Lambda', 'DynamoDB', 'RDS', 'EKS'],
   azure: ['Blob', 'Queue', 'Table', 'Functions', 'Key Vault', 'Event Hubs', 'Service Bus'],
@@ -75,6 +97,7 @@ export function outcomeMessage(cloud: Cloud): string {
 /** Keyed by install-tab id. `cli` and `win` both show the AWS outcome. */
 export const OUTCOME_MESSAGES: Record<string, string> = {
   cli: outcomeMessage('aws'),
+  brew: outcomeMessage('aws'),
   win: outcomeMessage('aws'),
   aws: outcomeMessage('aws'),
   azure: outcomeMessage('azure'),

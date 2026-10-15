@@ -1,0 +1,136 @@
+---
+/**
+ * Service grid shared by the four cloud pages: chips grouped by category (from
+ * cloud-services.ts), a neutral glyph per category, Docker marks, and the Floci-only dot.
+ * Replaces four copies of the same markup and CSS that had drifted apart.
+ */
+import ServiceIcon from './ServiceIcon.astro';
+import { groupByCategory, type CloudService } from '../data/cloud-services';
+
+interface Props {
+  /** Page cloud key, used for the icon hue. */
+  cloud: 'aws' | 'azure' | 'gcp' | 'oci';
+  services: CloudService[];
+}
+const { cloud, services } = Astro.props;
+
+// Category headings only help long lists (AWS); shorter grids stay one flat block.
+const grouped = services.length > 40;
+const groups = grouped ? groupByCategory(services) : [{ category: 'all', label: '', services: groupByCategory(services).flatMap((g) => g.services) }];
+const dockerTiers = new Set(services.map((s) => s.docker).filter(Boolean));
+const hasExclusive = services.some((s) => s.exclusive);
+// Grouped grids are <details> so phones can collapse them; flat grids are a plain block.
+const Group = grouped ? 'details' : 'div';
+const hue = { aws: 'cloud-aws', azure: 'cloud-az', gcp: 'cloud-gcp', oci: 'cloud-oci' }[cloud];
+const DOCKER_PATH = 'M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z';
+---
+
+<div class={`svc ${hue}`}>
+  {groups.map((g) => (
+    <Group class="svc-group" open={grouped || undefined} data-svc-group={grouped ? '' : undefined}>
+      {grouped && <summary class="svc-group-title"><h3>{g.label}</h3> <span>{g.services.length}</span></summary>}
+      <div class="svc-grid">
+        {g.services.map((s) => (
+          <a
+            class:list={['svc-item', { exclusive: s.exclusive }]}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`${s.name}: official documentation`}
+          >
+            <ServiceIcon category={s.category} class="svc-icon" />
+            <span class="svc-name">{s.name}{s.exclusive && <span class="exclusive-mark"><span class="sr-only"> (exclusive to Floci)</span></span>}</span>
+            <span class="svc-proto">{s.proto}{s.docker && (
+              <svg class:list={['svc-docker', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>
+            )}</span>
+          </a>
+        ))}
+      </div>
+    </Group>
+  ))}
+
+  {(dockerTiers.size > 0 || hasExclusive) && (
+    <p class="svc-legend">
+      {dockerTiers.has('default') && (
+        <span><svg class="svc-docker default" viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>Runs a Docker container</span>
+      )}
+      {dockerTiers.has('optional') && (
+        <span><svg class="svc-docker optional" viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>Docker optional: mocked by default</span>
+      )}
+      {hasExclusive && (
+        <span><span class="exclusive-mark" aria-hidden="true"></span>Only in Floci among free emulators</span>
+      )}
+    </p>
+  )}
+</div>
+
+<style>
+  .cloud-aws { --chip: var(--c-aws); }
+  .cloud-az  { --chip: var(--c-az); }
+  .cloud-gcp { --chip: var(--c-gcp); }
+  .cloud-oci { --chip: var(--c-oci); }
+
+  .svc { margin-top: 48px; }
+  .svc-group + .svc-group { margin-top: 32px; }
+  .svc-group-title {
+    display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; list-style: none;
+    font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim);
+  }
+  .svc-group-title::-webkit-details-marker { display: none; }
+  .svc-group-title h3 { font: inherit; letter-spacing: inherit; margin: 0; }
+  /* Desktop: categories are always open, so the summary isn't a control. */
+  @media (min-width: 601px) { .svc-group-title { pointer-events: none; } }
+  .svc-group-title span { letter-spacing: 0; color: var(--text-dim); }
+
+  /* Hairline grid: 1px gaps over the border colour, no outer box shadow. */
+  /* Each chip draws its own 1px edge, so a short last row leaves empty space, not filled cells. */
+  .svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; padding: 1px; }
+  .svc-item {
+    display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 10px; row-gap: 3px;
+    padding: 16px 18px; background: var(--bg); box-shadow: 0 0 0 1px var(--border); color: var(--text); text-decoration: none;
+    transition: background-color 0.15s;
+  }
+  .svc-item:hover { background: var(--bg3); }
+  .svc-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .svc-item.exclusive { background: var(--accent-dim); }
+  .svc-item.exclusive :global(.svc-icon) { color: var(--accent); }
+  .svc-item :global(.svc-icon) { width: 16px; height: 16px; color: var(--chip); grid-column: 1; grid-row: 1; }
+  .svc-name { grid-column: 2; grid-row: 1; font-size: 14px; font-weight: 500; }
+  .svc-proto {
+    grid-column: 2; grid-row: 2; font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+    overflow-wrap: anywhere;
+  }
+  .svc-docker { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
+  .svc-docker.default { fill: var(--text-dim); }
+  .svc-docker.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
+
+  .svc-legend {
+    display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 22px; margin-top: 16px;
+    font-size: 14px; color: var(--text-muted);
+  }
+  .svc-legend > span { display: inline-flex; align-items: center; gap: 8px; }
+  .svc-legend .svc-docker { width: 10px; height: 10px; margin: 0; }
+  .svc-legend :global(.exclusive-mark) { margin-left: 0; }
+
+  @media (prefers-reduced-motion: reduce) { .svc-item { transition: none; } }
+  @media (max-width: 600px) {
+    .svc { margin-top: 32px; }
+    /* Phones: long grids collapse to category rows that open on tap. */
+    .svc-group + .svc-group { margin-top: 0; }
+    .svc-group[data-svc-group] { border-top: 1px solid var(--border); }
+    .svc-group[data-svc-group] .svc-group-title { min-height: 48px; align-items: center; margin: 0; cursor: pointer; }
+    .svc-group[data-svc-group] .svc-group-title::after { content: ''; margin-left: auto; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+    .svc-group[data-svc-group][open] .svc-group-title::after { transform: rotate(-135deg); }
+    .svc-group[data-svc-group][open] { padding-bottom: 16px; }
+    .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .svc-item { padding: 12px; }
+    .svc-legend { justify-content: flex-start; }
+  }
+</style>
+
+<script>
+  // Phones: start long, grouped grids collapsed (no-JS visitors keep them open).
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    document.querySelectorAll<HTMLDetailsElement>('details[data-svc-group]').forEach((d) => { d.open = false; });
+  }
+</script>

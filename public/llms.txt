@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 125 emulated AWS services on port 4566
+- 126 emulated AWS services on port 4566
 - Drop-in LocalStack replacement: same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -26,18 +26,18 @@ Global Accelerator, Translate, AWS Budgets, AWS Marketplace, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 28 emulated Azure services on port 4577
+- 29 emulated Azure services on port 4577
 - MIT license: no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
 App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
 Virtual Machines, Cache for Redis, Entra ID, Event Grid, PostgreSQL, MySQL, MariaDB,
-Container Instances, Container Apps, SignalR, Microsoft Graph, and more.
+Container Instances, Container Apps, SignalR, Microsoft Graph, Azure Policy, and more.
 
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 26 emulated GCP services on port 4588
+- 27 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
@@ -58,7 +58,7 @@ Vault Secrets, Functions, OKE.
 - License: MIT (all four products)
 - Free forever: no paid tiers, no feature gates
 - Stable releases on the 15th and the last day of each month; `nightly` tags track main
-- Single binary distribution (Docker image or native executable)
+- Runs as a container (Docker or Podman): each emulator is a GraalVM native image, started by floci-cli or `docker run`
 - Works with all official AWS / Azure / GCP / OCI SDKs by pointing the endpoint URL to localhost
 - No internet access required at runtime
 - Designed for local development, CI/CD pipelines, and integration tests

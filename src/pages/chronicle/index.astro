@@ -36,6 +36,44 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   <main id="main-content" class="chronicle-shell">
     <h1 class="sr-only">Chronicle</h1>
     <div class="chronicle-grid">
+      <section class="news-section" aria-label="Chronicle stories" tabindex="0">
+        <div class="section-heading">
+          <h2 class="eyebrow">Chronicle</h2>
+          <a class="rss-link" href="/rss.xml" aria-label="Subscribe to the floci Chronicle RSS feed" title="Subscribe via RSS">
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        {featured && (
+          <a class="main-feature" href={`/chronicle/${chroniclePublicSlug(featured)}/`}>
+            <div
+              class="cloud-art"
+              aria-hidden="true"
+              style={featured.data.heroImage
+                ? `background-image: linear-gradient(90deg, rgba(7,11,20,.04), rgba(7,11,20,.34)), url('${featured.data.heroImage}')`
+                : undefined}
+            ></div>
+            <div class="feature-panel">
+              <div class="kicker">Featured · {formatDate(featured.data.pubDate)}</div>
+              <h2>{featured.data.title}</h2>
+              <p>{featured.data.description}</p>
+            </div>
+          </a>
+        )}
+
+        <div class="dispatch-list">
+          {dispatches.map(post => (
+            <a class="dispatch" href={`/chronicle/${chroniclePublicSlug(post)}/`}>
+              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              <div>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <aside class="left-rail" aria-label="Notes and follow floci" tabindex="0">
         <section class="rail-section notes-section">
           <h2 class="eyebrow">Notes</h2>
@@ -78,44 +116,6 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
           </div>
         </section>
       </aside>
-
-      <section class="news-section" aria-label="Chronicle stories" tabindex="0">
-        <div class="section-heading">
-          <h2 class="eyebrow">Chronicle</h2>
-          <a class="rss-link" href="/rss.xml" aria-label="Subscribe to the floci Chronicle RSS feed" title="Subscribe via RSS">
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-
-        {featured && (
-          <a class="main-feature" href={`/chronicle/${chroniclePublicSlug(featured)}/`}>
-            <div
-              class="cloud-art"
-              aria-hidden="true"
-              style={featured.data.heroImage
-                ? `background-image: linear-gradient(90deg, rgba(7,11,20,.04), rgba(7,11,20,.34)), url('${featured.data.heroImage}')`
-                : undefined}
-            ></div>
-            <div class="feature-panel">
-              <div class="kicker">Featured · {formatDate(featured.data.pubDate)}</div>
-              <h2>{featured.data.title}</h2>
-              <p>{featured.data.description}</p>
-            </div>
-          </a>
-        )}
-
-        <div class="dispatch-list">
-          {dispatches.map(post => (
-            <a class="dispatch" href={`/chronicle/${chroniclePublicSlug(post)}/`}>
-              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-              <div>
-                <h3>{post.data.title}</h3>
-                <p>{post.data.description}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
 
       <aside class="right-rail" aria-label="Videos" tabindex="0">
         <section class="rail-section videos-section">
@@ -169,7 +169,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   .eyebrow { font-family: var(--mono); font-size: 12px; line-height: 1; letter-spacing: 2.2px; text-transform: uppercase; color: var(--text-muted); margin: 0 0 22px; }
   .section-heading { display: flex; align-items: start; justify-content: space-between; }
   .rss-link {
-    width: 36px; height: 36px; margin-top: -8px;
+    width: 44px; height: 44px; margin-top: -12px;
     color: var(--text-muted); display: grid; place-items: center;
     transition: color .2s;
   }
@@ -198,36 +198,41 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   }
   .main-feature { position: relative; display: block; height: 360px; overflow: hidden; color: var(--text); }
   .feature-panel { position: absolute; z-index: 2; right: 0; bottom: 0; width: 62%; padding: 26px; background: var(--bg2); color: var(--text); border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
-  .kicker { font-family: var(--mono); color: var(--text-dim); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
+  .kicker { font-family: var(--mono); color: var(--text-dim); font-size: 11px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 12px; }
   .feature-panel h2, .feature-panel h3, .dispatch h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -1px; line-height: 1.08; }
   .feature-panel h2 { font-size: clamp(22px, 2vw, 30px); margin: 0 0 12px; }
   .feature-panel h3 { font-size: 16px; margin: 0 0 12px; }
-  .feature-panel p { color: var(--text-muted); font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .feature-panel p { color: var(--text-muted); font-size: 16px; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
   .main-feature:hover .feature-panel h2, .note-feature:hover h3, .compact-note:hover h3, .dispatch:hover h3, .video-card:hover h3 { color: var(--accent); }
   .note-feature { display: block; position: relative; height: 310px; overflow: hidden; color: var(--text); }
   .note-feature .feature-panel { width: 100%; padding: 18px 20px; }
   .note-feature .feature-panel p { display: none; }
   .compact-note { display: block; color: var(--text); padding: 22px 0; border-bottom: 1px solid var(--rule); }
-  .compact-note time, .dispatch time { font-family: var(--mono); color: var(--text-dim); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .compact-note time, .dispatch time { font-family: var(--mono); color: var(--text-dim); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
   .compact-note h3 { font-size: 16px; line-height: 1.3; margin: 8px 0; }
-  .compact-note p { color: var(--text-muted); font-size: 12px; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-  .socials { display: flex; gap: 12px; }
-  .socials a { width: 36px; height: 36px; border: 1px solid var(--border-bright); color: var(--text-muted); display: grid; place-items: center; transition: color .2s, border-color .2s; }
+  .compact-note p { color: var(--text-muted); font-size: 15px; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .socials { display: flex; flex-wrap: wrap; gap: 12px; }
+  .socials a { flex: none; width: 44px; height: 44px; border: 1px solid var(--border-bright); color: var(--text-muted); display: grid; place-items: center; transition: color .2s, border-color .2s; }
   .socials svg { width: 20px; height: 20px; fill: currentColor; }
   .socials a:hover { color: var(--accent); border-color: var(--accent); }
   .dispatch-list { margin-top: 34px; }
   .dispatch { display: grid; grid-template-columns: 29% 1fr; gap: 28px; color: var(--text); padding: 28px 12px; border-bottom: 1px solid var(--rule); }
   .dispatch time { text-align: right; padding-top: 7px; }
   .dispatch h3 { font-size: clamp(20px, 2.2vw, 30px); margin-bottom: 10px; }
-  .dispatch p { color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+  .dispatch p { color: var(--text-muted); font-size: 16px; line-height: 1.5; }
   .video-list { display: grid; gap: 28px; }
   .video-card { color: var(--text); display: block; }
   .video-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; margin-bottom: 12px; background: var(--bg2); }
   .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.75) contrast(1.05); transition: transform .3s, filter .3s; }
   .video-thumb span { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%,-50%); width: 38px; height: 38px; display: grid; place-items: center; padding-left: 2px; border-radius: 50%; background: rgba(7,11,20,.86); color: white; font-size: 12px; }
   .video-card:hover img { transform: scale(1.03); filter: saturate(1); }
-  .video-card h3 { font-size: 14px; line-height: 1.45; font-weight: 500; }
-  .video-card time { display: block; font-family: var(--mono); color: var(--text-dim); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px; }
+  .video-card h3 { font-size: 15px; line-height: 1.45; font-weight: 500; }
+  .video-card time { display: block; font-family: var(--mono); color: var(--text-dim); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px; }
+  /* The news column comes first in the DOM (reading order); on wide screens it sits in the middle. */
+  .left-rail { grid-column: 1; grid-row: 1; }
+  .news-section { grid-column: 2; grid-row: 1; }
+  .right-rail { grid-column: 3; grid-row: 1; }
+  .left-rail:focus-visible, .news-section:focus-visible, .right-rail:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   @media (min-width: 1101px) {
     .chronicle-shell { height: 100vh; overflow: hidden; }
     .chronicle-grid { height: calc(100vh - 60px); min-height: 0; }
@@ -240,22 +245,18 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
       margin: 42px -22px 0; padding: 28px 22px 26px;
       background: var(--bg);
     }
-    .left-rail:focus-visible,
-    .news-section:focus-visible,
-    .right-rail:focus-visible { outline: 1px solid var(--rail-marker); outline-offset: -1px; }
     .left-rail::-webkit-scrollbar,
     .news-section::-webkit-scrollbar,
     .right-rail::-webkit-scrollbar { display: none; }
   }
   @media (max-width: 1100px) {
     .chronicle-grid { grid-template-columns: 320px minmax(0, 1fr); }
-    .right-rail { grid-column: 1 / -1; }
+    .right-rail { grid-column: 1 / -1; grid-row: 2; }
     .videos-section .video-list { grid-template-columns: repeat(4, 1fr); }
   }
   @media (max-width: 900px) {
     .chronicle-grid { display: flex; flex-direction: column; }
     .left-rail, .news-section, .right-rail { padding: 28px 20px 52px; background-image: none; border-bottom: 1px dashed var(--rule); }
-    .news-section { order: -1; }
     .main-feature { height: 390px; }
     .main-feature .feature-panel { width: 90%; }
     .dispatch { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }

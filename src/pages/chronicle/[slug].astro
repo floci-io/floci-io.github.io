@@ -83,11 +83,11 @@ const jsonLd = {
       <AuthorCard author={post.data.author} />
 
       {related && (
-        <aside class="related">
+        <aside class="related" aria-label="Also of interest">
           <span>Also of interest</span>
           <h2>{related.data.title}</h2>
           <p>{related.data.description}</p>
-          <a href={`/chronicle/${chroniclePublicSlug(related)}/`}>Read →</a>
+          <a href={`/chronicle/${chroniclePublicSlug(related)}/`}>Read<span class="sr-only"> {related.data.title}</span> →</a>
         </aside>
       )}
     </article>
@@ -128,18 +128,20 @@ const jsonLd = {
   .article-hero.has-hero-image { background-position: center 60%; }
   .article-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,11,20,.18), transparent 42%, rgba(7,11,20,.16)); }
   .article { position: relative; width: min(700px, calc(100% - 96px)); margin: 0 auto; padding: 76px 0 110px; }
-  .back-link { display: inline-block; margin-bottom: 44px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
+  .back-link { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 30px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
   .back-link:hover { color: var(--accent); }
   .article-header { padding: 0 0 52px; margin-bottom: 52px; border-bottom: 1px solid var(--border); }
-  .meta { display: flex; gap: 9px; align-items: center; margin-bottom: 22px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .meta { display: flex; gap: 9px; align-items: center; margin-bottom: 22px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
   .meta b { color: var(--accent); font-weight: 400; }
-  .meta a { color: inherit; text-decoration: none; }
+  .meta a { position: relative; color: inherit; text-decoration: none; }
+  /* The author link is 11px text; the invisible ::after gives it a 44px tap height. */
+  .meta a::after { content: ''; position: absolute; inset: -14px -4px; }
   .meta a:hover { color: var(--accent); }
   .article-header h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(48px, 7vw, 88px); font-weight: 400; letter-spacing: -.055em; line-height: .98; margin-bottom: 24px; }
   .subtitle { color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(22px, 2.6vw, 30px); font-weight: 400; letter-spacing: -.5px; line-height: 1.2; margin: -6px 0 20px; }
   .description { color: var(--text-muted); font-size: 18px; line-height: 1.55; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-  .tags span { padding: 4px 8px; border: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+  .tags span { padding: 4px 8px; border: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
   .prose { color: var(--text-muted); font-size: 17px; line-height: 1.78; overflow-wrap: anywhere; }
   .prose :global(h2) { color: var(--text); font-family: Georgia, 'Times New Roman', serif; font-size: 32px; font-weight: 400; letter-spacing: -1px; line-height: 1.15; margin: 54px 0 18px; }
   .prose :global(h3) { color: var(--text); font-size: 19px; line-height: 1.4; margin: 36px 0 14px; }
@@ -171,17 +173,17 @@ const jsonLd = {
   }
   :global(.image-lightbox-close:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
   .prose :global(video) { aspect-ratio: 16 / 9; object-fit: cover; }
-  .prose :global(figcaption) { margin-top: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 10px; line-height: 1.5; letter-spacing: .6px; }
+  .prose :global(figcaption) { margin-top: 10px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; line-height: 1.5; letter-spacing: .6px; }
   .prose :global(iframe) { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; margin: 38px 0; border: 1px solid var(--border); background: var(--bg2); }
   .prose :global(.metric-graphic), .prose :global(.mermaid) { margin: 38px 0; padding: 24px; border: 1px solid var(--border); background: var(--bg2); overflow-x: auto; }
   .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { display: block; width: 100%; max-width: 100% !important; height: auto; margin: 0 auto; }
   .prose :global(.metric-graphic text) { font-family: var(--mono); fill: var(--text-muted); }
   .prose :global(.mermaid-error) { color: var(--text-muted); font-family: var(--mono); font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
-  .related { position: absolute; left: calc(100% + 30px); top: 640px; width: 210px; padding: 24px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); box-shadow: 0 24px 65px rgba(7,11,20,.35); }
-  .related > span { color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .related { position: absolute; left: calc(100% + 30px); top: 640px; width: 210px; padding: 24px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); }
+  .related > span { color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
   .related h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 25px; font-weight: 400; line-height: 1.12; margin: 16px 0 12px; }
-  .related p { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
-  .related a { display: inline-block; margin-top: 20px; color: white; background: var(--accent-deep); padding: 8px 13px; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
+  .related p { color: var(--text-muted); font-size: 15px; line-height: 1.5; }
+  .related a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 20px; color: white; background: var(--accent-deep); padding: 8px 13px; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-decoration: none; text-transform: uppercase; }
   @media (max-width: 1240px) {
     .related { position: static; width: 100%; margin-top: 72px; }
   }
@@ -199,7 +201,7 @@ const jsonLd = {
     .prose :global(.metric-graphic svg), .prose :global(.mermaid svg) { min-width: 520px; }
     .prose :global(.table-scroll) { overflow-x: auto; overscroll-behavior-inline: contain; }
     .prose :global(.table-frame table) { min-width: 560px; overflow-wrap: normal; }
-    .prose :global(.table-scroll-hint) { display: block; margin-top: 8px; color: var(--text-dim); font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-align: right; text-transform: uppercase; }
+    .prose :global(.table-scroll-hint) { display: block; margin-top: 8px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-align: right; text-transform: uppercase; }
   }
 </style>
 

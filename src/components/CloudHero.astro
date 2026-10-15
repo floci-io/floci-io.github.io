@@ -1,0 +1,130 @@
+---
+/**
+ * Terminal-first hero shared by the four cloud pages (/aws, /az, /gcp, /oci).
+ * Left: a factual headline (the cloud on its localhost port), one sentence, one action.
+ * Right: the commands that start the emulator, with the outcome they produce.
+ * Figures come only from SERVICE_COUNTS, CLOUD_PORTS and the approved list in PRODUCT.md.
+ */
+import { CLOUD_LABELS, CLOUD_PORTS, CLOUD_PACKAGES, OUTCOME_MESSAGES, type Cloud } from '../data/services';
+
+interface Props {
+  cloud: Cloud;
+}
+const { cloud } = Astro.props;
+
+/** Per-cloud copy. `lead` is the product sentence; `facts` is the mono spec line under the terminal. */
+const HERO: Record<Cloud, { lead: string; comment: string; commands: string[]; facts: string[]; repo: string }> = {
+  aws: {
+    lead: 'A free, MIT-licensed AWS emulator and drop-in replacement for LocalStack. Give your coding agents a real AWS to build and test against: no auth token, no account, no bill.',
+    comment: '# Install floci-cli, then start floci',
+    commands: ['curl -fsSL https://floci.io/install.sh | sh', 'floci start', 'eval $(floci env)'],
+    facts: ['24 ms startup', '~13 MiB idle', 'MIT licensed', 'no auth token'],
+    repo: 'https://github.com/floci-io/floci',
+  },
+  azure: {
+    lead: 'A free, MIT-licensed Azure emulator with Azurite-compatible connection strings. Give your coding agents a real Azure to build and test against: no account, no subscription, no bill.',
+    comment: '# Install floci-cli, then start floci-az',
+    commands: ['curl -fsSL https://floci.io/install.sh | sh', 'floci az start', 'eval $(floci az env)'],
+    facts: ['24 ms startup', '~13 MiB idle', 'MIT licensed', 'no Azure account'],
+    repo: 'https://github.com/floci-io/floci-az',
+  },
+  gcp: {
+    lead: 'A free, MIT-licensed Google Cloud emulator. Give your coding agents a real GCP to build and test against: no project, no billing account, no auth token.',
+    comment: '# Install floci-cli, then start floci-gcp',
+    commands: ['curl -fsSL https://floci.io/install.sh | sh', 'floci gcp start', 'eval $(floci gcp env)'],
+    facts: ['24 ms startup', '~13 MiB idle', 'MIT licensed', 'no GCP project'],
+    repo: 'https://github.com/floci-io/floci-gcp',
+  },
+  oci: {
+    lead: 'A free, MIT-licensed Oracle Cloud Infrastructure emulator. Give your coding agents a real OCI to build and test against: no Oracle Cloud account, no uploaded API keys, no bill.',
+    comment: '# Install floci-cli, then start floci-oci',
+    commands: ['curl -fsSL https://floci.io/install.sh | sh', 'floci oci start', 'floci oci setup', 'eval $(floci oci env)'],
+    facts: ['24 ms startup', '~13 MiB idle', 'MIT licensed', 'no Oracle Cloud account'],
+    repo: 'https://github.com/floci-io/floci-oci',
+  },
+};
+
+const hero = HERO[cloud];
+const label = cloud === 'oci' ? 'Oracle Cloud' : CLOUD_LABELS[cloud];
+const port = CLOUD_PORTS[cloud];
+const pkg = CLOUD_PACKAGES[cloud];
+const hue = { aws: 'cloud-aws', azure: 'cloud-az', gcp: 'cloud-gcp', oci: 'cloud-oci' }[cloud];
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const terminal = [`<span class="comment">${esc(hero.comment)}</span>`, ...hero.commands.map((c) => `<span class="cmd">${esc(c)}</span>`)].join('\n');
+---
+
+<section class={`cloud-hero ${hue}`}>
+  <div class="cloud-hero-inner">
+    <div class="cloud-hero-copy">
+      <h1 class:list={[{ 'is-long': label.length > 6 }]}><span class="cloud-hero-name">{label} on</span> <span class="cloud-hero-port">localhost:{port}</span></h1>
+      <p class="cloud-hero-lead">{hero.lead}</p>
+      <div class="cloud-hero-actions">
+        <a href="#quickstart" class="btn-primary">Get started</a>
+        <a href={hero.repo} class="cloud-hero-source" target="_blank">{pkg} on GitHub</a>
+      </div>
+    </div>
+
+    <div class="cloud-hero-term">
+      <div class="code-block" data-lang={`${pkg} · :${port}`} data-copy-mode="commands"><pre set:html={terminal}></pre></div>
+      <div class="cloud-hero-outcome">
+        <span class="cloud-hero-dot" aria-hidden="true"></span>
+        <span set:html={OUTCOME_MESSAGES[cloud]}></span>
+      </div>
+      <p class="cloud-hero-facts">{hero.facts.join(' · ')}</p>
+      <a href="#quickstart" class="cloud-hero-more">Homebrew, Windows and Docker options</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cloud-hero { padding: 150px 2rem 88px; }
+  .cloud-aws { --chip: var(--c-aws); }
+  .cloud-az  { --chip: var(--c-az); }
+  .cloud-gcp { --chip: var(--c-gcp); }
+  .cloud-oci { --chip: var(--c-oci); }
+  .cloud-hero-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center;
+  }
+  .cloud-hero h1 {
+    font-size: clamp(40px, 5.2vw, 68px); font-weight: 800;
+    line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px;
+  }
+  /* "<Cloud> on" stays on one line; a long label (Oracle Cloud) is set a little smaller to fit. */
+  .cloud-hero-name { white-space: nowrap; }
+  .cloud-hero h1.is-long { font-size: clamp(36px, 4.1vw, 56px); }
+  /* The port is the product's address, set in the cloud's hue (large text, brand tier). */
+  .cloud-hero-port { display: block; font-family: var(--mono); font-weight: 700; letter-spacing: -0.04em; color: var(--chip); }
+  .cloud-hero-lead { font-size: 18px; line-height: 1.6; color: var(--text-muted); max-width: 32em; margin-bottom: 32px; }
+  .cloud-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .cloud-hero-source {
+    display: inline-flex; align-items: center; min-height: 44px;
+    font-size: 16px; font-weight: 600; color: var(--accent); text-decoration: none;
+  }
+  .cloud-hero-source:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* The terminal's 2px top edge carries the cloud hue (Thin Marker Rule). */
+  .cloud-hero-term .code-block { border-top: 2px solid var(--chip); border-radius: 10px 10px 0 0; border-bottom: none; }
+  .cloud-hero-outcome {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: color-mix(in srgb, var(--green) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--green) 22%, transparent); border-top: none; border-radius: 0 0 10px 10px;
+    font-family: var(--mono); font-size: 13px; color: var(--text-muted);
+  }
+  .cloud-hero-outcome :global(.outcome-port) { color: var(--text); }
+  .cloud-hero-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--green); }
+  .cloud-hero-facts { margin-top: 14px; font-family: var(--mono); font-size: 14px; letter-spacing: 0.02em; color: var(--text-dim); }
+
+  .cloud-hero-more { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; color: var(--accent); text-decoration: none; }
+  .cloud-hero-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 900px) {
+    .cloud-hero { padding: 120px 2rem 64px; }
+    .cloud-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  }
+  @media (max-width: 600px) { .cloud-hero-name { white-space: normal; } }
+  @media (max-width: 480px) {
+    .cloud-hero h1 { font-size: 36px; letter-spacing: -1px; }
+    .cloud-hero-port { font-size: 0.82em; }
+  }
+</style>

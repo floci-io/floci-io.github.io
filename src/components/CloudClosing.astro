@@ -1,0 +1,99 @@
+---
+/**
+ * Closing section shared by the four cloud pages. A short terminal-style receipt of what the
+ * emulator costs and needs, one line written for the cloud, one action, and the other three
+ * emulators, so no cloud is presented as the default.
+ */
+import { CLOUD_LABELS, CLOUD_PAGES, CLOUD_PACKAGES, type Cloud } from '../data/services';
+
+interface Props {
+  cloud: Cloud;
+}
+const { cloud } = Astro.props;
+
+const CLOSING: Record<Cloud, { title: string; body: string; repo: string }> = {
+  aws: {
+    title: 'AWS, without the bill.',
+    body: 'Like <em>cirrocumulus floccus</em>, the cloud formation that gave Floci its name. Small, lightweight, and always there when you need it.',
+    repo: 'https://github.com/floci-io/floci',
+  },
+  azure: {
+    title: 'Azure, without the subscription.',
+    body: 'MIT licensed and built for developer workflows. No Azure account, no subscription, no credit card. Just floci-cli and localhost.',
+    repo: 'https://github.com/floci-io/floci-az',
+  },
+  gcp: {
+    title: 'Google Cloud, without the project.',
+    body: 'MIT licensed and built for developer workflows. No GCP project, no billing account, no auth token. Just floci-cli and localhost.',
+    repo: 'https://github.com/floci-io/floci-gcp',
+  },
+  oci: {
+    title: 'No key ceremony. No bill.',
+    body: 'MIT licensed and built for developer workflows. No Oracle Cloud account, no uploaded API keys, no credit card. Just floci-cli and localhost.',
+    repo: 'https://github.com/floci-io/floci-oci',
+  },
+};
+
+const c = CLOSING[cloud];
+const pkg = CLOUD_PACKAGES[cloud];
+const others = (Object.keys(CLOUD_PAGES) as Cloud[]).filter((k) => k !== cloud);
+const hue = { aws: 'cloud-aws', azure: 'cloud-az', gcp: 'cloud-gcp', oci: 'cloud-oci' }[cloud];
+const receipt = [
+  ['license', 'MIT'],
+  ['real credentials', 'none'],
+  ['cloud account', 'none'],
+  ['cost', '$0'],
+];
+---
+
+<section id="open-source" class={`cloud-closing ${hue}`}>
+  <div class="container cloud-closing-inner reveal">
+    <div class="cloud-closing-copy">
+      <h2>{c.title}</h2>
+      <p set:html={c.body}></p>
+      <div class="cloud-closing-actions">
+        <a href={c.repo} class="btn-primary" target="_blank">{pkg} on GitHub</a>
+      </div>
+      <p class="cloud-closing-others">
+        <span>Other emulators:</span>
+        {others.map((k) => <a href={CLOUD_PAGES[k]}>{CLOUD_LABELS[k]}</a>)}
+      </p>
+    </div>
+    <!-- A receipt, not a badge: what running this emulator costs and needs. -->
+    <dl class="cloud-closing-receipt" aria-label={`${pkg} at a glance`}>
+      {receipt.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .cloud-aws { --chip: var(--c-aws); }
+  .cloud-az  { --chip: var(--c-az); }
+  .cloud-gcp { --chip: var(--c-gcp); }
+  .cloud-oci { --chip: var(--c-oci); }
+  .cloud-closing-inner {
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 56px; align-items: center;
+  }
+  .cloud-closing h2 { font-size: clamp(30px, 3.6vw, 44px); margin-bottom: 16px; }
+  .cloud-closing-copy > p { font-size: 18px; line-height: 1.6; color: var(--text-muted); max-width: 32em; margin-bottom: 28px; }
+  .cloud-closing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cloud-closing-others { display: flex; flex-wrap: wrap; align-items: center; gap: 0 18px; margin-top: 16px; font-size: 16px; color: var(--text-muted); }
+  .cloud-closing-others a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 4px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .cloud-closing-others a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Terminal-palette receipt; dark in both themes like every terminal on the site. */
+  .cloud-closing-receipt {
+    margin: 0; padding: 22px 24px;
+    background: var(--term-bg); border: 1px solid var(--term-border); border-top: 2px solid var(--chip); border-radius: 10px;
+    box-shadow: var(--term-shadow);
+    font-family: var(--mono); font-size: 15px;
+  }
+  .cloud-closing-receipt div { display: flex; justify-content: space-between; gap: 24px; padding: 8px 0; border-bottom: 1px dashed var(--term-border); }
+  .cloud-closing-receipt div:last-child { border-bottom: none; }
+  .cloud-closing-receipt dt { color: var(--term-dim); }
+  .cloud-closing-receipt dd { margin: 0; color: var(--term-text); text-align: right; }
+
+  @media (max-width: 860px) {
+    .cloud-closing-inner { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  }
+</style>

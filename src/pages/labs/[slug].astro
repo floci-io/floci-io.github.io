@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import AuthorCard from '../../components/AuthorCard.astro';
 import { getCollection } from 'astro:content';
 import { authorJsonLd, getAuthor } from '../../data/authors';
+import { LAB_CLOUD_COLOR, LAB_CLOUD_LABEL } from '../../data/labs';
 
 export async function getStaticPaths() {
   const labs = await getCollection('labs', ({ data }) => !data.draft || import.meta.env.DEV);
@@ -14,26 +15,7 @@ export async function getStaticPaths() {
 const { lab } = Astro.props;
 const { Content } = await lab.render();
 
-const cloudColor: Record<string, string> = {
-  aws:   '#FF9900',
-  azure: '#0078D4',
-  gcp:   '#34A853',
-  oci:   '#C74634',
-  all:   '#7A7FD6',
-};
-const cloudLabel: Record<string, string> = {
-  aws:   'AWS',
-  azure: 'Azure',
-  gcp:   'GCP',
-  oci:   'OCI',
-  all:   'Multi-cloud',
-};
-const difficultyColor: Record<string, string> = {
-  beginner:     'rgba(52,168,83,0.85)',
-  intermediate: '#7A7FD6',
-  advanced:     '#ef4444',
-};
-const color = cloudColor[lab.data.cloud];
+const color = LAB_CLOUD_COLOR[lab.data.cloud];
 const author = getAuthor(lab.data.author);
 const canonical = `https://floci.io/labs/${lab.slug}/`;
 const jsonLd = {
@@ -58,16 +40,18 @@ const jsonLd = {
 >
   <Nav active="labs" />
 
+  <main id="main-content" tabindex="-1">
+
   <article class="article" style={`--cloud-color: ${color}`}>
     <div class="container">
       <a href="/labs/" class="back-link">← 101 Labs</a>
 
       <header class="article-header">
         <div class="lab-badges">
-          <span class="cloud-badge" style={`background: ${color}22; color: ${color}`}>
-            {cloudLabel[lab.data.cloud]}
+          <span class="cloud-badge">
+            {LAB_CLOUD_LABEL[lab.data.cloud]}
           </span>
-          <span class="diff-badge" style={`color: ${difficultyColor[lab.data.difficulty]}`}>
+          <span class="diff-badge" data-difficulty={lab.data.difficulty}>
             {lab.data.difficulty}
           </span>
           <span class="dur-badge">⏱ {lab.data.duration}</span>
@@ -85,6 +69,8 @@ const jsonLd = {
     </div>
   </article>
 
+  </main>
+
   <Footer variant="sub" />
 </Layout>
 
@@ -99,8 +85,10 @@ const jsonLd = {
     font-size: 13px;
     color: var(--text-dim);
     text-decoration: none;
-    display: inline-block;
-    margin-bottom: 48px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-bottom: 34px;
     transition: color 0.2s;
   }
   .back-link:hover { color: var(--cloud-color); }
@@ -114,13 +102,20 @@ const jsonLd = {
   }
   .cloud-badge, .diff-badge, .dur-badge, .author-badge {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 12px;
     padding: 3px 8px;
     border-radius: 4px;
   }
+  /* The cloud hue colours the text only (Thin Marker Rule); a tinted fill dropped it below 4.5:1. */
+  .cloud-badge { color: var(--cloud-color); border: 1px solid var(--border); }
+  .diff-badge[data-difficulty="beginner"] { color: var(--green-text); }
+  .diff-badge[data-difficulty="intermediate"] { color: var(--accent); }
+  .diff-badge[data-difficulty="advanced"] { color: var(--red-text); }
   .diff-badge { text-transform: capitalize; }
   .dur-badge, .author-badge { color: var(--text-dim); }
-  .author-badge a { color: var(--text-muted); text-decoration: none; }
+  .author-badge a { position: relative; color: var(--text-muted); text-decoration: none; }
+  /* Small inline link; the invisible ::after gives it a 44px tap height. */
+  .author-badge a::after { content: ''; position: absolute; inset: -14px -4px; }
   .author-badge a:hover { color: var(--accent); }
   .article-header h1 {
     font-size: clamp(28px, 4vw, 48px);
@@ -139,6 +134,7 @@ const jsonLd = {
     font-size: 17px;
     line-height: 1.8;
     color: var(--text-muted);
+    overflow-wrap: anywhere;
   }
   .prose :global(h2) { font-size: 24px; font-weight: 700; color: var(--text); margin: 48px 0 16px; letter-spacing: -0.5px; }
   .prose :global(h3) { font-size: 18px; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
@@ -148,6 +144,6 @@ const jsonLd = {
   .prose :global(.code-block) { margin: 24px 0; }
   .prose :global(ul), .prose :global(ol) { padding-left: 24px; margin-bottom: 20px; }
   .prose :global(li) { margin-bottom: 8px; }
-  .prose :global(blockquote) { border-left: 3px solid var(--cloud-color); padding-left: 20px; color: var(--text-dim); margin: 24px 0; }
+  .prose :global(blockquote) { border-left: 3px solid var(--cloud-color); padding-left: 20px; color: var(--text-muted); margin: 24px 0; }
   .prose :global(strong) { color: var(--text); font-weight: 600; }
 </style>

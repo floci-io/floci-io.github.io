@@ -28,7 +28,7 @@ export interface CloudService {
   category: ServiceCategory;
   /** Vendor documentation URL (verified 200). */
   url: string;
-  /** Exclusive to Floci among free emulators — rendered with a ★. */
+  /** Exclusive to Floci among free emulators: rendered with an indigo dot (.exclusive-mark). */
   exclusive?: boolean;
   /**
    * 'default' — launches a real Docker container out of the box;
@@ -44,6 +44,7 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'DynamoDB + Streams', proto: 'JSON 1.1', category: 'database', url: 'https://aws.amazon.com/dynamodb/' },
   { name: 'Lambda', proto: 'REST JSON', category: 'compute', docker: 'default', url: 'https://aws.amazon.com/lambda/' },
   { name: 'Lambda MicroVMs', proto: 'REST JSON', category: 'compute', url: 'https://docs.aws.amazon.com/lambda/latest/dg/microvms.html', exclusive: true },
+  { name: 'Lambda Web Functions', proto: 'REST JSON', category: 'compute', url: 'https://docs.aws.amazon.com/lambda/latest/dg/web-functions.html' },
   { name: 'API Gateway REST', proto: 'REST JSON', category: 'networking', url: 'https://aws.amazon.com/api-gateway/' },
   { name: 'API Gateway v2', proto: 'HTTP + WebSocket', category: 'networking', url: 'https://aws.amazon.com/api-gateway/', exclusive: true },
   { name: 'IAM', proto: 'Query (68+ ops)', category: 'identity', url: 'https://aws.amazon.com/iam/' },
@@ -188,6 +189,7 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'Microsoft Graph', proto: 'REST JSON · /v1.0', category: 'identity', url: 'https://learn.microsoft.com/en-us/graph/overview' },
   { name: 'Container Apps', proto: 'ARM · ingress proxy', category: 'containers', docker: 'optional', url: 'https://learn.microsoft.com/en-us/azure/container-apps/' },
   { name: 'SignalR', proto: 'WebSocket · negotiate', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/azure-signalr/' },
+  { name: 'Azure Policy', proto: 'ARM · REST JSON', category: 'security', url: 'https://learn.microsoft.com/en-us/azure/governance/policy/' },
 ];
 
 export const GCP_SERVICES: CloudService[] = [
@@ -216,6 +218,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Resource Manager', proto: 'REST JSON', category: 'devtools', url: 'https://cloud.google.com/resource-manager/docs' },
   { name: 'Service Usage', proto: 'REST JSON · LRO', category: 'devtools', url: 'https://cloud.google.com/service-usage/docs' },
   { name: 'Operations', proto: 'gRPC · REST JSON · LRO', category: 'devtools', url: 'https://google.aip.dev/151' },
+  { name: 'Locations', proto: 'gRPC · REST JSON', category: 'devtools', url: 'https://cloud.google.com/docs/geography-and-regions' },
   { name: 'Compute Engine', proto: 'REST JSON · LRO', category: 'compute', url: 'https://cloud.google.com/compute/docs' },
 ];
 
