@@ -44,6 +44,7 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'DynamoDB + Streams', proto: 'JSON 1.1', category: 'database', url: 'https://aws.amazon.com/dynamodb/' },
   { name: 'Lambda', proto: 'REST JSON', category: 'compute', docker: 'default', url: 'https://aws.amazon.com/lambda/' },
   { name: 'Lambda MicroVMs', proto: 'REST JSON', category: 'compute', url: 'https://docs.aws.amazon.com/lambda/latest/dg/microvms.html', exclusive: true },
+  { name: 'Lambda Web Functions', proto: 'REST JSON', category: 'compute', url: 'https://docs.aws.amazon.com/lambda/latest/dg/web-functions.html' },
   { name: 'API Gateway REST', proto: 'REST JSON', category: 'networking', url: 'https://aws.amazon.com/api-gateway/' },
   { name: 'API Gateway v2', proto: 'HTTP + WebSocket', category: 'networking', url: 'https://aws.amazon.com/api-gateway/', exclusive: true },
   { name: 'IAM', proto: 'Query (68+ ops)', category: 'identity', url: 'https://aws.amazon.com/iam/' },
