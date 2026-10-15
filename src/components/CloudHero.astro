@@ -56,7 +56,7 @@ const terminal = [`<span class="comment">${esc(hero.comment)}</span>`, ...hero.c
 <section class={`cloud-hero ${hue}`}>
   <div class="cloud-hero-inner">
     <div class="cloud-hero-copy">
-      <h1>{label} on <span class="cloud-hero-port">localhost:{port}</span></h1>
+      <h1 class:list={[{ 'is-long': label.length > 6 }]}><span class="cloud-hero-name">{label} on</span> <span class="cloud-hero-port">localhost:{port}</span></h1>
       <p class="cloud-hero-lead">{hero.lead}</p>
       <div class="cloud-hero-actions">
         <a href="#quickstart" class="btn-primary">Get started</a>
@@ -90,6 +90,9 @@ const terminal = [`<span class="comment">${esc(hero.comment)}</span>`, ...hero.c
     font-size: clamp(40px, 5.2vw, 68px); font-weight: 800;
     line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px;
   }
+  /* "<Cloud> on" stays on one line; a long label (Oracle Cloud) is set a little smaller to fit. */
+  .cloud-hero-name { white-space: nowrap; }
+  .cloud-hero h1.is-long { font-size: clamp(36px, 4.1vw, 56px); }
   /* The port is the product's address, set in the cloud's hue (large text, brand tier). */
   .cloud-hero-port { display: block; font-family: var(--mono); font-weight: 700; letter-spacing: -0.04em; color: var(--chip); }
   .cloud-hero-lead { font-size: 18px; line-height: 1.6; color: var(--text-muted); max-width: 32em; margin-bottom: 32px; }
@@ -119,6 +122,7 @@ const terminal = [`<span class="comment">${esc(hero.comment)}</span>`, ...hero.c
     .cloud-hero { padding: 120px 2rem 64px; }
     .cloud-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   }
+  @media (max-width: 600px) { .cloud-hero-name { white-space: normal; } }
   @media (max-width: 480px) {
     .cloud-hero h1 { font-size: 36px; letter-spacing: -1px; }
     .cloud-hero-port { font-size: 0.82em; }
