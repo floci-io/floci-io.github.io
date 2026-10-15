@@ -18,8 +18,8 @@
  */
 export const SERVICE_COUNTS = {
   aws: 125,
-  azure: 28,
-  gcp: 26,
+  azure: 29,
+  gcp: 27,
   oci: 8,
 } as const;
 

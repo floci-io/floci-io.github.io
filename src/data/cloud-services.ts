@@ -188,6 +188,7 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'Microsoft Graph', proto: 'REST JSON · /v1.0', category: 'identity', url: 'https://learn.microsoft.com/en-us/graph/overview' },
   { name: 'Container Apps', proto: 'ARM · ingress proxy', category: 'containers', docker: 'optional', url: 'https://learn.microsoft.com/en-us/azure/container-apps/' },
   { name: 'SignalR', proto: 'WebSocket · negotiate', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/azure-signalr/' },
+  { name: 'Azure Policy', proto: 'ARM · REST JSON', category: 'security', url: 'https://learn.microsoft.com/en-us/azure/governance/policy/' },
 ];
 
 export const GCP_SERVICES: CloudService[] = [
@@ -216,6 +217,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Resource Manager', proto: 'REST JSON', category: 'devtools', url: 'https://cloud.google.com/resource-manager/docs' },
   { name: 'Service Usage', proto: 'REST JSON · LRO', category: 'devtools', url: 'https://cloud.google.com/service-usage/docs' },
   { name: 'Operations', proto: 'gRPC · REST JSON · LRO', category: 'devtools', url: 'https://google.aip.dev/151' },
+  { name: 'Locations', proto: 'gRPC · REST JSON', category: 'devtools', url: 'https://cloud.google.com/docs/geography-and-regions' },
   { name: 'Compute Engine', proto: 'REST JSON · LRO', category: 'compute', url: 'https://cloud.google.com/compute/docs' },
 ];
 

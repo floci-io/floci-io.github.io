@@ -26,18 +26,18 @@ Global Accelerator, Translate, AWS Budgets, AWS Marketplace, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 28 emulated Azure services on port 4577
+- 29 emulated Azure services on port 4577
 - MIT license: no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
 App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
 Virtual Machines, Cache for Redis, Entra ID, Event Grid, PostgreSQL, MySQL, MariaDB,
-Container Instances, Container Apps, SignalR, Microsoft Graph, and more.
+Container Instances, Container Apps, SignalR, Microsoft Graph, Azure Policy, and more.
 
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 26 emulated GCP services on port 4588
+- 27 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
