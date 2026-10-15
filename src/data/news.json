@@ -1,6 +1,42 @@
 {
   "items": [
     {
+      "kind": "release",
+      "product": "aws",
+      "version": "2.3.0",
+      "date": "2026-10-15",
+      "title": "Floci 2.3.0",
+      "summary": "Cognito passkeys and TOTP MFA, EC2 instances that join EKS clusters as nodes, ElastiCache serverless caches, more CloudFormation resources, and a dashboard with light and dark themes.",
+      "url": "https://github.com/floci-io/floci/releases/tag/2.3.0"
+    },
+    {
+      "kind": "release",
+      "product": "azure",
+      "version": "0.15.0",
+      "date": "2026-10-15",
+      "title": "floci-az 0.15.0",
+      "summary": "Adds the Azure Policy control plane, blob index tags, Cosmos DB stored procedures and triggers, Event Grid dead-lettering and an App Service managed identity endpoint.",
+      "url": "https://github.com/floci-io/floci-az/releases/tag/0.15.0"
+    },
+    {
+      "kind": "release",
+      "product": "gcp",
+      "version": "0.11.0",
+      "date": "2026-10-15",
+      "title": "floci-gcp 0.11.0",
+      "summary": "Adds the Locations API with opt-in strict location checks, Cloud Run service IAM enforcement, and opt-in per-project API enablement in Service Usage.",
+      "url": "https://github.com/floci-io/floci-gcp/releases/tag/0.11.0"
+    },
+    {
+      "kind": "release",
+      "product": "oci",
+      "version": "0.5.0",
+      "date": "2026-10-15",
+      "title": "floci-oci 0.5.0",
+      "summary": "Each tenancy gets its own Object Storage namespace and home region, regional resources are isolated by region, and kubectl authenticates to OKE with oci ce generate-token.",
+      "url": "https://github.com/floci-io/floci-oci/releases/tag/0.5.0"
+    },
+    {
       "kind": "announcement",
       "date": "2026-10-13",
       "title": "Floci now has an agent skill, shipped with floci-cli",
