@@ -57,7 +57,7 @@ Vault Secrets, Functions, OKE.
 
 - License: MIT (all four products)
 - Free forever: no paid tiers, no feature gates
-- Stable releases on the 1st and 3rd Tuesday of each month; `nightly` tags track main
+- Stable releases on the 15th and the last day of each month; `nightly` tags track main
 - Single binary distribution (Docker image or native executable)
 - Works with all official AWS / Azure / GCP / OCI SDKs by pointing the endpoint URL to localhost
 - No internet access required at runtime
