@@ -464,7 +464,7 @@ gcloud secrets versions access latest \
         <div><h3>Emulator variables, set for you</h3><p><code>floci gcp env</code> exports STORAGE, PUBSUB, FIRESTORE, DATASTORE and SECRET_MANAGER <code>*_EMULATOR_HOST</code> variables for the libraries that read them.</p></div>
         <div><h3>gcloud included</h3><p>gcloud ignores those variables, so one endpoint override and any access token point it at floci-gcp instead.</p></div>
         <div><h3>Real containers where it matters</h3><p>Cloud Run, Cloud SQL, GKE (on k3s) and Managed Kafka (on Redpanda) run real containers through Docker.</p></div>
-        <div><h3>Native binary speed</h3><p>Starts in 24 ms, idles at ~13 MiB and works offline, so CI never waits on the network.</p></div>
+        <div><h3>Native-image speed</h3><p>Starts in 24 ms, idles at ~13 MiB and works offline, so CI never waits on the network.</p></div>
       </div></div>
     </div>
   </section>

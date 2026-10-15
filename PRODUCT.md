@@ -46,8 +46,9 @@ override and the same CLI flags.
 
 - Visitors evaluate from a terminal and an editor: the site's main artifacts are install commands
   (`install.sh`, `install.ps1`, `docker run`), CLI snippets, and SDK endpoint overrides.
-- `floci-cli` (`floci start`, `floci env`) is the main install path; Docker images and native
-  executables are the alternatives.
+- `floci-cli` (`floci start`, `floci env`) is the main install path; `docker run` and Compose are the
+  alternatives. The emulators run only as containers (a GraalVM native image inside); there is no
+  standalone binary to download.
 - Stable releases ship on the 1st and 3rd Tuesday of each month; `nightly` tags track main.
 - The emulator dashboards of all four clouds read the site's `/news.json` feed.
 - AI agents and crawlers read the site through `public/llms.txt`.

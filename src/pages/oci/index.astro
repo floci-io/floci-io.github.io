@@ -309,7 +309,7 @@ oci os ns get</span>
         <div><h3>Any key works</h3><p>Request signatures are parsed for tenancy and user context but never verified, so any locally generated API key works with the OCI SDKs, the OCI CLI, Terraform and OpenTofu.</p></div>
         <div><h3>Real crypto, real Functions</h3><p>KMS performs real AES-GCM, RSA and ECDSA operations. Functions invocations run your real FDK image through an Fn Project sidecar, not a mock.</p></div>
         <div><h3>One port, few containers</h3><p>Every service answers on port 4599. {dockerServices.join(' and ')} launch Docker containers; the other {inProcessCount} services run entirely in-process.</p></div>
-        <div><h3>Native binary speed</h3><p>Starts in 24 ms and idles at ~13 MiB, fast enough to start a fresh emulator for every test run.</p></div>
+        <div><h3>Native-image speed</h3><p>Starts in 24 ms and idles at ~13 MiB, fast enough to start a fresh emulator for every test run.</p></div>
       </div></div>
     </div>
   </section>

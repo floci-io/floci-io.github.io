@@ -134,7 +134,7 @@ const tierName =(label: string) => label.replace(/^[^\p{L}]+/u, '');
         </li>
         <li>
           <h3>Starts in 24 ms, idles at 13 MiB.</h3>
-          <p>The native binary is fast enough to start, test and tear down inside the edit loop. With Docker, add the image pull the first time.</p>
+          <p>Each emulator is a GraalVM native image in a small container, fast enough to start, test and tear down inside the edit loop. The first run also pulls the image.</p>
         </li>
         <li>
           <h3>Real engines, not mocks.</h3>
