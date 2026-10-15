@@ -1,0 +1,140 @@
+---
+title: "State of the Flock #004"
+subtitle: "Seven Months, Faster Than the Process"
+description: "Seven months in, the AWS emulator merged more pull requests in thirty days than in its first five months combined. The release train moves to the 15th and the last day of every month, and floci-gcp found contributors of its own."
+pubDate: 2026-10-15
+author: hectorvent
+tags: [community, milestone, open-source]
+heroImage: /chronicle/state-of-the-flock-004/cover.webp
+draft: false
+---
+
+Seven months ago I open sourced Floci. In the last thirty days the AWS emulator merged 1,299 pull requests, more than in its first five months combined. The process around it didn't keep up.
+
+This issue is mostly about catching up. The release train has a new timetable as of this morning, and one of the emulators found people of its own.
+
+Same skeleton as [last issue](/chronicle/state-of-the-flock-003/): the numbers, what shipped, who is using it, who made it happen, what I haven't decided, what isn't going well, and one ask.
+
+## The numbers
+
+Month 6 ([Sep 15](/chronicle/state-of-the-flock-003/)) to month 7 (Oct 15):
+
+- GitHub stars (floci): 24,258 to 26,829
+- Forks: 2,606 to 2,928
+- Contributors: 284 to 329 on floci, 307 to 367 across all four emulators
+- Merged PRs (all time): 2,121 to 3,409
+- Docker pulls: 2,649,779 to 4,365,939
+- AWS services: 119 to 125
+- Image size (floci/floci): 80.6 MB to 86.8 MB
+
+1,299 pull requests merged on floci between September 15 and October 14. Last issue's window was 894, and I thought that was fast. Don't try to get the month by subtracting the merged PRs row: a handful of older PRs have dropped out of GitHub's API since then, so the two cells don't add up. The 1,299 is the real count.
+
+Two rows didn't move the way they usually do. AWS services stayed at 125: this morning's 2.3.0 has 309 entries in its release notes and not one new service page, because the month went into depth, not breadth. And the image grew from 80.6 MB to 86.8 MB, right after last issue's whole section on making it smaller. That's what new features cost. Better you hear it from me than spot it in the numbers.
+
+## What shipped across the clouds
+
+The release train is changing, and this morning's is the first one on the new timetable. From today all four emulators release on the 15th and on the last day of every month, whatever day of the week that turns out to be. This morning that meant floci 2.3.0, floci-az 0.15.0, floci-gcp 0.11.0 and floci-oci 0.5.0.
+
+I announced first and third Tuesday two months ago, so yes, this is me changing my own rule. That rule left three weeks between the September 15 and [October 6](/chronicle/everything-in-its-place/) trains, and at the pace this project merges, three weeks is a long time to wait for a fix you already know is merged.
+
+Last issue I worked out that the train and one of these issues wouldn't land on the same day again until February 2028. They now land together every month, starting today.
+
+- **floci (AWS)**, [2.2.0](https://github.com/floci-io/floci/releases/tag/2.2.0) and [2.3.0](https://github.com/floci-io/floci/releases/tag/2.3.0): Cognito passkeys and TOTP MFA, EKS nodes from EC2 instances, ElastiCache serverless, a dashboard landing page
+- **floci-az**, [0.14.0](https://github.com/floci-io/floci-az/releases/tag/0.14.0) and [0.15.0](https://github.com/floci-io/floci-az/releases/tag/0.15.0): Azure Policy control plane (30 services), blob index tags, Event Grid dead-lettering
+- **floci-gcp**, [0.10.0](https://github.com/floci-io/floci-gcp/releases/tag/0.10.0) and [0.11.0](https://github.com/floci-io/floci-gcp/releases/tag/0.11.0): Locations API (25 services), Pub/Sub push delivery, Cloud Run IAM enforcement
+- **floci-oci**, [0.4.2](https://github.com/floci-io/floci-oci/releases/tag/0.4.2) and [0.5.0](https://github.com/floci-io/floci-oci/releases/tag/0.5.0): region isolation and home regions, a namespace per tenancy, OKE kubectl tokens
+
+The [October 6 train](/chronicle/everything-in-its-place/) has its own write-up, so this is only about this morning's. Most of what stands out in it came from people other than me. [@outof-place](https://github.com/outof-place) brought Cognito passkeys and TOTP MFA ([#5102](https://github.com/floci-io/floci/pull/5102), [#5101](https://github.com/floci-io/floci/pull/5101)), [@simonepri](https://github.com/simonepri) made EC2 instances join an EKS cluster as real nodes ([#5091](https://github.com/floci-io/floci/pull/5091)), and [@vuthehuyht](https://github.com/vuthehuyht) added ElastiCache serverless ([#5366](https://github.com/floci-io/floci/pull/5366)). On Azure, [@Tal-E](https://github.com/Tal-E) wrote the whole Azure Policy control plane ([floci-az#281](https://github.com/floci-io/floci-az/pull/281)) as a first pull request to that repo.
+
+floci-gcp is the emulator that found people of its own. It merged 119 pull requests this month against 46 last month, from 17 people, 12 of them on their first pull request there. I wrote 34 of them, 28%, down from 46% last month. Push subscriptions in Pub/Sub now deliver ([floci-gcp#193](https://github.com/floci-io/floci-gcp/pull/193), [@AnuragRaut08](https://github.com/AnuragRaut08)), Cloud Run enforces service IAM ([floci-gcp#405](https://github.com/floci-io/floci-gcp/pull/405), [@tdewitt](https://github.com/tdewitt)) and validates locations ([floci-gcp#372](https://github.com/floci-io/floci-gcp/pull/372), [@Sumit2342](https://github.com/Sumit2342)). Real engines, not mocks, and written by people I hadn't met a month ago.
+
+Last issue I said Testcontainers would be one repo per language with a module per emulator, and called it a direction rather than a description, because every module was AWS only. As of this morning it is a description in four of the five. The [Go](https://github.com/floci-io/testcontainers-floci-go), [Node](https://github.com/floci-io/testcontainers-floci-node), [Python](https://github.com/floci-io/testcontainers-floci-python) and [.NET](https://github.com/floci-io/testcontainers-floci-dotnet) repos now cover AWS, Azure, GCP and Oracle Cloud, released today on their usual registries. Java, the oldest of them, is the one behind: the Azure module is merged and not released yet, GCP is a draft from [@cfranzen](https://github.com/cfranzen) ([#440](https://github.com/floci-io/testcontainers-floci/pull/440)), and there is no OCI module. I wrote the new modules in the other four myself. Two issues ago I asked for help with exactly this, and it didn't land.
+
+One small thing I like a lot: open `http://localhost:4566` in a browser and you now get a dashboard ([#5594](https://github.com/floci-io/floci/pull/5594), [#5695](https://github.com/floci-io/floci/pull/5695)). It shows the endpoint and the environment variables to copy, which services are running and how far startup got. There's also a news column for new releases of the emulators, the CLI and Floci UI, and news about the Flock. It's off by default, and until you turn it on the page doesn't fetch anything from floci.io.
+
+It isn't Floci UI, the console where you browse and change your resources. It's one page of plain HTML and JavaScript, and I want it to stay small. The same page is coming to floci-az, floci-gcp and floci-oci next, so before it does, tell me what you'd want on it in [Discussions](https://github.com/floci-io/floci/discussions).
+
+<figure>
+  <img src="/chronicle/state-of-the-flock-004/DASHBOARD_LIGHT.webp" alt="The floci 2.3.0 dashboard in the light theme: connection details and startup stages on the left, running services grouped by category in the middle, and the news column on the right showing the 2.3.0 release" loading="lazy" />
+</figure>
+
+## Who is using Floci
+
+**The Singapore government measured it.** [GoGovSG](https://github.com/opengovsg/GoGovSG), the government's official link shortener, swapped LocalStack for Floci on September 18 ([#2542](https://github.com/opengovsg/GoGovSG/pull/2542)), and [@adriangohjw](https://github.com/adriangohjw) published a table instead of a claim: the stack boots about 18 seconds faster and the integration job about 22 seconds faster, while the Firefox and WebKit end-to-end suites show no measurable difference. I trust that table more than any benchmark I could write, because it kept the rows where nothing changed.
+
+**Apache Iggy replaced MinIO** ([#4290](https://github.com/apache/iggy/pull/4290), [@itsWill](https://github.com/itsWill), September 26), folding separate containers for its Iceberg, Redshift, S3 and Delta connector tests into one shared Floci fixture. [Foundatio.AWS](https://github.com/FoundatioFx/Foundatio.AWS) dropped LocalStack ([#428](https://github.com/FoundatioFx/Foundatio.AWS/pull/428), [@ejsmith](https://github.com/ejsmith)) with 146 tests passing and none failing, and [LightlyStudio](https://github.com/lightly-ai/lightly-studio) now documents a local flow on Floci for S3 and floci-gcp for Cloud Storage ([#2321](https://github.com/lightly-ai/lightly-studio/pull/2321)).
+
+**Trino, which I should have named months ago.** Most of its object storage and Glue test suites have moved onto Floci this year, across 46 commits, half of them by David Phillips ([@electrum](https://github.com/electrum)). Same disclosure as Robert Stupp last time: David also has 68 merged pull requests on floci.
+
+**One waiting on us, until this morning.** A pull request to [Payload](https://github.com/payloadcms/payload/pull/18378) adds an Aurora adapter whose integration suite runs against Floci's RDS Data API, with a real Postgres behind it. It needed a parameter-binding fix, which [@drakeo338](https://github.com/drakeo338) landed in [#5119](https://github.com/floci-io/floci/pull/5119) and which shipped in 2.3.0 today. The PR itself is still open.
+
+**Three that cut the other way.** The Canadian Centre for Cyber Security runs Floci with IAM enforcement on in [Assemblyline](https://github.com/CybercentreCanada/assemblyline)'s builds, and the day after 2.1.0 shipped they pinned it back to 2.0.0 ([#470](https://github.com/CybercentreCanada/assemblyline/pull/470)), where it still is. The PR doesn't say what broke, and finding out is my job, not theirs. GCHQ's Sleeper [chose Floci](https://github.com/gchq/sleeper/issues/7486) in June to get off LocalStack, and its first migration pull request closed without merging on October 5. And [Langfuse's](https://github.com/langfuse/langfuse/pull/16860) move from MinIO has been open since August 31.
+
+**One ping, so far.** Last issue I asked anyone using Floci at work to tell me, and Kevin Riedl answered for [Wavect](https://wavect.io/), a software agency in Austria: they use it mostly to test deployments for client projects. Kevin had already looked at it harder than most: in July, Kevin [reviewed Floci against LocalStack](https://wavect.io/blog/floci-vs-localstack-aws-emulator) for CI, called it "a credible MIT-licensed AWS emulator for fast local integration tests and CI", and corrected the viral posts calling it a Go binary along the way. The invitation stands: if you use Floci at work, tell me and you'll be in the next one.
+
+## In the room
+
+On October 13 I went back to [Dallas/Fort Worth Postgres](https://www.meetup.com/dallas-fort-worth-postgres/events/316914558/) in Plano, the group whose meetup I wrote about last issue. Last time I showed Floci after someone else's talk. This time the talk was mine: managed PostgreSQL on your laptop.
+
+The demo created an RDS PostgreSQL instance with the stock AWS CLI, switched on IAM database authentication, generated a token and logged in with `psql` over verified TLS, then watched three wrong tokens get rejected. The same setup came back from one `terraform apply`. Last issue I said this room was the one audience equipped to check that Floci runs real Postgres. This time they watched every step land in a real Postgres container.
+
+It was a talk about one managed database, and most of the questions afterwards were about everything else Floci runs.
+
+**Two dates ahead.** The [JavaMUG](https://www.javamug.org/) talk I announced for October 14 moved to January; I'll give the day once I have it. And on November 7 I'll be at [JConf Guatemala](https://2026.jconf.gt/en/), which #005 will report.
+
+## Flock highlights
+
+Forty-five people sent their first pull request to the AWS emulator this month, and sixty across the four emulators. That's down from sixty-six and eighty-one last month. A few of them are worth naming, and so is one person who isn't new at all.
+
+[@pgermosen](https://github.com/pgermosen) wrote more of floci this month than I did: 213 merged pull requests to my 152. Last month it was 39 to my 70. Most of them went into IAM and CodeArtifact, including the Organizations access report ([#5467](https://github.com/floci-io/floci/pull/5467)) and the `aws:username` and `aws:PrincipalType` policy keys ([#5568](https://github.com/floci-io/floci/pull/5568)). For a project that started as one person's repo, that's the best number in this issue.
+
+[@vamsiak](https://github.com/vamsiak) sent a first pull request on September 19 and merged 21 by the end of the window, including the API Gateway OpenAPI export that shipped in 2.3.0 this morning ([#5131](https://github.com/floci-io/floci/pull/5131)). [@jwoa95](https://github.com/jwoa95) started four days later and merged 18, most of them Cognito and API Gateway behaviour real apps trip over, plus one I appreciated this week: PostgreSQL startup parameters now make it through the RDS proxy ([#5151](https://github.com/floci-io/floci/pull/5151)).
+
+On GCP, [@herom-s](https://github.com/herom-s) arrived on October 4 and spent ten days making BigQuery accept the SQL people actually write: CTEs inside parentheses ([floci-gcp#347](https://github.com/floci-io/floci-gcp/pull/347)), `ARRAY_AGG` with `LIMIT` ([floci-gcp#336](https://github.com/floci-io/floci-gcp/pull/336)), and NULL arrays.
+
+## Sponsors this month
+
+No new sponsors this month. Last issue skipped this section entirely, so this is also where the people who joined while #003 wasn't looking get thanked properly.
+
+[Softmax](https://softmax.com/) started its Gold sponsorship on August 31, alongside [IceGuard](https://github.com/iceguard). [AutoScout24](https://www.autoscout24.com) and Rod Jenkins ([@scriptmonkey](https://github.com/scriptmonkey)) became Community Sponsors, and Rod is the first individual in that tier. Daniel Silva ([@danielsilva-loanpro](https://github.com/danielsilva-loanpro)), Dmitry Spikhalsky ([@Spikhalskiy](https://github.com/Spikhalskiy)), Ethan Troy ([@ethanolivertroy](https://github.com/ethanolivertroy)), Ramperto Pasaribu ([@ramperto](https://github.com/ramperto)) and [@kannandreams](https://github.com/kannandreams) joined as Friends of the Flock. Thank you, every one of you.
+
+Sponsorship buys gratitude and nothing else. Every emulated service is free for everyone, forever, and no sponsor gets features, priority, or roadmap influence that the rest of the Flock does not. The full list is on [floci.io](/#sponsors).
+
+## New labs
+
+Two new labs went up on floci.io this month, the first ones outside AWS:
+
+- [GCP Cloud Storage: 101](/labs/gcp-cloud-storage-101/), on floci-gcp
+- [OCI Object Storage: 101](/labs/oci-object-storage-101/), on floci-oci
+
+## Open decisions
+
+**The MCP server has a home: [floci-ui](https://github.com/floci-io/floci-ui).** Last issue I said it couldn't be an AWS feature, because one that drives floci but not the Azure, GCP and Oracle emulators would be the wrong shape, and I said I'd tell you where it had got to. That's where. floci-ui already speaks all four emulators through their real SDKs, so the MCP server goes in there and runs headless, as an API with no console attached. It isn't out yet, and I'm still not putting a date on it.
+
+**Snapshots has a name and no code.** The poll picked it last month and nothing has been built since. One thing the vote didn't settle: inside an emulator that also emulates EBS and RDS snapshots, a `.snapshot` file is an awkward thing to search for. The name can stay what the Flock chose while the file extension is something else. If you have a view, [the poll thread](https://github.com/orgs/floci-io/discussions/1783) is still open.
+
+## What's not going well
+
+**Last month's ask worked on one emulator out of three.** I asked for co-maintainers on floci-az, floci-gcp and floci-oci. floci-gcp got contributors, as above, but its maintainer file still has one name on it, so nobody but me can say yes to a pull request there. On floci-az it went the other way: I wrote 50 of the 77 pull requests that merged, 64%, up from 23%. On floci-oci I wrote all 27, and nobody new arrived. Nobody opened an issue to take one on. A couple of people did answer privately, though, and I'm evaluating them now, so this ask isn't settled yet.
+
+## One ask this month
+
+If your company already uses Floci, ask it to sponsor the project.
+
+This issue named a government, a cyber security agency and a handful of open source projects that test against Floci, and those are only the ones that do it in public. If yours is one of the others, the ask is one message: send [floci-io's GitHub Sponsors page](https://github.com/sponsors/floci-io) to whoever owns your team's tooling budget. A company sponsorship works exactly like anyone else's: it buys gratitude and nothing else, and every emulated service stays free for everyone.
+
+And if it's just you, one-time or monthly, any amount helps. Let's keep the Flock growing.
+
+## Thank you
+
+To everyone who sent a pull request this month, and to everyone who talked about Floci somewhere I'd never have looked: thank you. At the start of the month I went looking and found 339 videos, shorts, articles, posts and repositories about Floci that weren't mine, from tutorials on Zenn and Qiita in Japan to a thread on r/devsarg in Argentina. If you've built something with it, show it: [floci-labs](https://github.com/floci-io/floci-labs) takes a pull request, and the only bar is that it runs.
+
+Floci stays free, MIT-licensed, no gates, no telemetry. Forever.
+
+Same time next month for #005.
+
+**Join the Flock:** [GitHub](https://github.com/floci-io/floci) · [r/floci](https://reddit.com/r/floci) · [Slack](https://join.slack.com/t/floci/shared_invite/zt-3tjn02s3q-A00kEjJ1cZxsg_imTfy6Cw) · [LinkedIn](https://www.linkedin.com/company/floci/)
+
+*Any Cloud. Locally. Let's keep Emulating.*
+
+\#opensource #aws #azure #googlecloud #oraclecloud #devops #testing #docker #java
