@@ -1,0 +1,71 @@
+---
+title: "Release Train: October 2026"
+subtitle: "Now It Really Runs"
+description: "All over Floci, things that used to only look right now actually happen: Compute Engine instances that boot, Spark jobs that can fail, Azure policies that deny. What you can do with the October 31 release, and what it is preparing."
+pubDate: 2026-10-31
+author: hectorvent
+tags: [release, announcement, open-source]
+heroImage: /chronicle/release-train-2026-10/cover.webp
+draft: true
+---
+
+On October 6 I wrote that Compute Engine in Floci ["doesn't start real virtual machines"](/chronicle/everything-in-its-place/). Twenty-five days later, you can set one variable and every instance you create is a real running container.
+
+That is the story of this release. All over Floci, things that used to only look right now actually happen. An EMR step used to finish on a timer and could never fail. An Azure policy could say "deny" and nothing was ever denied. In this release, those things run.
+
+- **AWS**: `floci/floci` [2.4.0](https://github.com/floci-io/floci/releases/tag/2.4.0)
+- **Azure**: `floci/floci-az` [0.16.0](https://github.com/floci-io/floci-az/releases/tag/0.16.0)
+- **Google Cloud**: `floci/floci-gcp` [0.12.0](https://github.com/floci-io/floci-gcp/releases/tag/0.12.0)
+- **Oracle Cloud**: `floci/floci-oci` [0.6.0](https://github.com/floci-io/floci-oci/releases/tag/0.6.0)
+
+## What you can do now
+
+**Boot a Compute Engine instance on your laptop.** Set `FLOCI_GCP_SERVICES_COMPUTE_MOCK=false` and `instances.insert` starts a container from the boot image. It runs cloud-init and your startup scripts, reaches the metadata server, and publishes the ports your firewall rules open. Give it a `gce-container-declaration` and it runs that container too. It's still a container and not a virtual machine, but your bootstrap script now really executes ([#472](https://github.com/floci-io/floci-gcp/pull/472)).
+
+**Run a Spark job and watch it fail.** Set `FLOCI_SERVICES_EMR_RUNNER_MODE=docker` or `FLOCI_SERVICES_EMRSERVERLESS_RUNNER_MODE=docker`, and `spark-submit` runs in a container of the real EMR Serverless image, against Floci's own S3 and Glue. A bad job now fails, and the failure handling you wrote finally gets tested. Step Functions can drive it all from a state machine. This is [@pgermosen](https://github.com/pgermosen)'s work ([#6469](https://github.com/floci-io/floci/pull/6469), [#6578](https://github.com/floci-io/floci/pull/6578)).
+
+**Test your Azure deployment and your guardrails together.** `az deployment group create`, Terraform's `azurerm_resource_group_template_deployment` and compiled Bicep all work now, including nested templates and whatIf ([#555](https://github.com/floci-io/floci-az/pull/555), [#556](https://github.com/floci-io/floci-az/pull/556)). [@Tal-E](https://github.com/Tal-E) made policies evaluate on every write ([#451](https://github.com/floci-io/floci-az/pull/451)). Template resources go through the same path as any other request, so a template that breaks a deny policy gets the same `403 RequestDisallowedByPolicy` you'd see on Azure.
+
+**Try AWS's newest thing the same month it launched.** AWS announced Lambda Web Functions on October 12. Three days later [@exoego](https://github.com/exoego) merged the control plane ([#5706](https://github.com/floci-io/floci/pull/5706)). Now `aws lambda-web deploy` works against Floci and your endpoint serves your code from a real Node.js container ([#5760](https://github.com/floci-io/floci/pull/5760)).
+
+**Connect to a real PostgreSQL behind managed databases.** Each Aurora DSQL cluster, from [@alessandrolattao](https://github.com/alessandrolattao), is PostgreSQL 16 behind DSQL's endpoint, TLS and IAM tokens ([#6102](https://github.com/floci-io/floci/pull/6102)). OCI Database with PostgreSQL starts its own PostgreSQL container and only turns ACTIVE when it accepts connections ([#74](https://github.com/floci-io/floci-oci/pull/74)).
+
+There's plenty more: DynamoDB backups and point-in-time restores, Redshift work from [@vuthehuyht](https://github.com/vuthehuyht), BigQuery copy jobs from [@gafiatulin](https://github.com/gafiatulin), Oracle Cloud Organizations. It's all in the release notes above.
+
+## What this is preparing
+
+Some of the most important work in this release you won't notice, and that's on purpose.
+
+**Real is opt-in, and that's the design.** Look at the variables above. The EMR default is still `immediate`. Compute Engine still defaults to the mock. Azure's stricter answers sit behind `FLOCI_AZ_PARITY`, and it defaults to `compat`. Your test suite stays fast and keeps passing tomorrow, and you turn on the real thing where you need it. I expect more of Floci to work this way.
+
+**Azure got a real foundation.** Every Azure service used to keep its resources in its own way. Now each one declares its resource types once ([#485](https://github.com/floci-io/floci-az/pull/485)), and services are moving onto one shared store ([#507](https://github.com/floci-io/floci-az/pull/507)). Template deployments, global names and policy can work across services because of it, and the next service gets all of that for free.
+
+**AWS's rules come from AWS's own model.** [@pgermosen](https://github.com/pgermosen) moved IAM and STS request validation from hand-written checks to AWS's published models ([#6965](https://github.com/floci-io/floci/pull/6965), [#6891](https://github.com/floci-io/floci/pull/6891)). A bad request gets refused for the reason AWS would refuse it.
+
+**One way to talk to a console.** The AWS and Azure emulators now describe themselves through the same manifest, Console Contract v2 ([#6711](https://github.com/floci-io/floci/pull/6711)). That's what a single console across clouds needs.
+
+**Ready to stay running.** [@benwart-consensus](https://github.com/benwart-consensus), in their first contributions to Floci, split DynamoDB's storage so a busy little table stops rewriting every big one beside it ([#6303](https://github.com/floci-io/floci/pull/6303), [#6310](https://github.com/floci-io/floci/pull/6310)). It's opt-in too, and it matters once Floci is something you leave running, not just start for a test.
+
+None of this is finished. [Aurora DSQL](https://github.com/floci-io/floci/issues/6014) and [EMR](https://github.com/floci-io/floci/issues/6046) are both still open, and if you hit something that doesn't behave like the real cloud, that's the issue I want to read.
+
+## Thank you
+
+78 people merged 1,187 pull requests in the sixteen days behind this release. For 32 of them, it was their first time contributing to any of the emulators. Welcome:
+
+[@4Raisan](https://github.com/floci-io/floci/pull/6981), [@andrehoong-px](https://github.com/floci-io/floci/pull/5853), [@andrei-fabricdata](https://github.com/floci-io/floci/pull/5567), [@baseballyama](https://github.com/floci-io/floci/pull/5649), [@benwart-consensus](https://github.com/floci-io/floci/pull/6286), [@bercedev](https://github.com/floci-io/floci-gcp/pull/456), [@bfs2021](https://github.com/floci-io/floci/pull/6051), [@brito219](https://github.com/floci-io/floci/pull/6090), [@dkatavic](https://github.com/floci-io/floci/pull/5651), [@gafiatulin](https://github.com/floci-io/floci-gcp/pull/461), [@gagalago](https://github.com/floci-io/floci/pull/5787), [@galsuchetzky-act](https://github.com/floci-io/floci/pull/5747), [@isak-lindbeck](https://github.com/floci-io/floci/pull/6221), [@JimmyLiuJia](https://github.com/floci-io/floci/pull/5990), [@joelklint](https://github.com/floci-io/floci/pull/5772), [@kenny-ish](https://github.com/floci-io/floci/pull/6792), [@Keralin](https://github.com/floci-io/floci/pull/6775), [@kozhinhikkodan-dev](https://github.com/floci-io/floci-az/pull/315), [@liRONCO11](https://github.com/floci-io/floci/pull/6698), [@MosesWayCo](https://github.com/floci-io/floci/pull/6868), [@mrjusepelo](https://github.com/floci-io/floci/pull/5918), [@renalddubus](https://github.com/floci-io/floci/pull/6359), [@Ridzzz0Alam](https://github.com/floci-io/floci/pull/5710), [@ScottishTapWater](https://github.com/floci-io/floci/pull/6659), [@Sekator778](https://github.com/floci-io/floci/pull/6415), [@seniorescobar](https://github.com/floci-io/floci/pull/5825), [@sujashaj](https://github.com/floci-io/floci/pull/5781), [@T-Webb1](https://github.com/floci-io/floci/pull/5837), [@tkislan](https://github.com/floci-io/floci/pull/7000), [@vinirib](https://github.com/floci-io/floci/pull/6951), [@wleeaf](https://github.com/floci-io/floci/pull/6413), [@xHUNx](https://github.com/floci-io/floci/pull/6530).
+
+Sponsors keep Floci free. Sponsorship buys gratitude and nothing else, so here is the gratitude:
+
+- **Gold**: [IceGuard](https://github.com/iceguard) and [Softmax](https://softmax.com/)
+- **Community**: [AutoScout24](https://www.autoscout24.com), [Nexxion AI](https://nexxion.ai/) and [Rod Jenkins](https://github.com/scriptmonkey)
+- **Friends of the Flock**: [chant](https://intentius.io/chant), [Blake Girardot](https://github.com/Blake-Loveland) (who joined on October 24, welcome), [Allan Pereira Abrahão](https://github.com/all-an), [Matheus Oliveira](https://github.com/omatheusmesmo), [Daniel Silva](https://github.com/danielsilva-loanpro), [Dmitry Spikhalsky](https://github.com/Spikhalskiy), [Ethan Troy](https://github.com/ethanolivertroy), [Ramperto Pasaribu](https://github.com/ramperto), [kk](https://github.com/kannandreams), [Albert E. Hidalgo Taveras](https://github.com/itsalb3rt), [Eduardo Lugo Vela](https://github.com/JESUSLUG) and [Nickalus Brewer](https://github.com/Nickalus12)
+
+Thanks as well to everyone sponsoring privately.
+
+Floci stays free, MIT-licensed, no gates, no telemetry.
+
+The next release is on November 15.
+
+Join the Flock: [GitHub](https://github.com/floci-io/floci) · [r/floci](https://reddit.com/r/floci) · [Slack](https://join.slack.com/t/floci/shared_invite/zt-3tjn02s3q-A00kEjJ1cZxsg_imTfy6Cw) · [floci.io](http://floci.io)
+
+Any Cloud. Locally. Let's keep Emulating.
