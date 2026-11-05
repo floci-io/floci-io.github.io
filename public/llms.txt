@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 126 emulated AWS services on port 4566
+- 128 emulated AWS services on port 4566
 - Drop-in LocalStack replacement: same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -26,7 +26,7 @@ Global Accelerator, Translate, AWS Budgets, AWS Marketplace, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 29 emulated Azure services on port 4577
+- 32 emulated Azure services on port 4577
 - MIT license: no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
@@ -37,7 +37,7 @@ Container Instances, Container Apps, SignalR, Microsoft Graph, Azure Policy, and
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 27 emulated GCP services on port 4588
+- 28 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
@@ -47,11 +47,11 @@ Compute Engine, GKE, BigQuery, Managed Kafka, and more.
 ### floci-oci (Oracle Cloud)
 - URL: https://floci.io/oci/
 - GitHub: https://github.com/floci-io/floci-oci
-- 8 emulated OCI services on port 4599
+- 11 emulated OCI services on port 4599
 - No Oracle Cloud account or uploaded API keys required
 
 Supported services: Object Storage, Identity (IAM), Queue, Streaming, KMS,
-Vault Secrets, Functions, OKE.
+Vault Secrets, Functions, OKE, Organizations, Governance Rules, PostgreSQL.
 
 ## Key Facts
 

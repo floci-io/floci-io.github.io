@@ -158,6 +158,8 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'Redshift Serverless', proto: 'JSON 1.1', category: 'analytics', url: 'https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html' },
   { name: 'CodeArtifact', proto: 'REST JSON', category: 'devtools', docker: 'default', url: 'https://aws.amazon.com/codeartifact/' },
   { name: 'SageMaker', proto: 'JSON 1.1', category: 'ai', docker: 'default', url: 'https://aws.amazon.com/sagemaker/' },
+  { name: 'Aurora DSQL', proto: 'REST JSON + PostgreSQL wire', category: 'database', docker: 'default', url: 'https://aws.amazon.com/rds/aurora/dsql/' },
+  { name: 'AWS Resource Groups', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html' },
 ];
 
 export const AZURE_SERVICES: CloudService[] = [
@@ -190,6 +192,9 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'Container Apps', proto: 'ARM · ingress proxy', category: 'containers', docker: 'optional', url: 'https://learn.microsoft.com/en-us/azure/container-apps/' },
   { name: 'SignalR', proto: 'WebSocket · negotiate', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/azure-signalr/' },
   { name: 'Azure Policy', proto: 'ARM · REST JSON', category: 'security', url: 'https://learn.microsoft.com/en-us/azure/governance/policy/' },
+  { name: 'ARM Deployments', proto: 'ARM · Templates', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/' },
+  { name: 'Resource Graph', proto: 'ARM · KQL', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/governance/resource-graph/' },
+  { name: 'Management Groups', proto: 'ARM · REST JSON', category: 'identity', url: 'https://learn.microsoft.com/en-us/azure/governance/management-groups/' },
 ];
 
 export const GCP_SERVICES: CloudService[] = [
@@ -220,6 +225,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Operations', proto: 'gRPC · REST JSON · LRO', category: 'devtools', url: 'https://google.aip.dev/151' },
   { name: 'Locations', proto: 'gRPC · REST JSON', category: 'devtools', url: 'https://cloud.google.com/docs/geography-and-regions' },
   { name: 'Compute Engine', proto: 'REST JSON · LRO', category: 'compute', url: 'https://cloud.google.com/compute/docs' },
+  { name: 'Cloud Billing', proto: 'REST JSON', category: 'billing', url: 'https://cloud.google.com/billing/docs' },
 ];
 
 export const OCI_SERVICES: CloudService[] = [
@@ -231,6 +237,9 @@ export const OCI_SERVICES: CloudService[] = [
   { name: 'Vault Secrets', proto: 'REST JSON · secret bundles', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Tasks/managingsecrets.htm' },
   { name: 'Functions', proto: 'REST JSON · Fn Project', category: 'compute', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm' },
   { name: 'OKE', proto: 'REST JSON · k3s', category: 'containers', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm' },
+  { name: 'Organizations', proto: 'REST JSON', category: 'identity', url: 'https://docs.oracle.com/en-us/iaas/Content/General/organization/home.htm' },
+  { name: 'Governance Rules', proto: 'REST JSON', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/General/organization/add-governance.htm' },
+  { name: 'PostgreSQL', proto: 'REST JSON + PostgreSQL wire', category: 'database', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/postgresql/home.htm' },
 ];
 
 for (const [label, list, expected] of [
