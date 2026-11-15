@@ -160,6 +160,11 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'SageMaker', proto: 'JSON 1.1', category: 'ai', docker: 'default', url: 'https://aws.amazon.com/sagemaker/' },
   { name: 'Aurora DSQL', proto: 'REST JSON + PostgreSQL wire', category: 'database', docker: 'default', url: 'https://aws.amazon.com/rds/aurora/dsql/' },
   { name: 'AWS Resource Groups', proto: 'REST JSON', category: 'devtools', url: 'https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html' },
+  { name: 'AWS Signer', proto: 'REST JSON', category: 'security', url: 'https://docs.aws.amazon.com/signer/' },
+  { name: 'EC2 Instance Connect', proto: 'JSON 1.1', category: 'compute', url: 'https://docs.aws.amazon.com/ec2/latest/devguide/ec2-instance-connect-methods.html' },
+  { name: 'Payment Cryptography + Data', proto: 'JSON 1.0 / REST JSON', category: 'security', url: 'https://docs.aws.amazon.com/payment-cryptography/' },
+  { name: 'QuickSight', proto: 'REST JSON', category: 'analytics', url: 'https://docs.aws.amazon.com/quicksight/' },
+  { name: 'X-Ray', proto: 'REST JSON', category: 'observability', url: 'https://docs.aws.amazon.com/xray/' },
 ];
 
 export const AZURE_SERVICES: CloudService[] = [
@@ -192,6 +197,7 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'Container Apps', proto: 'ARM · ingress proxy', category: 'containers', docker: 'optional', url: 'https://learn.microsoft.com/en-us/azure/container-apps/' },
   { name: 'SignalR', proto: 'WebSocket · negotiate', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/azure-signalr/' },
   { name: 'Azure Policy', proto: 'ARM · REST JSON', category: 'security', url: 'https://learn.microsoft.com/en-us/azure/governance/policy/' },
+  { name: 'Azure RBAC', proto: 'ARM · REST JSON', category: 'identity', url: 'https://learn.microsoft.com/en-us/azure/role-based-access-control/' },
   { name: 'ARM Deployments', proto: 'ARM · Templates', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/' },
   { name: 'Resource Graph', proto: 'ARM · KQL', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/governance/resource-graph/' },
   { name: 'Management Groups', proto: 'ARM · REST JSON', category: 'identity', url: 'https://learn.microsoft.com/en-us/azure/governance/management-groups/' },

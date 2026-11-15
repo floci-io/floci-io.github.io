@@ -17,8 +17,8 @@
  *   oci   — `*ServiceConfig` accessors on `EmulatorConfig.ServicesConfig`
  */
 export const SERVICE_COUNTS = {
-  aws: 128,
-  azure: 32,
+  aws: 135,
+  azure: 33,
   gcp: 28,
   oci: 11,
 } as const;
