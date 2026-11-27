@@ -1,11 +1,13 @@
 ---
 /**
  * Service grid shared by the four cloud pages: chips grouped by category (from
- * cloud-services.ts), a neutral glyph per category, Docker marks, and the Floci-only dot.
+ * cloud-services.ts), a neutral glyph per category, Docker marks, and the release each
+ * service first shipped in.
  * Replaces four copies of the same markup and CSS that had drifted apart.
  */
 import ServiceIcon from './ServiceIcon.astro';
 import { groupByCategory, type CloudService } from '../data/cloud-services';
+import { CLOUD_PACKAGES } from '../data/services';
 
 interface Props {
   /** Page cloud key, used for the icon hue. */
@@ -18,7 +20,10 @@ const { cloud, services } = Astro.props;
 const grouped = services.length > 40;
 const groups = grouped ? groupByCategory(services) : [{ category: 'all', label: '', services: groupByCategory(services).flatMap((g) => g.services) }];
 const dockerTiers = new Set(services.map((s) => s.docker).filter(Boolean));
-const hasExclusive = services.some((s) => s.exclusive);
+const hasUnreleased = services.some((s) => s.since === 'main');
+// Every emulator publishes a nightly image built from main: floci/<package>:nightly.
+const nightlyImage = `floci/${CLOUD_PACKAGES[cloud]}:nightly`;
+const sinceLabel = (v: string) => (v === 'main' ? 'main · future version' : `since ${v}`);
 // Grouped grids are <details> so phones can collapse them; flat grids are a plain block.
 const Group = grouped ? 'details' : 'div';
 const hue = { aws: 'cloud-aws', azure: 'cloud-az', gcp: 'cloud-gcp', oci: 'cloud-oci' }[cloud];
@@ -32,33 +37,31 @@ const DOCKER_PATH = 'M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z';
       <div class="svc-grid">
         {g.services.map((s) => (
           <a
-            class:list={['svc-item', { exclusive: s.exclusive }]}
+            class="svc-item"
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            title={`${s.name}: official documentation`}
+            title={`${s.name} (${sinceLabel(s.since)}): official documentation`}
           >
             <ServiceIcon category={s.category} class="svc-icon" />
-            <span class="svc-name">{s.name}{s.exclusive && <span class="exclusive-mark"><span class="sr-only"> (exclusive to Floci)</span></span>}</span>
+            <span class="svc-name">{s.name}</span>
             <span class="svc-proto">{s.proto}{s.docker && (
               <svg class:list={['svc-docker', s.docker]} viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>
             )}</span>
+            <span class:list={['svc-since', { next: s.since === 'main' }]}>{sinceLabel(s.since)}</span>
           </a>
         ))}
       </div>
     </Group>
   ))}
 
-  {(dockerTiers.size > 0 || hasExclusive) && (
+  {(dockerTiers.size > 0 || hasUnreleased) && (
     <p class="svc-legend">
       {dockerTiers.has('default') && (
         <span><svg class="svc-docker default" viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>Runs a Docker container</span>
       )}
-      {dockerTiers.has('optional') && (
-        <span><svg class="svc-docker optional" viewBox="0 0 24 24" aria-hidden="true"><path d={DOCKER_PATH} /></svg>Docker optional: mocked by default</span>
-      )}
-      {hasExclusive && (
-        <span><span class="exclusive-mark" aria-hidden="true"></span>Only in Floci among free emulators</span>
+      {hasUnreleased && (
+        <span><span class="svc-since next">main</span>Not released yet. Try it with <code class="svc-nightly">{nightlyImage}</code></span>
       )}
     </p>
   )}
@@ -92,17 +95,16 @@ const DOCKER_PATH = 'M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z';
   }
   .svc-item:hover { background: var(--bg3); }
   .svc-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-  .svc-item.exclusive { background: var(--accent-dim); }
-  .svc-item.exclusive :global(.svc-icon) { color: var(--accent); }
   .svc-item :global(.svc-icon) { width: 16px; height: 16px; color: var(--chip); grid-column: 1; grid-row: 1; }
   .svc-name { grid-column: 2; grid-row: 1; font-size: 14px; font-weight: 500; }
   .svc-proto {
     grid-column: 2; grid-row: 2; font-family: var(--mono); font-size: 12px; color: var(--text-muted);
     overflow-wrap: anywhere;
   }
+  .svc-since { grid-column: 2; grid-row: 3; font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+  .svc-since.next { color: var(--accent); }
   .svc-docker { display: inline-block; width: 9px; height: 9px; margin-left: 6px; vertical-align: baseline; }
   .svc-docker.default { fill: var(--text-dim); }
-  .svc-docker.optional { fill: none; stroke: var(--text-dim); stroke-width: 2; }
 
   .svc-legend {
     display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 22px; margin-top: 16px;
@@ -110,7 +112,10 @@ const DOCKER_PATH = 'M12 2.4 20.3 7.2v9.6L12 21.6 3.7 16.8V7.2Z';
   }
   .svc-legend > span { display: inline-flex; align-items: center; gap: 8px; }
   .svc-legend .svc-docker { width: 10px; height: 10px; margin: 0; }
-  .svc-legend :global(.exclusive-mark) { margin-left: 0; }
+  .svc-legend .svc-since { font-size: 13px; }
+  .svc-legend > span:has(.svc-nightly) { display: inline; }
+  .svc-legend .svc-since.next { margin-right: 8px; }
+  .svc-nightly { font-family: var(--mono); font-size: 13px; color: var(--text); overflow-wrap: anywhere; }
 
   @media (prefers-reduced-motion: reduce) { .svc-item { transition: none; } }
   @media (max-width: 600px) {

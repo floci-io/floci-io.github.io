@@ -39,7 +39,8 @@ validated at build time).
   the numbers from the emulator repos' `origin/main` (method in that file's header comment), never
   from their READMEs.
 - **Service grids:** `src/data/cloud-services.ts`. Use neutral glyphs from `ServiceIcon`, not
-  vendor product icons. Verify every `url` returns HTTP 200 when adding a service.
+  vendor product icons. Verify every `url` returns HTTP 200 when adding a service. Each entry's
+  `since` is the first emulator release that shipped it, or `'main'` until a release does.
 - **Authors:** `src/data/authors.ts`. An unknown `author` handle fails the build.
 - **News feed:** `src/data/news.json`, published as `/news.json` by `src/pages/news.json.ts` and
   read by the emulator dashboards of all four clouds. Newest first, at most 10 items per
