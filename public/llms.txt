@@ -9,7 +9,7 @@
 ### floci (AWS)
 - URL: https://floci.io/aws/
 - GitHub: https://github.com/floci-io/floci
-- 135 emulated AWS services on port 4566
+- 136 emulated AWS services on port 4566
 - Drop-in LocalStack replacement: same AWS SDK endpoint override, same CLI flags
 - 138× faster startup than LocalStack, 91% less memory
 
@@ -17,7 +17,7 @@ Supported services include: S3, SQS, SNS, DynamoDB, Lambda, API Gateway, IAM, KM
 Secrets Manager, SSM Parameter Store, CloudFormation, EventBridge, Step Functions,
 Kinesis, Firehose, ElastiCache, RDS, Aurora, Cognito, SES, STS, Redshift, EFS,
 Organizations, IAM Identity Center, Resource Access Manager, Service Catalog,
-Service Quotas, Control Tower, Lake Formation, EMR Serverless, Network Firewall,
+Service Quotas, Control Tower, Lake Formation, EMR Serverless, EMR on EKS, Network Firewall,
 Route 53 Resolver, Managed Prometheus, Amazon Connect, Comprehend, Rekognition,
 Resource Explorer, Fault Injection Service, CodeGuru Reviewer, Security Hub,
 Inspector, Macie, Detective, Verified Permissions, IAM Access Analyzer, DataSync,
@@ -26,32 +26,33 @@ Global Accelerator, Translate, AWS Budgets, AWS Marketplace, and more.
 ### floci-az (Azure)
 - URL: https://floci.io/az/
 - GitHub: https://github.com/floci-io/floci-az
-- 33 emulated Azure services on port 4577
+- 35 emulated Azure services on port 4577
 - MIT license: no Azurite license restrictions
 
 Supported services include: Blob Storage, Queue Storage, Table Storage, Azure Functions,
 App Configuration, Key Vault, Event Hubs, Service Bus, Cosmos DB, AKS, Azure SQL,
 Virtual Machines, Cache for Redis, Entra ID, Event Grid, PostgreSQL, MySQL, MariaDB,
-Container Instances, Container Apps, SignalR, Microsoft Graph, Azure Policy, and more.
+Container Instances, Container Apps, SignalR, Microsoft Graph, Azure Policy, IoT Hub, AI Search, and more.
 
 ### floci-gcp (Google Cloud)
 - URL: https://floci.io/gcp/
 - GitHub: https://github.com/floci-io/floci-gcp
-- 28 emulated GCP services on port 4588
+- 29 emulated GCP services on port 4588
 - No project ID or billing account required
 
 Supported services include: Cloud Storage, Pub/Sub, Firestore, Datastore, Secret Manager,
 IAM, Cloud Tasks, Cloud Scheduler, Cloud Run, Cloud SQL, Cloud Functions, Cloud KMS,
-Compute Engine, GKE, BigQuery, Managed Kafka, and more.
+Compute Engine, GKE, BigQuery, Managed Kafka, Cloud Billing Budgets, and more.
 
 ### floci-oci (Oracle Cloud)
 - URL: https://floci.io/oci/
 - GitHub: https://github.com/floci-io/floci-oci
-- 11 emulated OCI services on port 4599
+- 17 emulated OCI services on port 4599
 - No Oracle Cloud account or uploaded API keys required
 
 Supported services: Object Storage, Identity (IAM), Queue, Streaming, KMS,
-Vault Secrets, Functions, OKE, Organizations, Governance Rules, PostgreSQL.
+Vault Secrets, Functions, OKE, Organizations, Governance Rules, PostgreSQL,
+Events, Notifications, Monitoring, Logging, Networking (VCN), Artifacts (Container Registry).
 
 ## Key Facts
 

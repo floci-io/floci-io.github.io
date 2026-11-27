@@ -118,6 +118,7 @@ export const AWS_SERVICES: CloudService[] = [
   { name: 'EFS', proto: 'REST JSON', category: 'storage', url: 'https://docs.aws.amazon.com/efs/' },
   { name: 'Redshift', proto: 'Query + Postgres', category: 'analytics', docker: 'default', url: 'https://docs.aws.amazon.com/redshift/' },
   { name: 'EMR Serverless', proto: 'REST JSON', category: 'analytics', url: 'https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/' },
+  { name: 'EMR on EKS', proto: 'REST JSON', category: 'analytics', docker: 'optional', url: 'https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/' },
   { name: 'Lake Formation', proto: 'REST JSON', category: 'analytics', url: 'https://docs.aws.amazon.com/lake-formation/' },
   { name: 'ELB Classic', proto: 'Query', category: 'networking', url: 'https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/' },
   { name: 'Route 53 Resolver', proto: 'JSON 1.1', category: 'networking', url: 'https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html' },
@@ -201,6 +202,8 @@ export const AZURE_SERVICES: CloudService[] = [
   { name: 'ARM Deployments', proto: 'ARM · Templates', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/' },
   { name: 'Resource Graph', proto: 'ARM · KQL', category: 'devtools', url: 'https://learn.microsoft.com/en-us/azure/governance/resource-graph/' },
   { name: 'Management Groups', proto: 'ARM · REST JSON', category: 'identity', url: 'https://learn.microsoft.com/en-us/azure/governance/management-groups/' },
+  { name: 'IoT Hub', proto: 'ARM · access policies', category: 'messaging', url: 'https://learn.microsoft.com/en-us/azure/iot-hub/' },
+  { name: 'AI Search', proto: 'ARM · REST JSON · indexes', category: 'analytics', url: 'https://learn.microsoft.com/en-us/azure/search/' },
 ];
 
 export const GCP_SERVICES: CloudService[] = [
@@ -232,6 +235,7 @@ export const GCP_SERVICES: CloudService[] = [
   { name: 'Locations', proto: 'gRPC · REST JSON', category: 'devtools', url: 'https://cloud.google.com/docs/geography-and-regions' },
   { name: 'Compute Engine', proto: 'REST JSON · LRO', category: 'compute', url: 'https://cloud.google.com/compute/docs' },
   { name: 'Cloud Billing', proto: 'REST JSON', category: 'billing', url: 'https://cloud.google.com/billing/docs' },
+  { name: 'Billing Budgets', proto: 'REST JSON', category: 'billing', url: 'https://cloud.google.com/billing/docs/how-to/budgets' },
 ];
 
 export const OCI_SERVICES: CloudService[] = [
@@ -246,6 +250,12 @@ export const OCI_SERVICES: CloudService[] = [
   { name: 'Organizations', proto: 'REST JSON', category: 'identity', url: 'https://docs.oracle.com/en-us/iaas/Content/General/organization/home.htm' },
   { name: 'Governance Rules', proto: 'REST JSON', category: 'security', url: 'https://docs.oracle.com/en-us/iaas/Content/General/organization/add-governance.htm' },
   { name: 'PostgreSQL', proto: 'REST JSON + PostgreSQL wire', category: 'database', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/postgresql/home.htm' },
+  { name: 'Events', proto: 'REST JSON · rules', category: 'messaging', url: 'https://docs.oracle.com/en-us/iaas/Content/Events/home.htm' },
+  { name: 'Notifications', proto: 'REST JSON · topics / subscriptions', category: 'messaging', url: 'https://docs.oracle.com/en-us/iaas/Content/Notification/home.htm' },
+  { name: 'Monitoring', proto: 'REST JSON · MQL / alarms', category: 'observability', url: 'https://docs.oracle.com/en-us/iaas/Content/Monitoring/home.htm' },
+  { name: 'Logging', proto: 'REST JSON · ingestion / search', category: 'observability', url: 'https://docs.oracle.com/en-us/iaas/Content/Logging/home.htm' },
+  { name: 'Networking (VCN)', proto: 'REST JSON · core network', category: 'networking', url: 'https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm' },
+  { name: 'Container Registry', proto: 'REST JSON · registry:2', category: 'containers', docker: 'default', url: 'https://docs.oracle.com/en-us/iaas/Content/Registry/home.htm' },
 ];
 
 for (const [label, list, expected] of [
